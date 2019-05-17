@@ -19,7 +19,7 @@ source("tabs/tabCombinedUncertainty.R")
 source("tabs/tabExpandedUncertainty.R")
 
 ui <- dashboardPage(
-  dashboardHeader(title = "LRCFS - MoU Calc"),
+  dashboardHeader(title = "LRCF - MoU Calc"),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
