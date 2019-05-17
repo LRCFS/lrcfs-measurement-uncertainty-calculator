@@ -4,7 +4,7 @@ readExcel = function(filePath = NULL) {
 
   if(is.null(filePath))
   {
-    filePath = "data/TestData.xlsx"
+    filePath = "data/ExampleCalibrationData.xlsx"
   }else{
     filePath = filePath$datapath
   }

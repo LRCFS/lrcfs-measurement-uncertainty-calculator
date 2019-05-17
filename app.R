@@ -13,20 +13,31 @@ source("model/modelUncertaintyCalibrationCurve.R")
 
 source("tabs/tabDashboard.R")
 source("tabs/tabUncertaintyInCalibration.R")
+source("tabs/tabQualityControl.R")
+source("tabs/tabStandardSolution.R")
+source("tabs/tabCombinedUncertainty.R")
+source("tabs/tabExpandedUncertainty.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "LRCFS - MoU Calc"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("vial"))
+      menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
+      menuItem("Quality Control (Precision)", tabName = "qualityControl", icon = icon("dashboard")),
+      menuItem("Standard Solution", tabName = "standardSolution", icon = icon("vial")),
+      menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("gitter")),
+      menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("chart-area"))
     )
   ),
   dashboardBody(
     withMathJax(),
     tabItems(
       tabDashboard,
-      tabCalibrationCurve
+      tabCalibrationCurve,
+      tabQualityControl,
+      tabStandardSolution,
+      tabCombinedUncertainty,
+      tabExpandedUncertainty
     )
   )
 )
@@ -34,7 +45,6 @@ ui <- dashboardPage(
 server <- function(input, output) {
   `%ni%` = Negate(`%in%`)
   
-
   #Calibration Cruve Calculations
   ##############################################
   
@@ -89,13 +99,20 @@ server <- function(input, output) {
     options = list(scrollX = TRUE, dom = 'tip')
   )
   
+  output$uploadedCalibrationDataStats <- renderUI({
+    
+    
+    return(paste("Uploaded Calibration Data | Runs: ", dim(data())[2]-1 , " | No. Concentrations: ", dim(data())[1]))
+  })
+  
   output$uncertaintyOfCalibrationCurve <- renderText({
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
     relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input)
     
-    return(relativeStandardUncertainty)
+    #Add uncertaintly of calibration curve notation to start of answer
+    return(paste("\\(u_r\\text{(CalCurve)}=\\)",relativeStandardUncertainty))
   })
 
   output$xMean <- renderText({
