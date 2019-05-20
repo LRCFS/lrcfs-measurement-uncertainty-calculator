@@ -1,6 +1,6 @@
 tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
-                   valueBox("Calculating the Uncertainty of Calibration Curve", h2(textOutput("uncertaintyOfCalibrationCurve")), width = 12, color = "blue", icon = icon("chart-line"))
+                   valueBox("Uncertainty of Calibration Curve", h2(textOutput("uncertaintyOfCalibrationCurve")), width = 12, color = "blue", icon = icon("chart-line"))
                  ),
                  
                  fluidRow(
@@ -66,31 +66,29 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    )
                  ),
                  fluidRow(
-                   tabBox(width=12,
-                     title = "Computations",
-                     id = "tabsetCalibrationData",
-                     tabPanel("Step by Step Calculation",
-                              DT::dataTableOutput('rearrangedCalibrationData'),
-                              hr(),
-                              fluidRow(
-                                box(title = "Mean of X", width = 4, height=150,"\\(\\overline{x} = \\frac{\\sum{x_i}}{n}\\)", h4(textOutput("xMean"))),
-                                box(title = "Sum of Squared Deviation of X", width = 4, height=150,"\\(S_{xx} = \\sum\\limits_{i=1}^n(x_i - \\overline{x})^2\\)", h4(textOutput("sumSqDevationX"))),
-                                box(title = "Error Sum of Squares of Y", width = 4, height=150,"\\(\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2\\)", h4(textOutput("errorSumSqY")))
-                              ),
-                              fluidRow(
-                                box(title="Standard Error of Regression", width = 6, height=240,
-                                    uiOutput("standardErrorOfRegression")
-                                ),
-                                box(title="Uncertainty of Calibration", width = 6, height=240,
-                                    uiOutput("uncertaintyOfCalibration")
-                                )
-                              ),
-                              fluidRow(
-                                box(title="Relative Standard Uncertainty", width = 12, background = "blue", solidHeader = TRUE,
-                                    uiOutput("relativeStandardUncertainty")
-                                )
-                              )
+                   box(width=12,
+                     title = "Step by Step Calculation",
+                     DT::dataTableOutput('rearrangedCalibrationData'),
+                     hr(),
+                     fluidRow(
+                       box(title = "Mean of X", width = 4, height=150,"\\(\\overline{x} = \\frac{\\sum{x_i}}{n}\\)", h4(textOutput("xMean"))),
+                       box(title = "Sum of Squared Deviation of X", width = 4, height=150,"\\(S_{xx} = \\sum\\limits_{i=1}^n(x_i - \\overline{x})^2\\)", h4(textOutput("sumSqDevationX"))),
+                       box(title = "Error Sum of Squares of Y", width = 4, height=150,"\\(\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2\\)", h4(textOutput("errorSumSqY")))
+                     ),
+                     fluidRow(
+                       box(title="Standard Error of Regression", width = 6, height=240,
+                           uiOutput("standardErrorOfRegression")
+                       ),
+                       box(title="Uncertainty of Calibration", width = 6, height=240,
+                           uiOutput("uncertaintyOfCalibration")
+                       )
+                     ),
+                     fluidRow(
+                       box(title="Relative Standard Uncertainty", width = 12, background = "blue", solidHeader = TRUE,
+                           uiOutput("relativeStandardUncertainty")
+                       )
                      )
-                     )
+                     
                    )
+                 )
 )
