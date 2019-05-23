@@ -22,7 +22,7 @@ source("views/viewExpandedUncertainty.R")
 `%ni%` = Negate(`%in%`)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "LRCFS - MoU Calc V0.1"),
+  dashboardHeader(title = "LRCFS - MoU Calc v0.1"),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
