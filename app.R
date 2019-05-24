@@ -78,6 +78,10 @@ ui <- dashboardPagePlus(
                    "Mean Concentration\\((x_s)\\)",
                    value = 2)
     )
+  ),
+  footer = dashboardFooter(
+    left_text = "An LRCFS Creation",
+    right_text = "Copyright 2019"
   )
 )
 
