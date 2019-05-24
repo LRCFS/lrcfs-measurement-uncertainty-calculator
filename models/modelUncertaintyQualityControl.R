@@ -7,8 +7,8 @@ serverUncertaintyQualityControl = function(input, output){
   
   qualityControlDataWithCalculations = reactive({
     
-    caseSampleReplicate = input$inputQualityControlCaseSampleReplicates
-    caseSampleMean = input$inputQualityControlCaseSampleMeanConcentration
+    caseSampleReplicate = input$inputCaseSampleReplicates
+    caseSampleMean = input$inputCaseSampleMeanConcentration
     
     allData = qualityControlData(); allData
     uniqeConcentrations = getConcentrations(allData); uniqeConcentrations
