@@ -18,13 +18,13 @@ serverUncertaintyCalibrationCurve = function(input, output){
   ## Calibration Cruve Calculations
   ##############################################
   
-  data <- reactive({
+  calibrationCurveData <- reactive({
     data = readExcel(input$fileUpload)
     return(data)
   })
   
   dataReformatted <- reactive({
-    data = data();
+    data = calibrationCurveData();
     
     ## Set x = concentration and y = peack area ratios
     runNames = rep(colnames(data)[-1], each=10)
@@ -37,7 +37,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
   })
   
   output$calibrationData <- DT::renderDataTable(
-    data(),
+    calibrationCurveData(),
     rownames = FALSE,
     options = list(scrollX = TRUE, dom = 'tip')
   )
@@ -70,7 +70,8 @@ serverUncertaintyCalibrationCurve = function(input, output){
   )
   
   output$uploadedCalibrationDataStats <- renderUI({
-    return(paste("Uploaded Calibration Data | Runs: ", dim(data())[2]-1 , " | No. Concentrations: ", dim(data())[1]))
+    data = calibrationCurveData()
+    return(paste("Uploaded Calibration Data | Runs: ", dim(data[2])-1 , " | No. Concentrations: ", dim(data[1])))
   })
   
   output$uncertaintyOfCalibrationCurve <- renderText({
