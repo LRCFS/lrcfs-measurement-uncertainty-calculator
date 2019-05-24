@@ -24,7 +24,7 @@ source("views/viewExpandedUncertainty.R")
 
 `%ni%` = Negate(`%in%`)
 
-ui <- dashboardPagePlus(
+ui <- dashboardPagePlus(title="LRCFS - MoU Calc v0.2",
   dashboardHeaderPlus(title = "LRCFS - MoU Calc v0.2",
                       enable_rightsidebar = TRUE,
                       rightSidebarIcon = "gears"
