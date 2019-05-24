@@ -2,7 +2,6 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
                    valueBox("Uncertainty of Calibration Curve", h2(textOutput("uncertaintyOfCalibrationCurve")), width = 12, color = "blue", icon = icon("chart-line"))
                  ),
-                 
                  fluidRow(
                    column(width = 6,
                           tabBox(title="Analysis", width=12,
@@ -29,7 +28,6 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                 )
                           )
                    ),
-                   
                    column(width = 6,
                           box(title="Case Sample Properties", width=12,
                               h5("Specify below the number of replicates and mean concentration for the sample that the calibration data was tested against."),
