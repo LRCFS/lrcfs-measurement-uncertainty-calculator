@@ -29,8 +29,8 @@ source("views/viewExpandedUncertainty.R")
 
 ui <- dashboardPagePlus(title="METEOR v0.3",
   dashboardHeaderPlus(title = tagList(
-    img(class = "logo-lg", src = "/images/logo-large.png"), 
-    img(class = "logo-mini", src = "/images/logo-small.png")),
+    img(class = "logo-lg", src = "images/logo-large.png"), 
+    img(class = "logo-mini", src = "images/logo-small.png")),
                       enable_rightsidebar = TRUE,
                       rightSidebarIcon = "gears"
                      ),
