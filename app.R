@@ -47,7 +47,9 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
   ),
   dashboardBody(
     tags$head(tags$link(rel = "shortcut icon", href = "images/favicon.ico")),
+    #Use MathJax for rendering inline LaTeX functions
     withMathJax(),
+    #Load tabs from view files (Properties can be found in /views/view...R)
     tabItems(
       tabDashboard,
       tabCalibrationCurve,
