@@ -45,6 +45,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
     )
   ),
   dashboardBody(
+    tags$head(tags$link(rel = "shortcut icon", href = "images/favicon.ico")),
     withMathJax(),
     tabItems(
       tabDashboard,
