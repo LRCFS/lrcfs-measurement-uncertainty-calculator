@@ -1,10 +1,10 @@
 library(utils)
 
-qualityControlReadCSV = function(filePath = NULL) {
+standardSolutionReadCSV = function(filePath = NULL) {
 
   if(is.null(filePath))
   {
-    filePath = "data/qualityControl/qualityControlSampleData.csv"
+    filePath = "data/standardSolution/standardSolutionSampleData.csv"
   }else{
     filePath = filePath$datapath
   }

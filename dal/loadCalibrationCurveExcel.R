@@ -1,10 +1,10 @@
 library(readxl);
 
-readExcel = function(filePath = NULL) {
+calibrationCurveReadExcel = function(filePath = NULL) {
 
   if(is.null(filePath))
   {
-    filePath = "data/ExampleCalibrationData.xlsx"
+    filePath = "data/calibrationCurve/calibrationCurveSampleData.xlsx"
   }else{
     filePath = filePath$datapath
   }

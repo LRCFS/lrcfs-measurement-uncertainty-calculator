@@ -1,16 +1,16 @@
-serverUncertaintyQualityControl = function(input, output){
+serverUncertaintyMethodPrecision = function(input, output){
   
-  qualityControlData <- reactive({
-    data = qualityControlReadCSV(input$inputQualityControlfileUpload)
+  methodPrecisionData <- reactive({
+    data = methodPrecisionReadCSV(input$inputMethodPrecisionFileUpload)
     return(data)
   })
   
-  qualityControlDataWithCalculations = reactive({
+  methodPrecisionDataWithCalculations = reactive({
     
     caseSampleReplicate = input$inputCaseSampleReplicates
     caseSampleMean = input$inputCaseSampleMeanConcentration
     
-    allData = qualityControlData(); allData
+    allData = methodPrecisionData(); allData
     uniqeConcentrations = getConcentrations(allData); uniqeConcentrations
     
     calculationsData = data.frame(conc= numeric(0), run=character(0), mean= numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0)); calculationsData
@@ -36,26 +36,26 @@ serverUncertaintyQualityControl = function(input, output){
     return(calculationsData)
   })
   
-  output$uploadedQualityControlDataStats <- renderUI({
-    data = qualityControlData()
+  output$uploadedMethodPrecisionDataStats <- renderUI({
+    data = methodPrecisionData()
     string = sprintf("Uploaded Quality Control Data | Runs: %d | No. Concentrations: %d", getNumberOfRuns(data), getNumberOfConcentrations(data))
     return(string)
   })
 
-  output$qualityControlRawData <- DT::renderDataTable(
-    qualityControlData(),
+  output$methodPrecisionRawData <- DT::renderDataTable(
+    methodPrecisionData(),
     rownames = FALSE,
     options = list(scrollX = TRUE, dom = 'tip')
   )
   
-  output$qualityControlCalculations <- DT::renderDataTable(
-    qualityControlDataWithCalculations(),
+  output$methodPrecisionCalculations <- DT::renderDataTable(
+    methodPrecisionDataWithCalculations(),
     rownames = FALSE,
-    options = list(pageLength = getNumberOfRuns(qualityControlData()), scrollX = TRUE, dom = 'tip')
+    options = list(pageLength = getNumberOfRuns(methodPrecisionData()), scrollX = TRUE, dom = 'tip')
   )
   
-  output$qualityControlRawDataGraph <- renderPlotly({
-    data = qualityControlData()
+  output$methodPrecisionRawDataGraph <- renderPlotly({
+    data = methodPrecisionData()
     columnNames = colnames(data)[-1]
     
     plotlyPlot = plot_ly(data, name='Peak Area Ratios', type = 'box') %>%
@@ -69,7 +69,7 @@ serverUncertaintyQualityControl = function(input, output){
   })
   
   output$outputPooledStandardDeviation <- renderUI({
-    data =  qualityControlDataWithCalculations()
+    data =  methodPrecisionDataWithCalculations()
     results = ""
     for(conc in getConcentrations(data))
     {
@@ -79,7 +79,7 @@ serverUncertaintyQualityControl = function(input, output){
   }) 
   
   output$outputStandardUncertainty <- renderUI({
-    data =  qualityControlDataWithCalculations()
+    data =  methodPrecisionDataWithCalculations()
     results = ""
     for(conc in getConcentrations(data))
     {
@@ -89,7 +89,7 @@ serverUncertaintyQualityControl = function(input, output){
   }) 
   
   output$outputRealtiveStandardUncertainties <- renderUI({
-    data =  qualityControlDataWithCalculations()
+    data =  methodPrecisionDataWithCalculations()
     results = ""
     for(conc in getConcentrations(data))
     {
@@ -98,7 +98,7 @@ serverUncertaintyQualityControl = function(input, output){
     return(HTML(results))
   })
   
-  output$outputQualityControlAnswer <- renderUI({
+  output$outputMethodPrecisionAnswer <- renderUI({
     # answer = ""
     # for(conc in getConcentrations())
     # {

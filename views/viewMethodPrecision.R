@@ -1,11 +1,11 @@
-tabQualityControl = tabItem(tabName = "qualityControl",
+tabMethodPrecision = tabItem(tabName = "methodPrecision",
                             fluidRow(
-                              valueBox("Uncertainty of Quality Control", "\\(u_r\\text{(QulControl)}=\\)", width = 12, color = "red", icon = icon("bullseye"))
+                              valueBox("Uncertainty of Method Precision", "\\(u_r\\text{(MethodPrec)}=\\)", width = 12, color = "red", icon = icon("bullseye"))
                             ),
                             fluidRow(
                                tabBox(title="Analysis", width=12,
                                       tabPanel(title="Overview",
-                                               "Upload your quality control data via the settings menu",
+                                               "Upload your Method Precision data via the settings menu",
                                                HTML('<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>'),
                                                "and see a whole bunch of cool number."
                                       ),
@@ -28,19 +28,19 @@ tabQualityControl = tabItem(tabName = "qualityControl",
                             ),
                             fluidRow(
                               tabBox(width=12, side="right",
-                                     title = uiOutput("uploadedQualityControlDataStats"),
+                                     title = uiOutput("uploadedMethodPrecisionDataStats"),
                                      tabPanel("Graph",
-                                              plotlyOutput("qualityControlRawDataGraph")
+                                              plotlyOutput("methodPrecisionRawDataGraph")
                                      ),
                                      tabPanel("Raw Data",
-                                              DT::dataTableOutput("qualityControlRawData")
+                                              DT::dataTableOutput("methodPrecisionRawData")
                                      )
                               )
                             ),
                             fluidRow(
                               box(width=12,
                                   title = "Step by Step Calculation",
-                                  DT::dataTableOutput("qualityControlCalculations"),
+                                  DT::dataTableOutput("methodPrecisionCalculations"),
                                   hr(),
                                   box(title="Pooled Standard Deviation", width = 6, height=240,
                                       uiOutput("outputPooledStandardDeviation")),
@@ -49,7 +49,7 @@ tabQualityControl = tabItem(tabName = "qualityControl",
                                   box(title="Realtive Standard Uncertainty", width = 12, background = "red", solidHeader = TRUE,
                                       uiOutput("outputRealtiveStandardUncertainties"),
                                       box(title="Pooled Realtive Standard Uncertainty", width=12,
-                                          uiOutput("outputQualityControlAnswer")
+                                          uiOutput("outputMethodPrecisionAnswer")
                                       )
                                   )
                               )

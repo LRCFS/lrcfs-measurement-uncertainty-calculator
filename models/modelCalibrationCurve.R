@@ -19,7 +19,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
   ##############################################
   
   calibrationCurveData <- reactive({
-    data = readExcel(input$fileUpload)
+    data = calibrationCurveReadExcel(input$intputCalibrationCurveFileUpload)
     return(data)
   })
   
