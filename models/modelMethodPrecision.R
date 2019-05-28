@@ -110,15 +110,18 @@ serverUncertaintyMethodPrecision = function(input, output){
 }
 
 getPooledStandardDeviation = function(data, concentration){
-  return(data[data$conc==concentration,]$pooledStdDeviation[1])
+  answer = round(data[data$conc==concentration,]$pooledStdDeviation[1],numDecimalPlaces)
+  return(answer)
 }
 
 getStandardUncertainty = function(data, concentration){
-  return(data[data$conc==concentration,]$stdUncertainty[1])
+  answer = round(data[data$conc==concentration,]$stdUncertainty[1],numDecimalPlaces)
+  return(answer)
 }
 
 getRealtiveStandardUncertainty = function(data, concentration){
-  return(data[data$conc==concentration,]$relativeStdUncertainty[1])
+  answer = round(data[data$conc==concentration,]$relativeStdUncertainty[1],numDecimalPlaces)
+  return(answer)
 }
 
 getConcentrations = function(data){
@@ -132,4 +135,3 @@ getNumberOfConcentrations = function(data){
 getNumberOfRuns = function(data){
   return(dim(data)[2]-1)
 }
-

@@ -68,9 +68,7 @@ server <- function(input, output) {
   serverDashboard(input, output)
   
   serverUncertaintyCalibrationCurve(input, output)
-  
   serverUncertaintyMethodPrecision(input, output)
-  
   serverUncertaintyStandardSolution(input, output)
   
 }
