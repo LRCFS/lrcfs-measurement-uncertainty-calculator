@@ -12,6 +12,7 @@ source("dal/loadCalibrationCurveExcel.R")
 source("dal/loadMethodPrecisionCSV.R")
 source("dal/loadStandardSolutionCSV.R")
 
+source("models/modelApplication.R")
 source("models/modelDashboard.R")
 source("models/modelCalibrationCurve.R")
 source("models/modelMethodPrecision.R")
