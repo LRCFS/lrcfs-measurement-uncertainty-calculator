@@ -65,8 +65,8 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
 
 server <- function(input, output) {
   
+  #Load server functions from each model (Functions can be found in /models/model...R)
   serverDashboard(input, output)
-  
   serverUncertaintyCalibrationCurve(input, output)
   serverUncertaintyMethodPrecision(input, output)
   serverUncertaintyStandardSolution(input, output)
