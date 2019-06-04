@@ -65,7 +65,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
   
   output$uploadedCalibrationDataStats <- renderUI({
     data = calibrationCurveData()
-    return(paste("Uploaded Calibration Data | Runs: ", dim(data[2])-1 , " | No. Concentrations: ", dim(data[1])))
+    return(paste("Uploaded Calibration Data | Runs: ", dim(data)[2]-1 , " | No. Concentrations: ", dim(data)[1]))
   })
   
   output$uncertaintyOfCalibrationCurve <- renderText({
@@ -142,6 +142,12 @@ serverUncertaintyCalibrationCurve = function(input, output){
     
     plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
       add_lines(x = x, y = fitted(fit), name="Calibration Curve") %>%
+      add_ribbons(x = x,
+                  ymin = fitted(fit) - getRelativeStandardUncertainty(x,y,input),
+                  ymax = fitted(fit) + getRelativeStandardUncertainty(x,y,input),
+                  line = list(color = 'rgba(7, 164, 181, 0.05)'),
+                  fillcolor = 'rgba(7, 164, 181, 0.2)',
+                  name = "Relative Standard Uncertainty") %>%
       layout(xaxis = list(title="Concentration"), yaxis = list(title="Peak Area Ratio")) %>%
       add_annotations(x= 0.5,y= 0.8,xref="paper",yref="paper",text=paste0("$y = ",intercept,"+",slope,"x$"),showarrow = F)    
   })
