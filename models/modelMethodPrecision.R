@@ -125,7 +125,7 @@ serverUncertaintyMethodPrecision = function(input, output){
       row = melt(row)
       
       #print(row)
-      plotlyPlot = plotlyPlot %>% add_trace(x = rowConc, y = row$value, name=sprintf("Conc%d-Run%d",rowConc,rowConcRun))
+      plotlyPlot = plotlyPlot %>% add_trace(x = rowConc, y = row$value, name=sprintf("Conc%d-Rep%d",rowConc,rowConcRun))
       
       rowConcRun = rowConcRun + 1
     }
