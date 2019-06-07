@@ -40,7 +40,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    ### Get Sum Squared of X
+    ### Get Squared Devation of X
     sqDevationX = getSqDevation(x);
     
     ### Predicted Y value is the regression cofficient of Y compared to X
@@ -51,7 +51,6 @@ serverUncertaintyCalibrationCurve = function(input, output){
     
     ##Get data in dataframe
     rearrangedCalibrationDataFrame = data.frame(dataReformatted()$runNames,x,y,sqDevationX,predictedY,errorSqDevationY)
-    rearrangedCalibrationDataFrame
     colnames(rearrangedCalibrationDataFrame) = c("Run","$$x$$","$$y$$","$$(x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$")
     
     return(rearrangedCalibrationDataFrame)
@@ -72,7 +71,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input)
+    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
     
     #Add uncertaintly of calibration curve notation to start of answer
     return(paste("\\(u_r\\text{(CalCurve)}=\\)",relativeStandardUncertainty))
@@ -114,7 +113,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input)
+    uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
     
     withMathJax(HTML(paste(getUncertaintyOfCalibrationLatex,
                    "$$=\\frac{",getStandardErrorOfRegerssion(x,y),"}{",getSlope(x,y),"} \\sqrt{\\frac{1}{",input$inputCaseSampleReplicates,"} + \\frac{1}{",length(x),"} + \\frac{(",input$inputCaseSampleMeanConcentration," - ",mean(x),")^2}{",sum(getSqDevation(x)),"} }$$", h4(uncertaintyOfCalibration))))
@@ -124,10 +123,11 @@ serverUncertaintyCalibrationCurve = function(input, output){
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input)
+    uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
     
     withMathJax(HTML(paste(getRelativeStandardUncertaintyLatex,
-                 "$$=\\frac{",getUncertaintyOfCalibration(x,y,input),"}{",input$inputCaseSampleMeanConcentration,"}$$",h4(relativeStandardUncertainty)))
+                 "$$=\\frac{",uncertaintyOfCalibration,"}{",input$inputCaseSampleMeanConcentration,"}$$",h4(relativeStandardUncertainty)))
     )
   })
 
@@ -135,16 +135,17 @@ serverUncertaintyCalibrationCurve = function(input, output){
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    slope = round(getSlope(x,y),numDecimalPlaces)
-    intercept = round(getIntercept(x,y),numDecimalPlaces)
-
+    slope = getSlope(x,y)
+    intercept = getIntercept(x,y)
+    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+    
     fit = lm(y~x)
     
     plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
       add_lines(x = x, y = fitted(fit), name="Calibration Curve") %>%
       add_ribbons(x = x,
-                  ymin = fitted(fit) - getRelativeStandardUncertainty(x,y,input),
-                  ymax = fitted(fit) + getRelativeStandardUncertainty(x,y,input),
+                  ymin = fitted(fit) - relativeStandardUncertainty,
+                  ymax = fitted(fit) + relativeStandardUncertainty,
                   line = list(color = 'rgba(7, 164, 181, 0.05)'),
                   fillcolor = 'rgba(7, 164, 181, 0.2)',
                   name = "Relative Standard Uncertainty") %>%
@@ -156,7 +157,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input)
+    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
     
     #Add uncertaintly of calibration curve notation to start of answer
     return(withMathJax(sprintf("\\(u_r\\text{(CalCurve)}=%f\\)",relativeStandardUncertainty)))
@@ -167,8 +168,8 @@ serverUncertaintyCalibrationCurve = function(input, output){
 ## Helper functions and methods
 ################################
 
-getSqDevation = function(val){
-  sqDevation = (val - mean(val))^2
+getSqDevation = function(values){
+  sqDevation = (values - mean(values))^2
   sqDevation = round(sqDevation, numDecimalPlaces)
   return(sqDevation)
 }
@@ -177,6 +178,8 @@ getPredicetedY = function(x, y){
   calCurve = lm(y~x) # Regression Cofficients
   predictedY =  fitted(calCurve)
   predictedY = round(predictedY, numDecimalPlaces)
+  #remove naming for vector of numbers
+  predictedY = unname(predictedY)
   return(predictedY)
 }
 
@@ -184,6 +187,8 @@ getSlope = function(x,y){
   linearRegerssion = lm(y~x)
   slope <- coef(linearRegerssion)[2];
   slope = round(slope, numDecimalPlaces)
+  #remove naming to get single number
+  slope = unname(slope)
   return(slope)
 }
 
@@ -191,9 +196,10 @@ getIntercept = function(x,y){
   linearRegerssion = lm(y~x)
   intercept = coef(linearRegerssion)[1]
   intercept = round(intercept, numDecimalPlaces)
+  #remove naming to get single number
+  intercept = unname(intercept)
   return(intercept)
 }
-
 
 getErrorSqDevationY = function(x, y){
   errorSqDevationY = (y - getPredicetedY(x, y))^2
@@ -215,15 +221,19 @@ getStandardErrorOfRegerssion = function(x, y){
   return(standardErrorOfRegerssion)
 }
 
-getUncertaintyOfCalibration = function(x, y, input)
+getUncertaintyOfCalibration = function(x, y, caseSampleReplicates, caseSampleMeanConcentration)
 {
-  uncertaintyOfCalibration = (getStandardErrorOfRegerssion(x,y) / getSlope(x,y)) * (sqrt((1/input$inputCaseSampleReplicates)+(1/length(x))+(input$inputCaseSampleMeanConcentration-mean(x))^2 / sum(getSqDevation(x))))
+  uncertaintyOfCalibration = (getStandardErrorOfRegerssion(x,y) / getSlope(x,y)) * (sqrt((1/caseSampleReplicates)+(1/length(x))+(caseSampleMeanConcentration-mean(x))^2 / sum(getSqDevation(x))))
   uncertaintyOfCalibration = round(uncertaintyOfCalibration, numDecimalPlaces)
+  
   return(uncertaintyOfCalibration)
 }
 
-getRelativeStandardUncertainty = function(x,y,input){
-  relativeStandardUncertainty = getUncertaintyOfCalibration(x,y,input) / input$inputCaseSampleMeanConcentration
+getRelativeStandardUncertainty = function(x,y,caseSampleReplicates,caseSampleMeanConcentration){
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,caseSampleReplicates,caseSampleMeanConcentration)
+  
+  relativeStandardUncertainty = uncertaintyOfCalibration / caseSampleMeanConcentration
   relativeStandardUncertainty = round(relativeStandardUncertainty, numDecimalPlaces)
+  
   return(relativeStandardUncertainty)
 }
