@@ -3,6 +3,7 @@
 ################################
 getUncertaintyOfCalibrationLatex = "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} }$$"
 getRelativeStandardUncertaintyLatex = "$$u_r\\text{(CalCurve)} = \\frac{u\\text{(CalCurve)}}{x_s}$$"
+getStandardErrorOfRegressionLatex = "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$"
 
 ################################
 ## Server Function
@@ -64,7 +65,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
   
   output$uploadedCalibrationDataStats <- renderUI({
     data = calibrationCurveData()
-    return(paste("Uploaded Calibration Data | Runs: ", dim(data)[2]-1 , " | No. Concentrations: ", dim(data)[1]))
+    return(sprintf("Uploaded Calibration Data | Runs: %d | No. Concentrations: %d", dim(data)[2]-1, dim(data)[1]))
   })
   
   output$uncertaintyOfCalibrationCurve <- renderText({
@@ -105,18 +106,25 @@ serverUncertaintyCalibrationCurve = function(input, output){
     degreesOfFreedom = getDegreesOfFreedom(x)
     errorSumSqY = sum(getErrorSqDevationY(x,y))
     stdErrorOfRegression = getStandardErrorOfRegerssion(x,y)
-
-    withMathJax(HTML(paste("$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$$$ = \\sqrt{\\frac{",errorSumSqY,"}{",degreesOfFreedom,"}}$$",h4(stdErrorOfRegression))))
+    
+    withMathJax(HTML(paste(getStandardErrorOfRegressionLatex,"$$ = \\sqrt{\\frac{",errorSumSqY,"}{",degreesOfFreedom,"}}$$",h4(stdErrorOfRegression))))
   })
 
   output$uncertaintyOfCalibration <- renderUI({
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
-    uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+    stdErrorOfRegression = getStandardErrorOfRegerssion(x,y)
+    slope = getSlope(x,y)
+    caseSampleReps = input$inputCaseSampleReplicates
+    reps = length(x)
+    caseSampleMeanConc = input$inputCaseSampleMeanConcentration
+    meanX = mean(x)
+    sumSqDevationX = sum(getSqDevation(x))
+    uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,caseSampleReps,caseSampleMeanConc)
     
     withMathJax(HTML(paste(getUncertaintyOfCalibrationLatex,
-                   "$$=\\frac{",getStandardErrorOfRegerssion(x,y),"}{",getSlope(x,y),"} \\sqrt{\\frac{1}{",input$inputCaseSampleReplicates,"} + \\frac{1}{",length(x),"} + \\frac{(",input$inputCaseSampleMeanConcentration," - ",mean(x),")^2}{",sum(getSqDevation(x)),"} }$$", h4(uncertaintyOfCalibration))))
+                           "$$=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",caseSampleReps,"} + \\frac{1}{",reps,"} + \\frac{(",caseSampleMeanConc," - ",meanX,")^2}{",sumSqDevationX,"} }$$", h4(uncertaintyOfCalibration))))
   })
   
   output$relativeStandardUncertainty <- renderUI({
@@ -127,7 +135,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
     relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
     
     withMathJax(HTML(paste(getRelativeStandardUncertaintyLatex,
-                 "$$=\\frac{",uncertaintyOfCalibration,"}{",input$inputCaseSampleMeanConcentration,"}$$",h4(relativeStandardUncertainty)))
+                           "$$=\\frac{",uncertaintyOfCalibration,"}{",input$inputCaseSampleMeanConcentration,"}$$",h4(relativeStandardUncertainty)))
     )
   })
 
