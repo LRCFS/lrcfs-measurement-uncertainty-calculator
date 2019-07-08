@@ -27,7 +27,7 @@ serverUncertaintyStandardSolution = function(input, output){
   
   #calculate realtive Standard Uncertainty For each Solution
   #Probably want to make this recursive to cope with any data order
-  for(i in rownames(solutionData))
+  for(i in rownames(solutionDataWithCalculations))
   {
     if(is.na(solutionDataWithCalculations[i, "relativeStandardUncertainty"]))
     {
@@ -38,16 +38,8 @@ serverUncertaintyStandardSolution = function(input, output){
 
   print(solutionDataWithCalculations)
   
-  
-  
-  finalData = solutionDataWithCalculations[solutionDataWithCalculations$finalCurveSolution == "yes",]
-  relativeStandardUncertaintyOfCalibrationSolutions = getRelativeStandardUncertaintyOfCalibrationSolutions(finalData)
-  print(finalData)
-  print(relativeStandardUncertaintyOfCalibrationSolutions)
-  
-  
-
-  
+  finalSolutionsData = getFinalSolutions(solutionDataWithCalculations)
+  relativeStandardUncertaintyOfCalibrationSolutions = getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData)
   
   # print(solutionData)
   # print(measurementData)
@@ -55,8 +47,6 @@ serverUncertaintyStandardSolution = function(input, output){
   # print(solutionNetwork)
   # plot(solutionNetwork)
   
-  
-
   output$uncertaintyOfStandardSolution <- renderText({
     return(paste("\\(u_r\\text{(StdSolution)}=\\)",relativeStandardUncertaintyOfCalibrationSolutions))
   })
@@ -101,6 +91,22 @@ serverUncertaintyStandardSolution = function(input, output){
   })
 }
 
+getFinalSolutions = function(solutionDataWithCalculations)
+{
+  finalSolutions = data.frame()
+  
+  for(i in rownames(solutionDataWithCalculations))
+  {
+    solutionName = solutionDataWithCalculations[i,"solution"]
+    numRows = nrow(solutionDataWithCalculations[solutionDataWithCalculations$madeFrom == solutionName,])
+    if(numRows == 0)
+    {
+      finalSolutions = rbind(finalSolutions, solutionDataWithCalculations[i,])
+    }
+  }
+  return(finalSolutions)
+}
+
 getRelativeStandardUncertaintyOfCalibrationSolutions = function(calibrationSolutionsData)
 {
   answer = sqrt(sum((calibrationSolutionsData$relativeStandardUncertainty)^2))
@@ -122,7 +128,14 @@ getRealtiveStandardUncertaintyForSolution = function(solutionName, solutionData,
 
   number = (parentRelativeStandardUncertainty)^2 + sum(instrumentData$usageUncertainty)
   number = sqrt(number)
-  return(number)
+  if(length(number) > 0)
+  {
+    return(number)
+  }
+  else
+  {
+    return(NA)
+  }
 }
 
 getStandardUncertaintySS = function(numerator, denumerator = NA){
