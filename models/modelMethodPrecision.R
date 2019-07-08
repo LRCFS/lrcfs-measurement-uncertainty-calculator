@@ -59,7 +59,7 @@ serverUncertaintyMethodPrecision = function(input, output){
       dataStdUncertainty = dataPooledStdDeviation/sqrt(caseSampleReplicate)
       
       #Calculate the Standard Uncertainty
-      dataRelativeStdUncertainty = dataStdUncertainty / caseSampleMean
+      dataRelativeStdUncertainty = dataStdUncertainty / concentration
       
       ################################
       # Append the data for return
