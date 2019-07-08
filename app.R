@@ -12,6 +12,7 @@ library(DiagrammeR)
 source("dal/loadCalibrationCurveExcel.R")
 source("dal/loadMethodPrecisionCSV.R")
 source("dal/loadStandardSolutionCSV.R")
+source("dal/loadSampleVolumeCSV.R")
 
 source("models/modelApplication.R")
 source("models/modelDashboard.R")
@@ -19,6 +20,8 @@ source("models/modelCalibrationCurve.R")
 source("models/modelMethodPrecision.R")
 source("models/modelStandardSolution.R")
 source("models/modelSampleVolume.R")
+source("models/modelCombinedUncertainty.R")
+source("models/modelEffectiveDof.R")
 
 source("views/viewDashboard.R")
 source("views/viewRightSidebar.R")
@@ -28,6 +31,7 @@ source("views/viewStandardSolution.R")
 source("views/viewSampleVolume.R")
 source("views/viewCombinedUncertainty.R")
 source("views/viewExpandedUncertainty.R")
+source("views/viewEffectiveDof.R")
 
 `%ni%` = Negate(`%in%`)
 
@@ -80,7 +84,8 @@ server <- function(input, output) {
   serverUncertaintyMethodPrecision(input, output)
   serverUncertaintyStandardSolution(input, output)
   serverUncertaintySampleVolume(input, output)
-  
+  serverCombinedUncertainty(input, output)
+  serverEffectiveDof(input, output)
 }
 
 shinyApp(ui, server)

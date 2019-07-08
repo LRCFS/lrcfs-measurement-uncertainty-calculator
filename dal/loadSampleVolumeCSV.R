@@ -1,15 +1,14 @@
 library(utils)
 
-sampleVolumeReadCSV = function(filePathSampleVolumeData = NULL) {
+sampleVolumeReadCSV = function(filePath = NULL) {
   
-  if(is.null(filePathSampleVolumeData))
+  #Remember to use $datapath when calling this function if using fileUpload input
+  if(is.null(filePath))
   {
-    filePathSamplevolumeData = "data/sampleVolume/sampleVolumeSampleData.csv"
-  }else{
-    filePathSamplevolumeData = filePathSamplevolumeData #use filePathSamplevolumeData$datapath (note add $DATAPATH no the end) if loading from file upload dialouge)
+    filePath = "data/sampleVolume/sampleVolumeSampleData.csv"
   }
 
-  sampleVolumeData = read.csv(filePathSamplevolumeData, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
+  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
 
-  return(sampleVolumeData)
+  return(data)
 }

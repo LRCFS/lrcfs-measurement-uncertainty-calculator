@@ -1,6 +1,6 @@
-tabSampleVolume = tabItem(tabName = "sampleVolume",
+tabEffectiveDof = tabItem(tabName = "effectiveDof",
                  fluidRow(
-                   valueBox("Uncertainty of Sample Volume", h2(textOutput("display_sampleVolume_finalAnswer_top")), width = 12, color = "maroon", icon = icon("flask"))
+                   valueBox("Effective Degress of Freedom", h2(textOutput("display_effectiveDof_finalAnswer_top")), width = 12, color = "teal", icon = icon("exchange-alt"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -27,21 +27,9 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                    )
                  ),
                  fluidRow(
-                   tabBox(width=12, side="right",
-                          title = "Loaded Data",
-                          tabPanel("Raw Sample Volume Data",
-                                   DT::dataTableOutput("display_sampleVolume_rawDataTable")
-                          )
-                   )
-                 ),
-                 fluidRow(
-                   box(width=6, side="right",
-                       title = "Standard Uncertainty",
-                       textOutput("display_sampleVolume_standardUncertainty")
-                   ),
-                   box(width=6, side="right",
-                       title = "Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,
-                       textOutput("display_sampleVolume_finalAnswer_bottom")
+                   box(width=12, side="right",
+                       title = "Effective Degrees of Freedom", background = "teal", solidHeader = TRUE,
+                       textOutput("display_effectiveDof_finalAnswer_bottom")
                    )
                  )
 )
