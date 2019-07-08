@@ -7,6 +7,7 @@ library(scales)
 library(dplyr)
 library(plotly)
 library(DT)
+library(DiagrammeR)
 
 source("dal/loadCalibrationCurveExcel.R")
 source("dal/loadMethodPrecisionCSV.R")

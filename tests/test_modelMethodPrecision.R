@@ -2,6 +2,7 @@
 context('Testing modelMethodPrecision.R functions')
 
 #Load in model that test are written against
+source("../models/modelApplication.R")
 source("../models/modelMethodPrecision.R")
 
 

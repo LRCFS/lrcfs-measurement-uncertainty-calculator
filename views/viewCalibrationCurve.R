@@ -24,7 +24,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                      tags$li("\\(x_s\\) is the the amount of THC in test sample"),
                                      tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
                                      tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                                     tags$li( "\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
+                                     tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
                                    )
                           )  
                    )
@@ -60,7 +60,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      ),
                      fluidRow(
                        box(title="Relative Standard Uncertainty", width = 12, background = "blue", solidHeader = TRUE,
-                           uiOutput("relativeStandardUncertainty")
+                           uiOutput("relativeStandardUncertaintyAnswer")
                        )
                      )
                      

@@ -47,10 +47,7 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                   box(title="Standard Uncertainty", width = 6, height=240,
                                       uiOutput("outputStandardUncertainty")),
                                   box(title="Realtive Standard Uncertainty", width = 12, background = "red", solidHeader = TRUE,
-                                      uiOutput("outputRealtiveStandardUncertainties"),
-                                      box(title="Pooled Realtive Standard Uncertainty", width=12,
-                                          uiOutput("outputMethodPrecisionAnswer")
-                                      )
+                                      uiOutput("outputRealtiveStandardUncertainties")
                                   )
                               )
                             )

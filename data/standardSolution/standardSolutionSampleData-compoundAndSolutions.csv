@@ -1,0 +1,7 @@
+solution,madeFrom,finalCurveSolution,compoundPurity,compoundTolerance,compoundCoverage
+THC,,,1000000,33000,2
+Stock Solution A,THC,,,,
+Working Solution B,Stock Solution A,,,,
+Working Solution C,Stock Solution A,,,,
+Calibration Solution D,Working Solution C,yes,,,
+Calibration Solution E,Working Solution B,yes,,,
