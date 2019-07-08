@@ -30,8 +30,9 @@ source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
 source("views/viewSampleVolume.R")
 source("views/viewCombinedUncertainty.R")
-source("views/viewExpandedUncertainty.R")
 source("views/viewEffectiveDof.R")
+source("views/viewExpandedUncertainty.R")
+
 
 `%ni%` = Negate(`%in%`)
 
@@ -66,6 +67,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             tabStandardSolution,
                             tabSampleVolume,
                             tabCombinedUncertainty,
+                            tabEffectiveDof,
                             tabExpandedUncertainty
                           )
                         ),
