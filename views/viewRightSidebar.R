@@ -16,6 +16,10 @@ mouCalcRightSidebar = rightSidebar(
     fileInput("inputStandardSolutionFileUpload", "Standard Solution (CSV)",
               multiple = FALSE,
               accept = c(".csv"))
+    ,
+    fileInput("intputSampleVolumeFileUpload", "Sample Volume (CSV)",
+              multiple = FALSE,
+              accept = c(".csv"))
   ),
   rightSidebarTabContent(
     id = 2,

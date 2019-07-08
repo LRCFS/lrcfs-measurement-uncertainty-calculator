@@ -1,6 +1,6 @@
 tabMethodPrecision = tabItem(tabName = "methodPrecision",
                             fluidRow(
-                              valueBox("Uncertainty of Method Precision", "\\(u_r\\text{(MethodPrec)}=\\)", width = 12, color = "red", icon = icon("bullseye"))
+                              valueBox("Uncertainty of Method Precision", h2(textOutput("uncertaintyOfMethodPrecision")), width = 12, color = "red", icon = icon("bullseye"))
                             ),
                             fluidRow(
                                tabBox(title="Analysis", width=12,
@@ -46,8 +46,11 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                       uiOutput("outputPooledStandardDeviation")),
                                   box(title="Standard Uncertainty", width = 6, height=240,
                                       uiOutput("outputStandardUncertainty")),
-                                  box(title="Realtive Standard Uncertainty", width = 12, background = "red", solidHeader = TRUE,
+                                  box(title="Realtive Standard Uncertainty", width = 12,
                                       uiOutput("outputRealtiveStandardUncertainties")
+                                  ),
+                                  box(title="Uncertainty of Method Precision", width = 12, background = "red", solidHeader = TRUE,
+                                      uiOutput("finalAnswer")
                                   )
                               )
                             )

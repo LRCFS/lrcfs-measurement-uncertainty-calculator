@@ -18,12 +18,14 @@ source("models/modelDashboard.R")
 source("models/modelCalibrationCurve.R")
 source("models/modelMethodPrecision.R")
 source("models/modelStandardSolution.R")
+source("models/modelSampleVolume.R")
 
 source("views/viewDashboard.R")
 source("views/viewRightSidebar.R")
 source("views/viewCalibrationCurve.R")
 source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
+source("views/viewSampleVolume.R")
 source("views/viewCombinedUncertainty.R")
 source("views/viewExpandedUncertainty.R")
 
@@ -42,7 +44,9 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
                             menuItem("Method Precision", tabName = "methodPrecision", icon = icon("bullseye")),
                             menuItem("Standard Solution", tabName = "standardSolution", icon = icon("vial")),
+                            menuItem("Sample Volume", tabName = "sampleVolume", icon = icon("flask")),
                             menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("arrows-alt-v")),
+                            menuItem("Effective DoF", tabName = "effectiveDof", icon = icon("exchange-alt")),
                             menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("arrows-alt"))
                           )
                         ),
@@ -56,6 +60,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             tabCalibrationCurve,
                             tabMethodPrecision,
                             tabStandardSolution,
+                            tabSampleVolume,
                             tabCombinedUncertainty,
                             tabExpandedUncertainty
                           )
@@ -74,6 +79,7 @@ server <- function(input, output) {
   serverUncertaintyCalibrationCurve(input, output)
   serverUncertaintyMethodPrecision(input, output)
   serverUncertaintyStandardSolution(input, output)
+  serverUncertaintySampleVolume(input, output)
   
 }
 

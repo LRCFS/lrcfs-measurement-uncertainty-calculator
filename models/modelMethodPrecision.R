@@ -183,15 +183,44 @@ serverUncertaintyMethodPrecision = function(input, output){
     return(HTML(results))
   })
   
-  output$outputMethodPrecisionAnswer <- renderUI({
-    # answer = ""
-    # for(conc in getConcentrations())
-    # {
-    #   getRealtiveStandardUncertainty(conc)^2 * 
-    # }
-    return("HTML(results)")
+  output$uncertaintyOfMethodPrecision <- renderText({
+    data =  methodPrecisionDataWithCalculations()
+    closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
+    finalAnswer = getMethodPrecisionFinalAnswer(data, closetConcentration)
+    
+    return(paste("\\(u_r\\text{(MethodPrec)}=\\)",finalAnswer))
   })
   
+  
+  output$finalAnswer = renderUI({
+    data =  methodPrecisionDataWithCalculations()
+    closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
+    finalAnswer = getMethodPrecisionFinalAnswer(data, closetConcentration)
+    results = paste("<h3>",closetConcentration,"=",finalAnswer,"</h3>")
+    return(HTML(results))
+  })
+  
+}
+
+
+getMethodPrecisionFinalAnswerClosestConcentration = function(data, caseSampleMeanConcentration)
+{
+  closestConcentration = 0
+  
+  for(conc in getConcentrations(data))
+  {
+    if(abs(conc - caseSampleMeanConcentration) < abs(closestConcentration - caseSampleMeanConcentration))
+    {
+      closestConcentration = conc
+    }
+  }
+  
+  return(closestConcentration)
+}
+
+getMethodPrecisionFinalAnswer = function(data, closestConcentration)
+{
+  getRealtiveStandardUncertainty(data,closestConcentration)
 }
 
 getPooledStandardDeviation = function(data, concentration){

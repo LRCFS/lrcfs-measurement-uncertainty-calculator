@@ -127,7 +127,7 @@ serverUncertaintyCalibrationCurve = function(input, output){
                            "$$=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",caseSampleReps,"} + \\frac{1}{",reps,"} + \\frac{(",caseSampleMeanConc," - ",meanX,")^2}{",sumSqDevationX,"} }$$", h4(uncertaintyOfCalibration))))
   })
   
-  output$relativeStandardUncertainty <- renderUI({
+  output$relativeStandardUncertaintyAnswer <- renderUI({
     x = dataReformatted()$calibrationDataConcentration
     y = dataReformatted()$calibrationDataPeakArea
     
