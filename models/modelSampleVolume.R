@@ -1,35 +1,52 @@
-serverUncertaintySampleVolume = function(input, output, session){
-  sampleVolumeData <- reactive({
-    data = sampleVolumeReadCSV(input$intputSampleVolumeFileUpload$datapath)
-    return(data)
-  })
-  
-  
-  
-  #Display outputs
-  output$display_sampleVolume_rawDataTable = DT::renderDataTable(
-    sampleVolumeData(),
-    rownames = FALSE,
-    options = list(scrollX = TRUE, dom = 'tip')
-  )
-  
-  output$display_sampleVolume_standardUncertainty = renderText({
-    answerValue = get_sampleVolume_standardUncerainty(sampleVolumeData())
-    return(answerValue)
-  })
-  
-  output$display_sampleVolume_finalAnswer_top = renderText({
-    answerValue = get_sampleVolume_relativeStandardUncertainty(sampleVolumeData())
-    return(paste("\\(u_r\\text{(SampleVolume)}=\\)",answerValue))
-  })
-  
-  output$display_sampleVolume_finalAnswer_bottom = renderText({
-    answerValue = get_sampleVolume_relativeStandardUncertainty(sampleVolumeData())
-    return(answerValue)
-  })
-}
+###################################################################################
+# Outputs
+###################################################################################
+
+#Reactive properties
+sampleVolumeData <- reactive({
+  data = sampleVolumeReadCSV(input$intputSampleVolumeFileUpload$datapath)
+  return(data)
+})
+
+sampleVolumeResult = reactive ({
+  result = get_sampleVolume_relativeStandardUncertainty(sampleVolumeData())
+  return(result)
+})
 
 
+#Display input data
+output$display_sampleVolume_rawDataTable = DT::renderDataTable(
+  sampleVolumeData(),
+  rownames = FALSE,
+  options = list(scrollX = TRUE, dom = 'tip')
+)
+
+
+#Display calculations
+output$display_sampleVolume_standardUncertainty = renderText({
+  answerValue = get_sampleVolume_standardUncerainty(sampleVolumeData())
+  return(answerValue)
+})
+
+
+#Display final answers
+output$display_sampleVolume_finalAnswer_top = renderUI({
+  return(withMathJax(sprintf("\\(u_r\\text{(SampleVolume)}=%f\\)",sampleVolumeResult())))
+})
+
+output$display_sampleVolume_finalAnswer_bottom = renderUI({
+  return(withMathJax(sprintf("\\(u_r\\text{(SampleVolume)}=%f\\)",sampleVolumeResult())))
+})
+
+output$display_sampleVolume_finalAnswer_dashboard = renderUI({
+  return(withMathJax(sprintf("\\(u_r\\text{(SampleVolume)}=%f\\)",sampleVolumeResult())))
+})
+  
+
+
+###################################################################################
+# Helper Methods
+###################################################################################
 
 get_sampleVolume_standardUncerainty = function(data){
 
@@ -44,7 +61,6 @@ get_sampleVolume_standardUncerainty = function(data){
   return(stdUncertainty)
 
 }
-
 
 get_sampleVolume_relativeStandardUncertainty = function(data)
 {
