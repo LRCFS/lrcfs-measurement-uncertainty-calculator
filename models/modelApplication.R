@@ -1,5 +1,26 @@
 numDecimalPlaces = 5
 
+coverageFactorEffectiveDof = coverageFactorEffectiveDofReadCSV()
+
+mathJaxAligned = function(formulas, lineSpacing = 10)
+{
+  # test = "$$\\begin{align}
+  #   \\ x^2 &=  \\text{Chi-Squared} \\\\
+  #   \\ sum &= \\text{summation} \\\\\\[100pt]
+  #   \\ o &=  \\text{the observed values} \\\\
+  #   \\ e &=  \\text{the expected values}
+  #   \\end{align}$$"
+
+  formulasOutput = ""
+  for(element in formulas)
+  {
+    formulasOutput = paste("\\",formulasOutput, element,"\\\\[",lineSpacing,"pt]")
+  }
+  
+  output = paste("$$\\begin{align}", formulasOutput, "\\end{align}$$")
+  return(output)
+}
+
 # library(latex2exp)
 # library(stringr)
 # printLatexFormula = function(latex, calc, variables){
