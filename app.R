@@ -9,19 +9,11 @@ library(plotly)
 library(DT)
 library(DiagrammeR)
 
-source("dal/loadCalibrationCurveExcel.R")
+source("dal/loadCoverageFactorEffectiveDofCSV.R")
+source("dal/loadCalibrationCurveCSV.R")
 source("dal/loadMethodPrecisionCSV.R")
 source("dal/loadStandardSolutionCSV.R")
 source("dal/loadSampleVolumeCSV.R")
-
-source("models/modelApplication.R")
-source("models/modelDashboard.R")
-source("models/modelCalibrationCurve.R")
-source("models/modelMethodPrecision.R")
-source("models/modelStandardSolution.R")
-source("models/modelSampleVolume.R")
-source("models/modelCombinedUncertainty.R")
-source("models/modelEffectiveDof.R")
 
 source("views/viewDashboard.R")
 source("views/viewRightSidebar.R")
@@ -32,7 +24,6 @@ source("views/viewSampleVolume.R")
 source("views/viewCombinedUncertainty.R")
 source("views/viewEffectiveDof.R")
 source("views/viewExpandedUncertainty.R")
-
 
 `%ni%` = Negate(`%in%`)
 
@@ -75,19 +66,19 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                         footer = dashboardFooter(
                           left_text = "METEOR",
                           right_text = "Copyright LRCFS 2019"
-                        )
+                       )
 )
 
 server <- function(input, output) {
-  
-  #Load server functions from each model (Functions can be found in /models/model...R)
-  serverDashboard(input, output)
-  serverUncertaintyCalibrationCurve(input, output)
-  serverUncertaintyMethodPrecision(input, output)
-  serverUncertaintyStandardSolution(input, output)
-  serverUncertaintySampleVolume(input, output)
-  serverCombinedUncertainty(input, output)
-  serverEffectiveDof(input, output)
+  source("models/modelApplication.R", local = TRUE)
+  source("models/modelDashboard.R", local = TRUE)
+  source("models/modelCalibrationCurve.R", local = TRUE)
+  source("models/modelMethodPrecision.R", local = TRUE)
+  source("models/modelStandardSolution.R", local = TRUE)
+  source("models/modelSampleVolume.R", local = TRUE)
+  source("models/modelCombinedUncertainty.R", local = TRUE)
+  source("models/modelEffectiveDof.R", local = TRUE)
+  source("models/modelExpandedUncertainty.R", local = TRUE)
 }
 
 shinyApp(ui, server)

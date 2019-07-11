@@ -1,35 +1,38 @@
-serverCombinedUncertainty = function(input, output, session){
+combinedUncertaintyResult = reactive({
+  meanConcentration = input$inputCaseSampleMeanConcentration
+  uncCalibrationCurve = calibrationCurveResult()
+  uncMethodPrecision = methodPrecisionResult()
+  uncStandardSolution = relativeStandardUncertaintyOfCalibrationSolutions
+  uncSampleVolume = sampleVolumeResult()
   
-  #Display outputs
-  output$display_combinedUncertainty_finalAnswer_top = renderText({
-    
-    meanConcentration = input$inputCaseSampleMeanConcentration
-    uncCalibrationCurve = 1
-    uncMethodPrecision = 1
-    uncStandardSolution = 1
-    uncSampleVolume = 1
-    
-    answerValue = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
-    
-    return(paste("\\(\\text{CombUncertainty}=\\)",answerValue))
-  })
+  result = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
+  return(result)
+})
+
+###################################################################################
+# Outputs
+###################################################################################
+output$display_combinedUncertainty_finalAnswer_top = renderUI({
+  return(withMathJax(sprintf("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
+})
   
-  output$display_combinedUncertainty_finalAnswer_bottom = renderText({
-    
-    meanConcentration = input$inputCaseSampleMeanConcentration
-    uncCalibrationCurve = 1
-    uncMethodPrecision = 1
-    uncStandardSolution = 1
-    uncSampleVolume = 1
-    
-    answerValue = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
+output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
+  return(withMathJax(sprintf("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
+})
 
-    return(answerValue)
-  })
-
-}
+output$display_combinedUncertainty_finalAnswer_dashboard = renderUI({
+  return(withMathJax(sprintf("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
+})
 
 
+
+renderUI({
+  return(withMathJax(sprintf("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
+})
+
+###################################################################################
+# Helper Methods
+###################################################################################
 get_combinedUncertainty_finalAnswer = function(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
 {
   answer = meanConcentration * sqrt(uncCalibrationCurve^2 + uncMethodPrecision^2 + uncStandardSolution^2 + uncSampleVolume^2)

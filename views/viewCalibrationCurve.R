@@ -11,9 +11,9 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                           ),
                           tabPanel(title="Method",
                                    "For the analysis of these reports we use the following function:",
-                                   uiOutput("display_calibrationCurve_UncertaintyOfCalibrationLatex"),
+                                   uiOutput("display_calibrationCurve_uncertaintyOfCalibrationLatex"),
                                    "where \\(S_{y/x}\\) is the standard error of regression given by",
-                                   "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$"
+                                   uiOutput("display_calibrationCurve_standardErrorOfRegressionLatex")
                           ),
                           tabPanel(title="Properties",
                                    tags$ul(
