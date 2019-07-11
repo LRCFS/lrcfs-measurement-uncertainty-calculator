@@ -1,6 +1,6 @@
 tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                  fluidRow(
-                   valueBox("Expanded Uncertainty", h2(textOutput("display_expandedUncertainty_finalAnswer_top")), width = 12, color = "orange", icon = icon("exchange-alt"))
+                   valueBox("Expanded Uncertainty", h2(uiOutput("display_expandedUncertainty_finalAnswer_top")), width = 12, color = "orange", icon = icon("exchange-alt"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -29,7 +29,7 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                  fluidRow(
                    box(width=12, side="right",
                        title = "Expanded Uncertainty", background = "orange", solidHeader = TRUE,
-                       textOutput("display_expandedUncertainty_finalAnswer_bottom")
+                       uiOutput("display_expandedUncertainty_finalAnswer_bottom")
                    )
                  )
 )

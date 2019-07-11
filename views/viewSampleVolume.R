@@ -1,6 +1,6 @@
 tabSampleVolume = tabItem(tabName = "sampleVolume",
                  fluidRow(
-                   valueBox("Uncertainty of Sample Volume", h2(textOutput("display_sampleVolume_finalAnswer_top")), width = 12, color = "maroon", icon = icon("flask"))
+                   valueBox("Uncertainty of Sample Volume", h2(uiOutput("display_sampleVolume_finalAnswer_top")), width = 12, color = "maroon", icon = icon("flask"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -37,11 +37,11 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                  fluidRow(
                    box(width=6, side="right",
                        title = "Standard Uncertainty",
-                       textOutput("display_sampleVolume_standardUncertainty")
+                       uiOutput("display_sampleVolume_standardUncertainty")
                    ),
                    box(width=6, side="right",
                        title = "Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,
-                       textOutput("display_sampleVolume_finalAnswer_bottom")
+                       uiOutput("display_sampleVolume_finalAnswer_bottom")
                    )
                  )
 )

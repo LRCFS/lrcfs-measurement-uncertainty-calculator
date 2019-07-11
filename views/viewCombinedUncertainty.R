@@ -1,6 +1,6 @@
 tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                  fluidRow(
-                   valueBox("Combined Uncertainty", h2(textOutput("display_combinedUncertainty_finalAnswer_top")), width = 12, color = "purple", icon = icon("arrows-alt-v"))
+                   valueBox("Combined Uncertainty", h2(uiOutput("display_combinedUncertainty_finalAnswer_top")), width = 12, color = "purple", icon = icon("arrows-alt-v"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -29,7 +29,7 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                  fluidRow(
                    box(width=12, side="right",
                        title = "Combined Uncertainty", background = "purple", solidHeader = TRUE,
-                       textOutput("display_combinedUncertainty_finalAnswer_bottom")
+                       uiOutput("display_combinedUncertainty_finalAnswer_bottom")
                    )
                  )
 )

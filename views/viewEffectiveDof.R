@@ -1,6 +1,6 @@
 tabEffectiveDof = tabItem(tabName = "effectiveDof",
                  fluidRow(
-                   valueBox("Effective Degress of Freedom", h2(textOutput("display_effectiveDof_finalAnswer_top")), width = 12, color = "teal", icon = icon("exchange-alt"))
+                   valueBox("Effective Degress of Freedom", h2(uiOutput("display_effectiveDof_finalAnswer_top")), width = 12, color = "teal", icon = icon("exchange-alt"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -28,8 +28,14 @@ tabEffectiveDof = tabItem(tabName = "effectiveDof",
                  ),
                  fluidRow(
                    box(width=12, side="right",
+                       title = "Calculations",
+                       uiOutput("display_effectiveDof_calculations")
+                   )
+                 ),
+                 fluidRow(
+                   box(width=12, side="right",
                        title = "Effective Degrees of Freedom", background = "teal", solidHeader = TRUE,
-                       textOutput("display_effectiveDof_finalAnswer_bottom")
+                       uiOutput("display_effectiveDof_finalAnswer_bottom")
                    )
                  )
 )

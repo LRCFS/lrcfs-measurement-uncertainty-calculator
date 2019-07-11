@@ -1,6 +1,6 @@
 tabStandardSolution = tabItem(tabName = "standardSolution",
                               fluidRow(
-                                valueBox("Uncertainty of Standard Solution", h2(textOutput("uncertaintyOfStandardSolution")), width = 12, color = "green", icon = icon("vial"))
+                                valueBox("Uncertainty of Standard Solution", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("vial"))
                               ),
                               fluidRow(
                                 tabBox(title="Analysis", width=12,
@@ -29,33 +29,30 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                               fluidRow(
                                 tabBox(width=12, side="right",
                                        title = "Loaded Data",
-                                       # tabPanel("Graph",
-                                       #          plotlyOutput("standardSolutionRawDataGraph")
-                                       # ),
                                        tabPanel("Solutions Network",
-                                                grVizOutput("standardSolutionNetwork")
+                                                grVizOutput("display_standardSolution_solutionsNetwork")
                                        ),
                                        tabPanel("Raw Solution Data",
-                                                DT::dataTableOutput("standardSolutionRawData")
+                                                DT::dataTableOutput("display_standardSolution_solutionRawData")
                                        ),
                                        tabPanel("Raw Measurement Data",
-                                                DT::dataTableOutput("standardSolutionMeasurementsRawData")
+                                                DT::dataTableOutput("display_standardSolution_measurementsRawData")
                                        )
                                 )
                               ),
                               fluidRow(
                                 box(width=12, side="right",
                                     title = "Calculations",
-                                    DT::dataTableOutput("solutionsDataWithCalculations")
+                                    DT::dataTableOutput("display_standardSolution_solutionsDataWithCalculations")
                                 ),
                                 box(width=12, side="right",
                                     title = "Calculations",
-                                    DT::dataTableOutput("measurementDataWithCalculations")
+                                    DT::dataTableOutput("display_standardSolution_measurementDataWithCalculations")
                                 )
                               ),
                               fluidRow(
                                 box(title="Uncertainty of Standard Solution", width = 12, background = "green", solidHeader = TRUE,
-                                    h2(textOutput("uncertaintyOfStandardSolutionAnswer"))
+                                    h2(uiOutput("display_standardSolution_finalAnswer_bottom"))
                                 )
                               )
 )

@@ -1,6 +1,6 @@
 tabMethodPrecision = tabItem(tabName = "methodPrecision",
                             fluidRow(
-                              valueBox("Uncertainty of Method Precision", h2(textOutput("uncertaintyOfMethodPrecision")), width = 12, color = "red", icon = icon("bullseye"))
+                              valueBox("Uncertainty of Method Precision", h2(uiOutput("display_methodPrecision_finalAnswer_top")), width = 12, color = "red", icon = icon("bullseye"))
                             ),
                             fluidRow(
                                tabBox(title="Analysis", width=12,
@@ -42,15 +42,15 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                   title = "Step by Step Calculation",
                                   DT::dataTableOutput("methodPrecisionCalculations"),
                                   hr(),
-                                  box(title="Pooled Standard Deviation", width = 6, height=240,
+                                  box(title="Pooled Standard Deviation", width = 6, height=260,
                                       uiOutput("outputPooledStandardDeviation")),
-                                  box(title="Standard Uncertainty", width = 6, height=240,
+                                  box(title="Standard Uncertainty", width = 6, height=260,
                                       uiOutput("outputStandardUncertainty")),
                                   box(title="Realtive Standard Uncertainty", width = 12,
                                       uiOutput("outputRealtiveStandardUncertainties")
                                   ),
                                   box(title="Uncertainty of Method Precision", width = 12, background = "red", solidHeader = TRUE,
-                                      uiOutput("finalAnswer")
+                                      uiOutput("display_methodPrecision_finalAnswer_bottom")
                                   )
                               )
                             )
