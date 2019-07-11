@@ -55,7 +55,7 @@ rearrangedCalibrationDataDT = function(){
   
   ##Get data in dataframe
   rearrangedCalibrationDataFrame = data.frame(calibrationCurveDataReformatted()$runNames,x,y,sqDevationX,predictedY,errorSqDevationY)
-  colnames(rearrangedCalibrationDataFrame) = c("Run","$$x$$","$$y$$","$$(x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$")
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$x$$","$$y$$","$$(x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$")
   
   return(rearrangedCalibrationDataFrame)
 }
@@ -87,7 +87,7 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
   output$rearrangedCalibrationData <- DT::renderDataTable(
     rearrangedCalibrationDataDT(),
     rownames = FALSE,
-    options = list(scrollX = TRUE, dom = 'tip')
+    options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:5)))
   )
   
   output$uploadedCalibrationDataStats <- renderUI({

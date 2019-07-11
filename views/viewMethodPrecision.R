@@ -42,13 +42,12 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                   title = "Step by Step Calculation",
                                   DT::dataTableOutput("methodPrecisionCalculations"),
                                   hr(),
-                                  box(title="Pooled Standard Deviation", width = 6, height=260,
+                                  box(title="Pooled Standard Deviation", width = 4,
                                       uiOutput("outputPooledStandardDeviation")),
-                                  box(title="Standard Uncertainty", width = 6, height=260,
+                                  box(title="Standard Uncertainty", width = 4,
                                       uiOutput("outputStandardUncertainty")),
-                                  box(title="Realtive Standard Uncertainty", width = 12,
-                                      uiOutput("outputRealtiveStandardUncertainties")
-                                  ),
+                                  box(title="Realtive Standard Uncertainty", width = 4,
+                                      uiOutput("outputRealtiveStandardUncertainties")),
                                   box(title="Uncertainty of Method Precision", width = 12, background = "red", solidHeader = TRUE,
                                       uiOutput("display_methodPrecision_finalAnswer_bottom")
                                   )
