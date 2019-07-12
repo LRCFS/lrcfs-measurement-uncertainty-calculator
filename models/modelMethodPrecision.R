@@ -78,7 +78,7 @@ methodPrecisionDataWithCalculations = reactive({
 methodPrecisionDataWithCalculationsNeatHeaders = reactive({
   print(methodPrecisionDataWithCalculations())
   data = data.frame(methodPrecisionDataWithCalculations()$conc,methodPrecisionDataWithCalculations()$run,methodPrecisionDataWithCalculations()$mean,methodPrecisionDataWithCalculations()$stdDev,methodPrecisionDataWithCalculations()$dof,methodPrecisionDataWithCalculations()$pooledStandardDeviationNumerator)
-  colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} d)$$","$$S^2 * d$$")
+  colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} d)$$","$$S^2 \\times d$$")
   return(data)
 })
 
@@ -184,7 +184,7 @@ output$outputSumOfS2d <- renderUI({
   formula = character()
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("\\sum{(S^2 * d)_{(",conc,")}} &= ", getSumPooledStandardDeviationNumeratorForConcentration(data,conc)))
+    formula = c(formula, paste0("\\sum{(S^2 \\times d)_{(",conc,")}} &= ", getSumPooledStandardDeviationNumeratorForConcentration(data,conc)))
   }
   results = mathJaxAligned(formula)
   
@@ -200,7 +200,7 @@ output$outputPooledStandardDeviation <- renderUI({
   
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("S_p &= \\sqrt{\\frac{\\sum\\limits_i S_i^2 \\times d_i}{\\sum\\limits_i d_i}}")
+  formula = c("S_p &= \\sqrt{\\frac{\\sum\\limits_i{(S_i^2 \\times d_i)}}{\\sum\\limits_i d_i}}")
 
   for(conc in getConcentrations(data))
   {

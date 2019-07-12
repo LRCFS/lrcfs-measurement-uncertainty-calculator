@@ -2,7 +2,7 @@ numDecimalPlaces = 5
 
 coverageFactorEffectiveDof = coverageFactorEffectiveDofReadCSV()
 
-mathJaxAligned = function(formulas, lineSpacing = 10)
+mathJaxAligned = function(formulas, lineSpacing = 20)
 {
   # test = "$$\\begin{align}
   #   \\ x^2 &=  \\text{Chi-Squared} \\\\
