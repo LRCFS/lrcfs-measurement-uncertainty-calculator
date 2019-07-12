@@ -40,6 +40,12 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                        uiOutput("display_sampleVolume_standardUncertainty")
                    ),
                    box(width=6, side="right",
+                       title = "Relative Standard Uncertainty",
+                       uiOutput("display_sampleVolume_relativeStandardUncertainty")
+                   )
+                 ),
+                 fluidRow(
+                   box(width=12, side="right",
                        title = "Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,
                        uiOutput("display_sampleVolume_finalAnswer_bottom")
                    )
