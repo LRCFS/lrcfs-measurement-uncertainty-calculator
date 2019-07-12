@@ -11,7 +11,7 @@ sampleVolumeData <- reactive({
 sampleVolumeResult = reactive ({
   result = get_sampleVolume_relativeStandardUncertainty(sampleVolumeData())
   answer = sqrt(sum(result^2))
-  return(answer)
+  return(round(answer,numDecimalPlaces))
 })
 
 
@@ -39,7 +39,7 @@ output$display_sampleVolume_standardUncertainty = renderUI({
     measurementCoverage = sampleVolumeItemData$measurementCoverage
     answerValue = get_sampleVolume_standardUncerainty(sampleVolumeItemData)
     
-    formulas = c(formulas, sprintf("u\\text{(SampleVolume)}_{\\text{(%s)}} &= \\frac{%f}{%f} = %f",measurementDevice,measurementTolerance,measurementCoverage,answerValue))
+    formulas = c(formulas, paste("u\\text{(SampleVolume)}_{\\text{(",measurementDevice,")}} &= \\frac{",measurementTolerance,"}{",measurementCoverage,"} = ", answerValue))
   }
   output = mathJaxAligned(formulas)
   
@@ -61,7 +61,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
     measurementVolume = sampleVolumeItemData$measurementVolume
     answerValue = get_sampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
     
-    formulas = c(formulas, sprintf("u_r\\text{(SampleVolume)}_{\\text{(%s)}} &= \\frac{%f}{%f} = %f",measurementDevice,stdUnc,measurementVolume,answerValue))
+    formulas = c(formulas, paste("u_r\\text{(SampleVolume)}_{\\text{(",measurementDevice,")}} &= \\frac{",stdUnc,"}{",measurementVolume,"} = ",answerValue))
   }
   output = mathJaxAligned(formulas)
   
@@ -100,10 +100,10 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
     relativeStandardUncertainty = get_sampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
     
     if(sampleVolumeItem == 1){
-      string = sprintf("%f^2",relativeStandardUncertainty)
+      string = paste(relativeStandardUncertainty,"^2")
     }
     else{
-      string = sprintf("+ %f^2",relativeStandardUncertainty)
+      string = paste("+",relativeStandardUncertainty,"^2")
     }
 
     formula = paste(formula, string)
@@ -112,7 +112,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   formulas = c(formulas,formula)
   
-  formulas = c(formulas, sprintf("&= %f", sampleVolumeResult()))
+  formulas = c(formulas, paste("&= ", sampleVolumeResult()))
   
   output = mathJaxAligned(formulas)
   
