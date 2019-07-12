@@ -19,7 +19,19 @@ output$display_expandedUncertainty_finalAnswer_top = renderUI({
 })
 
 output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
-  return(withMathJax(sprintf("\\(\\text{ExpUncertainty}=%f\\)",expandedUncertaintyResult())))
+  
+  confidenceInterval = input$inputConfidenceInterval
+  effectiveDof = effectiveDofResult()
+  
+  finalCoverageFactorEffectiveDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof, confidenceInterval)
+  
+  formulas = c("\\text{ExpUncertainty} &= \\text{finalCoverageFactorEffectiveDof} * \\text{CombUncertainty}")
+  formulas = c(formulas, sprintf("&= %f * %f", finalCoverageFactorEffectiveDof, combinedUncertaintyResult()))
+  forumlas = c(formulas, paste("&=",expandedUncertaintyResult()))
+  output = mathJaxAligned(forumlas, 0)
+  
+  
+  return(withMathJax(output))
 })
 
 output$display_expandedUncertainty_finalAnswer_dashboard = renderUI({

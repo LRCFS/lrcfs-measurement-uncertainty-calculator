@@ -39,16 +39,16 @@ methodPrecisionDataWithCalculations = reactive({
     ################################
     
     #Calculate the means for each run
-    dataMeans = colMeans(dataForConcentration, na.rm = TRUE)
+    dataMeans = round(colMeans(dataForConcentration, na.rm = TRUE), numDecimalPlaces)
     
     #Calculate the standard deveation for each concentration (using SD function and removing NA values)
-    dataStdDev = apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE))
+    dataStdDev = round(apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE)), numDecimalPlaces)
     
     #Calculate the Degrees of Freedom for each concentration (using length function but removing NA values then removing 1 (this is how you get DOF))
     dataDof = apply(dataForConcentration, 2, function(x) length(which(!is.na(x))))-1
     
     #pooledStandardDeviationNumerator
-    dataPooledStandardDeviationNumerator = dataStdDev^2 * dataDof
+    dataPooledStandardDeviationNumerator = round(dataStdDev^2 * dataDof, numDecimalPlaces)
     
     #Calculate the Pooled Variance
     dataPooledVariance = sum(dataStdDev^2 * dataDof, na.rm = TRUE)/sum(dataDof, na.rm = TRUE)
@@ -78,7 +78,7 @@ methodPrecisionDataWithCalculations = reactive({
 methodPrecisionDataWithCalculationsNeatHeaders = reactive({
   print(methodPrecisionDataWithCalculations())
   data = data.frame(methodPrecisionDataWithCalculations()$conc,methodPrecisionDataWithCalculations()$run,methodPrecisionDataWithCalculations()$mean,methodPrecisionDataWithCalculations()$stdDev,methodPrecisionDataWithCalculations()$dof,methodPrecisionDataWithCalculations()$pooledStandardDeviationNumerator)
-  colnames(data) = c("$$\\text{Nominal Value}(NV)$$","$$\\text{Run}$$","$$\\overline{x}$$","$$S$$","$$d$$","$$S^2 * d$$")
+  colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} d)$$","$$S^2 * d$$")
   return(data)
 })
 
@@ -163,6 +163,38 @@ output$methodPrecisionRawDataGraph <- renderPlotly({
   return(plotlyPlot)
 })
 
+output$outputSumOfDof <- renderUI({
+
+  data = methodPrecisionDataWithCalculations()
+
+  formula = character()
+  for(conc in getConcentrations(data))
+  {
+    formula = c(formula, paste0("\\sum{d}_{(",conc,")} &= ", getSumDofForConcentration(data, conc)))
+  }
+  results = mathJaxAligned(formula)
+
+  return(withMathJax(results))
+})
+
+output$outputSumOfS2d <- renderUI({
+  
+  data = methodPrecisionDataWithCalculations()
+  
+  formula = character()
+  for(conc in getConcentrations(data))
+  {
+    formula = c(formula, paste0("\\sum{(S^2 * d)_{(",conc,")}} &= ", getSumPooledStandardDeviationNumeratorForConcentration(data,conc)))
+  }
+  results = mathJaxAligned(formula)
+  
+  return(withMathJax(results))
+  
+})
+
+
+
+
 #Display the Pooled Standard Deviation for each concentration in the data
 output$outputPooledStandardDeviation <- renderUI({
   
@@ -173,7 +205,7 @@ output$outputPooledStandardDeviation <- renderUI({
   for(conc in getConcentrations(data))
   {
     
-    formula = c(formula, paste0("S_p(",conc,") &= \\sqrt{\\frac{",getSumPooledStandardDeviationNumeratorForConcentration(data,conc),"}{",getSumDofForConcentration(data, conc),"}} = ", getPooledStandardDeviation(data, conc)))
+    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{",getSumPooledStandardDeviationNumeratorForConcentration(data,conc),"}{",getSumDofForConcentration(data, conc),"}} = ", getPooledStandardDeviation(data, conc)))
   }
   
   results = mathJaxAligned(formula)
@@ -189,7 +221,7 @@ output$outputStandardUncertainty <- renderUI({
   
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("u(\\text{MethodPrec})_{",conc,"} &= \\frac{",getPooledStandardDeviation(data, conc),"}{\\sqrt{",input$inputCaseSampleReplicates,"}} = ", getStandardUncertainty(data, conc)))
+    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{",getPooledStandardDeviation(data, conc),"}{\\sqrt{",input$inputCaseSampleReplicates,"}} = ", getStandardUncertainty(data, conc)))
   }
   
   results = mathJaxAligned(formula)
@@ -201,11 +233,11 @@ output$outputStandardUncertainty <- renderUI({
 output$outputRealtiveStandardUncertainties <- renderUI({
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("u_r(\\text{MethodPrec}) &= \\frac{u}{\\text{conc}}")
+  formula = c("u_r(\\text{MethodPrec}) &= \\frac{u}{\\text{NV}}")
   
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{",conc,"} &= \\frac{",getStandardUncertainty(data, conc),"}{",conc,"} = ", getRealtiveStandardUncertainty(data, conc)))
+    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{",getStandardUncertainty(data, conc),"}{",conc,"} = ", getRealtiveStandardUncertainty(data, conc)))
   }
   
   results = mathJaxAligned(formula)
@@ -228,9 +260,9 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
     concs = paste0(concs,i,",")
   }
   
-  output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s) = ",input$inputCaseSampleMeanConcentration,"\\) is ",closetConcentration,"<br /><br />")
+  output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s)\\) = ",input$inputCaseSampleMeanConcentration," is ",closetConcentration,"<br /><br />")
   
-  output = paste(output, "\\(u_r(\\text{MethodPrec})_{", closetConcentration, "}=", methodPrecisionResult(), "\\)")
+  output = paste(output, "\\(u_r(\\text{MethodPrec})_{(", closetConcentration, ")}=", methodPrecisionResult(), "\\)")
   
   return(withMathJax(HTML(output)))
 })

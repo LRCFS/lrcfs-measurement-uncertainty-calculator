@@ -97,7 +97,7 @@ output$display_effectiveDof_calculations = renderUI({
   
   formulas = character()
   
-  formulas = c(formulas, "EffectiveDoF &=\\frac{\\text{Combined Uncertainty}^4}{\\sum{\\frac{\\text{(Individual Uncertainty)}^4}{\\text{Individual DoF}}}}")
+  formulas = c(formulas, "\\text{EffectiveDoF} &=\\frac{\\text{Combined Uncertainty}^4}{\\sum{\\frac{\\text{(Individual Uncertainty)}^4}{\\text{Individual DoF}}}}")
   formulas = c(formulas, "&= \\frac{CombUncertainty^4}{\\frac{uncCalibrationCurve^4}{dofCalibrationCurve} + \\frac{uncMethodPrecision^4}{dofMethodPrecision} + \\frac{uncStandardSolution^4}{dofStandardSolution} + \\frac{uncSampleVolume^4}{dofSampleVolume}}")
   
   calcNumbers = sprintf("&= \\frac{%f^4}{\\frac{%f^4}{%f} + \\frac{%f^4}{%f} + \\frac{%f^4}{\\infty} + \\frac{%f^4}{\\infty}}",

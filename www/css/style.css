@@ -1,1 +1,5 @@
-.MathJax_Display { text-align : right !important; }
+.MathJax_Display { text-align : left !important; }
+th .MathJax_Display { text-align : right !important; }
+
+
+.MathJax span { right : left !important; }

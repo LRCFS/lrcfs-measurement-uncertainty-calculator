@@ -174,25 +174,25 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     
     slope = getSlope(x,y)
     intercept = getIntercept(x,y)
-    relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+    
+    royTestErrorBarThing_relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+    
+    royTestErrorBarThing = expandedUncertaintyResult()
+    
     
     fit = lm(y~x)
     
     plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
       add_lines(x = x, y = fitted(fit), name="Calibration Curve") %>%
       add_ribbons(x = x,
-                  ymin = fitted(fit) - relativeStandardUncertainty,
-                  ymax = fitted(fit) + relativeStandardUncertainty,
+                  ymin = fitted(fit) - royTestErrorBarThing,
+                  ymax = fitted(fit) + royTestErrorBarThing,
                   line = list(color = 'rgba(7, 164, 181, 0.05)'),
                   fillcolor = 'rgba(7, 164, 181, 0.2)',
                   name = "Relative Standard Uncertainty") %>%
       layout(xaxis = list(title="Concentration"), yaxis = list(title="Peak Area Ratio")) %>%
       add_annotations(x= 0.5,y= 0.8,xref="paper",yref="paper",text=paste0("$y = ",intercept,"+",slope,"x$"),showarrow = F)    
   })
-  
-  
-  
-  
   
   
   

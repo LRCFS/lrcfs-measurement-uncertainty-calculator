@@ -51,10 +51,10 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        box(title = "Error Sum of Squares of Y", width = 4, height=150, uiOutput("display_calibrationCurve_errorSumSqY"))
                      ),
                      fluidRow(
-                       box(title="Standard Error of Regression", width = 6, height=240,
+                       box(title="Standard Error of Regression", width = 6,
                            uiOutput("standardErrorOfRegression")
                        ),
-                       box(title="Uncertainty of Calibration", width = 6, height=240,
+                       box(title="Uncertainty of Calibration", width = 6,
                            uiOutput("uncertaintyOfCalibration")
                        )
                      ),
