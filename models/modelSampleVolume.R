@@ -9,8 +9,14 @@ sampleVolumeData <- reactive({
 })
 
 sampleVolumeResult = reactive ({
-  result = get_sampleVolume_relativeStandardUncertainty(sampleVolumeData())
-  answer = sqrt(sum(result^2))
+  data = sampleVolumeData()
+  result = get_sampleVolume_relativeStandardUncertainty(data)
+  answer = 0
+  for(i in 1:nrow(data))
+  {
+    answer = answer + (result[i]^2 * data[i,]$measurementTimesUsed)
+  }
+  answer = sqrt(answer)
   return(round(answer,numDecimalPlaces))
 })
 
@@ -89,7 +95,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   data = sampleVolumeData()
   
-  formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{(u_r(SampleVolume)_{(\\text{measurementDevice})}^2*\\text{measurementTimesUsed}})}")
+  formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{(u_r(SampleVolume)_{(\\text{measurementDevice})}^2\\times\\text{measurementTimesUsed}})}")
   
   formula = "&= \\sqrt{"
   for(sampleVolumeItem in rownames(data))
@@ -106,7 +112,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
       string = paste("+",relativeStandardUncertainty,"^2")
     }
 
-    formula = paste(formula, string)
+    formula = paste(formula, string, "\\times", sampleVolumeItemData$measurementTimesUsed)
   }
   formula = paste(formula, "}")
   

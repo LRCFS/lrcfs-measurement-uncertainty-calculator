@@ -46,7 +46,7 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                       title = "Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,
+                       title = "Overall Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,
                        uiOutput("display_sampleVolume_finalAnswer_bottom")
                    )
                  )
