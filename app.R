@@ -22,7 +22,7 @@ source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
 source("views/viewSampleVolume.R")
 source("views/viewCombinedUncertainty.R")
-source("views/viewEffectiveDof.R")
+source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
 
 `%ni%` = Negate(`%in%`)
@@ -78,7 +78,7 @@ server <- function(input, output) {
   source("models/modelStandardSolution.R", local = TRUE)
   source("models/modelSampleVolume.R", local = TRUE)
   source("models/modelCombinedUncertainty.R", local = TRUE)
-  source("models/modelEffectiveDof.R", local = TRUE)
+  source("models/modelCoverageFactor.R", local = TRUE)
   source("models/modelExpandedUncertainty.R", local = TRUE)
 }
 
