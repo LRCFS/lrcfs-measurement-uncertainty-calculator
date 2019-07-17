@@ -81,18 +81,6 @@ output$display_sampleVolume_finalAnswer_top = renderUI({
 
 output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
-  # data = sampleVolumeData()
-  # stdUnc = get_sampleVolume_standardUncerainty(data)
-  # measurementVolume = data$measurementVolume
-  # 
-  # formulas = c("u_r\\text{(SampleVolume)} &= \\frac{u\\text{(SampleVolume)}}{measurementVolume}")
-  # formulas = c(formulas, sprintf("&= \\frac{%f}{%f}",stdUnc,measurementVolume))
-  # formulas = c(formulas, paste("&=",sampleVolumeResult()))
-  # output = mathJaxAligned(formulas)
-  # 
-  # return(withMathJax(output))
-  
-  
   data = sampleVolumeData()
   
   formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{(u_r(SampleVolume)_{(\\text{measurementDevice})}^2\\times\\text{measurementTimesUsed}})}")
@@ -128,6 +116,10 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
 
 output$display_sampleVolume_finalAnswer_dashboard = renderUI({
   return(withMathJax(sprintf("\\(u_r\\text{(SampleVolume)}=%f\\)",sampleVolumeResult())))
+})
+
+output$display_sampleVolume_finalAnswer_combinedUncertainty = renderUI({
+  return(paste(sampleVolumeResult()))
 })
   
 

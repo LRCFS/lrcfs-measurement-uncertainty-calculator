@@ -37,7 +37,7 @@ for(i in rownames(solutionDataWithCalculations))
 print(solutionDataWithCalculations)
 
 finalSolutionsData = getFinalSolutions(solutionDataWithCalculations)
-relativeStandardUncertaintyOfCalibrationSolutions = getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData)
+relativeStandardUncertaintyOfCalibrationSolutions = round(getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData),numDecimalPlaces)
 
 # print(solutionData)
 # print(measurementData)
@@ -94,6 +94,10 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
 
 output$display_standardSolution_finalAnswer_dashboard <- renderUI({
   return(withMathJax(sprintf("\\(u_r(\\text{StdSolution})=%f\\)",relativeStandardUncertaintyOfCalibrationSolutions)))
+})
+
+output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({
+  return(paste(relativeStandardUncertaintyOfCalibrationSolutions))
 })
 
 

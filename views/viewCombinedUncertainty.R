@@ -27,6 +27,12 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                    )
                  ),
                  fluidRow(
+                   valueBox("\\(u_r\\text{(CalCurve)}\\)", uiOutput("display_calibrationCurve_finalAnswer_combinedUncertainty"), width = 3, color = "blue", icon = icon("chart-line")),
+                   valueBox("\\(u_r\\text{(MethodPrec)}\\)", uiOutput("display_methodPrecision_finalAnswer_combinedUncertainty"), width = 3, color = "red", icon = icon("bullseye")),
+                   valueBox("\\(u_r\\text{(StdSolution)}\\)", uiOutput("display_standardSolution_finalAnswer_combinedUncertainty"), width = 3, color = "green", icon = icon("vial")),
+                   valueBox("\\(u_r\\text{(SampleVolume)}\\)", uiOutput("display_sampleVolume_finalAnswer_combinedUncertainty"), width = 3, color = "maroon", icon = icon("flask"))
+                 ),
+                 fluidRow(
                    box(width=12, side="right",
                        title = "Combined Uncertainty", background = "purple", solidHeader = TRUE,
                        uiOutput("display_combinedUncertainty_finalAnswer_bottom")

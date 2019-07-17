@@ -270,6 +270,10 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
 output$display_methodPrecision_finalAnswer_dashboard <- renderUI({
   return(withMathJax(sprintf("\\(u_r(\\text{MethodPrec})=%f\\)",methodPrecisionResult())))
 })
+
+output$display_methodPrecision_finalAnswer_combinedUncertainty <- renderUI({
+  return(paste(methodPrecisionResult()))
+})
   
 
 ###################################################################################
