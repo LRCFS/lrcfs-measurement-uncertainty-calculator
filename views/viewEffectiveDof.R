@@ -1,6 +1,6 @@
-tabEffectiveDof = tabItem(tabName = "effectiveDof",
+tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  fluidRow(
-                   valueBox("Effective Degress of Freedom", h2(uiOutput("display_effectiveDof_finalAnswer_top")), width = 12, color = "teal", icon = icon("exchange-alt"))
+                   valueBox("Coverage Factor", h2(uiOutput("display_coverageFactor_finalAnswer_top")), width = 12, color = "teal", icon = icon("exchange-alt"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -28,20 +28,20 @@ tabEffectiveDof = tabItem(tabName = "effectiveDof",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                       title = "Calculations",
-                       uiOutput("display_effectiveDof_calculations")
+                       title = "Effective Degrees of Freedom",
+                       uiOutput("display_coverageFactor_effectiveDegreesOfFreedom")
                    )
                  ),
                  fluidRow(
                    box(width=12, side="right",
                        title = "Lookup Coverage Factor \\((k)\\)",
-                       DT::dataTableOutput('display_effectiveDof_table')
+                       DT::dataTableOutput('display_coverageFactor_table')
                    )
                  ),
                  fluidRow(
                    box(width=12, side="right",
                        title = "Coverage Factor", background = "teal", solidHeader = TRUE,
-                       uiOutput("display_effectiveDof_finalAnswer_bottom")
+                       uiOutput("display_coverageFactor_finalAnswer_bottom")
                    )
                  )
 )

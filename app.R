@@ -42,7 +42,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             menuItem("Standard Solution", tabName = "standardSolution", icon = icon("vial")),
                             menuItem("Sample Volume", tabName = "sampleVolume", icon = icon("flask")),
                             menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("arrows-alt-v")),
-                            menuItem("Effective DoF", tabName = "effectiveDof", icon = icon("exchange-alt")),
+                            menuItem("Coverage Factor", tabName = "coverageFactor", icon = icon("exchange-alt")),
                             menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("arrows-alt"))
                           )
                         ),
@@ -59,7 +59,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             tabStandardSolution,
                             tabSampleVolume,
                             tabCombinedUncertainty,
-                            tabEffectiveDof,
+                            tabCoverageFactor,
                             tabExpandedUncertainty
                           ) 
                         ),

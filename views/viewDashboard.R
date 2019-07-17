@@ -9,7 +9,7 @@ tabDashboard = tabItem(tabName = "dashboard",
                          valueBox("Uncertainty of Standard Solution", uiOutput("display_standardSolution_finalAnswer_dashboard"), width = 6, color = "green", icon = icon("vial")),
                          valueBox("Uncertainty of Sample Volume", uiOutput("display_sampleVolume_finalAnswer_dashboard"), width = 6, color = "maroon", icon = icon("flask")),
                          valueBox("Combined Uncertainty", uiOutput("display_combinedUncertainty_finalAnswer_dashboard"), width = 6, color = "purple", icon = icon("arrows-alt-v")),
-                         valueBox("Effective Degrees of Freedom", uiOutput("display_effectiveDof_finalAnswer_dashboard"), width = 6, color = "teal", icon = icon("exchange-alt")),
+                         valueBox("Coverage Factor", uiOutput("display_coverageFactor_finalAnswer_dashboard"), width = 6, color = "teal", icon = icon("exchange-alt")),
                          valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_dashboard"), width = 12, color = "orange", icon = icon("arrows-alt"))
                        )
 )

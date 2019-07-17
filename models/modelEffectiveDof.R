@@ -24,13 +24,20 @@ effectiveDofResult = reactive({
   return(round(result,numDecimalPlaces))
 })
 
+coverageFactorResult = reactive({
+  confidenceInterval = input$inputConfidenceInterval
+  effectiveDof = effectiveDofResult()
+  
+  getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
+})
+
 
 ###################################################################################
 # Outputs
 ###################################################################################
 
 #Display calculations
-output$display_effectiveDof_calculations = renderUI({
+output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
   uncCalibrationCurve = calibrationCurveResult()
   uncMethodPrecision = methodPrecisionResult()
@@ -46,7 +53,7 @@ output$display_effectiveDof_calculations = renderUI({
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
 
-  formulas = c("\\text{EffectiveDoF} &=\\frac{\\text{Combined Uncertainty}^4}{\\sum{\\frac{\\text{(Individual Uncertainty)}^4}{\\text{Individual DoF}}}}")
+  formulas = c("\\text{DoF}_{\\text{eff}} &=\\frac{\\text{Combined Uncertainty}^4}{\\sum{\\frac{\\text{(Individual Uncertainty)}^4}{\\text{Individual DoF}}}}")
   formulas = c(formulas, "&= \\frac{CombUncertainty^4}{\\frac{uncCalibrationCurve^4}{dofCalibrationCurve} + \\frac{uncMethodPrecision^4}{dofMethodPrecision} + \\frac{uncStandardSolution^4}{dofStandardSolution} + \\frac{uncSampleVolume^4}{dofSampleVolume}}")
   
   calcNumbers = sprintf("&= \\frac{%f^4}{\\frac{%f^4}{%f} + \\frac{%f^4}{%f} + \\frac{%f^4}{\\infty} + \\frac{%f^4}{\\infty}}",
@@ -60,7 +67,7 @@ output$display_effectiveDof_calculations = renderUI({
   return(withMathJax(HTML(output)))
 })
 
-output$display_effectiveDof_table <- DT::renderDataTable({
+output$display_coverageFactor_table <- DT::renderDataTable({
   
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
@@ -82,33 +89,22 @@ output$display_effectiveDof_table <- DT::renderDataTable({
 })
 
 
-
-
 #Display final answers
-output$display_effectiveDof_finalAnswer_top = renderUI({
+output$display_coverageFactor_finalAnswer_top = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  effectiveDof = effectiveDofResult()
-  
-  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval),"\\)")
-  
+  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 
-output$display_effectiveDof_finalAnswer_bottom = renderUI({
+output$display_coverageFactor_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  effectiveDof = effectiveDofResult()
-  
-  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval),"\\)")
-  
+  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 
-output$display_effectiveDof_finalAnswer_dashboard = renderUI({
+output$display_coverageFactor_finalAnswer_dashboard = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  effectiveDof = effectiveDofResult()
-  
-  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval),"\\)")
-  
+  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 
@@ -118,4 +114,32 @@ output$display_effectiveDof_finalAnswer_dashboard = renderUI({
 getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSampleVolume,dofSampleVolume,combinedUncertainty)
 {
   return((combinedUncertainty^4) / (((uncCalibrationCurve^4)/dofCalibrationCurve) + ((uncMethodPrecision^4)/dofMethodPrecision) + ((uncStandardSolution^4)/dofStandardSolution) + ((uncSampleVolume^4)/dofSampleVolume)))
+}
+
+getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof){
+  
+  closestDof = 0
+  if(effectiveDof > 100)
+  {
+    closestDof = Inf
+  }
+  else{
+    for(dof in rownames(coverageFactorEffectiveDof))
+    {
+      if(abs(as.numeric(dof) - effectiveDof) < abs(closestDof - effectiveDof))
+      {
+        closestDof = as.numeric(dof)
+      }
+    }
+  }
+  
+  return(as.character(closestDof))
+}
+
+getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval){
+  
+  closestDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof)
+  
+  result = coverageFactorEffectiveDof[as.character(closestDof),confidenceInterval]
+  return(result)
 }
