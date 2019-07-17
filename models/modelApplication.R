@@ -1,6 +1,6 @@
 numDecimalPlaces = 5
 
-coverageFactorEffectiveDof = coverageFactorEffectiveDofReadCSV()
+coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()
 
 mathJaxAligned = function(formulas, lineSpacing = 20)
 {

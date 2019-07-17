@@ -3,11 +3,11 @@ expandedUncertaintyResult = reactive({
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
   
-  finalCoverageFactorEffectiveDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof, confidenceInterval)
+  finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
   
-  result = finalCoverageFactorEffectiveDof * combinedUncertaintyResult()
+  result = finalCoverageFactor * combinedUncertaintyResult()
   
-  return(result)
+  return(round(result,numDecimalPlaces))
 })
 
 ###################################################################################
@@ -15,7 +15,7 @@ expandedUncertaintyResult = reactive({
 ###################################################################################
 
 output$display_expandedUncertainty_finalAnswer_top = renderUI({
-  return(withMathJax(sprintf("\\(\\text{ExpUncertainty}=%f\\)",expandedUncertaintyResult())))
+  return(withMathJax(paste("\\(\\text{ExpUncertainty}=",expandedUncertaintyResult(),"\\)")))
 })
 
 output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
@@ -23,10 +23,10 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
   
-  finalCoverageFactorEffectiveDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof, confidenceInterval)
+  finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
   
-  formulas = c("\\text{ExpUncertainty} &= \\text{finalCoverageFactorEffectiveDof} * \\text{CombUncertainty}")
-  formulas = c(formulas, sprintf("&= %f * %f", finalCoverageFactorEffectiveDof, combinedUncertaintyResult()))
+  formulas = c("\\text{ExpUncertainty} &= k \\times \\text{CombUncertainty}")
+  formulas = c(formulas, paste("&=",finalCoverageFactor,"\\times",combinedUncertaintyResult()))
   forumlas = c(formulas, paste("&=",expandedUncertaintyResult()))
   output = mathJaxAligned(forumlas, 0)
   
@@ -35,11 +35,11 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
 })
 
 output$display_expandedUncertainty_finalAnswer_dashboard = renderUI({
-  return(withMathJax(sprintf("\\(\\text{ExpUncertainty}=%f\\)",expandedUncertaintyResult())))
+  return(withMathJax(paste("\\(\\text{ExpUncertainty}=",expandedUncertaintyResult(),"\\)")))
 })
 
 
-getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval){
+getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof){
   
   closestDof = 0
   if(effectiveDof > 100)
@@ -55,7 +55,14 @@ getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effe
       }
     }
   }
+  
+  return(as.character(closestDof))
+}
 
+getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval){
+  
+  closestDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof)
+  
   result = coverageFactorEffectiveDof[as.character(closestDof),confidenceInterval]
   return(result)
 }

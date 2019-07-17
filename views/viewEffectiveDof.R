@@ -34,7 +34,13 @@ tabEffectiveDof = tabItem(tabName = "effectiveDof",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                       title = "Effective Degrees of Freedom", background = "teal", solidHeader = TRUE,
+                       title = "Lookup Coverage Factor \\((k)\\)",
+                       DT::dataTableOutput('display_effectiveDof_table')
+                   )
+                 ),
+                 fluidRow(
+                   box(width=12, side="right",
+                       title = "Coverage Factor", background = "teal", solidHeader = TRUE,
                        uiOutput("display_effectiveDof_finalAnswer_bottom")
                    )
                  )
