@@ -41,6 +41,16 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                 )
                               ),
                               fluidRow(
+                                box(width=6, side="right",
+                                    title = "Standard Uncertainty",
+                                    uiOutput("display_standardSolution_standardUncertainty")
+                                ),
+                                box(width=6, side="right",
+                                    title = "Relative Standard Uncertainty",
+                                    uiOutput("display_standardSolution_relativeStandardUncertainty")
+                                )
+                              ),
+                              fluidRow(
                                 box(width=12, side="right",
                                     title = "Calculations",
                                     DT::dataTableOutput("display_standardSolution_solutionsDataWithCalculations")

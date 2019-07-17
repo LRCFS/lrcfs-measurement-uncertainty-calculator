@@ -2,7 +2,7 @@ effectiveDofResult = reactive({
   
   uncCalibrationCurve = calibrationCurveResult()
   uncMethodPrecision = methodPrecisionResult()
-  uncStandardSolution = relativeStandardUncertaintyOfCalibrationSolutions
+  uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
   combinedUncertainty = combinedUncertaintyResult()
   
@@ -78,7 +78,7 @@ output$display_coverageFactor_table <- DT::renderDataTable({
   
   dataTable = datatable(coverageFactorEffectiveDofTable,
                         rownames = FALSE,
-                        options = list(pageLength = 100, scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = "dt-right", targets = 0:6))))%>%
+                        options = list(pageLength = 100, scrollX = TRUE, dom = '', columnDefs = list(list(className = "dt-right", targets = 0:6))))%>%
     #Row Style
     formatStyle(0,"EffectiveDoF",target = "row", backgroundColor = styleEqual(finalCoverageFactorEffectiveDof, "#D8F5F5"))%>%
     #Colum style

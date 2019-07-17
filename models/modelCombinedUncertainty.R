@@ -2,7 +2,7 @@ combinedUncertaintyResult = reactive({
   meanConcentration = input$inputCaseSampleMeanConcentration
   uncCalibrationCurve = calibrationCurveResult()
   uncMethodPrecision = methodPrecisionResult()
-  uncStandardSolution = relativeStandardUncertaintyOfCalibrationSolutions
+  uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
   
   result = round(get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume),numDecimalPlaces)
@@ -22,12 +22,12 @@ output$display_combinedUncertainty_finalAnswer_top = renderUI({
 output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   cc = calibrationCurveResult()
   mp = methodPrecisionResult()
-  ss = relativeStandardUncertaintyOfCalibrationSolutions
+  ss = standardSolutionResult()
   sv = sampleVolumeResult()
   
   formula = c("\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SampleVolume})^2}")
   
-  formula = c(formula, paste("&= ",input$inputCaseSampleMeanConcentration," \\sqrt{",calibrationCurveResult(),"^2+",methodPrecisionResult(),"^2+",relativeStandardUncertaintyOfCalibrationSolutions,"^2+",sampleVolumeResult(),"^2}"))
+  formula = c(formula, paste("&= ",input$inputCaseSampleMeanConcentration," \\sqrt{",cc,"^2+",mp,"^2+",ss,"^2+",sv,"^2}"))
   
   formula = c(formula, paste("&= ",combinedUncertaintyResult()))
   
