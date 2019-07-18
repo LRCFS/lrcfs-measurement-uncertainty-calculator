@@ -41,7 +41,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
   uncCalibrationCurve = calibrationCurveResult()
   uncMethodPrecision = methodPrecisionResult()
-  uncStandardSolution = relativeStandardUncertaintyOfCalibrationSolutions
+  uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
   combinedUncertainty = combinedUncertaintyResult()
   
