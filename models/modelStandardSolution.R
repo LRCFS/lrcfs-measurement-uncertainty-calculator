@@ -114,12 +114,33 @@ output$display_standardSolution_standardUncertainty <- renderUI({
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
-  
-  
+
 })
 
 output$display_standardSolution_relativeStandardUncertainty <- renderUI({
-  return("test2")
+
+  #Get the distinct insturments based on the name, volume and tolerance
+  data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
+  
+  formulas = c("u_r\\text{(Insturment)}_{\\text{Vol,Tol}} &= \\frac{u\\text{(Insturment)}_{\\text{Vol,Tol}}}{\\text{Instrument Volume}}")
+  
+  for(instrumentRow in rownames(data))
+  {
+    instrumentData = data[instrumentRow,]
+    
+    measurementDevice = instrumentData$measurementDevice
+    measurementVolume = instrumentData$measurementVolume
+    measurementCoverage = instrumentData$measurementCoverage
+    measurementTolerance = instrumentData$measurementTolerance
+    measurementStandardUncertainty = instrumentData$standardUncertainty
+    answerValue = instrumentData$relativeStandardUncertainty
+    
+    formulas = c(formulas, paste0("u_r\\text{(",measurementDevice,")}_{\\text{(",measurementVolume,",",measurementTolerance,")}} &= \\frac{",measurementStandardUncertainty,"}{",measurementVolume,"} = ", answerValue))
+  }
+  output = mathJaxAligned(formulas)
+  
+  return(withMathJax(output))
+  
 })
 
 output$display_standardSolution_solutionsDataWithCalculations <- DT::renderDataTable(
