@@ -12,11 +12,23 @@ standardSolutionMeasurementData = reactive({
 standardSolutionDataWithCalculations = reactive({
   #Calculate standard uncertainty and relative standard uncertainty of base solution
   solutionData = standardSolutionData()
-  
-  standardUncertainty = mapply(getStandardUncertaintySS, solutionData$compoundTolerance)
+
+  standardUncertainty = mapply(getStandardUncertaintySS, solutionData$compoundTolerance, solutionData$compoundCoverage)
   relativeStandardUncertainty = getRelativeStandardUncertaintySS(standardUncertainty, solutionData$compoundPurity)
   calculationResults = data.frame("standardUncertainty" = standardUncertainty, "relativeStandardUncertainty" = relativeStandardUncertainty)
   solutionDataWithCalculations = cbind(solutionData, calculationResults)
+  
+  #calculate realtive Standard Uncertainty For each Solution
+  #Probably want to make this recursive to cope with any data order
+  for(i in rownames(solutionDataWithCalculations))
+  {
+    if(is.na(solutionDataWithCalculations[i, "relativeStandardUncertainty"]))
+    {
+      realtiveStandardUncertaintyForSolution = getRealtiveStandardUncertaintyForSolution(solutionData[i, "solution"], solutionDataWithCalculations, standardSolutionInstrumentDataWithCalculations())
+      solutionDataWithCalculations[i, "relativeStandardUncertainty"] = realtiveStandardUncertaintyForSolution
+    }
+  }
+
   return(solutionDataWithCalculations)
 })
 
@@ -24,7 +36,7 @@ standardSolutionInstrumentDataWithCalculations = reactive({
   #Calculate standard uncertainty and relative standard uncertainty of instruments
   measurementData = standardSolutionMeasurementData()
   
-  standardUncertainty = mapply(getStandardUncertaintySS, measurementData$measurementTolerance)
+  standardUncertainty = mapply(getStandardUncertaintySS, measurementData$measurementTolerance, measurementData$measurementCoverage)
   relativeStandardUncertainty = getRelativeStandardUncertaintySS(standardUncertainty, measurementData$measurementVolume)
   calculationResults = data.frame("standardUncertainty" = standardUncertainty, "relativeStandardUncertainty" = relativeStandardUncertainty)
   instrumentDataWithCalculations = cbind(measurementData, calculationResults)
@@ -38,25 +50,16 @@ standardSolutionInstrumentDataWithCalculations = reactive({
 })
 
 standardSolutionResult = reactive({
-  
-  solutionData = standardSolutionData()
+  #Get all the solutions with all their calculations
   solutionDataWithCalculations = standardSolutionDataWithCalculations()
 
-  #calculate realtive Standard Uncertainty For each Solution
-  #Probably want to make this recursive to cope with any data order
-  for(i in rownames(solutionDataWithCalculations))
-  {
-    if(is.na(solutionDataWithCalculations[i, "relativeStandardUncertainty"]))
-    {
-      realtiveStandardUncertaintyForSolution = getRealtiveStandardUncertaintyForSolution(solutionData[i, "solution"], solutionDataWithCalculations, standardSolutionInstrumentDataWithCalculations())
-      solutionDataWithCalculations[i, "relativeStandardUncertainty"] = realtiveStandardUncertaintyForSolution
-    }
-  }
-  
+  #From all the solutions, we just want the final ones - the solutions that nothing else is made from
   finalSolutionsData = getFinalSolutions(solutionDataWithCalculations)
-  relativeStandardUncertaintyOfCalibrationSolutions = round(getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData),numDecimalPlaces)
   
-  return(relativeStandardUncertaintyOfCalibrationSolutions)
+  #Calculate our final answer based on our final calibration solutions
+  relativeStandardUncertaintyOfCalibrationSolutions = getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData)
+  
+  return(round(relativeStandardUncertaintyOfCalibrationSolutions,numDecimalPlaces))
 })
   
   
@@ -87,7 +90,7 @@ output$display_standardSolution_solutionsNetwork <- renderGrViz({
 
 
 #Display calculations
-output$display_standardSolution_standardUncertainty <- renderUI({
+output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
 
   #Get the distinct insturments based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
@@ -117,7 +120,7 @@ output$display_standardSolution_standardUncertainty <- renderUI({
 
 })
 
-output$display_standardSolution_relativeStandardUncertainty <- renderUI({
+output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI({
 
   #Get the distinct insturments based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
@@ -143,6 +146,51 @@ output$display_standardSolution_relativeStandardUncertainty <- renderUI({
   
 })
 
+output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI({
+  
+  solutionData = standardSolutionDataWithCalculations()
+  instrumentsData = standardSolutionInstrumentDataWithCalculations()
+  
+  #Display base solution relative standard uncertainty
+  baseSolution = getBaseSolution(solutionData)
+  formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = ",baseSolution$relativeStandardUncertainty," [[break]]"))
+  
+  #Show base formula for relative standard uncertainty of solution calculations
+  formulas = c(formulas, "u_r\\text{(Solution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Insturment)}^2_{\\text{Vol,Tol}} \\times N\\text{(Insturment)}_{\\text{Vol,Tol}}]}} [[break]]")
+  
+  for(i in rownames(solutionData))
+  {
+    solution = solutionData[i,]
+    print(solution)
+    if(solution$madeFrom != "")
+    {
+      solutionParent = solutionData[solutionData$solution == solution$madeFrom,]
+      solutionInstruments = instrumentsData[instrumentsData$solution == solution$solution,]
+      
+      instrumentEquationsNames = ""
+      instrumentEquationsValues = ""
+      for(i in rownames(solutionInstruments))
+      {
+        instrument = instrumentsData[i,]
+        plus = "+"
+        if(i == 0)
+        {
+          plus = ""
+        }
+        instrumentEquationsNames = paste0(instrumentEquationsNames,plus,"[u_r\\text{(",instrument$measurementDevice,")}^2_{\\text{",instrument$measurementVolume,",",instrument$measurementTolerance,"}} \\times N\\text{(",instrument$measurementDevice,")}_{\\text{",instrument$measurementVolume,",",instrument$measurementTolerance,"}}]")
+        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[",instrument$relativeStandardUncertainty,"^2\\times",instrument$measurementTimesUsed,"]")
+      }
+      
+      formulas = c(formulas, paste0("u_r\\text{(",solution$solution,")} &= \\sqrt{u_r\\text{(",solutionParent$solution,")}^2",instrumentEquationsNames,"}"))
+      formulas = c(formulas, paste0("&= \\sqrt{",round(solutionParent$relativeStandardUncertainty,numDecimalPlaces),"^2",instrumentEquationsValues,"}"))
+      formulas = c(formulas, paste0("&= ",round(solution$relativeStandardUncertainty,numDecimalPlaces)," [[break]]"))
+    }
+  }
+  
+  output = mathJaxAligned(formulas, 5, 30)
+  return(withMathJax(output))
+})
+
 output$display_standardSolution_solutionsDataWithCalculations <- DT::renderDataTable(
   standardSolutionDataWithCalculations(),
   rownames = FALSE,
@@ -162,7 +210,30 @@ output$display_standardSolution_finalAnswer_top <- renderUI({
 })
 
 output$display_standardSolution_finalAnswer_bottom <- renderUI({
-  return(withMathJax(sprintf("\\(u_r(\\text{StdSolution})=%f\\)",standardSolutionResult())))
+  
+  formulas = character()
+  finalSolutionsData = getFinalSolutions(standardSolutionDataWithCalculations())
+  equationNames = ""
+  equationValues = ""
+  
+  for(i in 1:nrow(finalSolutionsData))
+  {
+    print(i)
+    solution = finalSolutionsData[i,]
+    plus = "+"
+    if(i == 1)
+    {
+      plus = ""
+    }
+    equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
+    equationValues = paste0(equationValues, plus, round(solution$relativeStandardUncertainty,numDecimalPlaces),"^2")
+  }
+  formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}"))
+  formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationValues,"}"))
+  formulas = c(formulas, paste0("&=",standardSolutionResult()))
+  
+  output = mathJaxAligned(formulas)
+  return(withMathJax(output))
 })
 
 output$display_standardSolution_finalAnswer_dashboard <- renderUI({
@@ -177,6 +248,12 @@ output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({
 ###################################################################################
 # Helper Methods
 ###################################################################################
+
+getBaseSolution = function(solutionDataWithCalculation)
+{
+  baseSolution = solutionDataWithCalculation[solutionDataWithCalculation$madeFrom == "",]
+  return(baseSolution)
+}
 
 getFinalSolutions = function(solutionDataWithCalculations)
 {

@@ -1,7 +1,3 @@
-library(utils)
-library(data.tree)
-
-
 standardSolutionReadCSV = function(filePathCompoundAndSolutionData = NULL) {
   
   if(is.null(filePathCompoundAndSolutionData))

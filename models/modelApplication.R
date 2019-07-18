@@ -2,7 +2,7 @@ numDecimalPlaces = 5
 
 coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()
 
-mathJaxAligned = function(formulas, lineSpacing = 20)
+mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 {
   # test = "$$\\begin{align}
   #   \\ x^2 &=  \\text{Chi-Squared} \\\\
@@ -14,7 +14,16 @@ mathJaxAligned = function(formulas, lineSpacing = 20)
   formulasOutput = ""
   for(element in formulas)
   {
-    formulasOutput = paste("\\",formulasOutput, element,"\\\\[",lineSpacing,"pt]")
+    if(endsWith(element, "[[break]]"))
+    {
+      element = str_remove(element,"\\[\\[break\\]\\]")
+      formulasOutput = paste("\\",formulasOutput, element,"\\\\[",breakingSpace,"pt]")
+    }
+    else
+    {
+      formulasOutput = paste("\\",formulasOutput, element,"\\\\[",lineSpacing,"pt]")
+    }
+    
   }
   
   output = paste("$$\\begin{align}", formulasOutput, "\\end{align}$$")
