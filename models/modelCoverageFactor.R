@@ -54,7 +54,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   dofMethodPrecision = methodPrecisionDof()
 
   formulas = c("\\text{DoF}_{\\text{eff}} &=\\frac{\\text{Combined Uncertainty}^4}{\\sum{\\frac{\\text{(Individual Uncertainty)}^4}{\\text{Individual DoF}}}}")
-  formulas = c(formulas, "&= \\frac{CombUncertainty^4}{\\frac{uncCalibrationCurve^4}{dofCalibrationCurve} + \\frac{uncMethodPrecision^4}{dofMethodPrecision} + \\frac{uncStandardSolution^4}{dofStandardSolution} + \\frac{uncSampleVolume^4}{dofSampleVolume}}")
+  formulas = c(formulas, "&= \\frac{\\text{CombUncertainty}^4}{\\frac{uncCalibrationCurve^4}{dofCalibrationCurve} + \\frac{uncMethodPrecision^4}{dofMethodPrecision} + \\frac{uncStandardSolution^4}{dofStandardSolution} + \\frac{uncSampleVolume^4}{dofSampleVolume}}")
   
   calcNumbers = sprintf("&= \\frac{%f^4}{\\frac{%f^4}{%f} + \\frac{%f^4}{%f} + \\frac{%f^4}{\\infty} + \\frac{%f^4}{\\infty}}",
                         combinedUncertainty,uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,uncSampleVolume)
