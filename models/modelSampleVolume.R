@@ -34,7 +34,7 @@ output$display_sampleVolume_standardUncertainty = renderUI({
   
   data = sampleVolumeData()
   
-  formulas = c("u\\text{(SampleVolume)} &= \\frac{\\text{measurementTolerance}}{\\text{measurementCoverage}}")
+  formulas = c("u\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{\\text{measurementTolerance}}{\\text{measurementCoverage}}")
 
   for(sampleVolumeItem in rownames(sampleVolumeData()))
   {
@@ -56,7 +56,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
   
   data = sampleVolumeData()
   
-  formulas = c("u_r\\text{(SampleVolume)} &= \\frac{u\\text{(SampleVolume)}}{\\text{measurementVolume}}")
+  formulas = c("u_r\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{u\\text{(SampleVolume)}}{\\text{measurementVolume}}")
   
   for(sampleVolumeItem in rownames(sampleVolumeData()))
   {
