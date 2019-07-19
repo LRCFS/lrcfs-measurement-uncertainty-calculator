@@ -12,8 +12,9 @@ calibrationCurveData <- reactive({
 })
 
 calibrationCurveResult = reactive({
-  x = calibrationCurveDataReformatted()$calibrationDataConcentration
-  y = calibrationCurveDataReformatted()$calibrationDataPeakArea
+  data = calibrationCurveDataReformatted()
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
   
   return(getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration))
 })
@@ -41,8 +42,9 @@ calibrationCurveDataReformatted <- reactive({
 })
 
 rearrangedCalibrationDataDT = function(){
-  x = calibrationCurveDataReformatted()$calibrationDataConcentration
-  y = calibrationCurveDataReformatted()$calibrationDataPeakArea
+  data = calibrationCurveDataReformatted()
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
   
   ### Get Squared Devation of X
   sqDevationX = getSqDevation(x);
@@ -96,10 +98,11 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
   })
   
   output$display_calibrationCurve_meanOfX <- renderUI({
-    meanOfX = getCalibrationCurveMeanOfX(calibrationCurveDataReformatted())
+    data = calibrationCurveDataReformatted()
+    meanOfX = getCalibrationCurveMeanOfX(data)
 
     formulas = c("\\overline{x} &= \\frac{\\sum{x_i}}{n}")
-    forumlas = c(formulas, paste("&=",meanOfX))
+    forumlas = c(formulas, paste("&=\\color{",color1,"}{",meanOfX),"}")
     output = mathJaxAligned(forumlas, 0)
     
     return(withMathJax(HTML(output)))
@@ -110,35 +113,37 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     sumSqDevationX = sum(getSqDevation(x))
     
     formulas = c("S_{xx} &= \\sum\\limits_{i=1}^n(x_i - \\overline{x})^2")
-    forumlas = c(formulas, paste("&=",sumSqDevationX))
+    forumlas = c(formulas, paste("&=\\color{",color2,"}{",sumSqDevationX,"}"))
     output = mathJaxAligned(forumlas, 0)
     
     return(withMathJax(HTML(output)))
   })
   
   output$display_calibrationCurve_errorSumSqY <- renderUI({
-    y = calibrationCurveDataReformatted()$calibrationDataPeakArea
-    x = calibrationCurveDataReformatted()$calibrationDataConcentration
+    data = calibrationCurveDataReformatted()
+    y = data$calibrationDataPeakArea
+    x = data$calibrationDataConcentration
     errorSqDevationY = sum(getErrorSqDevationY(x,y))
     
     formulas = c("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2")
-    forumlas = c(formulas, paste("&=",errorSqDevationY))
+    forumlas = c(formulas, paste("&=\\color{",color3,"}{",errorSqDevationY,"}"))
     output = mathJaxAligned(forumlas, 0)
     
     return(withMathJax(HTML(output)))
   })
   
   output$standardErrorOfRegression <- renderUI({
-    x = calibrationCurveDataReformatted()$calibrationDataConcentration
-    y = calibrationCurveDataReformatted()$calibrationDataPeakArea
+    data = calibrationCurveDataReformatted()
+    x = data$calibrationDataConcentration
+    y = data$calibrationDataPeakArea
     
     degreesOfFreedom = getDegreesOfFreedom(x)
     errorSumSqY = sum(getErrorSqDevationY(x,y))
     stdErrorOfRegression = getStandardErrorOfRegerssion(x,y)
     
     formulas = c(getStandardErrorOfRegressionLatex)
-    formulas = c(formulas, paste("&= \\sqrt{\\frac{",errorSumSqY,"}{",degreesOfFreedom,"}}"))
-    forumlas = c(formulas, paste("&=",stdErrorOfRegression))
+    formulas = c(formulas, paste("&= \\sqrt{\\frac{\\color{",color3,"}{",errorSumSqY,"}}{",degreesOfFreedom,"}}"))
+    forumlas = c(formulas, paste("&=\\color{",color4,"}{",stdErrorOfRegression,"}"))
     output = mathJaxAligned(forumlas)
     
     return(withMathJax(HTML(output)))
@@ -147,20 +152,21 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
   })
 
   output$uncertaintyOfCalibration <- renderUI({
-    x = calibrationCurveDataReformatted()$calibrationDataConcentration
-    y = calibrationCurveDataReformatted()$calibrationDataPeakArea
+    data = calibrationCurveDataReformatted()
+    x = data$calibrationDataConcentration
+    y = data$calibrationDataPeakArea
     
     stdErrorOfRegression = getStandardErrorOfRegerssion(x,y)
     slope = getSlope(x,y)
     caseSampleReps = input$inputCaseSampleReplicates
     reps = length(x)
     caseSampleMeanConc = input$inputCaseSampleMeanConcentration
-    meanX = mean(x)
+    meanX = getCalibrationCurveMeanOfX(data)
     sumSqDevationX = sum(getSqDevation(x))
     uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,caseSampleReps,caseSampleMeanConc)
     
     formulas = c(getUncertaintyOfCalibrationLatex)
-    formulas = c(formulas, paste("&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",caseSampleReps,"} + \\frac{1}{",reps,"} + \\frac{(",caseSampleMeanConc," - ",meanX,")^2}{",sumSqDevationX,"} }"))
+    formulas = c(formulas, paste("&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{",slope,"} \\sqrt{\\frac{1}{",caseSampleReps,"} + \\frac{1}{",reps,"} + \\frac{(",caseSampleMeanConc," - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
     forumlas = c(formulas, paste("&=",uncertaintyOfCalibration))
     output = mathJaxAligned(forumlas)
     
@@ -169,8 +175,9 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
   
   
   output$peakAreaRatios <- renderPlotly({
-    x = calibrationCurveDataReformatted()$calibrationDataConcentration
-    y = calibrationCurveDataReformatted()$calibrationDataPeakArea
+    data = calibrationCurveDataReformatted()
+    x = data$calibrationDataConcentration
+    y = data$calibrationDataPeakArea
     
     slope = getSlope(x,y)
     intercept = getIntercept(x,y)
@@ -202,8 +209,9 @@ output$display_calibrationCurve_finalAnswer_top <- renderText({
 })
 
 output$display_calibrationCurve_finalAnswer_bottom <- renderUI({
-  x = calibrationCurveDataReformatted()$calibrationDataConcentration
-  y = calibrationCurveDataReformatted()$calibrationDataPeakArea
+  data = calibrationCurveDataReformatted()
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
   
   uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
   relativeStandardUncertainty = calibrationCurveResult()
@@ -238,7 +246,6 @@ output$display_calibrationCurve_finalAnswer_coverageFactor <- renderUI({
 getCalibrationCurveMeanOfX = function(calibrationCurveDataReformatted){
   x = calibrationCurveDataReformatted$calibrationDataConcentration
   meanOfX = mean(x)
-  print(meanOfX)
   return(round(meanOfX, numDecimalPlaces))
 }
 getSqDevation = function(values){
