@@ -38,6 +38,14 @@ output$display_combinedUncertainty_finalAnswer_dashboard = renderUI({
   return(withMathJax(sprintf("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
 })
 
+output$display_combinedUncertainty_finalAnswer_coverageFactor = renderUI({
+  return(as.character(combinedUncertaintyResult()))
+})
+
+output$display_combinedUncertainty_finalAnswer_expandedUncertainty = renderUI({
+  return(as.character(combinedUncertaintyResult()))
+})
+
 ###################################################################################
 # Helper Methods
 ###################################################################################

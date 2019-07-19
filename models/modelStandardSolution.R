@@ -244,6 +244,10 @@ output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({
   return(paste(standardSolutionResult()))
 })
 
+output$display_standardSolution_finalAnswer_coverageFactor <- renderUI({
+  return(paste(standardSolutionResult()))
+})
+
 
 ###################################################################################
 # Helper Methods

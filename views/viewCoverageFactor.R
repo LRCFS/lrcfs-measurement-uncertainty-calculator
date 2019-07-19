@@ -27,6 +27,15 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    )
                  ),
                  fluidRow(
+                   valueBox(uiOutput("display_calibrationCurve_finalAnswer_coverageFactor"),"\\(u_r\\text{(CalCurve)}\\)", width = 4, color = "blue", icon = icon("chart-line")),
+                   valueBox(uiOutput("display_methodPrecision_finalAnswer_coverageFactor"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye")),
+                   valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial"))
+                 ),
+                 fluidRow(
+                   valueBox(uiOutput("display_sampleVolume_finalAnswer_coverageFactor"),"\\(u_r\\text{(SampleVolume)}\\)", width = 6, color = "maroon", icon = icon("flask")),
+                   valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 6, color = "purple", icon = icon("arrows-alt-v"))
+                 ),
+                 fluidRow(
                    box(width=12, side="right",
                        title = "Effective Degrees of Freedom",
                        uiOutput("display_coverageFactor_effectiveDegreesOfFreedom")

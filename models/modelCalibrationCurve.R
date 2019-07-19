@@ -224,6 +224,10 @@ output$display_calibrationCurve_finalAnswer_dashboard <- renderUI({
 output$display_calibrationCurve_finalAnswer_combinedUncertainty <- renderUI({
   return(paste(calibrationCurveResult()))
 })
+
+output$display_calibrationCurve_finalAnswer_coverageFactor <- renderUI({
+  return(paste(calibrationCurveResult()))
+})
   
   
 

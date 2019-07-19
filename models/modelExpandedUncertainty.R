@@ -14,6 +14,12 @@ expandedUncertaintyResult = reactive({
 # Outputs
 ###################################################################################
 
+output$display_expandedUncertainty_coverageFactorText = renderUI({
+  confidenceInterval = input$inputConfidenceInterval
+  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}\\)")
+  return(withMathJax(HTML(output)))
+})
+
 output$display_expandedUncertainty_finalAnswer_top = renderUI({
   return(withMathJax(paste("\\(\\text{ExpUncertainty}=",expandedUncertaintyResult(),"\\)")))
 })

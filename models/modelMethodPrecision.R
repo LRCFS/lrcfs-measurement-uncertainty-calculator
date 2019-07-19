@@ -274,6 +274,10 @@ output$display_methodPrecision_finalAnswer_dashboard <- renderUI({
 output$display_methodPrecision_finalAnswer_combinedUncertainty <- renderUI({
   return(paste(methodPrecisionResult()))
 })
+
+output$display_methodPrecision_finalAnswer_coverageFactor <- renderUI({
+  return(paste(methodPrecisionResult()))
+})
   
 
 ###################################################################################

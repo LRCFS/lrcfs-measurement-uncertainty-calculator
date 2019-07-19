@@ -54,7 +54,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   dofMethodPrecision = methodPrecisionDof()
 
   formulas = c("\\text{DoF}_{\\text{eff}} &=\\frac{\\text{Combined Uncertainty}^4}{\\sum{\\frac{\\text{(Individual Uncertainty)}^4}{\\text{Individual DoF}}}}")
-  formulas = c(formulas, "&= \\frac{\\text{CombUncertainty}^4}{\\frac{uncCalibrationCurve^4}{dofCalibrationCurve} + \\frac{uncMethodPrecision^4}{dofMethodPrecision} + \\frac{uncStandardSolution^4}{dofStandardSolution} + \\frac{uncSampleVolume^4}{dofSampleVolume}}")
+  formulas = c(formulas, "&= \\frac{\\text{CombUncertainty}^4}{\\frac{u_r(CalCurve)^4}{dof(CalCurve)} + \\frac{u_r(MethodPrec)^4}{dof(MethodPrec)} + \\frac{u_r(StdSolution)^4}{dof(StdSolution)} + \\frac{u_r(SampleVolume)^4}{dof(SampleVolume)}}")
   
   calcNumbers = sprintf("&= \\frac{%f^4}{\\frac{%f^4}{%f} + \\frac{%f^4}{%f} + \\frac{%f^4}{\\infty} + \\frac{%f^4}{\\infty}}",
                         combinedUncertainty,uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,uncSampleVolume)
@@ -106,6 +106,10 @@ output$display_coverageFactor_finalAnswer_dashboard = renderUI({
   confidenceInterval = input$inputConfidenceInterval
   output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
+})
+
+output$display_coverageFactor_finalAnswer_expandedUncertainty = renderUI({
+  return(as.character(coverageFactorResult()))
 })
 
 ###################################################################################

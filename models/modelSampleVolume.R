@@ -121,6 +121,10 @@ output$display_sampleVolume_finalAnswer_dashboard = renderUI({
 output$display_sampleVolume_finalAnswer_combinedUncertainty = renderUI({
   return(paste(sampleVolumeResult()))
 })
+
+output$display_sampleVolume_finalAnswer_coverageFactor = renderUI({
+  return(paste(sampleVolumeResult()))
+})
   
 
 
