@@ -16,7 +16,7 @@ methodPrecisionDataWithCalculations = reactive({
   uniqeConcentrations = getConcentrations(allData);
   
   #Create empty dataframe to return results
-  calculationsData = data.frame(conc= numeric(0), run=character(0), mean= numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0)); calculationsData
+  calculationsData = data.frame(conc= numeric(0), run=character(0), mean= numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0))
   
   #For each concentration in the unique concentrations loaded from our data
   for(concentration in uniqeConcentrations)

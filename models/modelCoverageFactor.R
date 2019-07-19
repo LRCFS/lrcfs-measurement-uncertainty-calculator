@@ -37,6 +37,30 @@ coverageFactorResult = reactive({
 ###################################################################################
 
 #Display calculations
+output$display_coverageFactor_dofCalibrationCurve = renderUI({
+  data = calibrationCurveDataReformatted()
+  x = data$calibrationDataConcentration
+  
+  n = getCalibrationCurve_n(x)
+  formulas = c("DoF_{CalCurve} &= (n_{concs} \\times n_{runs}) - miss_{obvs} -2")
+  formulas = c(formulas,paste0("&=",n,"-2"))
+  formulas = c(formulas,paste0("&=",n-2))
+  output = mathJaxAligned(formulas)
+  
+  return(withMathJax(output))
+})
+
+output$display_coverageFactor_dofMethodPrecision = renderUI({
+  n = methodPrecisionDof()
+  
+  formulas = c("DoF_{MethodPrec} &= \\sum{nRun}")
+  formulas = c(formulas,paste0("&="))
+  formulas = c(formulas,paste0("&=",n))
+  output = mathJaxAligned(formulas)
+  
+  return(withMathJax(output))
+})
+
 output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
   uncCalibrationCurve = calibrationCurveResult()

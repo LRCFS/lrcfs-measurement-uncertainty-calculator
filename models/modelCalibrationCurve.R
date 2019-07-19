@@ -68,14 +68,14 @@ rearrangedCalibrationDataDT = function(){
 ###################################################################################
 
 output$display_calibrationCurve_uncertaintyOfCalibrationLatex = renderUI({
-  forumla = gsub("&=", "=", getUncertaintyOfCalibrationLatex)
-  formula = paste0("$$",forumla,"$$")
+  formula = gsub("&=", "=", getUncertaintyOfCalibrationLatex)
+  formula = paste0("$$",formula,"$$")
   return(withMathJax(HTML(formula)))
 })
 
 output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
-  forumla = gsub("&=", "=", getStandardErrorOfRegressionLatex)
-  formula = paste0("$$",forumla,"$$")
+  formula = gsub("&=", "=", getStandardErrorOfRegressionLatex)
+  formula = paste0("$$",formula,"$$")
   return(withMathJax(HTML(formula)))
 })
 
@@ -97,13 +97,33 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     return(sprintf("Uploaded Calibration Data | Runs: %d | No. Concentrations: %d", dim(data)[2]-1, dim(data)[1]))
   })
   
+  output$display_calibrationCurve_linearRegression <- renderUI({
+    data = calibrationCurveDataReformatted()
+    y = data$calibrationDataPeakArea
+    x = data$calibrationDataConcentration
+    
+    intercept = round(getIntercept(x,y),numDecimalPlaces)
+    slope = round(getSlope(x,y),numDecimalPlaces)
+    n = getCalibrationCurve_n(x)
+    linearRegression = lm(y~x)
+    rSquare = round(summary.lm(linearRegression)$r.squared,numDecimalPlaces)
+    
+    formulas = c(paste0("\\text{Intercept}(b_0) &=",intercept))
+    formulas = c(formulas, paste0("\\text{Slope}(b_1) &=",slope))
+    formulas = c(formulas, paste0("R^2 &=",rSquare))
+    formulas = c(formulas, paste0("n &=",n))
+    output = mathJaxAligned(formulas)
+    
+    return(withMathJax(HTML(output)))
+  })
+  
   output$display_calibrationCurve_meanOfX <- renderUI({
     data = calibrationCurveDataReformatted()
     meanOfX = getCalibrationCurveMeanOfX(data)
 
     formulas = c("\\overline{x} &= \\frac{\\sum{x_i}}{n}")
-    forumlas = c(formulas, paste("&=\\color{",color1,"}{",meanOfX),"}")
-    output = mathJaxAligned(forumlas, 0)
+    formulas = c(formulas, paste("&=\\color{",color1,"}{",meanOfX),"}")
+    output = mathJaxAligned(formulas, 0)
     
     return(withMathJax(HTML(output)))
   })
@@ -113,8 +133,8 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     sumSqDevationX = sum(getSqDevation(x))
     
     formulas = c("S_{xx} &= \\sum\\limits_{i=1}^n(x_i - \\overline{x})^2")
-    forumlas = c(formulas, paste("&=\\color{",color2,"}{",sumSqDevationX,"}"))
-    output = mathJaxAligned(forumlas, 0)
+    formulas = c(formulas, paste("&=\\color{",color2,"}{",sumSqDevationX,"}"))
+    output = mathJaxAligned(formulas, 0)
     
     return(withMathJax(HTML(output)))
   })
@@ -126,8 +146,8 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     errorSqDevationY = sum(getErrorSqDevationY(x,y))
     
     formulas = c("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2")
-    forumlas = c(formulas, paste("&=\\color{",color3,"}{",errorSqDevationY,"}"))
-    output = mathJaxAligned(forumlas, 0)
+    formulas = c(formulas, paste("&=\\color{",color3,"}{",errorSqDevationY,"}"))
+    output = mathJaxAligned(formulas, 0)
     
     return(withMathJax(HTML(output)))
   })
@@ -143,8 +163,8 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     
     formulas = c(getStandardErrorOfRegressionLatex)
     formulas = c(formulas, paste("&= \\sqrt{\\frac{\\color{",color3,"}{",errorSumSqY,"}}{",degreesOfFreedom,"}}"))
-    forumlas = c(formulas, paste("&=\\color{",color4,"}{",stdErrorOfRegression,"}"))
-    output = mathJaxAligned(forumlas)
+    formulas = c(formulas, paste("&=\\color{",color4,"}{",stdErrorOfRegression,"}"))
+    output = mathJaxAligned(formulas)
     
     return(withMathJax(HTML(output)))
     
@@ -167,8 +187,8 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     
     formulas = c(getUncertaintyOfCalibrationLatex)
     formulas = c(formulas, paste("&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{",slope,"} \\sqrt{\\frac{1}{",caseSampleReps,"} + \\frac{1}{",reps,"} + \\frac{(",caseSampleMeanConc," - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
-    forumlas = c(formulas, paste("&=",uncertaintyOfCalibration))
-    output = mathJaxAligned(forumlas)
+    formulas = c(formulas, paste("&=",uncertaintyOfCalibration))
+    output = mathJaxAligned(formulas)
     
     return(withMathJax(HTML(output)))
   })
@@ -218,9 +238,9 @@ output$display_calibrationCurve_finalAnswer_bottom <- renderUI({
   
   formulas = c(getRelativeStandardUncertaintyLatex)
   formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",input$inputCaseSampleMeanConcentration,"}"))
-  forumlas = c(formulas, paste("&=",relativeStandardUncertainty))
+  formulas = c(formulas, paste("&=",relativeStandardUncertainty))
   
-  output = mathJaxAligned(forumlas)
+  output = mathJaxAligned(formulas)
   
   return(withMathJax(HTML(output)))
 })
@@ -316,4 +336,10 @@ getRelativeStandardUncertainty = function(x,y,caseSampleReplicates,caseSampleMea
   relativeStandardUncertainty = round(relativeStandardUncertainty, numDecimalPlaces)
   
   return(relativeStandardUncertainty)
+}
+
+getCalibrationCurve_n = function(calibrationDataConcentration)
+{
+  n = length(calibrationDataConcentration)
+  return(n)
 }

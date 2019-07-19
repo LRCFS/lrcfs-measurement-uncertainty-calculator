@@ -42,11 +42,11 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                               ),
                               fluidRow(
                                 box(width=6, side="right",
-                                    title = "Standard Uncertainty",
+                                    title = "Standard Uncertainty \\((u)\\)",
                                     uiOutput("display_standardSolution_equipmentStandardUncertainty")
                                 ),
                                 box(width=6, side="right",
-                                    title = "Relative Standard Uncertainty",
+                                    title = "Relative Standard Uncertainty \\((u_r)\\)",
                                     uiOutput("display_standardSolution_equipmentRelativeStandardUncertainty")
                                 )
                               ),
@@ -56,18 +56,8 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                     uiOutput("display_standardSolution_solutionRelativeStandardUncertainty")
                                 )
                               ),
-                              # fluidRow(
-                              #   box(width=12, side="right",
-                              #       title = "Calculations",
-                              #       DT::dataTableOutput("display_standardSolution_solutionsDataWithCalculations")
-                              #   ),
-                              #   box(width=12, side="right",
-                              #       title = "Calculations",
-                              #       DT::dataTableOutput("display_standardSolution_measurementDataWithCalculations")
-                              #   )
-                              # ),
                               fluidRow(
-                                box(title="Uncertainty of Standard Solution", width = 12, background = "green", solidHeader = TRUE,
+                                box(title="Overall Relative Standard Uncertainty of Standard Solution", width = 12, background = "green", solidHeader = TRUE,
                                     uiOutput("display_standardSolution_finalAnswer_bottom")
                                 )
                               )

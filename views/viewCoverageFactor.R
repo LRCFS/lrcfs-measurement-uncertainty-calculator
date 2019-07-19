@@ -36,6 +36,24 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 6, color = "purple", icon = icon("arrows-alt-v"))
                  ),
                  fluidRow(
+                   box(width=3, side="right",
+                       title = "Degrees of Freedom of Calibration Curve",
+                       uiOutput("display_coverageFactor_dofCalibrationCurve")
+                   ),
+                   box(width=3, side="right",
+                       title = "Degrees of Freedom of Method Precision",
+                       uiOutput("display_coverageFactor_dofMethodPrecision")
+                   ),
+                   box(width=3, side="right",
+                       title = "Degrees of Freedom of Standard Solution",
+                       uiOutput("display_coverageFactor_dofStandardSolution")
+                   ),
+                   box(width=3, side="right",
+                       title = "Degrees of Freedom of Sample Volume",
+                       uiOutput("display_coverageFactor_dofSampleVolume")
+                   )
+                 ),
+                 fluidRow(
                    box(width=12, side="right",
                        title = "Effective Degrees of Freedom",
                        uiOutput("display_coverageFactor_effectiveDegreesOfFreedom")

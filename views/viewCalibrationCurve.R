@@ -46,20 +46,21 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      DT::dataTableOutput('rearrangedCalibrationData'),
                      hr(),
                      fluidRow(
-                       box(title = "Mean of X", width = 4, height=150, uiOutput("display_calibrationCurve_meanOfX")),
-                       box(title = "Sum of Squared Deviation of X", width = 4, height=150, uiOutput("display_calibrationCurve_sumSqDevationX")),
-                       box(title = "Error Sum of Squares of Y", width = 4, height=150, uiOutput("display_calibrationCurve_errorSumSqY"))
+                       box(title = "Linear Regression", width = 3, uiOutput("display_calibrationCurve_linearRegression")),
+                       box(title = "Mean of \\(x\\)", width = 3, uiOutput("display_calibrationCurve_meanOfX")),
+                       box(title = "Sum of Squared Deviation of \\(x\\)", width = 3, uiOutput("display_calibrationCurve_sumSqDevationX")),
+                       box(title = "Error Sum of Squares of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_errorSumSqY"))
                      ),
                      fluidRow(
-                       box(title="Standard Error of Regression", width = 6,
+                       box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 6,
                            uiOutput("standardErrorOfRegression")
                        ),
-                       box(title="Uncertainty of Calibration", width = 6,
+                       box(title="Uncertainty of Calibration \\((u)\\)", width = 6,
                            uiOutput("uncertaintyOfCalibration")
                        )
                      ),
                      fluidRow(
-                       box(title="Relative Standard Uncertainty", width = 12, background = "blue", solidHeader = TRUE,
+                       box(title="Relative Standard Uncertainty \\((u_r)\\)", width = 12, background = "blue", solidHeader = TRUE,
                            uiOutput("display_calibrationCurve_finalAnswer_bottom")
                        )
                      )
