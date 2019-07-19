@@ -170,7 +170,7 @@ output$outputSumOfDof <- renderUI({
   formula = character()
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("\\sum{d}_{(",conc,")} &= ", getSumDofForConcentration(data, conc)))
+    formula = c(formula, paste0("\\sum{d}_{(",conc,")} &= \\color{#62B6CB}{", getSumDofForConcentration(data, conc), "}"))
   }
   results = mathJaxAligned(formula)
 
@@ -184,7 +184,7 @@ output$outputSumOfS2d <- renderUI({
   formula = character()
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("\\sum{(S^2 \\times d)_{(",conc,")}} &= ", getSumPooledStandardDeviationNumeratorForConcentration(data,conc)))
+    formula = c(formula, paste0("\\sum{(S^2 \\times d)_{(",conc,")}} &= \\color{#FCA311}{", getSumPooledStandardDeviationNumeratorForConcentration(data,conc), "}"))
   }
   results = mathJaxAligned(formula)
   
@@ -200,14 +200,14 @@ output$outputPooledStandardDeviation <- renderUI({
   
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("S_p &= \\sqrt{\\frac{\\sum\\limits_i{(S_i^2 \\times d_i)}}{\\sum\\limits_i d_i}}")
+  formula = c("S_{p(\\text{NV})} &= \\sqrt{\\frac{\\sum{(S^2 \\times d)_{\\text{(NV)}}}}{\\sum d_{\\text{(NV)}}}}")
 
   for(conc in getConcentrations(data))
   {
     
-    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{",getSumPooledStandardDeviationNumeratorForConcentration(data,conc),"}{",getSumDofForConcentration(data, conc),"}} = ", getPooledStandardDeviation(data, conc)))
+    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{\\color{#FCA311}{",getSumPooledStandardDeviationNumeratorForConcentration(data,conc),"}}{\\color{#62B6CB}{",getSumDofForConcentration(data, conc),"}}} = \\color{#8E0554}{", getPooledStandardDeviation(data, conc),"}"))
   }
-  
+
   results = mathJaxAligned(formula)
 
   return(withMathJax(HTML(results)))
@@ -217,11 +217,11 @@ output$outputPooledStandardDeviation <- renderUI({
 output$outputStandardUncertainty <- renderUI({
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("u(\\text{MethodPrec}) &= \\frac{S_p}{\\sqrt{r_s}}")
+  formula = c("u(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}}")
   
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{",getPooledStandardDeviation(data, conc),"}{\\sqrt{",input$inputCaseSampleReplicates,"}} = ", getStandardUncertainty(data, conc)))
+    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{#8E0554}{",getPooledStandardDeviation(data, conc),"}}{\\sqrt{",input$inputCaseSampleReplicates,"}} = \\color{#007A3D}{", getStandardUncertainty(data, conc),"}"))
   }
   
   results = mathJaxAligned(formula)
@@ -233,11 +233,11 @@ output$outputStandardUncertainty <- renderUI({
 output$outputRealtiveStandardUncertainties <- renderUI({
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("u_r(\\text{MethodPrec}) &= \\frac{u}{\\text{NV}}")
+  formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\text{NV}}")
   
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{",getStandardUncertainty(data, conc),"}{",conc,"} = ", getRealtiveStandardUncertainty(data, conc)))
+    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{#007A3D}{",getStandardUncertainty(data, conc),"}}{",conc,"} = \\color{#dd4b39}{", getRealtiveStandardUncertainty(data, conc), "}"))
   }
   
   results = mathJaxAligned(formula)

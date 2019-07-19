@@ -1,4 +1,9 @@
 numDecimalPlaces = 5
+color1 = "#62B6CB"
+color2 = "#FCA311"
+color3 = "#8E0554"
+color4 = "#007A3D"
+color5 = "#1B4965"
 
 coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()
 
