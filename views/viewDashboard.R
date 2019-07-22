@@ -1,7 +1,8 @@
 tabDashboard = tabItem(tabName = "dashboard",
                        fluidRow(
-                         infoBox("Replicates \\((r_s)\\)",HTML(paste(uiOutput("dashboardReplicates"),'<a href="#" data-toggle="control-sidebar">Modify <i class="fa fa-gears"></i></a>')), width=6),
-                         infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("dashboardMeanConcentration"),'<a href="#" data-toggle="control-sidebar">Modify <i class="fa fa-gears"></i></a>')), width=6)
+                         infoBox("Replicates \\((r_s)\\)",HTML(paste(uiOutput("display_dashboard_replicates"))), width=4),
+                         infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_dashboard_meanConcentration"))), width=4),
+                         infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_dashboard_confidenceInterval"))), width=4)
                        ),
                        fluidRow(
                          valueBox("Uncertainty of Calibration Curve", uiOutput("display_calibrationCurve_finalAnswer_dashboard"), width = 6, color = "blue", icon = icon("chart-line")),

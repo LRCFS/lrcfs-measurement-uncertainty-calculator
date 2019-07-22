@@ -4,7 +4,7 @@ calibrationCurveReadCSV = function(filePath = NULL) {
   {
     filePath = "data/calibrationCurve/calibrationCurveSampleData.csv"
   }else{
-    filePath = filePath$datapath
+    filePath = filePath
   }
 
   allData = read.csv(filePath,header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE);

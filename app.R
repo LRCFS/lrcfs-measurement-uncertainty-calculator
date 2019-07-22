@@ -20,7 +20,7 @@ source("dal/loadMethodPrecisionCSV.R")
 source("dal/loadStandardSolutionCSV.R")
 source("dal/loadSampleVolumeCSV.R")
 
-source("views/viewDashboard.R")
+source("views/viewStart.R")
 source("views/viewRightSidebar.R")
 source("views/viewCalibrationCurve.R")
 source("views/viewMethodPrecision.R")
@@ -29,6 +29,7 @@ source("views/viewSampleVolume.R")
 source("views/viewCombinedUncertainty.R")
 source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
+source("views/viewDashboard.R")
 
 `%ni%` = Negate(`%in%`)
 
@@ -41,14 +42,15 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                         ),
                         dashboardSidebar(
                           sidebarMenu(
-                            menuItem("Results Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+                            menuItem("Start", tabName = "start", icon = icon("play")),
                             menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
                             menuItem("Method Precision", tabName = "methodPrecision", icon = icon("bullseye")),
                             menuItem("Standard Solution", tabName = "standardSolution", icon = icon("vial")),
                             menuItem("Sample Volume", tabName = "sampleVolume", icon = icon("flask")),
                             menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("arrows-alt-v")),
                             menuItem("Coverage Factor", tabName = "coverageFactor", icon = icon("exchange-alt")),
-                            menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("arrows-alt"))
+                            menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("arrows-alt")),
+                            menuItem("Results Dashboard", tabName = "dashboard", icon = icon("dashboard"))
                           )
                         ),
                         dashboardBody(
@@ -58,14 +60,15 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                           withMathJax(),
                           #Load tabs from view files (Properties can be found in /views/view...R)
                           tabItems(
-                            tabDashboard,
+                            tabStart,
                             tabCalibrationCurve,
                             tabMethodPrecision,
                             tabStandardSolution,
                             tabSampleVolume,
                             tabCombinedUncertainty,
                             tabCoverageFactor,
-                            tabExpandedUncertainty
+                            tabExpandedUncertainty,
+                            tabDashboard
                           ) 
                         ),
                         rightsidebar = mouCalcRightSidebar,
@@ -77,7 +80,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
 
 server <- function(input, output) {
   source("models/modelApplication.R", local = TRUE)
-  source("models/modelDashboard.R", local = TRUE)
+  source("models/modelStart.R", local = TRUE)
   source("models/modelCalibrationCurve.R", local = TRUE)
   source("models/modelMethodPrecision.R", local = TRUE)
   source("models/modelStandardSolution.R", local = TRUE)
@@ -85,6 +88,7 @@ server <- function(input, output) {
   source("models/modelCombinedUncertainty.R", local = TRUE)
   source("models/modelCoverageFactor.R", local = TRUE)
   source("models/modelExpandedUncertainty.R", local = TRUE)
+  source("models/modelDashboard.R", local = TRUE)
 }
 
 shinyApp(ui, server)

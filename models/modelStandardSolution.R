@@ -1,11 +1,10 @@
 standardSolutionData = reactive({
-  data = standardSolutionReadCSV()
-  print(data)
+  data = standardSolutionReadCSV(input$inputStandardSolutionStructureFileUpload$datapath)
   return(data)
 })
 
 standardSolutionMeasurementData = reactive({
-  data = standardSolutionMeasurementsReadCSV()
+  data = standardSolutionMeasurementsReadCSV(input$inputStandardSolutionEquipmentFileUpload$datapath)
   return(data)
 })
 

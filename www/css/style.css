@@ -3,3 +3,7 @@ th .MathJax_Display { text-align : right !important; }
 
 
 .MathJax span { right : left !important; }
+
+#fileUploadBox a{
+	float: right;
+}
