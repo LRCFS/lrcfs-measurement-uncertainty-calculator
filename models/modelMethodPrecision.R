@@ -246,7 +246,7 @@ output$outputRealtiveStandardUncertainties <- renderUI({
 })
 
 output$display_methodPrecision_finalAnswer_top <- renderUI({
-  return(withMathJax(sprintf("\\(u_r(\\text{MethodPrec})=%f\\)",methodPrecisionResult())))
+  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",methodPrecisionResult()))
 })
 
 output$display_methodPrecision_finalAnswer_bottom = renderUI({
@@ -268,7 +268,7 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
 })
 
 output$display_methodPrecision_finalAnswer_dashboard <- renderUI({
-  return(withMathJax(sprintf("\\(u_r(\\text{MethodPrec})=%f\\)",methodPrecisionResult())))
+  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",methodPrecisionResult()))
 })
 
 output$display_methodPrecision_finalAnswer_combinedUncertainty <- renderUI({

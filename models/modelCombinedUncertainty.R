@@ -16,7 +16,7 @@ combinedUncertaintyResult = reactive({
 
 
 output$display_combinedUncertainty_finalAnswer_top = renderUI({
-  return(withMathJax(paste("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
+  return(paste("\\(u_r\\text{(CombUncertainty)}=\\)",combinedUncertaintyResult()))
 })
   
 output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
@@ -35,7 +35,7 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
 })
 
 output$display_combinedUncertainty_finalAnswer_dashboard = renderUI({
-  return(withMathJax(sprintf("\\(\\text{CombUncertainty}=%f\\)",combinedUncertaintyResult())))
+  return(paste("\\(u_r\\text{(CombUncertainty)}=\\)",combinedUncertaintyResult()))
 })
 
 output$display_combinedUncertainty_finalAnswer_coverageFactor = renderUI({

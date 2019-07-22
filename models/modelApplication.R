@@ -9,13 +9,6 @@ coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()
 
 mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 {
-  # test = "$$\\begin{align}
-  #   \\ x^2 &=  \\text{Chi-Squared} \\\\
-  #   \\ sum &= \\text{summation} \\\\\\[100pt]
-  #   \\ o &=  \\text{the observed values} \\\\
-  #   \\ e &=  \\text{the expected values}
-  #   \\end{align}$$"
-
   formulasOutput = ""
   for(element in formulas)
   {

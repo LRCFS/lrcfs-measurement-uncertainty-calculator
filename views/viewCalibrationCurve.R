@@ -41,8 +41,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    )
                  ),
                  fluidRow(
-                   box(width=12,
-                     title = "Step by Step Calculation",
+                   box(title = "Step by Step Calculations", width=12,
                      DT::dataTableOutput('rearrangedCalibrationData'),
                      hr(),
                      fluidRow(

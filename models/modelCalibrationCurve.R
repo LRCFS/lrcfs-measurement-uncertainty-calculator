@@ -246,7 +246,7 @@ output$display_calibrationCurve_finalAnswer_bottom <- renderUI({
 })
 
 output$display_calibrationCurve_finalAnswer_dashboard <- renderUI({
-  return(withMathJax(sprintf("\\(u_r\\text{(CalCurve)}=%f\\)",calibrationCurveResult())))
+  return(paste("\\(u_r\\text{(CalCurve)}=\\)",calibrationCurveResult()))
 })
 
 output$display_calibrationCurve_finalAnswer_combinedUncertainty <- renderUI({

@@ -205,7 +205,7 @@ output$display_standardSolution_measurementDataWithCalculations <- DT::renderDat
 
 #Display final answers
 output$display_standardSolution_finalAnswer_top <- renderUI({
-  return(withMathJax(sprintf("\\(u_r(\\text{StdSolution})=%f\\)",standardSolutionResult())))
+  return(paste("\\(u_r\\text{(StdSolution)}=\\)",standardSolutionResult()))
 })
 
 output$display_standardSolution_finalAnswer_bottom <- renderUI({
@@ -236,7 +236,7 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
 })
 
 output$display_standardSolution_finalAnswer_dashboard <- renderUI({
-  return(withMathJax(sprintf("\\(u_r(\\text{StdSolution})=%f\\)",standardSolutionResult())))
+  return(paste("\\(u_r\\text{(StdSolution)}=\\)",standardSolutionResult()))
 })
 
 output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({

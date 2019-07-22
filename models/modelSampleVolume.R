@@ -76,7 +76,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
 
 #Display final answers
 output$display_sampleVolume_finalAnswer_top = renderUI({
-  return(withMathJax(sprintf("\\(u_r\\text{(SampleVolume)}=%f\\)",sampleVolumeResult())))
+  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",sampleVolumeResult()))
 })
 
 output$display_sampleVolume_finalAnswer_bottom = renderUI({
@@ -115,7 +115,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
 })
 
 output$display_sampleVolume_finalAnswer_dashboard = renderUI({
-  return(withMathJax(sprintf("\\(u_r\\text{(SampleVolume)}=%f\\)",sampleVolumeResult())))
+  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",sampleVolumeResult()))
 })
 
 output$display_sampleVolume_finalAnswer_combinedUncertainty = renderUI({

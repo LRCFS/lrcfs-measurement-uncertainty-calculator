@@ -12,5 +12,10 @@ tabDashboard = tabItem(tabName = "dashboard",
                          valueBox("Combined Uncertainty", uiOutput("display_combinedUncertainty_finalAnswer_dashboard"), width = 6, color = "purple", icon = icon("arrows-alt-v")),
                          valueBox("Coverage Factor", uiOutput("display_coverageFactor_finalAnswer_dashboard"), width = 6, color = "teal", icon = icon("table")),
                          valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_dashboard"), width = 12, color = "orange", icon = icon("arrows-alt"))
+                       ),
+                       fluidRow(
+                         box(title="Percentrage Expanded Uncertainty",
+                          uiOutput("display_dashboard_finalAnswer")
+                         )
                        )
 )
