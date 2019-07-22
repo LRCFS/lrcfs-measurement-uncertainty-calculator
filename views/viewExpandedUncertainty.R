@@ -27,7 +27,7 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                    )
                  ),
                  fluidRow(
-                   valueBox(uiOutput("display_coverageFactor_finalAnswer_expandedUncertainty"),uiOutput("display_expandedUncertainty_coverageFactorText"), width = 6, color = "teal", icon = icon("exchange-alt")),
+                   valueBox(uiOutput("display_coverageFactor_finalAnswer_expandedUncertainty"),uiOutput("display_expandedUncertainty_coverageFactorText"), width = 6, color = "teal", icon = icon("table")),
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_expandedUncertainty"),"\\(\\text{CombUncertainty}\\)", width = 6, color = "purple", icon = icon("arrows-alt-v"))
                  ),
                  fluidRow(
