@@ -4,27 +4,37 @@ tabStart = tabItem(tabName = "start",
                    fluidRow(
                      column(width=6,
                             fluidRow(
-                              box(title="Case Sample Data", width=12,
-                                  p("Specify below the number of replicates and mean concentration for the case sample."),
-                                  numericInput("inputCaseSampleReplicates",
-                                               "Replicates \\((r_s)\\)",
-                                               value = 2),
-                                  numericInput("inputCaseSampleMeanConcentration",
-                                               "Mean Concentration\\((x_s)\\)",
-                                               value = 2)
+                              box(title = "Case Sample Data", width = 12,
+                                p("Specify below the number of replicates and mean concentration for the case sample."),
+                                numericInput("inputCaseSampleReplicates",
+                                             "Replicates \\((r_s)\\)",
+                                             value = 2),
+                                numericInput("inputCaseSampleMeanConcentration",
+                                             "Mean Concentration\\((x_s)\\)",
+                                             value = 2)
                               )
                             ),
                             fluidRow(
-                              box(title="Confidence Interval", width=12,
-                                  p("Specify the condifence interval used to calculate the Exapanded Uncertainty."),
-                                  selectInput("inputConfidenceInterval", "Confidence Interval\\((c_i)\\):",
-                                              c("99.73%" = "99.73%",
-                                                "99%" = "99%",
-                                                "95.45%" = "95.45%",
-                                                "95%" = "95%",
-                                                "90%" = "90%",
-                                                "68.27%" = "68.27%"))
+                              infoBox("Replicates \\((r_s)\\)",HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
+                              infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
+                            ),
+                            fluidRow(
+                              hr()
+                            ),
+                            fluidRow(
+                              box(title = "Confidence Interval",width = 12,
+                                p("Specify the condifence interval used to calculate the Exapanded Uncertainty."),
+                                selectInput("inputConfidenceInterval", "Confidence Interval\\((c_i)\\):",
+                                            c("99.73%" = "99.73%",
+                                              "99%" = "99%",
+                                              "95.45%" = "95.45%",
+                                              "95%" = "95%",
+                                              "90%" = "90%",
+                                              "68.27%" = "68.27%"))
                               )
+                            ),
+                            fluidRow(
+                              infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                             )
                      ),
                      column(width=6,

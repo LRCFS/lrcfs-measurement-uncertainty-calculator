@@ -1,6 +1,6 @@
 tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  fluidRow(
-                   valueBox("Coverage Factor", h2(uiOutput("display_coverageFactor_finalAnswer_top")), width = 12, color = "teal", icon = icon("exchange-alt"))
+                   valueBox("Coverage Factor", h2(uiOutput("display_coverageFactor_finalAnswer_top")), width = 12, color = "teal", icon = icon("table"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -32,8 +32,9 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial"))
                  ),
                  fluidRow(
-                   valueBox(uiOutput("display_sampleVolume_finalAnswer_coverageFactor"),"\\(u_r\\text{(SampleVolume)}\\)", width = 6, color = "maroon", icon = icon("flask")),
-                   valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 6, color = "purple", icon = icon("arrows-alt-v"))
+                   valueBox(uiOutput("display_sampleVolume_finalAnswer_coverageFactor"),"\\(u_r\\text{(SampleVolume)}\\)", width = 4, color = "maroon", icon = icon("flask")),
+                   valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v")),
+                   infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=4, icon=icon("percentage"), color="yellow")
                  ),
                  fluidRow(
                    box(width=3, side="right",

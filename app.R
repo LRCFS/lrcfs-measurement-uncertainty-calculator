@@ -48,7 +48,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             menuItem("Standard Solution", tabName = "standardSolution", icon = icon("vial")),
                             menuItem("Sample Volume", tabName = "sampleVolume", icon = icon("flask")),
                             menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("arrows-alt-v")),
-                            menuItem("Coverage Factor", tabName = "coverageFactor", icon = icon("exchange-alt")),
+                            menuItem("Coverage Factor", tabName = "coverageFactor", icon = icon("table")),
                             menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("arrows-alt")),
                             menuItem("Results Dashboard", tabName = "dashboard", icon = icon("dashboard"))
                           )
