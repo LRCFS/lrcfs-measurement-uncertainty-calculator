@@ -12,12 +12,12 @@ calibrationCurveData <- reactive({
 })
 
 calibrationCurveResult = reactive({
-  if(is.null(input$intputCalibrationCurveFileUpload$datapath))
+  data = calibrationCurveDataReformatted()
+  if(is.na(data))
   {
     return(NA)
   }
   
-  data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
   
@@ -26,6 +26,11 @@ calibrationCurveResult = reactive({
 
 calibrationCurveDataReformatted <- reactive({
   data = calibrationCurveData();
+  
+  if(is.na(data))
+  {
+    return(NA)
+  }
   
   numConc = nrow(data)
   numRuns = ncol(data)-1

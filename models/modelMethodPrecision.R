@@ -88,7 +88,7 @@ methodPrecisionResult = reactive({
   {
     return(NA)
   }
-  data =  methodPrecisionDataWithCalculations()
+  data = methodPrecisionDataWithCalculations()
   closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
   return(getMethodPrecisionFinalAnswer(data, closetConcentration))
 })

@@ -9,8 +9,16 @@ effectiveDofResult = reactive({
   
   #Degress of Freedom
   #dof cal curve
-  x = calibrationCurveDataReformatted()$calibrationDataConcentration
-  dofCalibrationCurve = getDegreesOfFreedom(x)
+  dofCalibrationCurve = NULL
+  calCurveData = calibrationCurveDataReformatted()
+  if(!is.na(calCurveData))
+  {
+    dofCalibrationCurve = getDegreesOfFreedom(calCurveData$calibrationDataConcentration)
+  }
+  else
+  {
+    dofCalibrationCurve = NA
+  }
   
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
@@ -32,7 +40,6 @@ coverageFactorResult = reactive({
   return(getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval))
 })
 
-
 ###################################################################################
 # Outputs
 ###################################################################################
@@ -46,12 +53,20 @@ output$display_coverageFactor_confidenceInterval = renderUI({
 
 output$display_coverageFactor_dofCalibrationCurve = renderUI({
   data = calibrationCurveDataReformatted()
-  x = data$calibrationDataConcentration
   
-  n = getCalibrationCurve_n(x)
-  formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
-  formulas = c(formulas,paste0("&=",n,"-2"))
-  formulas = c(formulas,paste0("&= \\color{",color1,"}{",n-2,"}"))
+  formulas = character()
+  
+  if(!is.na(data))
+  {
+    n = getCalibrationCurve_n(data$calibrationDataConcentration)
+    formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
+    formulas = c(formulas,paste0("&=",n,"-2"))
+    formulas = c(formulas,paste0("&= \\color{",color1,"}{",n-2,"}"))
+  }
+  else
+  {
+    formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= NA")
+  }
   output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(output))
@@ -60,8 +75,16 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
 output$display_coverageFactor_dofMethodPrecision = renderUI({
   n = methodPrecisionDof()
   
-  formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
-  formulas = c(formulas,paste0("&= \\color{",color2,"}{",n,"}"))
+  formulas = character()
+  if(!is.na(n))
+  {
+    formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
+    formulas = c(formulas,paste0("&= \\color{",color2,"}{",n,"}"))
+  }
+  else
+  {
+    formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= NA")
+  }
   output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(output))
@@ -92,8 +115,16 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
   #Degress of Freedom
   #dof cal curve
-  x = calibrationCurveDataReformatted()$calibrationDataConcentration
-  dofCalibrationCurve = getDegreesOfFreedom(x)
+  dofCalibrationCurve = NULL
+  calCurveData = calibrationCurveDataReformatted()
+  if(!is.na(calCurveData))
+  {
+    dofCalibrationCurve = getDegreesOfFreedom(calCurveData$calibrationDataConcentration)
+  }
+  else
+  {
+    dofCalibrationCurve = NA
+  }
   
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
@@ -177,13 +208,13 @@ getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,
 getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof){
   
   closestDof = 0
-  if(effectiveDof > 100)
-  {
-    closestDof = Inf
-  }
-  else if(effectiveDof < 1)
+  if(is.na(effectiveDof) | effectiveDof < 1)
   {
     closestDof = 1
+  }
+  else if(effectiveDof > 100)
+  {
+    closestDof = Inf
   }
   else
   {
