@@ -9,6 +9,11 @@ sampleVolumeData <- reactive({
 })
 
 sampleVolumeResult = reactive ({
+  if(is.null(input$intputSampleVolumeFileUpload$datapath))
+  {
+    return(NA)
+  }
+  
   data = sampleVolumeData()
   result = get_sampleVolume_relativeStandardUncertainty(data)
   answer = 0
@@ -18,6 +23,17 @@ sampleVolumeResult = reactive ({
   }
   answer = sqrt(answer)
   return(round(answer,numDecimalPlaces))
+})
+
+sampleVolumeDof = reactive({
+  if(is.null(input$intputSampleVolumeFileUpload$datapath))
+  {
+    return(NA)
+  }
+  else
+  {
+    return("\\infty")
+  }
 })
 
 

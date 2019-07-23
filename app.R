@@ -1,6 +1,7 @@
-#install.packages(c("shiny","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree"))
 rm(list = ls())
 library(shiny)
+library(shinyjs)
 library(shinydashboard)
 library(shinydashboardPlus)
 library(ggplot2)
@@ -30,7 +31,7 @@ source("views/viewCombinedUncertainty.R")
 source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
 source("views/viewDashboard.R")
- 
+
 `%ni%` = Negate(`%in%`)
 
 ui <- dashboardPagePlus(title="METEOR v0.3",
@@ -54,6 +55,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                           )
                         ),
                         dashboardBody(
+                          useShinyjs(),
                           tags$head(tags$link(rel = "shortcut icon", href = "images/favicon.ico")),
                           tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "css/style.css")),
                           #Use MathJax for rendering inline LaTeX functions

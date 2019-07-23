@@ -54,6 +54,7 @@ output$display_combinedUncertainty_finalAnswer_expandedUncertainty = renderUI({
 ###################################################################################
 get_combinedUncertainty_finalAnswer = function(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
 {
-  answer = meanConcentration * sqrt(uncCalibrationCurve^2 + uncMethodPrecision^2 + uncStandardSolution^2 + uncSampleVolume^2)
+  sumUncertainties = sum(uncCalibrationCurve^2,uncMethodPrecision^2,uncStandardSolution^2,uncSampleVolume^2, na.rm = TRUE)
+  answer = meanConcentration * sqrt(sumUncertainties)
   return(answer)
 }

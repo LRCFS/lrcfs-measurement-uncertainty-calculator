@@ -49,6 +49,11 @@ standardSolutionInstrumentDataWithCalculations = reactive({
 })
 
 standardSolutionResult = reactive({
+  if(is.null(input$inputStandardSolutionStructureFileUpload$datapath) | is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
+  {
+    return(NA)
+  }
+  
   #Get all the solutions with all their calculations
   solutionDataWithCalculations = standardSolutionDataWithCalculations()
 
@@ -59,6 +64,17 @@ standardSolutionResult = reactive({
   relativeStandardUncertaintyOfCalibrationSolutions = getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData)
   
   return(round(relativeStandardUncertaintyOfCalibrationSolutions,numDecimalPlaces))
+})
+
+standardSolutionDof = reactive({
+  if(is.null(input$inputStandardSolutionStructureFileUpload$datapath) | is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
+  {
+    return(NA)
+  }
+  else
+  {
+    return("\\infty")
+  }
 })
   
   

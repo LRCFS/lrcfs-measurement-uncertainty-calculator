@@ -75,3 +75,7 @@ output$display_expandedUncertainty_finalAnswer_dashboard = renderUI({
 output$display_expandedUncertainty_finalAnswerPercentage_dashboard <- renderUI({
   return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",expandedUncertaintyResultPercentage(),"\\%\\)")))
 })
+
+output$display_expandedUncertainty_finalAnswerPercentage_start <- renderUI({
+  return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",expandedUncertaintyResultPercentage(),"\\%\\)")))
+})

@@ -12,6 +12,11 @@ calibrationCurveData <- reactive({
 })
 
 calibrationCurveResult = reactive({
+  if(is.null(input$intputCalibrationCurveFileUpload$datapath))
+  {
+    return(NA)
+  }
+  
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea

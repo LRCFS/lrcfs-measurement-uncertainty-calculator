@@ -29,7 +29,7 @@ coverageFactorResult = reactive({
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
   
-  getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
+  return(getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval))
 })
 
 
@@ -68,14 +68,14 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
 })
 
 output$display_coverageFactor_dofStandardSolution = renderUI({
-  formulas = c("{\\LARGE\\nu}_{\\text{StdSolution}} &= \\infty")
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{StdSolution}} &= ", standardSolutionDof()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
 })
 
 output$display_coverageFactor_dofSampleVolume = renderUI({
-  formulas = c("{\\LARGE\\nu}_{\\text{SampleVolume}} &= \\infty")
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{SampleVolume}} &= ", sampleVolumeDof()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
@@ -100,7 +100,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
 
   formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}} [[break]]")
   formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{\\infty} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{\\infty}}"))
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{",standardSolutionDof(),"} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{",sampleVolumeDof(),"}}"))
   
   result = paste("&=", effectiveDofResult())
   formulas = c(formulas, result)
@@ -140,7 +140,7 @@ output$display_coverageFactor_finalAnswer_top = renderUI({
 
 output$display_coverageFactor_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  formulas = c(paste0("k_{DoF_{eff},c_i} = k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult()))
+  formulas = c(paste0("k_{{\\LARGE\\nu},c_i} = k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(HTML(output)))
@@ -161,7 +161,17 @@ output$display_coverageFactor_finalAnswer_expandedUncertainty = renderUI({
 ###################################################################################
 getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSampleVolume,dofSampleVolume,combinedUncertainty, meanCaseSampleConcentration)
 {
-  return(((combinedUncertainty / meanCaseSampleConcentration)^4) / (((uncCalibrationCurve^4)/dofCalibrationCurve) + ((uncMethodPrecision^4)/dofMethodPrecision) + ((uncStandardSolution^4)/dofStandardSolution) + ((uncSampleVolume^4)/dofSampleVolume)))
+  dofCu = (combinedUncertainty / meanCaseSampleConcentration)^4
+  
+  dofCc = uncCalibrationCurve^4 / dofCalibrationCurve
+  dofMp = uncMethodPrecision^4 / dofMethodPrecision
+  dofSs = uncStandardSolution^4 / dofStandardSolution
+  dofSv = uncSampleVolume^4 / dofSampleVolume
+  dofSum = sum(dofCc, dofMp, dofSs, dofSv, na.rm = TRUE)
+  
+  calc = dofCu / dofSum
+  
+  return(calc)
 }
 
 getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof){
@@ -171,7 +181,12 @@ getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effe
   {
     closestDof = Inf
   }
-  else{
+  else if(effectiveDof < 1)
+  {
+    closestDof = 1
+  }
+  else
+  {
     for(dof in rownames(coverageFactorEffectiveDof))
     {
       if(abs(as.numeric(dof) - effectiveDof) < abs(closestDof - effectiveDof))

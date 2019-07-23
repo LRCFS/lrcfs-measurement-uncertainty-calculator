@@ -76,7 +76,7 @@ methodPrecisionDataWithCalculations = reactive({
 })
 
 methodPrecisionDataWithCalculationsNeatHeaders = reactive({
-  print(methodPrecisionDataWithCalculations())
+  #print(methodPrecisionDataWithCalculations())
   data = data.frame(methodPrecisionDataWithCalculations()$conc,methodPrecisionDataWithCalculations()$run,methodPrecisionDataWithCalculations()$mean,methodPrecisionDataWithCalculations()$stdDev,methodPrecisionDataWithCalculations()$dof,methodPrecisionDataWithCalculations()$pooledStandardDeviationNumerator)
   colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} d)$$","$$S^2 \\times d$$")
   return(data)
@@ -84,12 +84,20 @@ methodPrecisionDataWithCalculationsNeatHeaders = reactive({
 
 
 methodPrecisionResult = reactive({
+  if(is.null(input$inputMethodPrecisionFileUpload$datapath))
+  {
+    return(NA)
+  }
   data =  methodPrecisionDataWithCalculations()
   closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
   return(getMethodPrecisionFinalAnswer(data, closetConcentration))
 })
 
 methodPrecisionDof = reactive({
+  if(is.null(input$inputMethodPrecisionFileUpload$datapath))
+  {
+    return(NA)
+  }
   data =  methodPrecisionDataWithCalculations()
   closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
   return(getMethodPrecisionDof(data, closetConcentration))

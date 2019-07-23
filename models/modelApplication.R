@@ -1,4 +1,5 @@
 numDecimalPlaces = 5
+
 color1 = "#3FA5BE"
 color2 = "#FCA311"
 color3 = "#8E0554"
@@ -28,6 +29,73 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
   
   output = paste("$$\\begin{align}", formulasOutput, "\\end{align}$$")
   return(output)
+}
+
+observe({
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=calibrationCurve]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=methodPrecision]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=standardSolution]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=sampleVolume]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=combinedUncertainty]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=coverageFactor]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=expandedUncertainty]")
+  shinyjs::hide(selector = ".sidebar-menu li a[data-value=dashboard]")
+  shinyjs::hide(selector = "#percentageExpandedUncertaintyStartPage")
+})
+
+observeEvent(input$intputCalibrationCurveFileUpload, {
+  if(!is.null(input$intputCalibrationCurveFileUpload$datapath))
+  {
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=calibrationCurve]")
+    checkIfShowResults()
+  }
+})
+
+observeEvent(input$inputMethodPrecisionFileUpload, {
+  if(!is.null(input$inputMethodPrecisionFileUpload$datapath))
+  {
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=methodPrecision]")
+    checkIfShowResults()
+  }
+})
+
+observeEvent(input$inputStandardSolutionStructureFileUpload, {
+  if(!is.null(input$inputStandardSolutionStructureFileUpload$datapath) & !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
+  {
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=standardSolution]")
+    checkIfShowResults()
+  }
+})
+
+observeEvent(input$inputStandardSolutionEquipmentFileUpload, {
+  if(!is.null(input$inputStandardSolutionStructureFileUpload$datapath) & !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
+  {
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=standardSolution]")
+    checkIfShowResults()
+  }
+})
+
+observeEvent(input$intputSampleVolumeFileUpload, {
+  if(!is.null(input$intputSampleVolumeFileUpload$datapath))
+  {
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=sampleVolume]")
+    checkIfShowResults()
+  }
+})
+
+checkIfShowResults = function(){
+  if(!is.null(input$intputCalibrationCurveFileUpload$datapath) ||
+     !is.null(input$inputMethodPrecisionFileUpload$datapath) ||
+     !is.null(input$inputStandardSolutionStructureFileUpload$datapath) ||
+     !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath) ||
+     !is.null(input$intputSampleVolumeFileUpload$datapath))
+  {
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=combinedUncertainty]")
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=coverageFactor]")
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=expandedUncertainty]")
+    shinyjs::show(selector = ".sidebar-menu li a[data-value=dashboard]")
+    shinyjs::show(selector = "#percentageExpandedUncertaintyStartPage")
+  }
 }
 
 # library(latex2exp)

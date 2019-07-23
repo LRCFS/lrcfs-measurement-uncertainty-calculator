@@ -1,5 +1,3 @@
-library(utils)
-
 methodPrecisionReadCSV = function(filePath = NULL) {
 
   if(is.null(filePath))
