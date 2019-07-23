@@ -94,7 +94,7 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
   #Get the distinct insturments based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
   
-  formulas = c("u\\text{(Insturment)}_{\\text{(Vol,Tol)}} &= \\frac{\\text{Insturment Tolerance}}{\\text{Coverage Factor}}")
+  formulas = c("u\\text{(Insturment)}_{\\text{(Vol,Tol)}} &= \\frac{\\text{Insturment Tolerance}}{\\text{Coverage Factor}} [[break]]")
   
   for(sampleVolumeItem in rownames(data))
   {
@@ -113,7 +113,7 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
     
     formulas = c(formulas, paste0("u\\text{(",measurementDevice,")}_{\\text{(",measurementVolume,",",measurementTolerance,")}} &= \\frac{",measurementTolerance,"}{",measurementCoverage,"} = \\color{",color1,"}{", answerValue,"}"))
   }
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 10, 20)
   
   return(withMathJax(output))
 
@@ -124,7 +124,7 @@ output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI
   #Get the distinct insturments based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
   
-  formulas = c("u_r\\text{(Insturment)}_{\\text{(Vol,Tol)}} &= \\frac{u\\text{(Insturment)}_{\\text{(Vol,Tol)}}}{\\text{Instrument Volume}}")
+  formulas = c("u_r\\text{(Insturment)}_{\\text{(Vol,Tol)}} &= \\frac{u\\text{(Insturment)}_{\\text{(Vol,Tol)}}}{\\text{Instrument Volume}} [[break]]")
   
   for(instrumentRow in rownames(data))
   {
@@ -139,7 +139,7 @@ output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI
     
     formulas = c(formulas, paste0("u_r\\text{(",measurementDevice,")}_{\\text{(",measurementVolume,",",measurementTolerance,")}} &= \\frac{\\color{",color1,"}{",measurementStandardUncertainty,"}}{",measurementVolume,"} = \\color{",color2,"}{", answerValue,"}"))
   }
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 10, 20)
   
   return(withMathJax(output))
   
@@ -227,11 +227,11 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
     equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
     equationValues = paste0(equationValues, plus, round(solution$relativeStandardUncertainty,numDecimalPlaces),"^2")
   }
-  formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}"))
+  formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}[[break]]"))
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationValues,"}"))
   formulas = c(formulas, paste0("&=",standardSolutionResult()))
   
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 5, 20)
   return(withMathJax(output))
 })
 

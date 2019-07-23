@@ -44,10 +44,11 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
   
   finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
 
-  formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",round(effectiveDof),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
+  formulas = c(paste0("\\text{ExpUncertainty} &= \\text{Coverage Factor} \\times \\text{Combined Uncertainty} [[break]]"))
+  formulas = c(formulas, paste0("\\text{ExpUncertainty} &= k_{\\text{",round(effectiveDof),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
   formulas = c(formulas, paste("&=",finalCoverageFactor,"\\times",combinedUncertaintyResult()))
   formulas = c(formulas, paste("&=",expandedUncertaintyResult()))
-  output = mathJaxAligned(formulas, 5)
+  output = mathJaxAligned(formulas, 5,20)
   
   return(withMathJax(output))
 })

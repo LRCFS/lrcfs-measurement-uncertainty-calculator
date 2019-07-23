@@ -27,10 +27,11 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                    )
                  ),
                  fluidRow(
-                   valueBox(uiOutput("display_calibrationCurve_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(CalCurve)}\\)", width = 3, color = "blue", icon = icon("chart-line")),
-                   valueBox(uiOutput("display_methodPrecision_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(MethodPrec)}\\)", width = 3, color = "red", icon = icon("bullseye")),
-                   valueBox(uiOutput("display_standardSolution_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(StdSolution)}\\)", width = 3, color = "green", icon = icon("vial")),
-                   valueBox(uiOutput("display_sampleVolume_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(SampleVolume)}\\)", width = 3, color = "maroon", icon = icon("flask"))
+                   valueBox(uiOutput("display_calibrationCurve_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(CalCurve)}\\)", width = 4, color = "blue", icon = icon("chart-line")),
+                   valueBox(uiOutput("display_methodPrecision_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye")),
+                   valueBox(uiOutput("display_standardSolution_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial")),
+                   valueBox(uiOutput("display_sampleVolume_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(SampleVolume)}\\)", width = 4, color = "maroon", icon = icon("flask")),
+                   infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_combinedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
                  ),
                  fluidRow(
                    box(width=12, side="right",

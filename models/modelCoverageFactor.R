@@ -52,7 +52,7 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
   formulas = c("DoF_{\\text{CalCurve}} &= (n_{concs} \\times n_{runs}) - miss_{obvs} -2")
   formulas = c(formulas,paste0("&=",n,"-2"))
   formulas = c(formulas,paste0("&=",n-2))
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(output))
 })
@@ -62,7 +62,7 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
   
   formulas = c("DoF_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
   formulas = c(formulas,paste0("&=",n))
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(output))
 })
@@ -98,14 +98,14 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
 
-  formulas = c("DoF_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}}")
-  formulas = c(formulas, "&= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{DoF_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{DoF_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{DoF_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{DoF_{\\text{SampleVolume}}}}")
+  formulas = c("DoF_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}} [[break]]")
+  formulas = c(formulas, "DoF_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{DoF_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{DoF_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{DoF_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{DoF_{\\text{SampleVolume}}}}")
   formulas = c(formulas, paste0("&= \\frac{(\\frac{",combinedUncertainty,"}{",caseSampleMeanConcentration,"})^4}{\\frac{",uncCalibrationCurve,"^4}{",dofCalibrationCurve,"} + \\frac{",uncMethodPrecision,"^4}{",dofMethodPrecision,"} + \\frac{",uncStandardSolution,"^4}{\\infty} + \\frac{",uncSampleVolume,"^4}{\\infty}}"))
   
   result = paste("&=", effectiveDofResult())
   formulas = c(formulas, result)
   
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 5, 20)
   return(withMathJax(HTML(output)))
 })
 

@@ -34,7 +34,7 @@ output$display_sampleVolume_standardUncertainty = renderUI({
   
   data = sampleVolumeData()
   
-  formulas = c("u\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{\\text{measurementTolerance}}{\\text{measurementCoverage}}")
+  formulas = c("u\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{\\text{measurementTolerance}}{\\text{measurementCoverage}} [[break]]")
 
   for(sampleVolumeItem in rownames(sampleVolumeData()))
   {
@@ -47,7 +47,7 @@ output$display_sampleVolume_standardUncertainty = renderUI({
     
     formulas = c(formulas, paste("u\\text{(SampleVolume)}_{\\text{(",measurementDevice,")}} &= \\frac{",measurementTolerance,"}{",measurementCoverage,"} = \\color{",color1,"}{", answerValue, "}"))
   }
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 10, 20)
   
   return(withMathJax(output))
 })
@@ -56,7 +56,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
   
   data = sampleVolumeData()
   
-  formulas = c("u_r\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{u\\text{(SampleVolume)}_{\\text{(Instrument)}}}{\\text{measurementVolume}}")
+  formulas = c("u_r\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{u\\text{(SampleVolume)}_{\\text{(Instrument)}}}{\\text{measurementVolume}} [[break]]")
   
   for(sampleVolumeItem in rownames(sampleVolumeData()))
   {
@@ -69,7 +69,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
     
     formulas = c(formulas, paste("u_r\\text{(SampleVolume)}_{\\text{(",measurementDevice,")}} &= \\frac{\\color{",color1,"}{",stdUnc,"}}{",measurementVolume,"} = ",answerValue))
   }
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 10, 20)
   
   return(withMathJax(output))
 })
@@ -83,7 +83,8 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   data = sampleVolumeData()
   
-  formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{(u_r(SampleVolume)_{(\\text{Instrument})}^2\\times\\text{measurementTimesUsed}})}")
+  formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{\\text{Relative Standard Uncertainty of Sample Volume}^2 \\times \\text{Number of Times Used}}} [[break]]")
+  formulas = c(formulas, "u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{(u_r(SampleVolume)_{(\\text{Instrument})}^2\\times\\text{measurementTimesUsed}})}")
   
   formula = "&= \\sqrt{"
   for(sampleVolumeItem in rownames(data))
@@ -108,7 +109,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   formulas = c(formulas, paste("&= ", sampleVolumeResult()))
   
-  output = mathJaxAligned(formulas)
+  output = mathJaxAligned(formulas, 5, 20)
   
   return(withMathJax(output))
   

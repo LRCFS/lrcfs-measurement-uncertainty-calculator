@@ -200,7 +200,7 @@ output$outputPooledStandardDeviation <- renderUI({
   
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("S_{p(\\text{NV})} &= \\sqrt{\\frac{\\sum{(S^2 \\times d)_{\\text{(NV)}}}}{\\sum d_{\\text{(NV)}}}}")
+  formula = c("S_{p(\\text{NV})} &= \\sqrt{\\frac{\\sum{(S^2 \\times d)_{\\text{(NV)}}}}{\\sum d_{\\text{(NV)}}}} [[break]]")
 
   for(conc in getConcentrations(data))
   {
@@ -208,7 +208,7 @@ output$outputPooledStandardDeviation <- renderUI({
     formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{\\color{",color2,"}{",getSumPooledStandardDeviationNumeratorForConcentration(data,conc),"}}{\\color{",color1,"}{",getSumDofForConcentration(data, conc),"}}} = \\color{",color3,"}{", getPooledStandardDeviation(data, conc),"}"))
   }
 
-  results = mathJaxAligned(formula)
+  results = mathJaxAligned(formula, 10, 20)
 
   return(withMathJax(HTML(results)))
 }) 
@@ -217,14 +217,14 @@ output$outputPooledStandardDeviation <- renderUI({
 output$outputStandardUncertainty <- renderUI({
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("u(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}}")
+  formula = c("u(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}} [[break]]")
   
   for(conc in getConcentrations(data))
   {
     formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color3,"}{",getPooledStandardDeviation(data, conc),"}}{\\sqrt{",input$inputCaseSampleReplicates,"}} = \\color{",color4,"}{", getStandardUncertainty(data, conc),"}"))
   }
   
-  results = mathJaxAligned(formula)
+  results = mathJaxAligned(formula, 10, 20)
   
   return(withMathJax(HTML(results)))
 }) 
@@ -233,14 +233,14 @@ output$outputStandardUncertainty <- renderUI({
 output$outputRealtiveStandardUncertainties <- renderUI({
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\text{NV}}")
+  formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\text{NV}} [[break]]")
   
   for(conc in getConcentrations(data))
   {
     formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color4,"}{",getStandardUncertainty(data, conc),"}}{",conc,"} = \\color{",color5,"}{", getRealtiveStandardUncertainty(data, conc), "}"))
   }
   
-  results = mathJaxAligned(formula)
+  results = mathJaxAligned(formula, 10, 20)
   
   return(withMathJax(HTML(results)))
 })

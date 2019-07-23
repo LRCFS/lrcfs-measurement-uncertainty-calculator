@@ -13,10 +13,13 @@ combinedUncertaintyResult = reactive({
 # Outputs
 ###################################################################################
 
-
+output$display_combinedUncertainty_meanConcentration <- renderUI({
+  string = paste(input$inputCaseSampleMeanConcentration)
+  return(string)
+})
 
 output$display_combinedUncertainty_finalAnswer_top = renderUI({
-  return(paste("\\(u_r\\text{(CombUncertainty)}=\\)",combinedUncertaintyResult()))
+  return(paste("\\(\\text{CombUncertainty}=\\)",combinedUncertaintyResult()))
 })
   
 output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
@@ -25,13 +28,13 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   ss = standardSolutionResult()
   sv = sampleVolumeResult()
   
-  formula = c("\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SampleVolume})^2}")
-  
+  formula = c("\\text{CombUncertainty} &= \\text{Case Sample Mean Concentration} \\times \\sqrt{\\sum{\\text{Individual Uncertainty}^2}} [[break]]")
+  formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SampleVolume})^2}")
   formula = c(formula, paste("&= ",input$inputCaseSampleMeanConcentration," \\sqrt{",cc,"^2+",mp,"^2+",ss,"^2+",sv,"^2}"))
-  
   formula = c(formula, paste("&= ",combinedUncertaintyResult()))
+  output = mathJaxAligned(formula, 5, 20)
   
-  return(withMathJax(HTML(mathJaxAligned(formula))))
+  return(withMathJax(HTML(output)))
 })
 
 output$display_combinedUncertainty_finalAnswer_dashboard = renderUI({

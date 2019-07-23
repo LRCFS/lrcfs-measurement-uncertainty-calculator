@@ -45,6 +45,10 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      DT::dataTableOutput('rearrangedCalibrationData'),
                      hr(),
                      fluidRow(
+                       infoBox("Replicates \\((r_s)\\)",HTML(paste(uiOutput("display_calibrationCurve_replicates"))), width=6, icon=icon("vials"), color="aqua"),
+                       infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_calibrationCurve_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
+                     ),
+                     fluidRow(
                        box(title = "Linear Regression", width = 3, uiOutput("display_calibrationCurve_linearRegression")),
                        box(title = "Mean of \\(x\\)", width = 3, uiOutput("display_calibrationCurve_meanOfX")),
                        box(title = "Sum of Squared Deviation of \\(x\\)", width = 3, uiOutput("display_calibrationCurve_sumSqDevationX")),
