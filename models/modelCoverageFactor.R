@@ -49,7 +49,7 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
   x = data$calibrationDataConcentration
   
   n = getCalibrationCurve_n(x)
-  formulas = c("DoF_{\\text{CalCurve}} &= (n_{concs} \\times n_{runs}) - miss_{obvs} -2")
+  formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
   formulas = c(formulas,paste0("&=",n,"-2"))
   formulas = c(formulas,paste0("&= \\color{",color1,"}{",n-2,"}"))
   output = mathJaxAligned(formulas, 5)
@@ -60,7 +60,7 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
 output$display_coverageFactor_dofMethodPrecision = renderUI({
   n = methodPrecisionDof()
   
-  formulas = c("DoF_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
+  formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
   formulas = c(formulas,paste0("&= \\color{",color2,"}{",n,"}"))
   output = mathJaxAligned(formulas, 5)
   
@@ -68,14 +68,14 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
 })
 
 output$display_coverageFactor_dofStandardSolution = renderUI({
-  formulas = c("DoF_{\\text{StdSolution}} &= \\infty")
+  formulas = c("{\\LARGE\\nu}_{\\text{StdSolution}} &= \\infty")
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
 })
 
 output$display_coverageFactor_dofSampleVolume = renderUI({
-  formulas = c("DoF_{\\text{SampleVolume}} &= \\infty")
+  formulas = c("{\\LARGE\\nu}_{\\text{SampleVolume}} &= \\infty")
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
@@ -98,8 +98,8 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
 
-  formulas = c("DoF_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}} [[break]]")
-  formulas = c(formulas, "DoF_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{DoF_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{DoF_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{DoF_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{DoF_{\\text{SampleVolume}}}}")
+  formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}} [[break]]")
+  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
   formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{\\infty} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{\\infty}}"))
   
   result = paste("&=", effectiveDofResult())
