@@ -16,6 +16,6 @@ tabDashboard = tabItem(tabName = "dashboard",
                        fluidRow(
                          box(title="Percentrage Expanded Uncertainty",
                           uiOutput("display_dashboard_finalAnswer")
-                         )
+                         ) 
                        )
 )

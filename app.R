@@ -30,7 +30,7 @@ source("views/viewCombinedUncertainty.R")
 source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
 source("views/viewDashboard.R")
-
+ 
 `%ni%` = Negate(`%in%`)
 
 ui <- dashboardPagePlus(title="METEOR v0.3",
