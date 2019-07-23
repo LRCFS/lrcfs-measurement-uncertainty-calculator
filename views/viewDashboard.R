@@ -1,4 +1,4 @@
-tabDashboard = tabItem(tabName = "dashboard",
+tabDashboard = tabItem(tabName = "dashboard", 
                        fluidRow(
                          infoBox("Replicates \\((r_s)\\)",HTML(paste(uiOutput("display_dashboard_replicates"))), width=4, icon=icon("vials"), color="aqua"),
                          infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_dashboard_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia"),
