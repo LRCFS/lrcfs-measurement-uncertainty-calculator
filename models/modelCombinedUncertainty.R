@@ -30,7 +30,7 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   
   formula = c("\\text{CombUncertainty} &= \\text{Case Sample Mean Concentration} \\times \\sqrt{\\sum{\\text{Individual Uncertainty}^2}} [[break]]")
   formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SampleVolume})^2}")
-  formula = c(formula, paste("&= ",input$inputCaseSampleMeanConcentration," \\sqrt{",cc,"^2+",mp,"^2+",ss,"^2+",sv,"^2}"))
+  formula = c(formula, paste("&= \\bbox[#F012BE,2pt]{",input$inputCaseSampleMeanConcentration,"} \\sqrt{\\bbox[#0073B7,2pt]{",cc,"}^2+\\bbox[#DD4B39,2pt]{",mp,"}^2+\\bbox[#00A65A,2pt]{",ss,"}^2+\\bbox[#D81B60,2pt]{",sv,"}^2}"))
   formula = c(formula, paste("&= ",combinedUncertaintyResult()))
   output = mathJaxAligned(formula, 5, 20)
   

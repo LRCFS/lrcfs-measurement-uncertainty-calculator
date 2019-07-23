@@ -46,7 +46,7 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
 
   formulas = c(paste0("\\text{ExpUncertainty} &= \\text{Coverage Factor} \\times \\text{Combined Uncertainty} [[break]]"))
   formulas = c(formulas, paste0("\\text{ExpUncertainty} &= k_{\\text{",round(effectiveDof),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
-  formulas = c(formulas, paste("&=",finalCoverageFactor,"\\times",combinedUncertaintyResult()))
+  formulas = c(formulas, paste("&= \\bbox[#39CCCC,2pt]{",finalCoverageFactor,"} \\times \\bbox[#605CA8,2pt]{",combinedUncertaintyResult(),"}"))
   formulas = c(formulas, paste("&=",expandedUncertaintyResult()))
   output = mathJaxAligned(formulas, 5,20)
   
@@ -56,12 +56,12 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
 output$display_expandedUncertainty_finalAnswerPercentage_bottom = renderUI({
   
   expandedUncertainty = expandedUncertaintyResult()
-  concentration = input$inputCaseSampleMeanConcentration
-  answer = (expandedUncertainty / concentration) * 100
+  csMeanConcentration = input$inputCaseSampleMeanConcentration
+  answer = (expandedUncertainty / csMeanConcentration) * 100
   
   formulas = c(paste0("\\text{%ExpUncertainty} &= \\frac{\\text{Expanded Uncertainty}}{\\text{Case Sample Mean Concentration}} \\times 100 [[break]]"))
   formulas = c(formulas,paste0("\\text{%ExpUncertainty} &= \\frac{\\text{ExpUncertainty}}{x_s} \\times 100"))
-  formulas = c(formulas, paste("&= \\frac{",expandedUncertainty,"}{",concentration,"} \\times 100"))
+  formulas = c(formulas, paste("&= \\frac{",expandedUncertainty,"}{\\bbox[#F012BE,2pt]{",csMeanConcentration,"}} \\times 100"))
   formulas = c(formulas, paste("&=",expandedUncertaintyResultPercentage(),"\\%"))
   output = mathJaxAligned(formulas,5,20)
   

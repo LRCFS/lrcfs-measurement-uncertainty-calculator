@@ -51,7 +51,7 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
   n = getCalibrationCurve_n(x)
   formulas = c("DoF_{\\text{CalCurve}} &= (n_{concs} \\times n_{runs}) - miss_{obvs} -2")
   formulas = c(formulas,paste0("&=",n,"-2"))
-  formulas = c(formulas,paste0("&=",n-2))
+  formulas = c(formulas,paste0("&= \\color{",color1,"}{",n-2,"}"))
   output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(output))
@@ -61,7 +61,7 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
   n = methodPrecisionDof()
   
   formulas = c("DoF_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
-  formulas = c(formulas,paste0("&=",n))
+  formulas = c(formulas,paste0("&= \\color{",color2,"}{",n,"}"))
   output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(output))
@@ -100,7 +100,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
 
   formulas = c("DoF_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}} [[break]]")
   formulas = c(formulas, "DoF_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{DoF_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{DoF_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{DoF_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{DoF_{\\text{SampleVolume}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{",combinedUncertainty,"}{",caseSampleMeanConcentration,"})^4}{\\frac{",uncCalibrationCurve,"^4}{",dofCalibrationCurve,"} + \\frac{",uncMethodPrecision,"^4}{",dofMethodPrecision,"} + \\frac{",uncStandardSolution,"^4}{\\infty} + \\frac{",uncSampleVolume,"^4}{\\infty}}"))
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{\\infty} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{\\infty}}"))
   
   result = paste("&=", effectiveDofResult())
   formulas = c(formulas, result)

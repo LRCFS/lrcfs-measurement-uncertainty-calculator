@@ -196,7 +196,7 @@ output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
     uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,caseSampleReps,caseSampleMeanConc)
     
     formulas = c(paste(getUncertaintyOfCalibrationLatex,"[[break]]"))
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{\\color{",color6,"}{",slope,"}} \\sqrt{\\frac{1}{",caseSampleReps,"} + \\frac{1}{\\color{",color5,"}{",n,"}} + \\frac{(",caseSampleMeanConc," - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{\\color{",color6,"}{",slope,"}} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{\\color{",color5,"}{",n,"}} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
     formulas = c(formulas, paste("&=",uncertaintyOfCalibration))
     output = mathJaxAligned(formulas, 5, 20)
     
@@ -248,7 +248,7 @@ output$display_calibrationCurve_finalAnswer_bottom <- renderUI({
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
   formulas = c(formulas, getRelativeStandardUncertaintyLatex)
-  formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",input$inputCaseSampleMeanConcentration,"}"))
+  formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{\\bbox[#F012BE,2pt]{",input$inputCaseSampleMeanConcentration,"}}"))
   formulas = c(formulas, paste("&=",relativeStandardUncertainty))
   
   output = mathJaxAligned(formulas, 5, 20)
