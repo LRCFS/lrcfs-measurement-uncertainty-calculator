@@ -76,6 +76,10 @@ output$display_expandedUncertainty_finalAnswerPercentage_dashboard <- renderUI({
   return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",expandedUncertaintyResultPercentage(),"\\%\\)")))
 })
 
-output$display_expandedUncertainty_finalAnswerPercentage_start <- renderUI({
-  return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",expandedUncertaintyResultPercentage(),"\\%\\)")))
+output$display_expandedUncertainty_finalAnswer_start <- renderUI({
+  formulas = c(paste("\\text{ExpUncertainty} &=",expandedUncertaintyResult()))
+  formulas = c(formulas, paste("\\text{%ExpUncertainty} &=",expandedUncertaintyResultPercentage(),"\\%"))
+  output = mathJaxAligned(formulas, 10)
+  
+  return(withMathJax(output))
 })

@@ -69,7 +69,7 @@ tabStart = tabItem(tabName = "start",
                    ),
                    fluidRow(
                      div(id="percentageExpandedUncertaintyStartPage",
-                      valueBox("% Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswerPercentage_start"), width = 12, color = "orange", icon = icon("arrows-alt"))
+                      valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "orange", icon = icon("arrows-alt"))
                      )
                    )
 )
