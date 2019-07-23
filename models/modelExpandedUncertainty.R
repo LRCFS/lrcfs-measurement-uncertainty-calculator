@@ -10,6 +10,14 @@ expandedUncertaintyResult = reactive({
   return(round(result,numDecimalPlaces))
 })
 
+expandedUncertaintyResultPercentage = reactive({
+  expandedUncertainty = expandedUncertaintyResult()
+  concentration = input$inputCaseSampleMeanConcentration
+  answer = (expandedUncertainty / concentration) * 100
+
+  return(round(answer,numDecimalPlaces))
+})
+
 ###################################################################################
 # Outputs
 ###################################################################################
@@ -18,6 +26,11 @@ output$display_expandedUncertainty_coverageFactorText = renderUI({
   confidenceInterval = input$inputConfidenceInterval
   output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}\\)")
   return(withMathJax(HTML(output)))
+})
+
+output$display_expandedUncertainty_meanConcentration <- renderUI({
+  string = paste(input$inputCaseSampleMeanConcentration)
+  return(string)
 })
 
 output$display_expandedUncertainty_finalAnswer_top = renderUI({
@@ -34,12 +47,30 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
   formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",round(effectiveDof),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
   formulas = c(formulas, paste("&=",finalCoverageFactor,"\\times",combinedUncertaintyResult()))
   formulas = c(formulas, paste("&=",expandedUncertaintyResult()))
-  output = mathJaxAligned(formulas, 0)
+  output = mathJaxAligned(formulas, 5)
   
+  return(withMathJax(output))
+})
+
+output$display_expandedUncertainty_finalAnswerPercentage_bottom = renderUI({
+  
+  expandedUncertainty = expandedUncertaintyResult()
+  concentration = input$inputCaseSampleMeanConcentration
+  answer = (expandedUncertainty / concentration) * 100
+  
+  formulas = c(paste0("\\text{%ExpUncertainty} &= \\frac{\\text{Expanded Uncertainty}}{\\text{Case Sample Mean Concentration}} \\times 100 [[break]]"))
+  formulas = c(formulas,paste0("\\text{%ExpUncertainty} &= \\frac{\\text{ExpUncertainty}}{x_s} \\times 100"))
+  formulas = c(formulas, paste("&= \\frac{",expandedUncertainty,"}{",concentration,"} \\times 100"))
+  formulas = c(formulas, paste("&=",expandedUncertaintyResultPercentage(),"\\%"))
+  output = mathJaxAligned(formulas,5,20)
   
   return(withMathJax(output))
 })
 
 output$display_expandedUncertainty_finalAnswer_dashboard = renderUI({
   return(withMathJax(paste("\\(\\text{ExpUncertainty}=",expandedUncertaintyResult(),"\\)")))
+})
+
+output$display_expandedUncertainty_finalAnswerPercentage_dashboard <- renderUI({
+  return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",expandedUncertaintyResultPercentage(),"\\%\\)")))
 })
