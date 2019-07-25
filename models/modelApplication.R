@@ -85,21 +85,49 @@ observeEvent(input$intputSampleVolumeFileUpload, {
   }
 })
 
+observeEvent(input$inputConfidenceInterval, {
+  checkIfShowResults()
+})
+
+observeEvent(input$inputCaseSampleReplicates, {
+  checkIfShowResults()
+})
+
+observeEvent(input$inputCaseSampleMeanConcentration, {
+  checkIfShowResults()
+})
+
 checkIfShowResults = function(){
+  logjs(input$inputConfidenceInterval)
+  
+  #Check if any file is uploaded
   if(!is.null(input$intputCalibrationCurveFileUpload$datapath) ||
      !is.null(input$inputMethodPrecisionFileUpload$datapath) ||
-     !is.null(input$inputStandardSolutionStructureFileUpload$datapath) ||
-     !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath) ||
+     (!is.null(input$inputStandardSolutionStructureFileUpload$datapath) & !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath)) ||
      !is.null(input$intputSampleVolumeFileUpload$datapath))
   {
-    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=combinedUncertainty]", class="visible")
-    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
-    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=expandedUncertainty]", class="visible")
-    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=dashboard]", class="visible")
-    
-    #Add class to make it visible but also do a show to force rendering the display
-    shinyjs::addClass(selector = "#percentageExpandedUncertaintyStartPage", class="visible")
-    shinyjs::show(selector = "#percentageExpandedUncertaintyStartPage")
+    #Check that case sample replicates, mean concentration and confidence interval have been specified
+    if(input$inputConfidenceInterval != "" &
+       input$inputCaseSampleReplicates > 0 &
+       input$inputCaseSampleMeanConcentration > 0)
+    {
+      shinyjs::addClass(selector = ".sidebar-menu li a[data-value=combinedUncertainty]", class="visible")
+      shinyjs::addClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
+      shinyjs::addClass(selector = ".sidebar-menu li a[data-value=expandedUncertainty]", class="visible")
+      shinyjs::addClass(selector = ".sidebar-menu li a[data-value=dashboard]", class="visible")
+      
+      #Add class to make it visible but also do a show to force rendering the display
+      shinyjs::addClass(selector = "#percentageExpandedUncertaintyStartPage", class="visible")
+      shinyjs::show(selector = "#percentageExpandedUncertaintyStartPage")
+    }
+    else{
+      shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=combinedUncertainty]", class="visible")
+      shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
+      shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=expandedUncertainty]", class="visible")
+      shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=dashboard]", class="visible")
+      
+      shinyjs::removeClass(selector = "#percentageExpandedUncertaintyStartPage", class="visible")
+    }
   }
 }
 
