@@ -36,6 +36,11 @@ tabStart = tabItem(tabName = "start",
                             ),
                             fluidRow(
                               infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
+                            ),
+                            fluidRow(
+                              div(id="percentageExpandedUncertaintyStartPage",
+                                  valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "orange", icon = icon("arrows-alt"))
+                              )
                             )
                      ),
                      column(width=6,
@@ -76,11 +81,6 @@ tabStart = tabItem(tabName = "start",
                                   actionButton("reset_intputSampleVolumeFileUpload", "Remove Sample Volume Data")
                               )
                             )
-                     )
-                   ),
-                   fluidRow(
-                     div(id="percentageExpandedUncertaintyStartPage",
-                      valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "orange", icon = icon("arrows-alt"))
                      )
                    )
 )
