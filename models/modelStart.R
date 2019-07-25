@@ -27,6 +27,16 @@ output$display_start_calibrationCurveFileUpload <- renderUI({
   return(fileInput)
 })
 
+output$display_start_externalStandardErrorFileUpload <- renderUI({
+  input$reset_intputCalibrationCurveFileUpload
+  
+  fileInput = fileInput("intputExternalStandardErrorFileUpload", "External Standard Error (CSV)",
+                        multiple = FALSE,
+                        accept = c(".csv"))
+  
+  return(fileInput)
+})
+
 output$display_start_methodPrecisionFileUpload <- renderUI({
   input$reset_intputMethodPrecisionFileUpload
   

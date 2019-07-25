@@ -11,7 +11,7 @@ effectiveDofResult = reactive({
   #dof cal curve
   dofCalibrationCurve = NULL
   calCurveData = calibrationCurveDataReformatted()
-  if(!is.na(calCurveData))
+  if(!is.null(calCurveData))
   {
     dofCalibrationCurve = getDegreesOfFreedom(calCurveData$calibrationDataConcentration)
   }
@@ -56,7 +56,7 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
   
   formulas = character()
   
-  if(!is.na(data))
+  if(!is.null(data))
   {
     n = getCalibrationCurve_n(data$calibrationDataConcentration)
     formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
@@ -117,7 +117,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   #dof cal curve
   dofCalibrationCurve = NULL
   calCurveData = calibrationCurveDataReformatted()
-  if(!is.na(calCurveData))
+  if(!is.null(calCurveData))
   {
     dofCalibrationCurve = getDegreesOfFreedom(calCurveData$calibrationDataConcentration)
   }

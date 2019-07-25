@@ -14,13 +14,13 @@ calibrationCurveData <- reactive({
   }
   else
   {
-    return(NA)
+    return(NULL)
   }
 })
 
 calibrationCurveResult = reactive({
   data = calibrationCurveDataReformatted()
-  if(is.na(data))
+  if(is.null(data))
   {
     return(NA)
   }
@@ -34,9 +34,9 @@ calibrationCurveResult = reactive({
 calibrationCurveDataReformatted <- reactive({
   data = calibrationCurveData();
   
-  if(is.na(data))
+  if(is.null(data))
   {
-    return(NA)
+    return(NULL)
   }
   
   numConc = nrow(data)
@@ -60,6 +60,11 @@ calibrationCurveDataReformatted <- reactive({
 
 rearrangedCalibrationDataDT = function(){
   data = calibrationCurveDataReformatted()
+  if(is.null(data))
+  {
+    return(NULL)
+  }
+  
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
   
@@ -290,8 +295,12 @@ output$display_calibrationCurve_finalAnswer_coverageFactor <- renderUI({
 ###################################################################################
 
 getCalibrationCurveMeanOfX = function(calibrationCurveDataReformatted){
-  x = calibrationCurveDataReformatted$calibrationDataConcentration
-  meanOfX = mean(x)
+  data = calibrationCurveDataReformatted()
+  if(is.null(data))
+  {
+    return(NA)
+  }
+  meanOfX = mean(data$calibrationDataConcentration)
   return(round(meanOfX, numDecimalPlaces))
 }
 getSqDevation = function(values){
