@@ -22,7 +22,7 @@ source("dal/loadStandardSolutionCSV.R")
 source("dal/loadSampleVolumeCSV.R")
 
 source("views/viewStart.R")
-source("views/viewRightSidebar.R")
+#source("views/viewRightSidebar.R")
 source("views/viewCalibrationCurve.R")
 source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
@@ -38,7 +38,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                         dashboardHeaderPlus(title = tagList(
                           img(class = "logo-lg", src = "images/logo-large.png"), 
                           img(class = "logo-mini", src = "images/logo-small.png")),
-                          enable_rightsidebar = TRUE,
+                          enable_rightsidebar = FALSE,
                           rightSidebarIcon = "gears"
                         ),
                         dashboardSidebar(
@@ -73,7 +73,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                             tabDashboard
                           ) 
                         ),
-                        rightsidebar = mouCalcRightSidebar,
+                        #rightsidebar = mouCalcRightSidebar,
                         footer = dashboardFooter(
                           left_text = "METEOR",
                           right_text = "Copyright LRCFS 2019"
