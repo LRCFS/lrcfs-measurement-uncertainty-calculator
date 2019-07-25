@@ -1,9 +1,32 @@
-.MathJax_Display { text-align : left !important; }
-th .MathJax_Display { text-align : right !important; }
+a[data-value="calibrationCurve"],
+a[data-value="methodPrecision"],
+a[data-value="standardSolution"],
+a[data-value="sampleVolume"],
+a[data-value="combinedUncertainty"],
+a[data-value="coverageFactor"],
+a[data-value="expandedUncertainty"],
+a[data-value="dashboard"],
+#percentageExpandedUncertaintyStartPage
+{ 
+  display: none !important;
+}
 
+a.visible,
+div#percentageExpandedUncertaintyStartPage.visible{
+	display: block !important;
+}
 
-.MathJax span { right : left !important; }
+.MathJax_Display,
+.MathJax span {
+	text-align : left !important;
+}
+th .MathJax_Display {
+	text-align : right !important;
+}
 
 #fileUploadBox a{
 	float: right;
 }
+
+
+

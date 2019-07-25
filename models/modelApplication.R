@@ -32,21 +32,23 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 }
 
 observe({
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=calibrationCurve]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=methodPrecision]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=standardSolution]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=sampleVolume]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=combinedUncertainty]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=coverageFactor]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=expandedUncertainty]")
-  shinyjs::hide(selector = ".sidebar-menu li a[data-value=dashboard]")
-  shinyjs::hide(selector = "#percentageExpandedUncertaintyStartPage")
+  #Using shinyjs to hide means that we see things flash on the screen on page load
+  #Moved hiding process to /www/css/style.css
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=calibrationCurve]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=methodPrecision]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=standardSolution]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=sampleVolume]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=combinedUncertainty]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=coverageFactor]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=expandedUncertainty]")
+  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=dashboard]")
+  # shinyjs::hide(selector = "#percentageExpandedUncertaintyStartPage")
 })
 
 observeEvent(input$intputCalibrationCurveFileUpload, {
   if(!is.null(input$intputCalibrationCurveFileUpload$datapath))
   {
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=calibrationCurve]")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=calibrationCurve]", class="visible")
     checkIfShowResults()
   }
 })
@@ -54,7 +56,7 @@ observeEvent(input$intputCalibrationCurveFileUpload, {
 observeEvent(input$inputMethodPrecisionFileUpload, {
   if(!is.null(input$inputMethodPrecisionFileUpload$datapath))
   {
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=methodPrecision]")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=methodPrecision]", class="visible")
     checkIfShowResults()
   }
 })
@@ -62,7 +64,7 @@ observeEvent(input$inputMethodPrecisionFileUpload, {
 observeEvent(input$inputStandardSolutionStructureFileUpload, {
   if(!is.null(input$inputStandardSolutionStructureFileUpload$datapath) & !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
   {
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=standardSolution]")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=standardSolution]", class="visible")
     checkIfShowResults()
   }
 })
@@ -70,7 +72,7 @@ observeEvent(input$inputStandardSolutionStructureFileUpload, {
 observeEvent(input$inputStandardSolutionEquipmentFileUpload, {
   if(!is.null(input$inputStandardSolutionStructureFileUpload$datapath) & !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
   {
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=standardSolution]")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=standardSolution]", class="visible")
     checkIfShowResults()
   }
 })
@@ -78,7 +80,7 @@ observeEvent(input$inputStandardSolutionEquipmentFileUpload, {
 observeEvent(input$intputSampleVolumeFileUpload, {
   if(!is.null(input$intputSampleVolumeFileUpload$datapath))
   {
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=sampleVolume]")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=sampleVolume]", class="visible")
     checkIfShowResults()
   }
 })
@@ -90,10 +92,13 @@ checkIfShowResults = function(){
      !is.null(input$inputStandardSolutionEquipmentFileUpload$datapath) ||
      !is.null(input$intputSampleVolumeFileUpload$datapath))
   {
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=combinedUncertainty]")
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=coverageFactor]")
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=expandedUncertainty]")
-    shinyjs::show(selector = ".sidebar-menu li a[data-value=dashboard]")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=combinedUncertainty]", class="visible")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=expandedUncertainty]", class="visible")
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=dashboard]", class="visible")
+    
+    #Add class to make it visible but also do a show to force rendering the display
+    shinyjs::addClass(selector = "#percentageExpandedUncertaintyStartPage", class="visible")
     shinyjs::show(selector = "#percentageExpandedUncertaintyStartPage")
   }
 }
