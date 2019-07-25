@@ -24,8 +24,19 @@ th .MathJax_Display {
 	text-align : right !important;
 }
 
-#fileUploadBox a{
+#fileUploadBox a,
+#fileUploadBox button{
 	float: right;
+}
+
+/* new clearfix */
+.clear:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }
 
 

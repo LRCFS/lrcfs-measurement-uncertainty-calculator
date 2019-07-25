@@ -4,17 +4,24 @@
 
 #Reactive properties
 sampleVolumeData <- reactive({
-  data = sampleVolumeReadCSV(input$intputSampleVolumeFileUpload$datapath)
-  return(data)
+  if(myReactives$uploadedSampleVolume == TRUE)
+  {
+    data = sampleVolumeReadCSV(input$intputSampleVolumeFileUpload$datapath)
+    return(data)
+  }
+  else
+  {
+    return(NA)
+  }
 })
 
 sampleVolumeResult = reactive ({
-  if(is.null(input$intputSampleVolumeFileUpload$datapath))
+  data = sampleVolumeData()
+  if(is.na(data))
   {
     return(NA)
   }
   
-  data = sampleVolumeData()
   result = get_sampleVolume_relativeStandardUncertainty(data)
   answer = 0
   for(i in 1:nrow(data))
@@ -36,14 +43,12 @@ sampleVolumeDof = reactive({
   }
 })
 
-
 #Display input data
 output$display_sampleVolume_rawDataTable = DT::renderDataTable(
   sampleVolumeData(),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
 )
-
 
 #Display calculations
 output$display_sampleVolume_standardUncertainty = renderUI({

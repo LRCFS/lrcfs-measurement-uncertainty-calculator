@@ -1,20 +1,32 @@
 #Load raw data from CSV file
 methodPrecisionData <- reactive({
-  data = methodPrecisionReadCSV(input$inputMethodPrecisionFileUpload)
-  return(data)
+  if(myReactives$uploadedMethodPrecision == TRUE)
+  {
+    data = methodPrecisionReadCSV(input$inputMethodPrecisionFileUpload$datapath)
+    return(data)
+  }
+  else
+  {
+    return(NA)
+  }
 })
 
 #Get data and run calculations and store in data.frame for easy access
 methodPrecisionDataWithCalculations = reactive({
+  #Get all the data and unique concentraions
+  allData = methodPrecisionData();
+  
+  if(is.na(allData))
+  {
+    return(NA)
+  }
+  
+  uniqeConcentrations = getConcentrations(allData);
   
   #Get the inputs for use in calculations
   caseSampleReplicate = input$inputCaseSampleReplicates
   caseSampleMean = input$inputCaseSampleMeanConcentration
-  
-  #Get all the data and unique concentraions
-  allData = methodPrecisionData();
-  uniqeConcentrations = getConcentrations(allData);
-  
+
   #Create empty dataframe to return results
   calculationsData = data.frame(conc= numeric(0), run=character(0), mean= numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0))
   
@@ -76,7 +88,6 @@ methodPrecisionDataWithCalculations = reactive({
 })
 
 methodPrecisionDataWithCalculationsNeatHeaders = reactive({
-  #print(methodPrecisionDataWithCalculations())
   data = data.frame(methodPrecisionDataWithCalculations()$conc,methodPrecisionDataWithCalculations()$run,methodPrecisionDataWithCalculations()$mean,methodPrecisionDataWithCalculations()$stdDev,methodPrecisionDataWithCalculations()$dof,methodPrecisionDataWithCalculations()$pooledStandardDeviationNumerator)
   colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} d)$$","$$S^2 \\times d$$")
   return(data)
@@ -84,21 +95,21 @@ methodPrecisionDataWithCalculationsNeatHeaders = reactive({
 
 
 methodPrecisionResult = reactive({
-  if(is.null(input$inputMethodPrecisionFileUpload$datapath))
+  data = methodPrecisionDataWithCalculations()
+  if(is.na(data))
   {
     return(NA)
   }
-  data = methodPrecisionDataWithCalculations()
   closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
   return(getMethodPrecisionFinalAnswer(data, closetConcentration))
 })
 
 methodPrecisionDof = reactive({
-  if(is.null(input$inputMethodPrecisionFileUpload$datapath))
+  data =  methodPrecisionDataWithCalculations()
+  if(is.na(data))
   {
     return(NA)
   }
-  data =  methodPrecisionDataWithCalculations()
   closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
   return(getMethodPrecisionDof(data, closetConcentration))
 })

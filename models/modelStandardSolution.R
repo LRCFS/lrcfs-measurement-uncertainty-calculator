@@ -1,16 +1,34 @@
 standardSolutionData = reactive({
-  data = standardSolutionReadCSV(input$inputStandardSolutionStructureFileUpload$datapath)
-  return(data)
+  if(myReactives$uploadedStandardSolutionStructure == TRUE & myReactives$uploadedStandardSolutionEquipment == TRUE)
+  {
+    data = standardSolutionReadCSV(input$inputStandardSolutionStructureFileUpload$datapath)
+    return(data)
+  }
+  else
+  {
+    return(NA)
+  }
 })
 
 standardSolutionMeasurementData = reactive({
-  data = standardSolutionMeasurementsReadCSV(input$inputStandardSolutionEquipmentFileUpload$datapath)
-  return(data)
+  if(myReactives$uploadedStandardSolutionStructure == TRUE & myReactives$uploadedStandardSolutionEquipment == TRUE)
+  {
+    data = standardSolutionMeasurementsReadCSV(input$inputStandardSolutionEquipmentFileUpload$datapath)
+    return(data)
+  }
+  else
+  {
+    return(NA)
+  }
 })
 
 standardSolutionDataWithCalculations = reactive({
   #Calculate standard uncertainty and relative standard uncertainty of base solution
   solutionData = standardSolutionData()
+  if(is.na(solutionData))
+  {
+    return(NA)
+  }
 
   standardUncertainty = mapply(getStandardUncertaintySS, solutionData$compoundTolerance, solutionData$compoundCoverage)
   relativeStandardUncertainty = getRelativeStandardUncertaintySS(standardUncertainty, solutionData$compoundPurity)
@@ -34,6 +52,10 @@ standardSolutionDataWithCalculations = reactive({
 standardSolutionInstrumentDataWithCalculations = reactive({
   #Calculate standard uncertainty and relative standard uncertainty of instruments
   measurementData = standardSolutionMeasurementData()
+  if(is.na(measurementData))
+  {
+    return(NA)
+  }
   
   standardUncertainty = mapply(getStandardUncertaintySS, measurementData$measurementTolerance, measurementData$measurementCoverage)
   relativeStandardUncertainty = getRelativeStandardUncertaintySS(standardUncertainty, measurementData$measurementVolume)
@@ -49,10 +71,11 @@ standardSolutionInstrumentDataWithCalculations = reactive({
 })
 
 standardSolutionResult = reactive({
-  if(is.null(input$inputStandardSolutionStructureFileUpload$datapath) | is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
+  if(myReactives$uploadedStandardSolutionStructure == FALSE | myReactives$uploadedStandardSolutionEquipment == FALSE)
   {
     return(NA)
   }
+    
   
   #Get all the solutions with all their calculations
   solutionDataWithCalculations = standardSolutionDataWithCalculations()
@@ -67,7 +90,7 @@ standardSolutionResult = reactive({
 })
 
 standardSolutionDof = reactive({
-  if(is.null(input$inputStandardSolutionStructureFileUpload$datapath) | is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
+  if(myReactives$uploadedStandardSolutionStructure == FALSE | myReactives$uploadedStandardSolutionEquipment == FALSE)
   {
     return(NA)
   }
