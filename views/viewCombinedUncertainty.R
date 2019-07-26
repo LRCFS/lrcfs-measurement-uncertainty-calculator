@@ -31,7 +31,7 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                    valueBox(uiOutput("display_methodPrecision_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye")),
                    valueBox(uiOutput("display_standardSolution_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial")),
                    valueBox(uiOutput("display_sampleVolume_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(SampleVolume)}\\)", width = 4, color = "maroon", icon = icon("flask")),
-                   infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_combinedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
+                   infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_combinedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
                  ),
                  fluidRow(
                    box(width=12, side="right",

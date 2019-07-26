@@ -15,8 +15,8 @@ tabStart = tabItem(tabName = "start",
                               )
                             ),
                             fluidRow(
-                              infoBox("Replicates \\((r_s)\\)",HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
-                              infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
+                              infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
+                              infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
                             ),
                             fluidRow(
                               hr()
@@ -38,8 +38,11 @@ tabStart = tabItem(tabName = "start",
                               infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                             ),
                             fluidRow(
+                              hr()
+                            ),
+                            fluidRow(
                               div(id="percentageExpandedUncertaintyStartPage",
-                                  valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "orange", icon = icon("arrows-alt"))
+                                  valueBox("Results", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "green", icon = icon("equals"))
                               )
                             )
                      ),

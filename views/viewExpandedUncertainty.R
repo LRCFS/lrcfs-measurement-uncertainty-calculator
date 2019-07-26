@@ -29,7 +29,7 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                  fluidRow(
                    valueBox(uiOutput("display_coverageFactor_finalAnswer_expandedUncertainty"),uiOutput("display_expandedUncertainty_coverageFactorText"), width = 4, color = "teal", icon = icon("table")),
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_expandedUncertainty"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v")),
-                   infoBox("Mean Concentration\\((x_s)\\)",HTML(paste(uiOutput("display_expandedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
+                   infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_expandedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
                  ),
                  fluidRow(
                    box(width=6, side="right",

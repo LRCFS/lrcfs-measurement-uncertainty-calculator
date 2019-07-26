@@ -77,9 +77,10 @@ output$display_expandedUncertainty_finalAnswerPercentage_dashboard <- renderUI({
 })
 
 output$display_expandedUncertainty_finalAnswer_start <- renderUI({
-  formulas = c(paste("\\text{ExpUncertainty} &=",expandedUncertaintyResult()))
-  formulas = c(formulas, paste("\\text{%ExpUncertainty} &=",expandedUncertaintyResultPercentage(),"\\%"))
-  output = mathJaxAligned(formulas, 10)
+  #formulas = c(paste("\\text{ExpUncertainty} &=",expandedUncertaintyResult()))
+  #formulas = c(formulas, paste("\\text{%ExpUncertainty} &=",expandedUncertaintyResultPercentage(),"\\% [[break]]"))
+  formulas = c(paste("\\text{Concentration} &=",input$inputCaseSampleMeanConcentration,"\\pm",expandedUncertaintyResult()))
+  output = mathJaxAligned(formulas, 10, 20)
   
   return(withMathJax(output))
 })
