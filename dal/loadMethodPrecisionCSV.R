@@ -1,10 +1,11 @@
 methodPrecisionReadCSV = function(filePath = NULL) {
   if(is.null(filePath))
   {
-    return(NA)
+    return(NULL)
   }
   
-  allData = read.csv(filePath, header = TRUE, sep=",", fill = TRUE)
+  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE)
+  data = removeEmptyData(data)
 
-  return(allData)
+  return(data)
 }

@@ -3,6 +3,7 @@ coverageFactorEffectiveDofReadCSV = function() {
   
   data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE, check.names=FALSE)
   rownames(data) = data[,1]
+  data = removeEmptyData(data)
 
   return(data)
 }

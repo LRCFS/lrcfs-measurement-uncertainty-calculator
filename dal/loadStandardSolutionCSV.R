@@ -1,29 +1,25 @@
-standardSolutionReadCSV = function(filePathCompoundAndSolutionData = NULL) {
-  
-  if(is.null(filePathCompoundAndSolutionData))
+standardSolutionReadCSV = function(filePath = NULL) {
+  if(is.null(filePath))
   {
-    filePathCompoundAndSolutionData = "data/standardSolution/standardSolutionSampleData-compoundAndSolutions.csv"
-  }else{
-    filePathCompoundAndSolutionData = filePathCompoundAndSolutionData #use filePathCompoundAndSolutionData$datapath (note add $DATAPATH no the end) if loading from file upload dialouge)
+    return(NULL)
   }
 
-  compoundAndSolutionData = read.csv(filePathCompoundAndSolutionData, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
+  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
+  data = removeEmptyData(data)
 
-  return(compoundAndSolutionData)
+  return(data)
 }
 
-standardSolutionMeasurementsReadCSV = function(filePathMeasurementInformation = NULL) {
-
-  if(is.null(filePathMeasurementInformation))
+standardSolutionMeasurementsReadCSV = function(filePath = NULL) {
+  if(is.null(filePath))
   {
-    filePathMeasurementInformation = "data/standardSolution/standardSolutionSampleData-measurementInformation.csv"
-  }else{
-    filePathMeasurementInformation = filePathMeasurementInformation #use filePathMeasurementInformation$datapath (note add $DATAPATH no the end) if loading from file upload dialouge)
+    return(NULL)
   }
   
-  measurementData = read.csv(filePathMeasurementInformation, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
+  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
+  data = removeEmptyData(data)
 
-  return(measurementData)
+  return(data)
 }
 
 standardSolutionMergeData = function(compoundAndSolutionData, measurementData) {

@@ -6,7 +6,7 @@ standardSolutionData = reactive({
   }
   else
   {
-    return(NA)
+    return(NULL)
   }
 })
 
@@ -18,16 +18,16 @@ standardSolutionMeasurementData = reactive({
   }
   else
   {
-    return(NA)
+    return(NULL)
   }
 })
 
 standardSolutionDataWithCalculations = reactive({
   #Calculate standard uncertainty and relative standard uncertainty of base solution
   solutionData = standardSolutionData()
-  if(is.na(solutionData))
+  if(is.null(solutionData))
   {
-    return(NA)
+    return(NULL)
   }
 
   standardUncertainty = mapply(getStandardUncertaintySS, solutionData$compoundTolerance, solutionData$compoundCoverage)
@@ -52,9 +52,9 @@ standardSolutionDataWithCalculations = reactive({
 standardSolutionInstrumentDataWithCalculations = reactive({
   #Calculate standard uncertainty and relative standard uncertainty of instruments
   measurementData = standardSolutionMeasurementData()
-  if(is.na(measurementData))
+  if(is.null(measurementData))
   {
-    return(NA)
+    return(NULL)
   }
   
   standardUncertainty = mapply(getStandardUncertaintySS, measurementData$measurementTolerance, measurementData$measurementCoverage)
@@ -199,7 +199,6 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
   for(i in rownames(solutionData))
   {
     solution = solutionData[i,]
-    print(solution)
     if(solution$madeFrom != "")
     {
       solutionParent = solutionData[solutionData$solution == solution$madeFrom,]
@@ -256,7 +255,6 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
   
   for(i in 1:nrow(finalSolutionsData))
   {
-    print(i)
     solution = finalSolutionsData[i,]
     plus = "+"
     if(i == 1)

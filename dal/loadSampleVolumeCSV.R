@@ -1,12 +1,11 @@
 sampleVolumeReadCSV = function(filePath = NULL) {
-  
-  #Remember to use $datapath when calling this function if using fileUpload input
   if(is.null(filePath))
   {
-    filePath = "data/sampleVolume/sampleVolumeSampleData.csv"
+    return(NULL)
   }
 
   data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
+  data = removeEmptyData(data)
 
   return(data)
 }

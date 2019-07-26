@@ -11,13 +11,13 @@ sampleVolumeData <- reactive({
   }
   else
   {
-    return(NA)
+    return(NULL)
   }
 })
 
 sampleVolumeResult = reactive ({
   data = sampleVolumeData()
-  if(is.na(data))
+  if(is.null(data))
   {
     return(NA)
   }
@@ -33,7 +33,7 @@ sampleVolumeResult = reactive ({
 })
 
 sampleVolumeDof = reactive({
-  if(is.null(input$intputSampleVolumeFileUpload$datapath))
+  if(myReactives$uploadedSampleVolume == FALSE)
   {
     return(NA)
   }
@@ -54,6 +54,10 @@ output$display_sampleVolume_rawDataTable = DT::renderDataTable(
 output$display_sampleVolume_standardUncertainty = renderUI({
   
   data = sampleVolumeData()
+  if(is.null(data))
+  {
+    return(NA)
+  }
   
   formulas = c("u\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{\\text{measurementTolerance}}{\\text{measurementCoverage}} [[break]]")
 
@@ -76,6 +80,10 @@ output$display_sampleVolume_standardUncertainty = renderUI({
 output$display_sampleVolume_relativeStandardUncertainty = renderUI({
   
   data = sampleVolumeData()
+  if(is.null(data))
+  {
+    return(NA)
+  }
   
   formulas = c("u_r\\text{(SampleVolume)}_{\\text{(Instrument)}} &= \\frac{u\\text{(SampleVolume)}_{\\text{(Instrument)}}}{\\text{measurementVolume}} [[break]]")
   
@@ -103,6 +111,10 @@ output$display_sampleVolume_finalAnswer_top = renderUI({
 output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   data = sampleVolumeData()
+  if(is.null(data))
+  {
+    return(NA)
+  }
   
   formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{\\text{Relative Standard Uncertainty of Sample Volume}^2 \\times \\text{Number of Times Used}}} [[break]]")
   formulas = c(formulas, "u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{(u_r(SampleVolume)_{(\\text{Instrument})}^2\\times\\text{measurementTimesUsed}})}")

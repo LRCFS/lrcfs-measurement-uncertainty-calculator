@@ -7,7 +7,7 @@ methodPrecisionData <- reactive({
   }
   else
   {
-    return(NA)
+    return(NULL)
   }
 })
 
@@ -16,9 +16,9 @@ methodPrecisionDataWithCalculations = reactive({
   #Get all the data and unique concentraions
   allData = methodPrecisionData();
   
-  if(is.na(allData))
+  if(is.null(allData))
   {
-    return(NA)
+    return(NULL)
   }
   
   uniqeConcentrations = getConcentrations(allData);
@@ -96,7 +96,7 @@ methodPrecisionDataWithCalculationsNeatHeaders = reactive({
 
 methodPrecisionResult = reactive({
   data = methodPrecisionDataWithCalculations()
-  if(is.na(data))
+  if(is.null(data))
   {
     return(NA)
   }
@@ -106,7 +106,7 @@ methodPrecisionResult = reactive({
 
 methodPrecisionDof = reactive({
   data =  methodPrecisionDataWithCalculations()
-  if(is.na(data))
+  if(is.null(data))
   {
     return(NA)
   }

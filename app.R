@@ -15,6 +15,8 @@ library(stringr)
 library(utils)
 library(data.tree)
 
+source("models/modelHelperFunctions.R", local = TRUE)
+
 source("dal/loadCoverageFactorEffectiveDofCSV.R")
 source("dal/loadCalibrationCurveCSV.R")
 source("dal/loadMethodPrecisionCSV.R")
