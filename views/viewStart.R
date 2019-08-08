@@ -29,7 +29,6 @@ tabStart = tabItem(tabName = "start",
                               )
                             ),
                             fluidRow(
-                              tippy_this("testinfobox", tooltip="Something here", arrow = TRUE),
                               infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
                               infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
                             ),
