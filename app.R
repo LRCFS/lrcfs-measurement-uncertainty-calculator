@@ -1,4 +1,5 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree","rintrojs"))
+
 rm(list = ls())
 library(shiny)
 library(shinyjs)
@@ -14,14 +15,18 @@ library(DiagrammeR)
 library(stringr)
 library(utils)
 library(data.tree)
+library(rintrojs)
 
-source("models/modelHelperFunctions.R", local = TRUE)
+source("models/modelHelperFunctions.R")
 
 source("dal/loadCoverageFactorEffectiveDofCSV.R")
 source("dal/loadCalibrationCurveCSV.R")
+source("dal/loadCalibrationCurvePooledDataCSV.R")
 source("dal/loadMethodPrecisionCSV.R")
 source("dal/loadStandardSolutionCSV.R")
 source("dal/loadSampleVolumeCSV.R")
+
+source("models/modelStaticProperties.R")
 
 source("views/viewStart.R")
 #source("views/viewRightSidebar.R")
@@ -57,6 +62,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                           )
                         ),
                         dashboardBody(
+                          introjsUI(),
                           useShinyjs(),
                           tags$head(tags$link(rel = "shortcut icon", href = "images/favicon.ico")),
                           tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "css/style.css")),
@@ -82,7 +88,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                        )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   source("models/modelApplication.R", local = TRUE)
   source("models/modelStart.R", local = TRUE)
   source("models/modelCalibrationCurve.R", local = TRUE)
@@ -93,6 +99,7 @@ server <- function(input, output) {
   source("models/modelCoverageFactor.R", local = TRUE)
   source("models/modelExpandedUncertainty.R", local = TRUE)
   source("models/modelDashboard.R", local = TRUE)
+  source("models/modelHelpButtons.R", local = TRUE)
 }
 
 shinyApp(ui, server)

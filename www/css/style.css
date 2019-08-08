@@ -29,6 +29,18 @@ th .MathJax_Display {
 	float: right;
 }
 
+#helpStart{
+	position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#helpCalibrationCurve {
+    position: absolute;
+    top: 80px;
+    right: 30px;
+}
+
 /* new clearfix */
 .clear:after {
     visibility: hidden;

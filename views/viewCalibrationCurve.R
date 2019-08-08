@@ -1,6 +1,7 @@
 tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
-                   valueBox("Uncertainty of Calibration Curve", h2(textOutput("display_calibrationCurve_finalAnswer_top")), width = 12, color = "blue", icon = icon("chart-line"))
+                   valueBox("Uncertainty of Calibration Curve", h2(textOutput("display_calibrationCurve_finalAnswer_top")), width = 12, color = "blue", icon = icon("chart-line")),
+                   actionButton("helpCalibrationCurve", "Help", icon=icon("question"))
                  ),
                  fluidRow(
                    tabBox(title="Analysis", width=12,
@@ -26,7 +27,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                      tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
                                      tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
                                    )
-                          )  
+                          )
                    )
                  ),
                  fluidRow(

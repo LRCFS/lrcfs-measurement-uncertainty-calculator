@@ -1,5 +1,6 @@
 tabDashboard = tabItem(tabName = "dashboard", 
                        fluidRow(
+                         actionButton("helpResultsDashboard", "Help", icon=icon("question")),
                          infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_dashboard_replicates"))), width=4, icon=icon("vials"), color="aqua"),
                          infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_dashboard_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia"),
                          infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_dashboard_confidenceInterval"))), width=4, icon=icon("percentage"), color="yellow")
