@@ -6,7 +6,7 @@
 sampleVolumeData <- reactive({
   if(myReactives$uploadedSampleVolume == TRUE)
   {
-    data = sampleVolumeReadCSV(input$intputSampleVolumeFileUpload$datapath)
+    data = sampleVolumeReadCSV(input$inputSampleVolumeFileUpload$datapath)
     return(data)
   }
   else

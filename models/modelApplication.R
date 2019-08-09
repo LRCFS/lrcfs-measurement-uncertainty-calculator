@@ -5,77 +5,84 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
                              uploadedSampleVolume=FALSE)
 
-observe({
-  #Using shinyjs to hide means that we see things flash on the screen on page load
-  #Moved hiding process to /www/css/style.css
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=calibrationCurve]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=methodPrecision]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=standardSolution]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=sampleVolume]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=combinedUncertainty]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=coverageFactor]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=expandedUncertainty]")
-  # shinyjs::hide(selector = ".sidebar-menu li a[data-value=dashboard]")
-  # shinyjs::hide(selector = "#percentageExpandedUncertaintyStartPage")
-})
-
 #Calibration Curve File upload and reset
-observeEvent(input$intputCalibrationCurveFileUpload, {
-  if(!is.null(input$intputCalibrationCurveFileUpload$datapath))
+observeEvent(input$inputCalibrationCurveFileUpload, {
+  filePath = input$inputCalibrationCurveFileUpload$datapath
+  if(!is.null(filePath) & str_detect(filePath,"(\\.csv|\\.CSV)$"))
   {
+    shinyjs::removeClass(selector = "#display_start_error_calibrationCurveFileUpload", class="visible")
     myReactives$uploadedCalibrationCurve = TRUE
+    checkIfShowResults()
+  }else{
+    shinyjs::addClass(selector = "#display_start_error_calibrationCurveFileUpload", class="visible")
+    myReactives$uploadedCalibrationCurve = FALSE
     checkIfShowResults()
   }
 })
-observeEvent(input$reset_intputCalibrationCurveFileUpload, {
+observeEvent(input$reset_inputCalibrationCurveFileUpload, {
   myReactives$uploadedCalibrationCurve = FALSE
   checkIfShowResults()
 })
 
 #Method Precision File upload and reset
 observeEvent(input$inputMethodPrecisionFileUpload, {
-  if(!is.null(input$inputMethodPrecisionFileUpload$datapath))
+  filePath = input$inputMethodPrecisionFileUpload$datapath
+  if(!is.null(filePath) & str_detect(filePath,"(\\.csv|\\.CSV)$"))
   {
     myReactives$uploadedMethodPrecision = TRUE
     checkIfShowResults()
+  }else{
+    myReactives$uploadedMethodPrecision = FALSE
+    checkIfShowResults()
   }
 })
-observeEvent(input$reset_intputMethodPrecisionFileUpload, {
+observeEvent(input$reset_inputMethodPrecisionFileUpload, {
   myReactives$uploadedMethodPrecision = FALSE
   checkIfShowResults()
 })
 
 #Standard Solution File upload and reset
 observeEvent(input$inputStandardSolutionStructureFileUpload, {
-  if(!is.null(input$inputStandardSolutionStructureFileUpload$datapath))
+  filePath = input$inputStandardSolutionStructureFileUpload$datapath
+  if(!is.null(filePath) & str_detect(filePath,"(\\.csv|\\.CSV)$"))
   {
     myReactives$uploadedStandardSolutionStructure = TRUE
     checkIfShowResults()
-  }
-})
-
-observeEvent(input$inputStandardSolutionEquipmentFileUpload, {
-  if(!is.null(input$inputStandardSolutionEquipmentFileUpload$datapath))
-  {
-    myReactives$uploadedStandardSolutionEquipment = TRUE
+  }else{
+    myReactives$uploadedStandardSolutionStructure = FALSE
     checkIfShowResults()
   }
 })
-observeEvent(input$reset_intputStandardSolutionFileUpload, {
+observeEvent(input$inputStandardSolutionEquipmentFileUpload, {
+  filePath = input$inputStandardSolutionEquipmentFileUpload$datapath
+  if(!is.null(filePath) & str_detect(filePath,"(\\.csv|\\.CSV)$"))
+  {
+    myReactives$uploadedStandardSolutionEquipment = TRUE
+    checkIfShowResults()
+  }else{
+    myReactives$uploadedStandardSolutionEquipment = FALSE
+    checkIfShowResults()
+  }
+})
+observeEvent(input$reset_inputStandardSolutionFileUpload, {
   myReactives$uploadedStandardSolutionStructure = FALSE
   myReactives$uploadedStandardSolutionEquipment = FALSE
   checkIfShowResults()
 })
 
 #Sample Volume File upload and reset
-observeEvent(input$intputSampleVolumeFileUpload, {
-  if(!is.null(input$intputSampleVolumeFileUpload$datapath))
+observeEvent(input$inputSampleVolumeFileUpload, {
+  filePath = input$inputSampleVolumeFileUpload$datapath
+  if(!is.null(filePath) & str_detect(filePath,"(\\.csv|\\.CSV)$"))
   {
     myReactives$uploadedSampleVolume = TRUE
     checkIfShowResults()
+  }else{
+    myReactives$uploadedSampleVolume = FALSE
+    checkIfShowResults()
   }
 })
-observeEvent(input$reset_intputSampleVolumeFileUpload, {
+observeEvent(input$reset_inputSampleVolumeFileUpload, {
   myReactives$uploadedSampleVolume = FALSE
   checkIfShowResults()
 })
@@ -123,9 +130,20 @@ checkIfShowResults = function(){
      myReactives$uploadedSampleVolume)
   {
     #Check that case sample replicates, mean concentration and confidence interval have been specified
+    inputCaseSampleReplicates = input$inputCaseSampleReplicates
+    if(is.null(inputCaseSampleReplicates) | !is.numeric(inputCaseSampleReplicates))
+    {
+      inputCaseSampleReplicates = 0;
+    }
+    inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+    if(is.null(inputCaseSampleMeanConcentration) | !is.numeric(inputCaseSampleMeanConcentration))
+    {
+      inputCaseSampleMeanConcentration = 0;
+    }
+    
     if(input$inputConfidenceInterval != "" &
-       input$inputCaseSampleReplicates > 0 &
-       input$inputCaseSampleMeanConcentration > 0)
+       inputCaseSampleReplicates > 0 &
+       inputCaseSampleMeanConcentration > 0)
     {
       showResultTabs()
     }

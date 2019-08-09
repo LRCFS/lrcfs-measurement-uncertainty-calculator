@@ -9,7 +9,7 @@ getStandardErrorOfRegressionLatex = "S_{y/x} &= \\sqrt{\\frac{\\sum\\limits_{i=1
 calibrationCurveData <- reactive({
   if(myReactives$uploadedCalibrationCurve == TRUE)
   {
-    data = calibrationCurveReadCSV(input$intputCalibrationCurveFileUpload$datapath)
+    data = calibrationCurveReadCSV(input$inputCalibrationCurveFileUpload$datapath)
     return(data)
   }
   else

@@ -18,19 +18,25 @@ output$display_start_confidenceInterval <- renderUI({
 })
 
 output$display_start_calibrationCurveFileUpload <- renderUI({
-  input$reset_intputCalibrationCurveFileUpload
+  input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
 
-  fileInput = fileInput("intputCalibrationCurveFileUpload", "Calibration Curve (CSV)",
+  fileInput = fileInput("inputCalibrationCurveFileUpload", "Calibration Curve (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   
   return(fileInput)
 })
 
-output$display_start_externalStandardErrorFileUpload <- renderUI({
-  input$reset_intputCalibrationCurveFileUpload
+output$display_start_error_calibrationCurveFileUpload = renderUI({
+  errorDiv = div("There has been an error processing your uploaded file. Please ensure you have uploaded a correctly formatted .csv file", class="error")
   
-  fileInput = fileInput("intputExternalStandardErrorFileUpload", "External Standard Error (CSV)",
+  return(errorDiv)
+})
+
+output$display_start_externalStandardErrorFileUpload <- renderUI({
+  input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  fileInput = fileInput("inputExternalStandardErrorFileUpload", "External Standard Error (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   
@@ -38,7 +44,7 @@ output$display_start_externalStandardErrorFileUpload <- renderUI({
 })
 
 output$display_start_methodPrecisionFileUpload <- renderUI({
-  input$reset_intputMethodPrecisionFileUpload
+  input$reset_inputMethodPrecisionFileUpload #This line is here to attach the event to update when the button is clicked
   
   fileInput = fileInput("inputMethodPrecisionFileUpload", "Method Precision (CSV)",
                         multiple = FALSE,
@@ -48,7 +54,7 @@ output$display_start_methodPrecisionFileUpload <- renderUI({
 })
 
 output$display_start_standardSolutionStructureFileUpload <- renderUI({
-  input$reset_intputStandardSolutionFileUpload
+  input$reset_inputStandardSolutionFileUpload #This line is here to attach the event to update when the button is clicked
   
   fileInput = fileInput("inputStandardSolutionStructureFileUpload", "Standard Solution Structure (CSV)",
                         multiple = FALSE,
@@ -58,7 +64,7 @@ output$display_start_standardSolutionStructureFileUpload <- renderUI({
 })
 
 output$display_start_standardSolutionEquipmentFileUpload <- renderUI({
-  input$reset_intputStandardSolutionFileUpload
+  input$reset_inputStandardSolutionFileUpload #This line is here to attach the event to update when the button is clicked
   
   fileInput = fileInput("inputStandardSolutionEquipmentFileUpload", "Standard Solution Equipment (CSV)",
                         multiple = FALSE,
@@ -68,9 +74,9 @@ output$display_start_standardSolutionEquipmentFileUpload <- renderUI({
 })
 
 output$display_start_sampleVolumeFileUpload <- renderUI({
-  input$reset_intputSampleVolumeFileUpload
+  input$reset_inputSampleVolumeFileUpload #This line is here to attach the event to update when the button is clicked
   
-  fileInput = fileInput("intputSampleVolumeFileUpload", "Sample Volume (CSV)",
+  fileInput = fileInput("inputSampleVolumeFileUpload", "Sample Volume (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   

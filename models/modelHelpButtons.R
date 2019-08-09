@@ -1,7 +1,6 @@
 ########################################
 ######### Start Page        ############
 ########################################
-
 observeEvent(input$helpStartPage, {
   session$sendCustomMessage(type = 'helpStartPage', message = 1)
 })
@@ -19,11 +18,17 @@ observeEvent(input$helpStartPage6, {
 })
 
 
-
+########################################
+######### Calibration Curve ############
+########################################
 observeEvent(input$helpCalibrationCurve, {
   session$sendCustomMessage(type = 'helpCalibrationCurve', message = 1)
 })
 
+
+########################################
+######### Results Dashboard ############
+########################################
 observeEvent(input$helpResultsDashboard, {
   session$sendCustomMessage(type = 'helpResultsDashboard', message = 1)
 })

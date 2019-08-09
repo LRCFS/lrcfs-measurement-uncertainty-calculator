@@ -100,7 +100,12 @@ methodPrecisionResult = reactive({
   {
     return(NA)
   }
-  closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
+  inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  if(is.null(inputCaseSampleMeanConcentration) | !is.numeric(inputCaseSampleMeanConcentration))
+  {
+    return(NA)
+  }
+  closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, inputCaseSampleMeanConcentration)
   return(getMethodPrecisionFinalAnswer(data, closetConcentration))
 })
 
@@ -110,7 +115,12 @@ methodPrecisionDof = reactive({
   {
     return(NA)
   }
-  closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
+  inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  if(is.null(inputCaseSampleMeanConcentration) | !is.numeric(inputCaseSampleMeanConcentration))
+  {
+    return(NA)
+  }
+  closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, inputCaseSampleMeanConcentration)
   return(getMethodPrecisionDof(data, closetConcentration))
 })
 

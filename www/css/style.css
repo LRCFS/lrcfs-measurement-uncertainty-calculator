@@ -11,6 +11,7 @@ a[data-value="dashboard"],
   display: none !important;
 }
 
+.visible,
 a.visible,
 div#percentageExpandedUncertaintyStartPage.visible{
 	display: block !important;
@@ -47,6 +48,23 @@ th .MathJax_Display {
     position: absolute;
     top: 80px;
     right: 30px;
+}
+
+#display_start_calibrationCurveFileUpload > div{
+	margin: 0 !important;
+}
+
+.progress {
+    margin-bottom: 5px !important;
+}
+
+.error{
+    border: 1px solid #F00;
+    background: #fae9e9;
+    color: #F00;
+    padding: 10px;
+	margin: 0 0 20px 0;
+	display: none;
 }
 
 /* new clearfix */
