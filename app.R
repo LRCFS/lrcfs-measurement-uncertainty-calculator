@@ -66,6 +66,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                           useShinyjs(),
                           tags$head(tags$link(rel = "shortcut icon", href = "images/favicon.ico")),
                           tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "css/style.css")),
+                          tags$head(tags$script(src="js/help.js")),
                           #Use MathJax for rendering inline LaTeX functions
                           withMathJax(),
                           #Load tabs from view files (Properties can be found in /views/view...R)
