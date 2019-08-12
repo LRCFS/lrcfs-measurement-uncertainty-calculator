@@ -18,9 +18,7 @@ tabStart = tabItem(tabName = "start",
                                   numericInput("inputCaseSampleMeanConcentration",
                                                "Mean Concentration\\((x_s)\\)",
                                                value = 0)
-                              )
-                            ),
-                            fluidRow(
+                              ),
                               infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
                               infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
                             ),
@@ -39,9 +37,7 @@ tabStart = tabItem(tabName = "start",
                                                 "95%" = "95%",
                                                 "90%" = "90%",
                                                 "68.27%" = "68.27%"))
-                              )
-                            ),
-                            fluidRow(
+                              ),
                               infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                             ),
                             fluidRow(

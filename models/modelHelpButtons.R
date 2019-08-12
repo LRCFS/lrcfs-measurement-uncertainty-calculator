@@ -10,11 +10,11 @@ observeEvent(input$helpStartPage1, {
 })
 
 observeEvent(input$helpStartPage5, {
-  session$sendCustomMessage(type = 'helpStartPage', message = 5)
+  session$sendCustomMessage(type = 'helpStartPage', message = 6)
 })
 
 observeEvent(input$helpStartPage6, {
-  session$sendCustomMessage(type = 'helpStartPage', message = 6)
+  session$sendCustomMessage(type = 'helpStartPage', message = 9)
 })
 
 
