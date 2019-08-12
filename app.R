@@ -1,4 +1,4 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree","rintrojs"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree","rintrojs","textutils"))
 
 rm(list = ls())
 library(shiny)
@@ -16,6 +16,7 @@ library(stringr)
 library(utils)
 library(data.tree)
 library(rintrojs)
+library(textutils)
 
 source("models/modelHelperFunctions.R")
 

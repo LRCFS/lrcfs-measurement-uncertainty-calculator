@@ -1,26 +1,44 @@
 myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedMethodPrecision=FALSE,
-                             uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
                              uploadedSampleVolume=FALSE)
 
+
+myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
+                             uploadedMethodPrecision=NULL,
+                             uploadedStandardSolutionStructure=NULL,
+                             uploadedStandardSolutionEquipment=NULL,
+                             uploadedSampleVolume=NULL)
+
+showError = function(elementSelector, errorMessage = NULL){
+  logjs(errorMessage)
+  shinyjs::html(elementSelector, errorMessage)
+  shinyjs::addClass(selector = paste0("#",elementSelector), class="visible")
+}
+
+hideError = function(elementSelector)
+{
+  shinyjs::removeClass(selector = paste0("#",elementSelector), class="visible")
+}
+
 #Calibration Curve File upload and reset
 observeEvent(input$inputCalibrationCurveFileUpload, {
   filePath = input$inputCalibrationCurveFileUpload$datapath
-  if(!is.null(filePath) & str_detect(filePath,"(\\.csv|\\.CSV)$"))
+  myReactiveErrors$uploadedCalibrationCurve = calibrationCurveReadCSV(filePath, TRUE)
+  if(is.null(myReactiveErrors$uploadedCalibrationCurve))
   {
-    shinyjs::removeClass(selector = "#display_start_error_calibrationCurveFileUpload", class="visible")
     myReactives$uploadedCalibrationCurve = TRUE
     checkIfShowResults()
-  }else{
-    shinyjs::addClass(selector = "#display_start_error_calibrationCurveFileUpload", class="visible")
+  }
+  else{
     myReactives$uploadedCalibrationCurve = FALSE
     checkIfShowResults()
   }
 })
 observeEvent(input$reset_inputCalibrationCurveFileUpload, {
   myReactives$uploadedCalibrationCurve = FALSE
+  myReactiveErrors$uploadedCalibrationCurve = NULL
   checkIfShowResults()
 })
 
@@ -100,6 +118,18 @@ observeEvent(input$inputCaseSampleMeanConcentration, {
 })
 
 checkIfShowResults = function(){
+  
+  
+
+  #Show/hide errors
+  if(is.null(myReactiveErrors$uploadedCalibrationCurve))
+  {
+    hideError("display_start_error_calibrationCurveFileUpload")
+  }else{
+    showError("display_start_error_calibrationCurveFileUpload", myReactiveErrors$uploadedCalibrationCurve)
+  }
+  
+  
   if(myReactives$uploadedCalibrationCurve) {
     shinyjs::addClass(selector = ".sidebar-menu li a[data-value=calibrationCurve]", class="visible")
   } else {
