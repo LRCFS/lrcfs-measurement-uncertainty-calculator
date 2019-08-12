@@ -32,7 +32,6 @@ calibrationCurveReadCSV = function(filePath = NULL, validate = FALSE) {
     {
       data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
       data = removeEmptyData(data)
-      return(data)
     },
     error = function(e) {
       loadError <<- e
