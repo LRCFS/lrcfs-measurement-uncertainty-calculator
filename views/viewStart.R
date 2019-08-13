@@ -14,10 +14,10 @@ tabStart = tabItem(tabName = "start",
                                   p("Specify below the number of replicates and mean concentration for the case sample."),
                                   numericInput("inputCaseSampleReplicates",
                                                "Replicates \\((r_s)\\)",
-                                               value = 0),
+                                               value = NA),
                                   numericInput("inputCaseSampleMeanConcentration",
                                                "Mean Concentration\\((x_s)\\)",
-                                               value = 0)
+                                               value = NA)
                               ),
                               infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
                               infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
