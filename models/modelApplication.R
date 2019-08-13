@@ -1,4 +1,5 @@
 myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
+                             uploadedExternalStandardError=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
@@ -6,6 +7,7 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
 
 
 myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
+                             uploadedExternalStandardError=NULL,
                              uploadedMethodPrecision=NULL,
                              uploadedStandardSolutionStructure=NULL,
                              uploadedStandardSolutionEquipment=NULL,
@@ -36,9 +38,24 @@ observeEvent(input$inputCalibrationCurveFileUpload, {
     checkIfShowResults()
   }
 })
+observeEvent(input$inputExternalStandardErrorFileUpload, {
+  filePath = input$inputExternalStandardErrorFileUpload$datapath
+  myReactiveErrors$uploadedExternalStandardError = calibrationCurvePooledDataReadCSV(filePath, TRUE)
+  if(is.null(myReactiveErrors$uploadedExternalStandardError))
+  {
+    myReactives$uploadedExternalStandardError = TRUE
+    checkIfShowResults()
+  }
+  else{
+    myReactives$uploadedExternalStandardError = FALSE
+    checkIfShowResults()
+  }
+})
 observeEvent(input$reset_inputCalibrationCurveFileUpload, {
   myReactives$uploadedCalibrationCurve = FALSE
   myReactiveErrors$uploadedCalibrationCurve = NULL
+  myReactives$uploadedExternalStandardError = FALSE
+  myReactiveErrors$uploadedExternalStandardError = NULL
   checkIfShowResults()
 })
 

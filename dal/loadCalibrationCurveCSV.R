@@ -70,17 +70,17 @@ calibrationCurveReadCSV = function(filePath = NULL, validate = FALSE) {
     }
   }
   
-  if(!hasName(data,"run1"))
-  {
-    if(validate)
-    {
-      return("The file uploaded is missing the 'run1' column.<br />Your data must contain at least one run.<br />Please reference the associated example CSV file for this upload.")
-    }
-    else
-    {
-      return(NULL)
-    }
-  }
+  #if(!hasName(data,"run1"))
+  #{
+  #  if(validate)
+  #  {
+  #    return("The file uploaded is missing the 'run1' column.<br />Your data must contain at least one run.<br />Please reference the associated example CSV file for this upload.")
+  #  }
+  #  else
+  #  {
+  #    return(NULL)
+  #  }
+  #}
   
   #If we're just validating and got this far then we have a good file. Return null
   #Otherwise we return the data because it's good
