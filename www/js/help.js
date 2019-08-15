@@ -61,7 +61,7 @@ function(startingStep) {
 			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div > div.box-body > div",
 			intro: "<h4>Specify Confidence Interval</h4>\
 					<p>Help information here...</p>",
-			position: "bottom"
+			position: "top"
 			
 		},
 		{
