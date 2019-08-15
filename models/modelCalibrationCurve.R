@@ -141,7 +141,14 @@ output$rearrangedCalibrationData <- DT::renderDataTable(
 
 output$uploadedCalibrationDataStats <- renderUI({
   data = calibrationCurveData()
-  return(sprintf("Uploaded Calibration Data | Runs: %d | No. Concentrations: %d", dim(data)[2]-1, dim(data)[1]))
+  reps = max(table(data["conc"]))
+  
+  dataReformatted = calibrationCurveDataReformatted()
+  y = dataReformatted$calibrationDataPeakArea
+
+  par = getCalibrationCurve_n(y)
+  
+  return(sprintf("Uploaded Calibration Data | Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d", dim(data)[2]-1, reps, length(table(data["conc"])), par))
 })
 
 output$display_calibrationCurve_linearRegression <- renderUI({

@@ -1,0 +1,13 @@
+solution,measurementDevice,measurementVolume,measurementTolerance,measurementCoverage,measurementTimesUsed
+Stock Solution A,pipette,25,0.3,2,1
+Stock Solution A,pipette,1000,5,2,2
+Working Solution B,pipette,50,0.3,2,1
+Working Solution B,pipette,1000,5,2,7
+Working Solution C,pipette,100,0.3,2,1
+Working Solution C,flask,10000,25,,1
+Calibration Solution D,pipette,25,0.3,2,9
+Calibration Solution D,pipette,50,0.3,2,1
+Calibration Solution D,pipette,1000,5,2,5
+Calibration Solution E,pipette,25,0.3,2,7
+Calibration Solution E,pipette,50,0.3,2,3
+Calibration Solution E,pipette,1000,5,2,5

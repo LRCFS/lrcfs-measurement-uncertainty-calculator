@@ -62,10 +62,10 @@ tabStart = tabItem(tabName = "start",
 
                                     div(
                                       h4("Calibration Curve"),
-                                      a("Download Example Calibration Curve CSV", href="https://github.com/LRCFS/lrcfs-measurement-of-uncertainty/blob/master/data/calibrationCurve/calibrationCurveSampleData.csv"),
+                                      a("Download Example Calibration Curve CSV", href="exampleData/exampleData-calibrationCurve.csv"),
                                       uiOutput("display_start_calibrationCurveFileUpload"),
                                       div("Error with uploaded file...", class="error", id="display_start_error_calibrationCurveFileUpload"),
-                                      a("Download External Standard Error CSV", href="https://github.com/LRCFS/lrcfs-measurement-of-uncertainty/blob/master/data/calibrationCurve/calibrationCurveSampleData.csv"),
+                                      a("Download External Standard Error CSV", href="exampleData/exampleData-calibrationCurve-externalStandardError.csv"),
                                       uiOutput("display_start_externalStandardErrorFileUpload"),
                                       div("Error with uploaded file...", class="error", id="display_start_error_externalStandardErrorFileUpload"),
                                       actionButton("reset_inputCalibrationCurveFileUpload", "Remove Calibration Curve Data", icon=icon("times")),
@@ -75,7 +75,7 @@ tabStart = tabItem(tabName = "start",
                                     
                                     div(
                                       h4("Method Precsision"),
-                                      a("Download Example Method Precision CSV", href="https://github.com/LRCFS/lrcfs-measurement-of-uncertainty/blob/master/data/methodPrecision/methodPrecisionSampleData.csv"),
+                                      a("Download Example Method Precision CSV", href="exampleData/exampleData-methodPrecision.csv"),
                                       uiOutput("display_start_methodPrecisionFileUpload"),
                                       div("Error with uploaded file...", class="error", id="display_start_error_methodPrecisionFileUpload"),
                                       actionButton("reset_inputMethodPrecisionFileUpload", "Remove Method Precision Data", icon=icon("times")),
@@ -85,10 +85,10 @@ tabStart = tabItem(tabName = "start",
                                     
                                     div(
                                       h4("Standard Solution"),
-                                      a("Download Example Standard Solution Structure CSV", href="https://github.com/LRCFS/lrcfs-measurement-of-uncertainty/blob/master/data/standardSolution/standardSolutionSampleData-compoundAndSolutions.csv"),
+                                      a("Download Example Standard Solution Structure CSV", href="exampleData/exampleData-standardSolution-structure.csv"),
                                       uiOutput("display_start_standardSolutionStructureFileUpload"),
                                       div("Error with uploaded file...", class="error", id="display_start_error_standardSolutionStructureFileUpload"),
-                                      a("Download Example Standard Solution Equipment CSV", href="https://github.com/LRCFS/lrcfs-measurement-of-uncertainty/blob/master/data/standardSolution/standardSolutionSampleData-measurementInformation.csv"),
+                                      a("Download Example Standard Solution Equipment CSV", href="exampleData/exampleData-standardSolution-equipment.csv"),
                                       uiOutput("display_start_standardSolutionEquipmentFileUpload"),
                                       div("Error with uploaded file...", class="error", id="display_start_error_standardSolutionEquipmentFileUpload"),
                                       actionButton("reset_inputStandardSolutionFileUpload", "Remove all Standard Solution Data", icon=icon("times")),
@@ -98,7 +98,7 @@ tabStart = tabItem(tabName = "start",
                                     
                                     div(
                                       h4("Sample Volume"),
-                                      a("Download Example Sample Volume CSV", href="https://github.com/LRCFS/lrcfs-measurement-of-uncertainty/blob/master/data/sampleVolume/sampleVolumeSampleData.csv"),
+                                      a("Download Example Sample Volume CSV", href="exampleData/exampleData-sampleVolume.csv"),
                                       uiOutput("display_start_sampleVolumeFileUpload"),
                                       div("Error with uploaded file...", class="error", id="display_start_error_sampleVolumeFileUpload"),
                                       actionButton("reset_inputSampleVolumeFileUpload", "Remove Sample Volume Data", icon=icon("times")),
