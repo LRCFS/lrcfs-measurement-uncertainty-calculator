@@ -1,15 +1,10 @@
-methodPrecisionReadCSV = function(filePath = NULL) {
-  if(is.null(filePath))
-  {
-    return(NULL)
-  }
-  if(!str_detect(filePath,"(\\.csv|\\.CSV)$"))
-  {
-    return(NULL)
-  }
-  
-  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE)
-  data = removeEmptyData(data)
+methodPrecisionReadCSV = function(filePath = NULL, validate = FALSE) {
 
-  return(data)
+  #The columns that the data should have
+  columnsToCheck = list("conc" = "Your data must contain information about the concentrations of each run.",
+                        "run1" = "Your data must contain at least one run.")
+
+  return(loadCsv(filePath, validate, columnsToCheck))
 }
+
+#data = methodPrecisionReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\methodPrecision\\methodPrecisionSampleData.csv");data

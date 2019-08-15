@@ -27,12 +27,6 @@ output$display_start_calibrationCurveFileUpload <- renderUI({
   return(fileInput)
 })
 
-output$display_start_error_calibrationCurveFileUpload = renderUI({
-  errorDiv = div("There has been an error processing your uploaded file. Please ensure you have uploaded a correctly formatted .csv file", class="error")
-  
-  return(errorDiv)
-})
-
 output$display_start_externalStandardErrorFileUpload <- renderUI({
   input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
   

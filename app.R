@@ -1,4 +1,4 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","utils","data.tree","rintrojs","textutils"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils"))
 
 rm(list = ls())
 library(shiny)
@@ -20,6 +20,7 @@ library(textutils)
 
 source("models/modelHelperFunctions.R")
 
+source("dal/loadHelperMethods.R")
 source("dal/loadCoverageFactorEffectiveDofCSV.R")
 source("dal/loadCalibrationCurveCSV.R")
 source("dal/loadCalibrationCurvePooledDataCSV.R")

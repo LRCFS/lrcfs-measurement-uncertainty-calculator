@@ -19,15 +19,6 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
   return(output)
 }
 
-removeEmptyData = function(df)
-{
-  #Remove NA rows
-  df = df[!apply(is.na(df) | df == "", 1, all),]
-  #Remove NA columns
-  df = df[colSums(!is.na(df)) > 0]
-  return(df)
-}
-
 # library(latex2exp)
 # library(stringr)
 # printLatexFormula = function(latex, calc, variables){

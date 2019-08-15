@@ -1,34 +1,34 @@
-standardSolutionReadCSV = function(filePath = NULL) {
-  if(is.null(filePath))
-  {
-    return(NULL)
-  }
-  if(!str_detect(filePath,"(\\.csv|\\.CSV)$"))
-  {
-    return(NULL)
-  }
-
-  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
-  data = removeEmptyData(data)
-
-  return(data)
-}
-
-standardSolutionMeasurementsReadCSV = function(filePath = NULL) {
-  if(is.null(filePath))
-  {
-    return(NULL)
-  }
-  if(!str_detect(filePath,"(\\.csv|\\.CSV)$"))
-  {
-    return(NULL)
-  }
+standardSolutionReadCSV = function(filePath = NULL, validate = FALSE) {
   
-  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE)
-  data = removeEmptyData(data)
-
-  return(data)
+  #The columns that the data should have
+  columnsToCheck = list("solution" = "Your data must contain...",
+                        "madeFrom" = "Your data must contain...",
+                        "compoundPurity" = "Your data must contain...",
+                        "compoundTolerance" = "Your data must contain...",
+                        "compoundCoverage" = "Your data must contain...")
+  
+  return(loadCsv(filePath, validate, columnsToCheck))
 }
+#data = standardSolutionReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\standardSolution\\standardSolutionSampleData-compoundAndSolutions.csv", TRUE);data
+
+standardSolutionMeasurementsReadCSV = function(filePath = NULL, validate = FALSE) {
+  
+  #The columns that the data should have
+  columnsToCheck = list("solution" = "Your data must contain...",
+                        "measurementDevice" = "Your data must contain...",
+                        "measurementVolume" = "Your data must contain...",
+                        "measurementTolerance" = "Your data must contain...",
+                        "measurementCoverage" = "Your data must contain...",
+                        "measurementTimesUsed" = "Your data must contain...")
+  
+  return(loadCsv(filePath, validate, columnsToCheck))
+}
+#data = standardSolutionMeasurementsReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\standardSolution\\standardSolutionSampleData-measurementInformation.csv");data
+
+
+
+
+
 
 standardSolutionMergeData = function(compoundAndSolutionData, measurementData) {
   
