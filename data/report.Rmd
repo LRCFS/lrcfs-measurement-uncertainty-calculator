@@ -1,0 +1,63 @@
+---
+title: "MOUCalc Report"
+output: html_document
+params:
+  calibrationCurveData: NA
+  externalStandardErrorData: NA
+  methodPrecisionData: NA
+  standardSolutionData: NA
+  standardSolutionEquipmentData: NA
+  sampleVolumeData: NA
+  inputCaseSampleReplicates: NA
+  inputCaseSampleMeanConcentration: NA
+  inputConfidenceInterval: NA
+  uncCalibrationCurve: NA
+  uncMethodPrecision: NA
+  uncStandardSolution: NA
+  uncSampleVolume: NA
+  combinedUncertaintyResult: NA
+  expandedUncertaintyResult: NA
+  expandedUncertaintyResultPercentage: NA
+---
+
+# Inputs
+```{r}
+params$inputCaseSampleReplicates
+params$inputCaseSampleMeanConcentration
+params$inputConfidenceInterval
+```
+
+# Calibration Curve
+```{r}
+params$uncCalibrationCurve
+kable(params$calibrationCurveData)
+kable(params$externalStandardErrorData)
+```
+
+
+# Method Precision
+```{r}
+params$uncMethodPrecision
+kable(params$methodPrecisionData)
+```
+
+
+# Standard Solution
+```{r}
+params$uncStandardSolution
+kable(params$standardSolutionData)
+kable(params$standardSolutionEquipmentData)
+```
+
+# Sample Volume
+```{r}
+params$uncSampleVolume
+kable(params$sampleVolumeData)
+```
+
+# Results
+```{r}
+params$combinedUncertaintyResult
+params$expandedUncertaintyResult
+params$expandedUncertaintyResultPercentage
+```

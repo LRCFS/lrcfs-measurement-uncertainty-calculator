@@ -76,3 +76,43 @@ output$display_start_sampleVolumeFileUpload <- renderUI({
   
   return(fileInput)
 })
+
+
+output$actionButton_start_downloadReport = downloadHandler(
+  # For PDF output, change this to "report.pdf"
+  filename = "report.html",
+  content = function(file) {
+    # Copy the report file to a temporary directory before processing it, in
+    # case we don't have write permissions to the current working dir (which
+    # can happen when deployed).
+    tempReport <- file.path(tempdir(), "temp_report.Rmd")
+    file.copy("data/report.Rmd", tempReport, overwrite = TRUE)
+    
+    # Set up parameters to pass to Rmd document
+    params <- list(calibrationCurveData = calibrationCurveData(),
+                   externalStandardErrorData = externalStandardErrorData(),
+                   methodPrecisionData = methodPrecisionData(),
+                   standardSolutionData = standardSolutionData(),
+                   standardSolutionEquipmentData = standardSolutionMeasurementData(),
+                   sampleVolumeData = sampleVolumeData(),
+                   inputCaseSampleReplicates = input$inputCaseSampleReplicates,
+                   inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration,
+                   inputConfidenceInterval = input$inputConfidenceInterval,
+                   uncCalibrationCurve = calibrationCurveResult(),
+                   uncMethodPrecision = methodPrecisionResult(),
+                   uncStandardSolution = standardSolutionResult(),
+                   uncSampleVolume = sampleVolumeResult(),
+                   combinedUncertaintyResult = combinedUncertaintyResult(),
+                   expandedUncertaintyResult = expandedUncertaintyResult(),
+                   expandedUncertaintyResultPercentage = expandedUncertaintyResultPercentage())
+
+    
+    # Knit the document, passing in the `params` list, and eval it in a
+    # child of the global environment (this isolates the code in the document
+    # from the code in this app).
+    rmarkdown::render(tempReport, output_file = file,
+                      params = params,
+                      envir = new.env(parent = globalenv())
+    )
+  }
+)

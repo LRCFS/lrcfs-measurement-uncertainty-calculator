@@ -46,7 +46,11 @@ tabStart = tabItem(tabName = "start",
                             ),
                             fluidRow(
                               div(id="percentageExpandedUncertaintyStartPage",
-                                  valueBox("Results", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "green", icon = icon("equals"))
+                                  valueBox("Results", uiOutput("display_expandedUncertainty_finalAnswer_start"), width = 12, color = "green", icon = icon("equals")),
+                                  box(title="Download Report", width = 12,
+                                    p("For reporting purposes and report can be downloaded and stored for all the results uploaded."),
+                                    downloadButton("actionButton_start_downloadReport", "Download Report", icon=icon("download"))
+                                  )
                               )
                             )
                      ),
