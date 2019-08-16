@@ -1,7 +1,7 @@
 tabStart = tabItem(tabName = "start",
                    fluidRow(
-                     box(title="Welcome to METEOR", width=12,
-                         HTML("METEOR is the LRCFS <strong>ME</strong>asuremen<strong>T</strong> of Unc<strong>E</strong>rtaintly Calculat<strong>OR</strong>, which can used to calculator the Expanded Uncertatiny assocaited with drug testing given some calibration data."),
+                     box(title="Welcome to MOU Calc", width=12,
+                         HTML("MOU Calc is the LRCFS Measurement of Uncertainty Calculator, which can used to calculator the Expanded Uncertatiny assocaited with drug testing given some calibration data."),
                          hr(),
                          actionButton("helpStartPage", "Help", icon=icon("question"))
                      )
