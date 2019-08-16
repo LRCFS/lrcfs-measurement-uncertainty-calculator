@@ -148,7 +148,7 @@ output$uploadedCalibrationDataStats <- renderUI({
 
   par = getCalibrationCurve_n(y)
   
-  return(sprintf("Uploaded Calibration Data | Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d", dim(data)[2]-1, reps, length(table(data["conc"])), par))
+  return(HTML(sprintf("Uploaded Calibration Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d", dim(data)[2]-1, reps, length(table(data["conc"])), par)))
 })
 
 output$display_calibrationCurve_linearRegression <- renderUI({
@@ -297,8 +297,20 @@ output$display_calibrationCurve_externalStandardErrorUploadedData = renderUI({
   if(is.null(exStdErrorData))
     return(NULL)
   
+  numberOfRuns = dim(exStdErrorData)[2]-1 #get the number of columns and minus 1 (because one column in the concentration)
+  numberOfReplicates = max(table(exStdErrorData["conc"])) #count the number of occurances of each value in the concentration column, then get the max value (because some might be missing some)
+  concentrationLevels = length(table(exStdErrorData["conc"])) #table the concentration column and count the length
+  
+  #To get the total number of peak areas we want to get just the runs
+  exStdErrorRunData = exStdErrorData
+  exStdErrorRunData$conc = NULL #so remove the conc column
+  lengths = apply(exStdErrorRunData, 2, getCalibrationCurve_n) #then count all the runs lengths
+  numberOfPeakAreaRatios = sum(lengths) #and add them together
+                   
+  boxTitle = HTML(sprintf("External Calibration Curve Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d",numberOfRuns,numberOfReplicates,concentrationLevels,numberOfPeakAreaRatios))
+  
   tabBox(width=12, side="right",
-         title = "External Calibration Curve Data",
+         title = boxTitle,
          tabPanel("Raw Data",
                   DT::renderDataTable(
                     externalStandardErrorData(),
