@@ -36,6 +36,6 @@ vignettes/*.pdf
 rsconnect/
 
 .shiny_run/
-shinyShortcut
+shinyShortcut.vbs
 
 deploy/
