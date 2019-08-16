@@ -1,4 +1,5 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","rmarkdown","knitr"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","rmarkdown","knitr","webshot"))
+#webshot::install_phantomjs()
 
 rm(list = ls())
 library(shiny)
@@ -19,6 +20,7 @@ library(rintrojs)
 library(textutils)
 library(rmarkdown)
 library(knitr)
+library(webshot)
 
 source("models/modelHelperFunctions.R")
 

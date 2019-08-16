@@ -77,10 +77,8 @@ output$display_start_sampleVolumeFileUpload <- renderUI({
   return(fileInput)
 })
 
-
 output$actionButton_start_downloadReport = downloadHandler(
-  # For PDF output, change this to "report.pdf"
-  filename = "report.html",
+  filename = paste0("moucalc-report_",format(Sys.time(), "%Y%m%d_%H%M%S"),".html"),
   content = function(file) {
     # Copy the report file to a temporary directory before processing it, in
     # case we don't have write permissions to the current working dir (which
@@ -90,6 +88,7 @@ output$actionButton_start_downloadReport = downloadHandler(
     
     # Set up parameters to pass to Rmd document
     params <- list(calibrationCurveData = calibrationCurveData(),
+                   calibrationCurveDataReformatted = calibrationCurveDataReformatted(),
                    externalStandardErrorData = externalStandardErrorData(),
                    methodPrecisionData = methodPrecisionData(),
                    standardSolutionData = standardSolutionData(),
