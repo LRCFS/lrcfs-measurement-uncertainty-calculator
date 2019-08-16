@@ -11,6 +11,10 @@ a[data-value="dashboard"],
   display: none !important;
 }
 
+.navbar{
+	background: #3c8dbc url("../images/lrcfs-logo.png") top right no-repeat !important;
+}
+
 .visible,
 a.visible,
 div#percentageExpandedUncertaintyStartPage.visible{
