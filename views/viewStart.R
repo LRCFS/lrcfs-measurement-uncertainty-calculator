@@ -1,7 +1,8 @@
 tabStart = tabItem(tabName = "start",
                    fluidRow(
                      box(title="Welcome to MOU Calc", width=12,
-                         HTML("MOU Calc is the LRCFS Measurement of Uncertainty Calculator, which can used to calculator the Expanded Uncertatiny assocaited with drug testing given some calibration data."),
+                         p("MOU Calc is the LRCFS Measurement of Uncertainty Calculator, which can used to calculator the Expanded Uncertatiny assocaited with drug testing given some calibration data."),
+                         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean arcu ligula, tincidunt vitae convallis non, laoreet id enim. Suspendisse potenti. Morbi placerat interdum orci, in dictum ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis sodales lacus sed sem congue, at aliquet dolor molestie. Aliquam nec pulvinar nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ipsum odio, lacinia feugiat nisl at, dictum viverra ligula. Donec tincidunt ante quis sodales maximus. Etiam eget sem at turpis posuere bibendum eu in purus. Nam eu feugiat odio."),
                          hr(),
                          actionButton("helpStartPage", "Help", icon=icon("question"))
                      )

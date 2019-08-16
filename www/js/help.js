@@ -130,7 +130,7 @@ function(startingStep) {
 		},
 		{
 			element: "#rearrangedCalibrationData thead tr th:nth-of-type(4)",
-			intro: "Hello world!5"
+			intro: "Squared Deviation is the awesome thing that's totally awesome"
 		},
 		{
 			element: "#shiny-tab-calibrationCurve .row .col-sm-6:first-of-type .info-box",

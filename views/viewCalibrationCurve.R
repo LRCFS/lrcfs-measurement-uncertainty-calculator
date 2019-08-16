@@ -4,30 +4,25 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    actionButton("helpCalibrationCurve", "Help", icon=icon("question"))
                  ),
                  fluidRow(
-                   tabBox(title="Analysis", width=12,
-                          tabPanel(title="Overview",
-                                   "Upload your calibration data via the settings menu",
-                                   HTML('<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>'),
-                                   "and see a whole bunch of cool number."
-                          ),
-                          tabPanel(title="Method",
-                                   "For the analysis of these reports we use the following function:",
-                                   uiOutput("display_calibrationCurve_uncertaintyOfCalibrationLatex"),
-                                   "where \\(S_{y/x}\\) is the standard error of regression given by",
-                                   uiOutput("display_calibrationCurve_standardErrorOfRegressionLatex")
-                          ),
-                          tabPanel(title="Properties",
-                                   tags$ul(
-                                     tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
-                                     tags$li("\\(b_1\\) is the slop of the of regression line"),
-                                     tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
-                                     tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
-                                     tags$li("\\(x_s\\) is the the amount of THC in test sample"),
-                                     tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
-                                     tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                                     tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
-                                   )
-                          )
+                   box(title = "Overview", width=6,
+                       p("Lorem ipsum Suspendisse ultrices, lorem eget pellentesque eleifend, lectus ipsum tincidunt metus, venenatis accumsan libero diam eu velit. Cras et porttitor nisi. Ut blandit egestas lectus, eget suscipit elit efficitur eget. Quisque erat velit, interdum sit amet cursus at, auctor in quam. Integer vestibulum dolor quam, non scelerisque mi aliquet non. Aliquam erat volutpat."),
+                       p("Sed posuere ligula metus, ac placerat tortor tincidunt quis. Nam aliquam faucibus viverra. Duis imperdiet blandit massa, quis malesuada neque malesuada vel. Nam eget sodales libero, sed hendrerit est. Duis et magna sit amet lacus pellentesque placerat vitae a nunc. Integer quis placerat dolor. Donec at laoreet quam. Fusce ut lacus eget lacus dictum fermentum. Duis vel faucibus turpis. Vivamus placerat finibus congue. Nullam quis viverra lectus. Phasellus hendrerit ac est vitae euismod. Praesent a sodales justo.")
+                   ),
+                   box(title = "Method", width=6,
+                       "For the analysis of these reports we use the following function:",
+                       uiOutput("display_calibrationCurve_uncertaintyOfCalibrationLatex"),
+                       "where \\(S_{y/x}\\) is the standard error of regression given by",
+                       uiOutput("display_calibrationCurve_standardErrorOfRegressionLatex"),
+                       tags$ul(
+                         tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
+                         tags$li("\\(b_1\\) is the slope of the of regression line"),
+                         tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
+                         tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
+                         tags$li("\\(x_s\\) is the the amount of THC in test sample"),
+                         tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
+                         tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
+                         tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
+                       )
                    )
                  ),
                  fluidRow(
