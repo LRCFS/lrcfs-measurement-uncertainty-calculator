@@ -43,7 +43,7 @@ source("views/viewDashboard.R")
 
 `%ni%` = Negate(`%in%`)
 
-ui <- dashboardPagePlus(title="METEOR v0.5",
+ui <- dashboardPagePlus(title="MOU Calc v0.5",
                         dashboardHeaderPlus(title = tagList(
                           img(class = "logo-lg", src = "images/logo-large.png"), 
                           img(class = "logo-mini", src = "images/logo-small.png")),
