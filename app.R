@@ -43,7 +43,7 @@ source("views/viewDashboard.R")
 
 `%ni%` = Negate(`%in%`)
 
-ui <- dashboardPagePlus(title="METEOR v0.3",
+ui <- dashboardPagePlus(title="METEOR v0.5",
                         dashboardHeaderPlus(title = tagList(
                           img(class = "logo-lg", src = "images/logo-large.png"), 
                           img(class = "logo-mini", src = "images/logo-small.png")),
@@ -86,7 +86,7 @@ ui <- dashboardPagePlus(title="METEOR v0.3",
                         ),
                         #rightsidebar = mouCalcRightSidebar,
                         footer = dashboardFooter(
-                          left_text = "METEOR",
+                          left_text = "Measurement of Uncertainty Calculator",
                           right_text = "Copyright LRCFS 2019"
                        )
 )
