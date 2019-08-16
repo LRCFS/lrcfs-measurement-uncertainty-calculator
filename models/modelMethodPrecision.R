@@ -291,6 +291,11 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
   
   output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s)\\) = ",input$inputCaseSampleMeanConcentration," is ",closetConcentration,"<br /><br />")
   
+  if(is.na(closetConcentration))
+  {
+    output = "The closest concentration from your method precision data cannot be found.<br />This is usually because a Case Sample Mean Concentration has not been specified on the start page.<br /><br />"
+  }
+  
   output = paste(output, "\\(u_r(\\text{MethodPrec})_{(", closetConcentration, ")}=", methodPrecisionResult(), "\\)")
   
   return(withMathJax(HTML(output)))
@@ -315,6 +320,11 @@ output$display_methodPrecision_finalAnswer_coverageFactor <- renderUI({
 
 getMethodPrecisionFinalAnswerClosestConcentration = function(data, caseSampleMeanConcentration)
 {
+  if(is.na(caseSampleMeanConcentration))
+  {
+    return(NA)
+  }
+  
   closestConcentration = 0
   
   for(conc in getConcentrations(data))
