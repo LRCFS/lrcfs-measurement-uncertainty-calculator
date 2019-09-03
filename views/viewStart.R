@@ -10,6 +10,78 @@ tabStart = tabItem(tabName = "start",
                    fluidRow(
                      column(width=6,
                             fluidRow(
+                              box(width=12, id="fileUploadBox",
+                                  actionButton("helpStartPage6", "", icon=icon("question")),
+                                  div(
+                                    h4("Upload Data Files"),
+                                    p("Using the Browse buttons below please upload the data required for each step for calculating the Expanded Uncertainty."),
+                                    p("To make sure your data is in the correct format please download the example CSV files that specify the required format for each calculation.")
+                                  ),
+                                  hr(),
+                                  
+                                  div(
+                                    h4("Calibration Curve"),
+                                    a("Download Example Calibration Curve CSV", href="exampleData/exampleData-calibrationCurve.csv"),
+                                    uiOutput("display_start_calibrationCurveFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_calibrationCurveFileUpload"),
+                                    a("Download External Standard Error CSV", href="exampleData/exampleData-calibrationCurve-externalStandardError.csv"),
+                                    uiOutput("display_start_externalStandardErrorFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_externalStandardErrorFileUpload"),
+                                    actionButton("reset_inputCalibrationCurveFileUpload", "Remove Calibration Curve Data", icon=icon("times")),
+                                    div(class="clear")
+                                  ),
+                                  hr(),
+                                  
+                                  div(
+                                    h4("Method Precsision"),
+                                    a("Download Example Method Precision CSV", href="exampleData/exampleData-methodPrecision.csv"),
+                                    uiOutput("display_start_methodPrecisionFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_methodPrecisionFileUpload"),
+                                    actionButton("reset_inputMethodPrecisionFileUpload", "Remove Method Precision Data", icon=icon("times")),
+                                    div(class="clear")
+                                  ),
+                                  hr(),
+                                  
+                                  div(
+                                    h4("Standard Solution"),
+                                    a("Download Example Standard Solution Structure CSV", href="exampleData/exampleData-standardSolution-structure.csv"),
+                                    uiOutput("display_start_standardSolutionStructureFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_standardSolutionStructureFileUpload"),
+                                    a("Download Example Standard Solution Equipment CSV", href="exampleData/exampleData-standardSolution-equipment.csv"),
+                                    uiOutput("display_start_standardSolutionEquipmentFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_standardSolutionEquipmentFileUpload"),
+                                    actionButton("reset_inputStandardSolutionFileUpload", "Remove all Standard Solution Data", icon=icon("times")),
+                                    div(class="clear")
+                                  ),
+                                  hr(),
+                                  
+                                  div(
+                                    h4("Sample Volume"),
+                                    a("Download Example Sample Volume CSV", href="exampleData/exampleData-sampleVolume.csv"),
+                                    uiOutput("display_start_sampleVolumeFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_sampleVolumeFileUpload"),
+                                    actionButton("reset_inputSampleVolumeFileUpload", "Remove Sample Volume Data", icon=icon("times")),
+                                    div(class="clear")
+                                  ),
+                                  hr()
+                              )
+                            )
+                     ),
+                     column(width=6,
+                            fluidRow(
+                              box(title = "Weighted Least Square Regerssion", width = 12,
+                                  actionButton("helpStartPage1", "", icon=icon("question")),
+                                  p("To calculate the MOU of the calibration curve you can optionally apply a weighted least squared regression."),
+                                  p("Please specify the weight below if required. Note that a default weight of '1' results in a simple linear regression with no weighting."),
+                                  selectInput("inputWeightLeastSquared", "Weight \\((w)\\):",
+                                              c("Default (1)" = 1,
+                                                "Concentraion (1/x)" = 2,
+                                                "Concentraion Squared (1/x^2)" = 3,
+                                                "Peak Area (1/y)" = 4,
+                                                "Peak Area Squared (1/y^2)" = 5))
+                              )
+                            ),
+                            fluidRow(
                               box(title = "Case Sample Data", width = 12,
                                   actionButton("helpStartPage1", "", icon=icon("question")),
                                   p("Specify below the number of replicates and mean concentration for the case sample."),
@@ -52,65 +124,6 @@ tabStart = tabItem(tabName = "start",
                                     downloadButton("actionButton_start_downloadReport", "Download Report", icon=icon("download"))
                                   )
                               )
-                            )
-                     ),
-                     column(width=6,
-                            fluidRow(
-                                box(width=12, id="fileUploadBox",
-                                    actionButton("helpStartPage6", "", icon=icon("question")),
-                                    div(
-                                      h4("Upload Data Files"),
-                                      p("Using the Browse buttons below please upload the data required for each step for calculating the Expanded Uncertainty."),
-                                      p("To make sure your data is in the correct format please download the example CSV files that specify the required format for each calculation.")
-                                    ),
-                                    hr(),
-
-                                    div(
-                                      h4("Calibration Curve"),
-                                      a("Download Example Calibration Curve CSV", href="exampleData/exampleData-calibrationCurve.csv"),
-                                      uiOutput("display_start_calibrationCurveFileUpload"),
-                                      div("Error with uploaded file...", class="error", id="display_start_error_calibrationCurveFileUpload"),
-                                      a("Download External Standard Error CSV", href="exampleData/exampleData-calibrationCurve-externalStandardError.csv"),
-                                      uiOutput("display_start_externalStandardErrorFileUpload"),
-                                      div("Error with uploaded file...", class="error", id="display_start_error_externalStandardErrorFileUpload"),
-                                      actionButton("reset_inputCalibrationCurveFileUpload", "Remove Calibration Curve Data", icon=icon("times")),
-                                      div(class="clear")
-                                    ),
-                                    hr(),
-                                    
-                                    div(
-                                      h4("Method Precsision"),
-                                      a("Download Example Method Precision CSV", href="exampleData/exampleData-methodPrecision.csv"),
-                                      uiOutput("display_start_methodPrecisionFileUpload"),
-                                      div("Error with uploaded file...", class="error", id="display_start_error_methodPrecisionFileUpload"),
-                                      actionButton("reset_inputMethodPrecisionFileUpload", "Remove Method Precision Data", icon=icon("times")),
-                                      div(class="clear")
-                                    ),
-                                    hr(),
-                                    
-                                    div(
-                                      h4("Standard Solution"),
-                                      a("Download Example Standard Solution Structure CSV", href="exampleData/exampleData-standardSolution-structure.csv"),
-                                      uiOutput("display_start_standardSolutionStructureFileUpload"),
-                                      div("Error with uploaded file...", class="error", id="display_start_error_standardSolutionStructureFileUpload"),
-                                      a("Download Example Standard Solution Equipment CSV", href="exampleData/exampleData-standardSolution-equipment.csv"),
-                                      uiOutput("display_start_standardSolutionEquipmentFileUpload"),
-                                      div("Error with uploaded file...", class="error", id="display_start_error_standardSolutionEquipmentFileUpload"),
-                                      actionButton("reset_inputStandardSolutionFileUpload", "Remove all Standard Solution Data", icon=icon("times")),
-                                      div(class="clear")
-                                    ),
-                                    hr(),
-                                    
-                                    div(
-                                      h4("Sample Volume"),
-                                      a("Download Example Sample Volume CSV", href="exampleData/exampleData-sampleVolume.csv"),
-                                      uiOutput("display_start_sampleVolumeFileUpload"),
-                                      div("Error with uploaded file...", class="error", id="display_start_error_sampleVolumeFileUpload"),
-                                      actionButton("reset_inputSampleVolumeFileUpload", "Remove Sample Volume Data", icon=icon("times")),
-                                      div(class="clear")
-                                    ),
-                                    hr()
-                                )
                             )
                      )
                    )

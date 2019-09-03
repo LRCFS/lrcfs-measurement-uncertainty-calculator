@@ -3,7 +3,14 @@
 ################################
 getUncertaintyOfCalibrationLatex = "u\\text{(CalCurve)} &= \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} }"
 getRelativeStandardUncertaintyLatex = "u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}"
-getStandardErrorOfRegressionLatex = "S_{y/x} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}"
+
+usingWls = reactive({
+  if(input$inputWeightLeastSquared == 1)
+  {
+    return(FALSE)
+  }
+  return(TRUE)
+})
 
 
 calibrationCurveData <- reactive({
@@ -42,8 +49,9 @@ calibrationCurveResult = reactive({
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
-  return(getRelativeStandardUncertainty(x,y,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration))
+  return(getRelativeStandardUncertainty(x,y,weightedLeastSquared,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration))
 })
 
 calibrationCurveDataReformatted <- reactive({
@@ -86,17 +94,89 @@ rearrangedCalibrationDataDT = function(){
   ### Get Squared Devation of X
   sqDevationX = getSqDevation(x);
   
+  #Get Weight
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
+  
+  #Get Weight
+  wx = round(weightedLeastSquared * x,numDecimalPlaces)
+  wy = round(weightedLeastSquared * y,numDecimalPlaces)
+  
   ### Predicted Y value is the regression cofficient of Y compared to X
-  predictedY = getPredicetedY(x,y);
+  predictedY = getPredicetedY(x,y, weightedLeastSquared);
   
   ### Get error Sum Squared of y
-  errorSqDevationY = getErrorSqDevationY(x, y);
+  errorSqDevationY = getErrorSqDevationY(x,y,weightedLeastSquared);
   
   ##Get data in dataframe
-  rearrangedCalibrationDataFrame = data.frame(calibrationCurveDataReformatted()$runNames,x,y,sqDevationX,predictedY,errorSqDevationY)
-  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$","$$\\text{Squared Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$")
+  rearrangedCalibrationDataFrame = data.frame(calibrationCurveDataReformatted()$runNames,x,y,weightedLeastSquared,wx,wy,sqDevationX,predictedY,errorSqDevationY)
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",getWlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_ix_i$$","$$w_iy_i$$","$$\\text{Squared Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$")
   
   return(rearrangedCalibrationDataFrame)
+}
+
+getWeightedLeastSquared = function(x,y,wlsChoice){
+  
+  wlsFunction = getWlsFunction(wlsChoice)
+  
+  if(wlsChoice == 1)
+  {
+    return(rep(1,length(x)))
+  }
+  
+  if(wlsChoice == 2 | wlsChoice == 3)
+  {
+    return(round(wlsFunction(x),numDecimalPlaces))
+  }
+  
+  if(wlsChoice == 4 | wlsChoice == 5)
+  {
+    return(round(wlsFunction(y),numDecimalPlaces))
+  }
+}
+
+getWlsFunction = function(wlsChoice){
+  if(wlsChoice == 1)
+  {
+    wlsFunc = function(value){
+      return(value)
+    }
+    return(wlsFunc)
+  }
+  
+  if(wlsChoice == 2 | wlsChoice == 4 | wlsChoice == 6)
+  {
+    wlsFunc = function(value){
+      return(1/(value))
+    }
+    return(wlsFunc)
+  }
+  
+  if(wlsChoice == 3 | wlsChoice == 5 | wlsChoice == 7)
+  {
+    wlsFunc = function(value){
+      return(1/value^2)
+    }
+    return(wlsFunc)
+  }
+}
+
+getWlsLatex = function(wlsChoice){
+  if(wlsChoice == 1)
+    return("w=1")
+  
+  if(wlsChoice == 2)
+    return("w=\\frac{1}{x}")
+  
+  if(wlsChoice == 3)
+    return("w=\\frac{1}{x^2}")
+  
+  if(wlsChoice == 4)
+    return("w=\\frac{1}{y}")
+  
+  if(wlsChoice == 5)
+    return("w=\\frac{1}{y^2}")
+  
+  return("")
 }
 
 
@@ -121,9 +201,7 @@ output$display_calibrationCurve_uncertaintyOfCalibrationLatex = renderUI({
 })
 
 output$display_calibrationCurve_standardErrorOfRegressionLatex = renderUI({
-  formula = gsub("&=", "=", getStandardErrorOfRegressionLatex)
-  formula = paste0("$$",formula,"$$")
-  return(withMathJax(HTML(formula)))
+  return(withMathJax(HTML(paste("$$S_{",if(usingWls())"w"else"y/x","} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$"))))
 })
 
 #Calibration Cruve Calculations
@@ -155,11 +233,12 @@ output$display_calibrationCurve_linearRegression <- renderUI({
   data = calibrationCurveDataReformatted()
   y = data$calibrationDataPeakArea
   x = data$calibrationDataConcentration
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
-  intercept = round(getIntercept(x,y),numDecimalPlaces)
-  slope = round(getSlope(x,y),numDecimalPlaces)
+  intercept = round(getIntercept(x,y,weightedLeastSquared),numDecimalPlaces)
+  slope = round(getSlope(x,y,weightedLeastSquared),numDecimalPlaces)
   n = getCalibrationCurve_n(y)
-  linearRegression = lm(y~x)
+  linearRegression = getLinearRegression(x,y,weightedLeastSquared)
   rSquare = round(summary.lm(linearRegression)$r.squared,numDecimalPlaces)
   
   formulas = c(paste0("\\text{Intercept}(b_0) &=",intercept))
@@ -197,7 +276,9 @@ output$display_calibrationCurve_errorSumSqY <- renderUI({
   data = calibrationCurveDataReformatted()
   y = data$calibrationDataPeakArea
   x = data$calibrationDataConcentration
-  errorSqDevationY = sum(getErrorSqDevationY(x,y))
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
+  
+  errorSqDevationY = sum(getErrorSqDevationY(x,y,weightedLeastSquared))
   
   formulas = c("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2")
   formulas = c(formulas, paste("&=\\color{",color3,"}{",errorSqDevationY,"}"))
@@ -210,13 +291,14 @@ output$standardErrorOfRegression <- renderUI({
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
   n = getCalibrationCurve_n(y)
-  errorSumSqY = sum(getErrorSqDevationY(x,y))
-  stdErrorOfRegression = getStandardErrorOfRegerssion(x,y)
+  errorSumSqY = sum(getErrorSqDevationY(x,y,weightedLeastSquared))
+  stdErrorOfRegression = getStandardErrorOfRegerssion(x,y,weightedLeastSquared)
   
-  formulas = c(paste(getStandardErrorOfRegressionLatex,"[[break]]"))
-  formulas = c(formulas, paste("S_{y/x} &= \\sqrt{\\frac{\\color{",color3,"}{",errorSumSqY,"}}{\\color{",color5,"}{",n,"}-2}}"))
+  formulas = c(paste("S_{",if(usingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}","[[break]]"))
+  formulas = c(formulas, paste("S_{",if(usingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\color{",color3,"}{",errorSumSqY,"}}{\\color{",color5,"}{",n,"}-2}}"))
   formulas = c(formulas, paste("&=\\color{",color4,"}{",stdErrorOfRegression,"}"))
   output = mathJaxAligned(formulas, 5, 20)
   
@@ -224,39 +306,45 @@ output$standardErrorOfRegression <- renderUI({
 })
 
 output$uncertaintyOfCalibration <- renderUI({
+
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
   exStdErrData = externalStandardErrorData()
 
   stdErrorOfRegression = 0
   if(is.null(exStdErrData))
   {
-    stdErrorOfRegression = getStandardErrorOfRegerssion(x,y)
+    stdErrorOfRegression = getStandardErrorOfRegerssion(x,y,weightedLeastSquared)
   }
   else
   {
-    stdErrorOfRegression = getPooledStdErrorOfRegression(x,y,exStdErrData)
+    stdErrorOfRegression = getPooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrData)
   }
   
-  slope = getSlope(x,y)
+  slope = getSlope(x,y,weightedLeastSquared)
   caseSampleReps = input$inputCaseSampleReplicates
   n = getCalibrationCurve_n(y)
   caseSampleMeanConc = input$inputCaseSampleMeanConcentration
   meanX = getCalibrationCurveMeanOfX(data)
   sumSqDevationX = sum(getSqDevation(x))
-  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,exStdErrData,caseSampleReps,caseSampleMeanConc)
-  
-  
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,weightedLeastSquared,exStdErrData,caseSampleReps,caseSampleMeanConc)
   
   if(is.null(exStdErrData))
   {
-    formulas = c("u\\text{(CalCurve)} &= \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
+    if(usingWls())
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}} + \\frac{1}{n} + \\frac{(y_s - \\overline{y_w})^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
+    else
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
   else
   {
-    formulas = c("u\\text{(CalCurve)} &= \\frac{S_{p_{y/x}}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
+    if(usingWls())
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w_{p}}}{b_1} \\sqrt{\\frac{1}{w_{s}} + \\frac{1}{n} + \\frac{(y_s - \\overline{y_w})^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
+    else
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{p_{y/x}}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
   
   formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{\\color{",color6,"}{",slope,"}} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{\\color{",color5,"}{",n,"}} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
@@ -271,14 +359,15 @@ output$peakAreaRatios <- renderPlotly({
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
-  slope = getSlope(x,y)
-  intercept = getIntercept(x,y)
+  slope = getSlope(x,y,weightedLeastSquared)
+  intercept = getIntercept(x,y, weightedLeastSquared)
   
   # royTestErrorBarThing_relativeStandardUncertainty = getRelativeStandardUncertainty(x,y,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
   # royTestErrorBarThing = expandedUncertaintyResult()
   
-  fit = lm(y~x)
+  fit = getLinearRegression(x,y,weightedLeastSquared)
   
   plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
     add_lines(x = x, y = fitted(fit), name="Calibration Curve") %>%
@@ -328,21 +417,31 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   
   exStdErrorRunData = exStdErrorData
   exStdErrorRunData$conc = NULL
-  
-  results = apply(exStdErrorRunData, 2, getStandardErrorOfRegerssion, x = exStdErrorData$conc)
+
+  results = list()
+  for(i in colnames(exStdErrorRunData))
+  {
+    weightedLeastSquared = getWeightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
+    seor = getStandardErrorOfRegerssion(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
+
+    answer = data.frame(seor)
+    names(answer) = i
+    results = c(results, answer)
+  }
+
+  #results = apply(exStdErrorRunData, 2, getStandardErrorOfRegerssion, x = exStdErrorData$conc)
   lengths = apply(exStdErrorRunData, 2, getCalibrationCurve_n)
   
-  formulas = c("S_{{y/x}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]")
+  formulas = c(paste("S_{{",if(usingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
 
   for(i in 1:length(results))
   {
-    formulas = c(formulas, paste0("S_{{y/x}_{(\\text{",names(results)[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",names(results)[i],"})} = ", lengths[i]))
-    formulas = c(formulas, paste0())
+    formulas = c(formulas, paste0("S_{{",if(usingWls())"w"else"y/x","}_{(\\text{",names(results)[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",names(results)[i],"})} = ", lengths[i]))
   }
   
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(title="Standard Error of Regression (External Calibration Data) \\((S_{{y/x}_{(j)}})\\)", width = 5, withMathJax(HTML(output)))
+  box(title=paste("Standard Error of Regression (External Calibration Data) \\((S_{{",if(usingWls())"w"else"y/x","}_{(j)}})\\)"), width = 5, withMathJax(HTML(output)))
 })
 
 output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
@@ -353,22 +452,35 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
-  answer = getPooledStdErrorOfRegression(x,y,exStdErrorData)
+  answer = getPooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData)
   
-  formulas = c("S_{p_{(y/x)}} &= \\sqrt{\\frac{\\sum{(n-1)S^2_{y/x}}}{\\sum{(n-1)}}} [[break]]")
-  formulas = c(formulas, "S_{p_{(y/x)}} &= \\sqrt{\\frac{(n-1)S^2_{y/x} + \\sum{(n_{(j)}-1)S^2_{{y/x}_(j)}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]")
+  formulas = c(paste("S_{",if(usingWls())"w_{(p)}"else"p_{(x/y)}","} &= \\sqrt{\\frac{\\sum{(n-1)S^2_{",if(usingWls())"w"else"y/x","}}}{\\sum{(n-1)}}} [[break]]"))
+  formulas = c(formulas, paste("S_{",if(usingWls())"w_{(p)}"else"p_{(x/y)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(usingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(usingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
   
   exStdErrorRunData = exStdErrorData
   exStdErrorRunData$conc = NULL
-  results = unlist(apply(exStdErrorRunData, 2, getStandardErrorOfRegerssion, x = exStdErrorData$conc), use.names = FALSE)
+  
+  results = list()
+  for(i in colnames(exStdErrorRunData))
+  {
+    weightedLeastSquared = getWeightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
+    seor = getStandardErrorOfRegerssion(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
+    
+    df = data.frame(seor)
+    names(df) = i
+    results = c(results, df)
+  }
+  
+  results = unlist(results)
   lengths = unlist(apply(exStdErrorRunData, 2, getCalibrationCurve_n), use.names = FALSE)
   
   n1 = getCalibrationCurve_n(y)
   n2 = lengths[1]
   n3 = lengths[length(results)]
   
-  s1 = getStandardErrorOfRegerssion(x,y)
+  s1 = getStandardErrorOfRegerssion(x,y,weightedLeastSquared)
   s2 = results[1]
   s3 = results[length(results)]
   
@@ -395,7 +507,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   
   output = mathJaxAligned(formulas, 5, 20)
  
-  box(title="Pooled Standard Error of Regression (External Calibration Data) \\((S_{p_{(y/x)}})\\)", width = 7,withMathJax(HTML(output)))
+  box(title=paste("Pooled Standard Error of Regression (External Calibration Data) \\((S_{",if(usingWls())"w_{(p)}"else"p_{(x/y)}","})\\)"), width = 7,withMathJax(HTML(output)))
 })
   
   
@@ -409,10 +521,11 @@ output$display_calibrationCurve_finalAnswer_bottom <- renderUI({
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
   extStdErrorData = externalStandardErrorData()
   
-  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,weightedLeastSquared,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
   relativeStandardUncertainty = calibrationCurveResult()
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
@@ -458,17 +571,23 @@ getSqDevation = function(values){
   return(sqDevation)
 }
 
-getPredicetedY = function(x, y){
-  calCurve = lm(y~x, na.action = na.omit) # Regression Cofficients
-  predictedY =  fitted(calCurve)
+getLinearRegression = function(x,y,wls)
+{
+  linearRegerssion = lm(y~x, na.action = na.omit, weights = wls)
+  return(linearRegerssion)
+}
+
+getPredicetedY = function(x, y, wls){
+  calCurve = getLinearRegression(x,y,wls) # Regression Cofficients
+  predictedY = fitted(calCurve)
   predictedY = round(predictedY, numDecimalPlaces)
   #remove naming for vector of numbers
   predictedY = unname(predictedY)
   return(predictedY)
 }
 
-getSlope = function(x,y){
-  linearRegerssion = lm(y~x)
+getSlope = function(x,y,wls){
+  linearRegerssion = getLinearRegression(x,y,wls)
   slope <- coef(linearRegerssion)[2];
   slope = round(slope, numDecimalPlaces)
   #remove naming to get single number
@@ -476,8 +595,8 @@ getSlope = function(x,y){
   return(slope)
 }
 
-getIntercept = function(x,y){
-  linearRegerssion = lm(y~x)
+getIntercept = function(x,y,wls){
+  linearRegerssion = getLinearRegression(x,y,wls)
   intercept = coef(linearRegerssion)[1]
   intercept = round(intercept, numDecimalPlaces)
   #remove naming to get single number
@@ -485,8 +604,8 @@ getIntercept = function(x,y){
   return(intercept)
 }
 
-getErrorSqDevationY = function(x, y){
-  errorSqDevationY = (na.omit(y) - getPredicetedY(x, y))^2
+getErrorSqDevationY = function(x,y,wls){
+  errorSqDevationY = (na.omit(y) - getPredicetedY(x,y,wls))^2
   errorSqDevationY= round(errorSqDevationY, numDecimalPlaces)
   return (errorSqDevationY)
 }
@@ -497,46 +616,51 @@ getDegreesOfFreedom = function(values){
   return(degressOfFreedom)
 }
 
-getStandardErrorOfRegerssion = function(x, y){
-  linearRegerssion = lm(y~x)
+getStandardErrorOfRegerssion = function(x,y,wls){
+  linearRegerssion = getLinearRegression(x,y,wls)
   standardErrorOfRegerssion = summary.lm(linearRegerssion)$sigma
   standardErrorOfRegerssion= round(standardErrorOfRegerssion, numDecimalPlaces)
   return(standardErrorOfRegerssion)
-  
-  # degreesOfFreedom = getDegreesOfFreedom(y);
-  # errorSumSqY = sum(getErrorSqDevationY(x,y))
-  # standardErrorOfRegerssion = sqrt(errorSumSqY/degreesOfFreedom)
-  # standardErrorOfRegerssion= round(standardErrorOfRegerssion, numDecimalPlaces)
-  # return(standardErrorOfRegerssion)
 }
 
-getUncertaintyOfCalibration = function(x, y, extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+getUncertaintyOfCalibration = function(x,y,wls,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
 {
   syx = 0
   if(is.null(extStdErrorData))
   {
-    syx = getStandardErrorOfRegerssion(x,y)
+    syx = getStandardErrorOfRegerssion(x,y,wls)
   }
   else
   {
-    syx = getPooledStdErrorOfRegression(x,y,extStdErrorData)
+    syx = getPooledStdErrorOfRegression(x,y,wls,extStdErrorData)
   }
   
-  uncertaintyOfCalibration = (syx / getSlope(x,y)) * (sqrt((1/caseSampleReplicates)+(1/getCalibrationCurve_n(x))+(caseSampleMeanConcentration-mean(x))^2 / sum(getSqDevation(x))))
+  uncertaintyOfCalibration = (syx / getSlope(x,y,wls)) * (sqrt((1/caseSampleReplicates)+(1/getCalibrationCurve_n(x))+(caseSampleMeanConcentration-mean(x))^2 / sum(getSqDevation(x))))
   uncertaintyOfCalibration = round(uncertaintyOfCalibration, numDecimalPlaces)
   
   return(uncertaintyOfCalibration)
 }
 
-getPooledStdErrorOfRegression = function(x,y,exStdErrData){
+getPooledStdErrorOfRegression = function(x,y,wls,exStdErrData){
   exStdErrRunData = exStdErrData
   exStdErrRunData$conc = NULL
   
-  results = unlist(apply(exStdErrRunData, 2, getStandardErrorOfRegerssion, x = exStdErrData$conc), use.names = FALSE)
+  results = list()
+  for(i in colnames(exStdErrRunData))
+  {
+    weightedLeastSquared = getWeightedLeastSquared(exStdErrData$conc,exStdErrRunData[,i],input$inputWeightLeastSquared)
+    seor = getStandardErrorOfRegerssion(exStdErrData$conc,exStdErrRunData[,i],weightedLeastSquared)
+    
+    answer = data.frame(seor)
+    names(answer) = i
+    results = c(results, answer)
+  }
+  
+  results = unlist(results)
   lengths = unlist(apply(exStdErrRunData, 2, getCalibrationCurve_n), use.names = FALSE)
   
   numeratorExternalDataSum = sum((results ^ 2) * (lengths -1))
-  numeratorSum = (getStandardErrorOfRegerssion(x,y)^2) * (getCalibrationCurve_n(y) - 1)
+  numeratorSum = (getStandardErrorOfRegerssion(x,y,wls)^2) * (getCalibrationCurve_n(y) - 1)
   numerator = numeratorExternalDataSum + numeratorSum 
   
   demoninatorExternalDataSum = sum(lengths - 1)
@@ -548,8 +672,8 @@ getPooledStdErrorOfRegression = function(x,y,exStdErrData){
   return(round(answer,numDecimalPlaces))
 }
 
-getRelativeStandardUncertainty = function(x,y,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
-  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
+getRelativeStandardUncertainty = function(x,y,wls,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,wls,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
   
   relativeStandardUncertainty = uncertaintyOfCalibration / caseSampleMeanConcentration
   relativeStandardUncertainty = round(relativeStandardUncertainty, numDecimalPlaces)
