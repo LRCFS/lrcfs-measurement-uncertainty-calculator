@@ -45,15 +45,19 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
                      ),
                      fluidRow(
-                       box(title = "Linear Regression", width = 4, uiOutput("display_calibrationCurve_linearRegression")),
-                       box(title = "Mean of \\(x\\)", width = 4, uiOutput("display_calibrationCurve_meanOfX")),
-                       box(title = "Sum of Squared Deviation of \\(x\\)", width = 4, uiOutput("display_calibrationCurve_sumSqDevationX"))
+                       box(title = "Linear Regression", width = 3, uiOutput("display_calibrationCurve_linearRegression")),
+                       box(title = "Mean of \\(x\\)", width = 3, uiOutput("display_calibrationCurve_meanOfX")),
+                       box(title = "Mean of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_meanOfY")),
+                       uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX"),
+                       uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
                      ),
                      fluidRow(
-                       box(title = "Error Sum of Squares of \\(y\\)", width = 6, uiOutput("display_calibrationCurve_errorSumSqY")),
-                       box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 6,
+                       box(title = "Error Sum of Squares of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_errorSumSqY")),
+                       box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 3,
                            uiOutput("standardErrorOfRegression")
-                       )
+                       ),
+                       uiOutput("display_calibrationCurve_peakAreaRatioOfCaseSample"),
+                       uiOutput("display_calibrationCurve_weightedCaseSample")
                      ),
                      fluidRow(
                        uiOutput("display_calibrationCurve_externalStandardErrorUploadedData")
@@ -64,7 +68,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      ),
                      fluidRow(
                        box(title="Uncertainty of Calibration \\((u)\\)", width = 12,
-                           uiOutput("uncertaintyOfCalibration")
+                           uiOutput("display_calibrationCurve_uncertaintyOfCalibration")
                        )
                      ),
                      fluidRow(

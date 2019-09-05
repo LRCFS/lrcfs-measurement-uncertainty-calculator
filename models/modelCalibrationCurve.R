@@ -49,9 +49,8 @@ calibrationCurveResult = reactive({
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
-  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
-  return(getRelativeStandardUncertainty(x,y,weightedLeastSquared,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration))
+  return(getRelativeStandardUncertainty(x,y,input$inputWeightLeastSquared,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration))
 })
 
 calibrationCurveDataReformatted <- reactive({
@@ -107,78 +106,16 @@ rearrangedCalibrationDataDT = function(){
   ### Get error Sum Squared of y
   errorSqDevationY = getErrorSqDevationY(x,y,weightedLeastSquared);
   
+  weightedXSquared = getWeightedXSquared(weightedLeastSquared,x)
+  
+  weightedErrorSqDevationY = getWeightedErrorSqDevationY(weightedLeastSquared,errorSqDevationY)
+  
   ##Get data in dataframe
-  rearrangedCalibrationDataFrame = data.frame(calibrationCurveDataReformatted()$runNames,x,y,weightedLeastSquared,wx,wy,sqDevationX,predictedY,errorSqDevationY)
-  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",getWlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_ix_i$$","$$w_iy_i$$","$$\\text{Squared Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$")
+  rearrangedCalibrationDataFrame = data.frame(calibrationCurveDataReformatted()$runNames,x,y,weightedLeastSquared,wx,wy,weightedXSquared,sqDevationX,predictedY,errorSqDevationY,weightedErrorSqDevationY)
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",getWlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_ix_i$$","$$w_iy_i$$","$$wx^2$$","$$\\text{Sq. Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$","$$w_i(y_i - \\hat{y}_i)^2$$")
   
   return(rearrangedCalibrationDataFrame)
 }
-
-getWeightedLeastSquared = function(x,y,wlsChoice){
-  
-  wlsFunction = getWlsFunction(wlsChoice)
-  
-  if(wlsChoice == 1)
-  {
-    return(rep(1,length(x)))
-  }
-  
-  if(wlsChoice == 2 | wlsChoice == 3)
-  {
-    return(round(wlsFunction(x),numDecimalPlaces))
-  }
-  
-  if(wlsChoice == 4 | wlsChoice == 5)
-  {
-    return(round(wlsFunction(y),numDecimalPlaces))
-  }
-}
-
-getWlsFunction = function(wlsChoice){
-  if(wlsChoice == 1)
-  {
-    wlsFunc = function(value){
-      return(value)
-    }
-    return(wlsFunc)
-  }
-  
-  if(wlsChoice == 2 | wlsChoice == 4 | wlsChoice == 6)
-  {
-    wlsFunc = function(value){
-      return(1/(value))
-    }
-    return(wlsFunc)
-  }
-  
-  if(wlsChoice == 3 | wlsChoice == 5 | wlsChoice == 7)
-  {
-    wlsFunc = function(value){
-      return(1/value^2)
-    }
-    return(wlsFunc)
-  }
-}
-
-getWlsLatex = function(wlsChoice){
-  if(wlsChoice == 1)
-    return("w=1")
-  
-  if(wlsChoice == 2)
-    return("w=\\frac{1}{x}")
-  
-  if(wlsChoice == 3)
-    return("w=\\frac{1}{x^2}")
-  
-  if(wlsChoice == 4)
-    return("w=\\frac{1}{y}")
-  
-  if(wlsChoice == 5)
-    return("w=\\frac{1}{y^2}")
-  
-  return("")
-}
-
 
 ###################################################################################
 # Outputs
@@ -252,16 +189,50 @@ output$display_calibrationCurve_linearRegression <- renderUI({
 
 output$display_calibrationCurve_meanOfX <- renderUI({
   data = calibrationCurveDataReformatted()
-  meanOfX = getCalibrationCurveMeanOfX(data)
+  y = data$calibrationDataPeakArea
+  x = data$calibrationDataConcentration
+  meanOfX = getCalibrationCurveMeanOfX(x,y,input$inputWeightLeastSquared)
 
-  formulas = c("\\overline{x} &= \\frac{\\sum{x_i}}{n}")
+  if(usingWls())
+    formulas = c("\\overline{x}_w &= \\frac{\\sum{w_ix_i}}{n}")
+  else
+    formulas = c("\\overline{x} &= \\frac{\\sum{x_i}}{n}")
+  
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
+  wx = round(weightedLeastSquared * x,numDecimalPlaces)
+  
+  formulas = c(formulas, paste("& = \\frac{",sum(wx),"}{",getCalibrationCurve_n(y),"}"))
   formulas = c(formulas, paste("&=\\color{",color1,"}{",meanOfX),"}")
   output = mathJaxAligned(formulas, 5)
   
   return(withMathJax(HTML(output)))
 })
 
-output$display_calibrationCurve_sumSqDevationX <- renderUI({
+output$display_calibrationCurve_meanOfY <- renderUI({
+  data = calibrationCurveDataReformatted()
+  y = data$calibrationDataPeakArea
+  x = data$calibrationDataConcentration
+  meanOfY = getCalibrationCurveMeanOfY(x,y,input$inputWeightLeastSquared)
+  
+  if(usingWls())
+    formulas = c("\\overline{y}_w &= \\frac{\\sum{w_iy_i}}{n}")
+  else
+    formulas = c("\\overline{y} &= \\frac{\\sum{y_i}}{n}")
+  
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
+  wy = round(weightedLeastSquared * y,numDecimalPlaces)
+  
+  formulas = c(formulas, paste("& = \\frac{",sum(wy),"}{",getCalibrationCurve_n(y),"}"))
+  formulas = c(formulas, paste("&=\\color{",color1,"}{",meanOfY),"}")
+  output = mathJaxAligned(formulas, 5)
+  
+  return(withMathJax(HTML(output)))
+})
+
+output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
+  if(usingWls())
+    return(NULL)
+  
   x = calibrationCurveDataReformatted()$calibrationDataConcentration
   sumSqDevationX = sum(getSqDevation(x))
   
@@ -269,8 +240,38 @@ output$display_calibrationCurve_sumSqDevationX <- renderUI({
   formulas = c(formulas, paste("&=\\color{",color2,"}{",sumSqDevationX,"}"))
   output = mathJaxAligned(formulas, 5)
   
-  return(withMathJax(HTML(output)))
+  box(title = "Sum of Squared Deviation of \\(x\\)",
+      width = 3,
+      withMathJax(HTML(output))
+      )
 })
+
+output$display_calibrationCurve_sumOfWeightedXSquared = renderUI({
+  if(!usingWls())
+    return(NULL)
+  
+  data = calibrationCurveDataReformatted()
+  y = data$calibrationDataPeakArea
+  x = data$calibrationDataConcentration
+  
+  answer = getSumOfWeightedXSquared(x,y,input$inputWeightLeastSquared)
+  
+  formulas = c(paste("\\sum{w_ix_i^2} = \\color{",color2,"}{",answer,"}"))
+  output = mathJaxAligned(formulas, 5)
+  
+  box(title = "Sum of \\(wx^2\\)",
+      width = 3,
+      withMathJax(HTML(output))
+  )
+})
+
+getSumOfWeightedXSquared = function(x,y,wlsInput)
+{
+  weightedLeastSquared = getWeightedLeastSquared(x,y,wlsInput)
+  weightedXSquared = getWeightedXSquared(weightedLeastSquared,x)
+  answer = sum(weightedXSquared)
+  return(answer)
+}
 
 output$display_calibrationCurve_errorSumSqY <- renderUI({
   data = calibrationCurveDataReformatted()
@@ -278,9 +279,14 @@ output$display_calibrationCurve_errorSumSqY <- renderUI({
   x = data$calibrationDataConcentration
   weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
-  errorSqDevationY = sum(getErrorSqDevationY(x,y,weightedLeastSquared))
+  errorSqDevationY = getErrorSqDevationY(x,y,weightedLeastSquared)
+  if(usingWls())
+  {
+    errorSqDevationY = getWeightedErrorSqDevationY(weightedLeastSquared,errorSqDevationY)
+  }
+  errorSqDevationY = sum(errorSqDevationY)
   
-  formulas = c("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2")
+  formulas = c(paste("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n",if(usingWls())"w_i","(y_i-\\hat{y}_i)^2"))
   formulas = c(formulas, paste("&=\\color{",color3,"}{",errorSqDevationY,"}"))
   output = mathJaxAligned(formulas, 5)
   
@@ -294,18 +300,81 @@ output$standardErrorOfRegression <- renderUI({
   weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   
   n = getCalibrationCurve_n(y)
-  errorSumSqY = sum(getErrorSqDevationY(x,y,weightedLeastSquared))
+
+  errorSqDevationY = getErrorSqDevationY(x,y,weightedLeastSquared)
+  if(usingWls())
+  {
+    errorSqDevationY = getWeightedErrorSqDevationY(weightedLeastSquared,errorSqDevationY)
+  }
+  errorSqDevationY = sum(errorSqDevationY)
+  
   stdErrorOfRegression = getStandardErrorOfRegerssion(x,y,weightedLeastSquared)
   
-  formulas = c(paste("S_{",if(usingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}","[[break]]"))
-  formulas = c(formulas, paste("S_{",if(usingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\color{",color3,"}{",errorSumSqY,"}}{\\color{",color5,"}{",n,"}-2}}"))
+  formulas = c(paste("S_{",if(usingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n",if(usingWls())"w_i","(y_i-\\hat{y}_i)^2}{n-2}}","[[break]]"))
+  formulas = c(formulas, paste("S_{",if(usingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\color{",color3,"}{",errorSqDevationY,"}}{\\color{",color5,"}{",n,"}-2}}"))
   formulas = c(formulas, paste("&=\\color{",color4,"}{",stdErrorOfRegression,"}"))
   output = mathJaxAligned(formulas, 5, 20)
   
   return(withMathJax(HTML(output)))
 })
 
-output$uncertaintyOfCalibration <- renderUI({
+output$display_calibrationCurve_peakAreaRatioOfCaseSample = renderUI({
+  if(!usingWls())
+    return(NULL)
+  
+  data = calibrationCurveDataReformatted()
+  y = data$calibrationDataPeakArea
+  x = data$calibrationDataConcentration
+  answer = getPeakAreaRatioOfCaseSample(x, y, input$inputCaseSampleMeanConcentration, input$inputWeightLeastSquared)
+  
+  weightedLeastSquared = getWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
+  intercept = getIntercept(x,y,weightedLeastSquared)
+  slope = getSlope(x,y,weightedLeastSquared)
+  
+  formulas = c("y_s &= b_0 + b_1x_s")
+  formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",input$inputCaseSampleMeanConcentration))
+  formulas = c(formulas, paste("&= ",answer))
+  output = mathJaxAligned(formulas, 5, 20)
+  
+  box(width=3,
+      title = "Peak Area Ratio of Case Sample",
+      output
+  )
+})
+
+output$display_calibrationCurve_weightedCaseSample = renderUI({
+  if(!usingWls())
+    return(NULL)
+  
+  wlsInput = input$inputWeightLeastSquared
+  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  
+  data = calibrationCurveDataReformatted()
+  y = data$calibrationDataPeakArea
+  x = data$calibrationDataConcentration
+  
+  weightedCaseSampleDenominator = getWeightedCaseSampleDenominator(x,y,caseSampleMeanConcentration,wlsInput)
+  answer = getWeightedCaseSample(x,y,caseSampleMeanConcentration,wlsInput)
+  
+
+  formulas = c(paste("w_s &=", getWlsLatex(wlsInput)))
+  
+  #If we're using a squared demoniator then add a squared sign
+  if(wlsInput == 3 | wlsInput == 5)
+    formulas = c(formulas, paste("&= \\frac{1}{",weightedCaseSampleDenominator,"^2}"))
+  else
+    formulas = c(formulas, paste("&= \\frac{1}{",weightedCaseSampleDenominator,"}"))
+  
+  formulas = c(formulas, paste("&=",answer))
+  output = mathJaxAligned(formulas, 5, 20)
+  
+  box(width=3,
+      title = "Weight used for Case Sample",
+      output
+  )
+})
+
+output$display_calibrationCurve_uncertaintyOfCalibration <- renderUI({
 
   data = calibrationCurveDataReformatted()
   x = data$calibrationDataConcentration
@@ -328,9 +397,15 @@ output$uncertaintyOfCalibration <- renderUI({
   caseSampleReps = input$inputCaseSampleReplicates
   n = getCalibrationCurve_n(y)
   caseSampleMeanConc = input$inputCaseSampleMeanConcentration
-  meanX = getCalibrationCurveMeanOfX(data)
+  meanX = getCalibrationCurveMeanOfX(x,y,input$inputWeightLeastSquared)
   sumSqDevationX = sum(getSqDevation(x))
-  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,weightedLeastSquared,exStdErrData,caseSampleReps,caseSampleMeanConc)
+  
+  weightedCaseSample = getWeightedCaseSample(x,y,caseSampleMeanConc,input$inputWeightLeastSquared)
+  peakAreaRatioOfCaseSample = getPeakAreaRatioOfCaseSample(x,y,caseSampleMeanConc,input$inputWeightLeastSquared)
+  calCurveMeanOfY = getCalibrationCurveMeanOfY(x,y,input$inputWeightLeastSquared)
+  sumOfWeightedXSquared = getSumOfWeightedXSquared(x,y,input$inputWeightLeastSquared)
+
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input$inputWeightLeastSquared,exStdErrData,caseSampleReps,caseSampleMeanConc)
   
   if(is.null(exStdErrData))
   {
@@ -347,7 +422,16 @@ output$uncertaintyOfCalibration <- renderUI({
       formulas = c("u\\text{(CalCurve)} &= \\frac{S_{p_{y/x}}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
   
-  formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{\\color{",color6,"}{",slope,"}} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{\\color{",color5,"}{",n,"}} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
+  if(!usingWls())
+  {
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{\\color{",color6,"}{",slope,"}} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{\\color{",color5,"}{",n,"}} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - \\color{",color1,"}{",meanX,"})^2}{\\color{",color2,"}{",sumSqDevationX,"}} }"))
+  }
+  else
+  {
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{\\color{",color4,"}{",stdErrorOfRegression,"}}{\\color{",color6,"}{",slope,"}} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",weightedCaseSample,"}}} + \\frac{1}{\\color{",color5,"}{",n,"}} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",peakAreaRatioOfCaseSample,"}} - \\color{",color1,"}{",calCurveMeanOfY,"})^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+  }
+  
+  
   formulas = c(formulas, paste("&=",uncertaintyOfCalibration))
   output = mathJaxAligned(formulas, 5, 20)
   
@@ -525,7 +609,7 @@ output$display_calibrationCurve_finalAnswer_bottom <- renderUI({
   
   extStdErrorData = externalStandardErrorData()
   
-  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,weightedLeastSquared,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,input$inputWeightLeastSquared,extStdErrorData,input$inputCaseSampleReplicates,input$inputCaseSampleMeanConcentration)
   relativeStandardUncertainty = calibrationCurveResult()
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
@@ -556,14 +640,44 @@ output$display_calibrationCurve_finalAnswer_coverageFactor <- renderUI({
 # Helper Methods
 ###################################################################################
 
-getCalibrationCurveMeanOfX = function(calibrationCurveDataReformatted){
-  data = calibrationCurveDataReformatted()
-  if(is.null(data))
+getCalibrationCurveMeanOfX = function(x,y,wls){
+  if(is.null(x) | is.null(y))
   {
     return(NA)
   }
-  meanOfX = mean(data$calibrationDataConcentration)
+  
+  meanOfX = 0
+  if(usingWls())
+  {
+    weightedLeastSquared = getWeightedLeastSquared(x,y,wls)
+    wx = round(weightedLeastSquared * x,numDecimalPlaces)
+    meanOfX = mean(wx)
+  }
+  else
+  {
+    meanOfX = mean(x)
+  }
   return(round(meanOfX, numDecimalPlaces))
+}
+getCalibrationCurveMeanOfY = function(x,y,wls){
+  if(is.null(x) | is.null(y))
+  {
+    return(NA)
+  }
+  
+  meanOfY = 0
+  if(usingWls())
+  {
+    weightedLeastSquared = getWeightedLeastSquared(x,y,wls)
+    wy = round(weightedLeastSquared * y,numDecimalPlaces)
+    meanOfY = mean(wy)
+  }
+  else
+  {
+    meanOfY = mean(y)
+  }
+  
+  return(round(meanOfY, numDecimalPlaces))
 }
 getSqDevation = function(values){
   sqDevation = (values - mean(values))^2
@@ -623,19 +737,39 @@ getStandardErrorOfRegerssion = function(x,y,wls){
   return(standardErrorOfRegerssion)
 }
 
-getUncertaintyOfCalibration = function(x,y,wls,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+getUncertaintyOfCalibration = function(x,y,wlsChoice,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
 {
+  weightedLeastSquared = getWeightedLeastSquared(x,y,wlsChoice)
+  
   syx = 0
   if(is.null(extStdErrorData))
   {
-    syx = getStandardErrorOfRegerssion(x,y,wls)
+    syx = getStandardErrorOfRegerssion(x,y,weightedLeastSquared)
   }
   else
   {
-    syx = getPooledStdErrorOfRegression(x,y,wls,extStdErrorData)
+    syx = getPooledStdErrorOfRegression(x,y,weightedLeastSquared,extStdErrorData)
   }
   
-  uncertaintyOfCalibration = (syx / getSlope(x,y,wls)) * (sqrt((1/caseSampleReplicates)+(1/getCalibrationCurve_n(x))+(caseSampleMeanConcentration-mean(x))^2 / sum(getSqDevation(x))))
+  weightedCaseSample = getWeightedCaseSample(x,y,caseSampleMeanConcentration,wlsChoice)
+  peakAreaRatioOfCaseSample = getPeakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsChoice)
+  calCurveMeanOfY = getCalibrationCurveMeanOfY(x,y,wlsChoice)
+  sumOfWeightedXSquared = getSumOfWeightedXSquared(x,y,wlsChoice)
+  meanOfX = getCalibrationCurveMeanOfX(x,y,input$inputWeightLeastSquared)
+  
+  slope = getSlope(x,y,weightedLeastSquared)
+  n = getCalibrationCurve_n(x)
+  
+  if(usingWls())
+  {
+    uncertaintyOfCalibration = (syx / slope) * (sqrt((1/weightedCaseSample)+(1/n)+((peakAreaRatioOfCaseSample-calCurveMeanOfY)^2 / (slope^2*(sumOfWeightedXSquared-n*meanOfX^2)))))
+  }
+  else
+  {
+    uncertaintyOfCalibration = (syx / slope) * (sqrt((1/caseSampleReplicates)+(1/n)+((caseSampleMeanConcentration-mean(x))^2 / sum(getSqDevation(x)))))
+  }
+  
+  
   uncertaintyOfCalibration = round(uncertaintyOfCalibration, numDecimalPlaces)
   
   return(uncertaintyOfCalibration)
@@ -672,8 +806,8 @@ getPooledStdErrorOfRegression = function(x,y,wls,exStdErrData){
   return(round(answer,numDecimalPlaces))
 }
 
-getRelativeStandardUncertainty = function(x,y,wls,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
-  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,wls,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
+getRelativeStandardUncertainty = function(x,y,wlsChoice,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
+  uncertaintyOfCalibration = getUncertaintyOfCalibration(x,y,wlsChoice,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
   
   relativeStandardUncertainty = uncertaintyOfCalibration / caseSampleMeanConcentration
   relativeStandardUncertainty = round(relativeStandardUncertainty, numDecimalPlaces)
@@ -685,4 +819,113 @@ getCalibrationCurve_n = function(values)
 {
   n = length(values[!is.na(values)])
   return(n)
+}
+
+getPeakAreaRatioOfCaseSample = function(x, y, caseSampleMeanConcentration, wlsInput){
+  weightedLeastSquared = getWeightedLeastSquared(x,y,wlsInput)
+  
+  intercept = getIntercept(x,y,weightedLeastSquared)
+  slope = getSlope(x,y,weightedLeastSquared)
+  
+  answer = intercept + (slope * caseSampleMeanConcentration)
+  
+  return(answer)
+}
+
+getWeightedCaseSampleDenominator = function(x,y,caseSampleMeanConcentration,wlsInput){
+  if(wlsInput == 1)
+  {
+    return(1)
+  }
+  else if(wlsInput == 2 | wlsInput == 3)
+  {
+    return(caseSampleMeanConcentration)
+  }
+  else(wlsInput == 4 | wlsInput == 5)
+  {
+    peakAreaRatio = getPeakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsInput)
+    return(peakAreaRatio)
+  }
+}
+
+getWeightedCaseSample = function(x,y,caseSampleMeanConcentration,wlsInput){
+
+  peakAreaRatio = getPeakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsInput)
+    
+  return(getWeightedLeastSquared(caseSampleMeanConcentration,peakAreaRatio,wlsInput))
+}
+
+getWeightedErrorSqDevationY = function(wls,errorSqDevationY)
+{
+  return(round(wls * errorSqDevationY,numDecimalPlaces))
+}
+
+getWeightedXSquared = function(wls,x)
+{
+  return(round(wls * x^2,numDecimalPlaces))
+}
+
+getWeightedLeastSquared = function(x,y,wlsChoice){
+  
+  wlsFunction = getWlsFunction(wlsChoice)
+  
+  if(wlsChoice == 1)
+  {
+    return(rep(1,length(x)))
+  }
+  
+  if(wlsChoice == 2 | wlsChoice == 3)
+  {
+    return(round(wlsFunction(x),numDecimalPlaces))
+  }
+  
+  if(wlsChoice == 4 | wlsChoice == 5)
+  {
+    return(round(wlsFunction(y),numDecimalPlaces))
+  }
+}
+
+getWlsFunction = function(wlsChoice){
+  if(wlsChoice == 1)
+  {
+    wlsFunc = function(value){
+      return(value)
+    }
+    return(wlsFunc)
+  }
+  
+  if(wlsChoice == 2 | wlsChoice == 4 | wlsChoice == 6)
+  {
+    wlsFunc = function(value){
+      return(1/(value))
+    }
+    return(wlsFunc)
+  }
+  
+  if(wlsChoice == 3 | wlsChoice == 5 | wlsChoice == 7)
+  {
+    wlsFunc = function(value){
+      return(1/value^2)
+    }
+    return(wlsFunc)
+  }
+}
+
+getWlsLatex = function(wlsChoice){
+  if(wlsChoice == 1)
+    return("w=1")
+  
+  if(wlsChoice == 2)
+    return("w=\\frac{1}{x}")
+  
+  if(wlsChoice == 3)
+    return("w=\\frac{1}{x^2}")
+  
+  if(wlsChoice == 4)
+    return("w=\\frac{1}{y}")
+  
+  if(wlsChoice == 5)
+    return("w=\\frac{1}{y^2}")
+  
+  return("")
 }
