@@ -142,12 +142,12 @@ checkIfShowResults = function(){
       showResultTabs()
     }
     else{
-      hideRsultTabs()
+      hideResultTabs()
     }
   }
   else
   {
-    hideRsultTabs()
+    hideResultTabs()
   }
 }
 
@@ -186,7 +186,7 @@ showResultTabs = function(){
   shinyjs::show(selector = "#percentageExpandedUncertaintyStartPage")
 }
 
-hideRsultTabs = function(){
+hideResultTabs = function(){
   shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=combinedUncertainty]", class="visible")
   shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
   shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=expandedUncertainty]", class="visible")
