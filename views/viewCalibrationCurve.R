@@ -10,9 +10,9 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    ),
                    box(title = "Method", width=6,
                        "For the analysis of these reports we use the following function:",
-                       uiOutput("display_calibrationCurve_uncertaintyOfCalibrationLatex"),
+                       "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
                        "where \\(S_{y/x}\\) is the standard error of regression given by",
-                       uiOutput("display_calibrationCurve_standardErrorOfRegressionLatex"),
+                       "$$S_{x/y} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
                        tags$ul(
                          tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
                          tags$li("\\(b_1\\) is the slope of the of regression line"),
@@ -46,8 +46,10 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      ),
                      fluidRow(
                        box(title = "Linear Regression", width = 3, uiOutput("display_calibrationCurve_linearRegression")),
-                       box(title = "Mean of \\(x\\)", width = 3, uiOutput("display_calibrationCurve_meanOfX")),
-                       box(title = "Mean of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_meanOfY")),
+                       uiOutput("display_calibrationCurve_meanOfX"),
+                       uiOutput("display_calibrationCurve_weightedMeanOfX"),
+                       uiOutput("display_calibrationCurve_meanOfY"),
+                       uiOutput("display_calibrationCurve_weightedMeanOfY"),
                        uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX"),
                        uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
                      ),
@@ -76,7 +78,6 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                            uiOutput("display_calibrationCurve_finalAnswer_bottom")
                        )
                      )
-                     
                    )
                  )
 )

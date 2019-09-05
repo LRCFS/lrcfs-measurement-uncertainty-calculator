@@ -98,7 +98,10 @@ ui <- dashboardPagePlus(title="MOU Calc v0.5",
 server <- function(input, output, session) {
   source("models/modelApplication.R", local = TRUE)
   source("models/modelStart.R", local = TRUE)
+  
+  source("controllers/controllerCalibrationCurve.R", local = TRUE)
   source("models/modelCalibrationCurve.R", local = TRUE)
+  
   source("models/modelMethodPrecision.R", local = TRUE)
   source("models/modelStandardSolution.R", local = TRUE)
   source("models/modelSampleVolume.R", local = TRUE)

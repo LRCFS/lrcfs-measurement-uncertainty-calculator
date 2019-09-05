@@ -1,6 +1,6 @@
 effectiveDofResult = reactive({
   
-  uncCalibrationCurve = calibrationCurveResult()
+  uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
@@ -9,16 +9,7 @@ effectiveDofResult = reactive({
   
   #Degress of Freedom
   #dof cal curve
-  dofCalibrationCurve = NULL
-  calCurveData = calibrationCurveDataReformatted()
-  if(!is.null(calCurveData))
-  {
-    dofCalibrationCurve = getDegreesOfFreedom(calCurveData$calibrationDataConcentration)
-  }
-  else
-  {
-    dofCalibrationCurve = NA
-  }
+  dofCalibrationCurve = getCalibrationCurve_degreesOfFreedom()
   
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
@@ -52,13 +43,13 @@ output$display_coverageFactor_confidenceInterval = renderUI({
 
 
 output$display_coverageFactor_dofCalibrationCurve = renderUI({
-  data = calibrationCurveDataReformatted()
+  data = getDataCalibrationCurveReformatted()
   
   formulas = character()
   
   if(!is.null(data))
   {
-    n = getCalibrationCurve_n(data$calibrationDataConcentration)
+    n = getCalibrationCurve_n()
     formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
     formulas = c(formulas,paste0("&=",n,"-2"))
     formulas = c(formulas,paste0("&= \\color{",color1,"}{",n-2,"}"))
@@ -106,7 +97,7 @@ output$display_coverageFactor_dofSampleVolume = renderUI({
 
 output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
-  uncCalibrationCurve = calibrationCurveResult()
+  uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
@@ -115,17 +106,8 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
   #Degress of Freedom
   #dof cal curve
-  dofCalibrationCurve = NULL
-  calCurveData = calibrationCurveDataReformatted()
-  if(!is.null(calCurveData))
-  {
-    dofCalibrationCurve = getDegreesOfFreedom(calCurveData$calibrationDataConcentration)
-  }
-  else
-  {
-    dofCalibrationCurve = NA
-  }
-  
+  dofCalibrationCurve = getCalibrationCurve_degreesOfFreedom()
+
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
 

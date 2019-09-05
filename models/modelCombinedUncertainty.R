@@ -1,6 +1,6 @@
 combinedUncertaintyResult = reactive({
   meanConcentration = input$inputCaseSampleMeanConcentration
-  uncCalibrationCurve = calibrationCurveResult()
+  uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
@@ -23,7 +23,7 @@ output$display_combinedUncertainty_finalAnswer_top = renderUI({
 })
   
 output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
-  cc = calibrationCurveResult()
+  cc = getResultCalibrationCurve()
   mp = methodPrecisionResult()
   ss = standardSolutionResult()
   sv = sampleVolumeResult()
