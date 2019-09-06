@@ -17,6 +17,15 @@ output$display_start_confidenceInterval <- renderUI({
   return(string)
 })
 
+output$display_start_chooseConfidenceInterval = renderUI({
+  columnNames = colnames(coverageFactorEffectiveDofTable[,-1]) #Get the columns but excluse the first column which is used for effective dof
+  columnNames = sort(columnNames, decreasing = TRUE)
+  
+  selectInput("inputConfidenceInterval", "Confidence Interval\\((c_i)\\):",
+              c("Please select..." = "",
+                columnNames))
+})
+
 output$display_start_calibrationCurveFileUpload <- renderUI({
   input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
 

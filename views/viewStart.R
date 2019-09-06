@@ -102,14 +102,8 @@ tabStart = tabItem(tabName = "start",
                               box(title = "Confidence Interval",width = 12,
                                   actionButton("helpStartPage5", "", icon=icon("question")),
                                   p("Specify the condifence interval used to calculate the Exapanded Uncertainty."),
-                                  selectInput("inputConfidenceInterval", "Confidence Interval\\((c_i)\\):",
-                                              c("Please select..." = "",
-                                                "99.73%" = "99.73%",
-                                                "99%" = "99%",
-                                                "95.45%" = "95.45%",
-                                                "95%" = "95%",
-                                                "90%" = "90%",
-                                                "68.27%" = "68.27%"))
+                                  uiOutput("display_start_chooseConfidenceInterval")
+                                  
                               ),
                               infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                             ),

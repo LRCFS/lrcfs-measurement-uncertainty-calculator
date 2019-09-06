@@ -129,11 +129,11 @@ output$display_coverageFactor_table <- DT::renderDataTable({
   finalCoverageFactorEffectiveDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDofTable, effectiveDof)
   coverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
   
-  coverageFactorEffectiveDofTable[28,1]  = "Inf"
+  coverageFactorEffectiveDofTable[nrow(coverageFactorEffectiveDofTable),1]  = "Inf"
   
   dataTable = datatable(coverageFactorEffectiveDofTable,
                         rownames = FALSE,
-                        options = list(pageLength = 100, scrollX = TRUE, dom = '', columnDefs = list(list(className = "dt-right", targets = 0:6))))%>%
+                        options = list(pageLength = 100, scrollX = TRUE, dom = '', columnDefs = list(list(className = "dt-right", targets = 0:ncol(coverageFactorEffectiveDofTable)-1))))%>%
     #Row Style
     formatStyle(0,"EffectiveDoF",target = "row", backgroundColor = styleEqual(finalCoverageFactorEffectiveDof, "#D8F5F5"))%>%
     #Colum style
@@ -187,14 +187,24 @@ getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,
   return(calc)
 }
 
+
+getHighestPossibleDofInCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof)
+{
+  possibleDofs = coverageFactorEffectiveDof$EffectiveDoF
+  maxPossibleDof = sort(possibleDofs, decreasing = TRUE)[2] #Sort the numbers then take the second highest value (as the highest is going to be the infinite value)
+  return(maxPossibleDof)
+}
+
 getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof){
+  
+  highestPossibleDof = getHighestPossibleDofInCoverageFactorEffectiveDof(coverageFactorEffectiveDof)
   
   closestDof = 0
   if(is.na(effectiveDof) | effectiveDof < 1)
   {
     closestDof = 1
   }
-  else if(effectiveDof > 100)
+  else if(effectiveDof > highestPossibleDof)
   {
     closestDof = Inf
   }
