@@ -432,7 +432,7 @@ output$calibrationData = DT::renderDataTable(
 )
 
 output$rearrangedCalibrationData = DT::renderDataTable(
-  sapply(getDataCalibrationCurveRearranged(), function(x) round(as.numeric(x),numDecimalPlaces)),
+  sapply(getDataCalibrationCurveRearranged(), formatNumberForDisplay),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:5)))
 )
@@ -447,9 +447,9 @@ output$uploadedCalibrationDataStats = renderUI({
 })
 
 output$display_calibrationCurve_linearRegression = renderUI({
-  intercept = round(getCalibrationCurve_intercept(), numDecimalPlaces)
-  slope = round(getCalibrationCurve_slope(), numDecimalPlaces)
-  rSquare = round(getCalibrationCurve_rSquared(), numDecimalPlaces)
+  intercept = formatNumberForDisplay(getCalibrationCurve_intercept())
+  slope = formatNumberForDisplay(getCalibrationCurve_slope())
+  rSquare = formatNumberForDisplay(getCalibrationCurve_rSquared())
   n = getCalibrationCurve_n()
   
   formulas = c(paste0("\\text{Intercept}(b_0) &=",intercept))
@@ -464,9 +464,9 @@ output$display_calibrationCurve_linearRegression = renderUI({
 output$display_calibrationCurve_meanOfX = renderUI({
   if(checkUsingWls()) return(NULL) #Don't display if we're using Weighted Least Square
 
-  sumOfX = round(getCalibrationCurve_sumOfX(), numDecimalPlaces)
+  sumOfX = formatNumberForDisplay(getCalibrationCurve_sumOfX())
   n = getCalibrationCurve_n()
-  answer = round(getCalibrationCurve_meanOfX(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_meanOfX())
   
   formulas = c("\\overline{x} &= \\frac{\\sum{x_i}}{n}")
   formulas = c(formulas, paste("& = \\frac{",sumOfX,"}{",n,"}"))
@@ -479,9 +479,9 @@ output$display_calibrationCurve_meanOfX = renderUI({
 output$display_calibrationCurve_weightedMeanOfX = renderUI({
   if(!checkUsingWls()) return(NULL) #Only display if we're using Weighted Least Square
 
-  sumOfWeightedX = round(getCalibrationCurve_sumOfWeightedX(), numDecimalPlaces)
+  sumOfWeightedX = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedX())
   n = getCalibrationCurve_n()
-  answer = round(getCalibrationCurve_meanOfX(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_meanOfX())
   
   formulas = c("\\overline{x}_w &= \\frac{\\sum{w_ix_i}}{n}")
   formulas = c(formulas, paste("& = \\frac{",sumOfWeightedX,"}{",n,"}"))
@@ -494,9 +494,9 @@ output$display_calibrationCurve_weightedMeanOfX = renderUI({
 output$display_calibrationCurve_meanOfY = renderUI({
   if(checkUsingWls()) return(NULL) #Don't display if we're using Weighted Least Square
   
-  sumOfY = round(getCalibrationCurve_sumOfY(), numDecimalPlaces)
+  sumOfY = formatNumberForDisplay(getCalibrationCurve_sumOfY())
   n = getCalibrationCurve_n()
-  answer = round(getCalibrationCurve_meanOfY(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_meanOfY())
   
   formulas = c("\\overline{y} &= \\frac{\\sum{y_i}}{n}")
   formulas = c(formulas, paste("& = \\frac{",sumOfY,"}{",n,"}"))
@@ -509,9 +509,9 @@ output$display_calibrationCurve_meanOfY = renderUI({
 output$display_calibrationCurve_weightedMeanOfY = renderUI({
   if(!checkUsingWls()) return(NULL) #Only display if we're using Weighted Least Square
 
-  sumOfWeightedY = round(getCalibrationCurve_sumOfWeightedY(), numDecimalPlaces)
+  sumOfWeightedY = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedY())
   n = getCalibrationCurve_n()
-  answer = round(getCalibrationCurve_meanOfY(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_meanOfY())
   
   formulas = c("\\overline{y}_w &= \\frac{\\sum{w_iy_i}}{n}")
   formulas = c(formulas, paste("& = \\frac{",sumOfWeightedY,"}{",n,"}"))
@@ -524,7 +524,7 @@ output$display_calibrationCurve_weightedMeanOfY = renderUI({
 output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
   if(checkUsingWls()) return(NULL) #Don't display if we're using Weighted Least Square
     
-  answer = round(getCalibrationCurve_sumSqDeviationX(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_sumSqDeviationX())
   
   formulas = c("S_{xx} &= \\sum\\limits_{i=1}^n(x_i - \\overline{x})^2")
   formulas = c(formulas, paste("&=\\color{",color2,"}{",answer,"}"))
@@ -543,7 +543,7 @@ output$display_calibrationCurve_sumOfWeightedXSquared = renderUI({
   y = data$calibrationDataPeakArea
   x = data$calibrationDataConcentration
   
-  answer = round(getCalibrationCurve_sumOfWeightedXSquared(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared())
   
   formulas = c(paste("\\sum{w_ix_i^2} = \\color{",color2,"}{",answer,"}"))
   output = mathJaxAligned(formulas, 5)
@@ -560,7 +560,7 @@ output$display_calibrationCurve_errorSumSqY = renderUI({
   {
     errorSqDeviationY = getCalibrationCurve_weightedErrorSqDeviationY()
   }
-  answer = round(sum(errorSqDeviationY), numDecimalPlaces)
+  answer = formatNumberForDisplay(sum(errorSqDeviationY))
 
   
   formulas = c(paste("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n",if(checkUsingWls())"w_i","(y_i-\\hat{y}_i)^2"))
@@ -578,9 +578,9 @@ output$standardErrorOfRegression = renderUI({
   {
     errorSqDeviationY = getCalibrationCurve_weightedErrorSqDeviationY()
   }
-  sumErrorSqDeviationY = round(sum(errorSqDeviationY), numDecimalPlaces)
+  sumErrorSqDeviationY = formatNumberForDisplay(sum(errorSqDeviationY))
   
-  answer = round(getCalibrationCurve_standardErrorOfRegression(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_standardErrorOfRegression())
   
   formulas = c(paste("S_{",if(checkUsingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n",if(checkUsingWls())"w_i","(y_i-\\hat{y}_i)^2}{n-2}}","[[break]]"))
   formulas = c(formulas, paste("S_{",if(checkUsingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\color{",color3,"}{",sumErrorSqDeviationY,"}}{\\color{",color5,"}{",n,"}-2}}"))
@@ -593,10 +593,10 @@ output$standardErrorOfRegression = renderUI({
 output$display_calibrationCurve_peakAreaRatioOfCaseSample = renderUI({
   if(!checkUsingWls()) return(NULL)
     
-  intercept = round(getCalibrationCurve_intercept(), numDecimalPlaces)
-  slope = round(getCalibrationCurve_slope(), numDecimalPlaces)
+  intercept = formatNumberForDisplay(getCalibrationCurve_intercept())
+  slope = formatNumberForDisplay(getCalibrationCurve_slope())
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  answer = round(getCalibrationCurve_peakAreaRatioOfCaseSample(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample())
   
   formulas = c("y_s &= b_0 + b_1x_s")
   formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",caseSampleMeanConcentration))
@@ -614,8 +614,8 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
     
   wlsSelectedOption = input$inputWeightLeastSquared
   
-  weightedCaseSampleDenominator = round(getCalibrationCurve_weightedCaseSampleDenominator(), numDecimalPlaces)
-  answer = round(getCalibrationCurve_weightedCaseSample(), numDecimalPlaces)
+  weightedCaseSampleDenominator = formatNumberForDisplay(getCalibrationCurve_weightedCaseSampleDenominator())
+  answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample())
   
   formulas = c(paste("w_s &=", getCalibrationCurve_wlsLatex()))
   
@@ -651,21 +651,21 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   {
     stdErrorOfRegression = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrData)
   }
-  stdErrorOfRegression = round(stdErrorOfRegression, numDecimalPlaces)
+  stdErrorOfRegression = formatNumberForDisplay(stdErrorOfRegression)
   
-  slope = round(getCalibrationCurve_slope(), numDecimalPlaces)
+  slope = formatNumberForDisplay(getCalibrationCurve_slope())
   caseSampleReps = input$inputCaseSampleReplicates
   n = getCalibrationCurve_n()
   caseSampleMeanConc = input$inputCaseSampleMeanConcentration
-  meanX = round(getCalibrationCurve_meanOfX(), numDecimalPlaces)
-  sumSqDevationX = round(getCalibrationCurve_sumSqDeviationX(), numDecimalPlaces)
+  meanX = formatNumberForDisplay(getCalibrationCurve_meanOfX())
+  sumSqDevationX = formatNumberForDisplay(getCalibrationCurve_sumSqDeviationX())
   
-  weightedCaseSample = round(getCalibrationCurve_weightedCaseSample(), numDecimalPlaces)
-  peakAreaRatioOfCaseSample = round(getCalibrationCurve_peakAreaRatioOfCaseSample(), numDecimalPlaces)
-  calCurveMeanOfY = round(getCalibrationCurve_meanOfY(), numDecimalPlaces)
-  sumOfWeightedXSquared = round(getCalibrationCurve_sumOfWeightedXSquared(), numDecimalPlaces)
+  weightedCaseSample = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample())
+  peakAreaRatioOfCaseSample = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample())
+  calCurveMeanOfY = formatNumberForDisplay(getCalibrationCurve_meanOfY())
+  sumOfWeightedXSquared = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared())
 
-  answer = round(getCalibrationCurve_uncertaintyOfCalibration(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration())
   
   if(is.null(exStdErrData))
   {
@@ -704,8 +704,8 @@ output$peakAreaRatios = renderPlotly({
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
 
-  slope = round(getCalibrationCurve_slope(), numDecimalPlaces)
-  intercept = round(getCalibrationCurve_intercept(), numDecimalPlaces)
+  slope = formatNumberForDisplay(getCalibrationCurve_slope())
+  intercept = formatNumberForDisplay(getCalibrationCurve_intercept())
 
   linearRegression = getCalibrationCurve_linearRegression()
   
@@ -751,26 +751,23 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   
   exStdErrorRunData = exStdErrorData
   exStdErrorRunData$conc = NULL
+  
+  runNames = colnames(exStdErrorRunData)
+  lengths = apply(exStdErrorRunData, 2, doGetCalibrationCurve_n)
+  results = c()
 
-  results = list()
-  for(i in colnames(exStdErrorRunData))
+  for(i in runNames)
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
     seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
-
-    answer = data.frame(seor)
-    names(answer) = i
-    results = c(results, round(answer, numDecimalPlaces))
+    results = c(results, formatNumberForDisplay(seor))
   }
 
-  #results = apply(exStdErrorRunData, 2, doGetCalibrationCurve_standardErrorOfRegression, x = exStdErrorData$conc)
-  lengths = apply(exStdErrorRunData, 2, doGetCalibrationCurve_n)
-  
   formulas = c(paste("S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
 
   for(i in 1:length(results))
   {
-    formulas = c(formulas, paste0("S_{{",if(checkUsingWls())"w"else"y/x","}_{(\\text{",names(results)[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",names(results)[i],"})} = ", lengths[i]))
+    formulas = c(formulas, paste0("S_{{",if(checkUsingWls())"w"else"y/x","}_{(\\text{",runNames[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",runNames[i],"})} = ", lengths[i]))
   }
   
   output = mathJaxAligned(formulas, 5, 20)
@@ -788,7 +785,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   y = data$calibrationDataPeakArea
   weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
   
-  answer = round(doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData), numDecimalPlaces)
+  answer = formatNumberForDisplay(doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData))
   
   formulas = c(paste("S_{",if(checkUsingWls())"w_{(p)}"else"p_{(x/y)}","} &= \\sqrt{\\frac{\\sum{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","}}}{\\sum{(n-1)}}} [[break]]"))
   formulas = c(formulas, paste("S_{",if(checkUsingWls())"w_{(p)}"else"p_{(x/y)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(checkUsingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
@@ -814,9 +811,9 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   n2 = lengths[1]
   n3 = lengths[length(results)]
   
-  s1 = round(doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared), numDecimalPlaces)
-  s2 = round(results[1], numDecimalPlaces)
-  s3 = round(results[length(results)], numDecimalPlaces)
+  s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared))
+  s2 = formatNumberForDisplay(results[1])
+  s3 = formatNumberForDisplay(results[length(results)])
   
   end = ""
   if(length(results) > 2)
@@ -849,9 +846,9 @@ output$display_calibrationCurve_finalAnswer_top = renderText({
 })
 
 output$display_calibrationCurve_finalAnswer_bottom = renderUI({
-  uncertaintyOfCalibration = round(getCalibrationCurve_uncertaintyOfCalibration(), numDecimalPlaces)
+  uncertaintyOfCalibration = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration())
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  answer = round(getResultCalibrationCurve(), numDecimalPlaces)
+  answer = formatNumberForDisplay(getResultCalibrationCurve())
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
   formulas = c(formulas, "u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}")

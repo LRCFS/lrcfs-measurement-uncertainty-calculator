@@ -1,4 +1,7 @@
-numDecimalPlaces = 5
+#Properties used by formatNumber helperFunction
+numDecimalPlaces = 6
+useScientificNotationIfLessThan = 0.001
+numScientificNotationDigits = 2
 
 color1 = "#3FA5BE"
 color2 = "#FCA311"

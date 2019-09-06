@@ -1,3 +1,4 @@
+#Allows building of mathJax formulas that are aligned by creatign a vector of formulas
 mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 {
   formulasOutput = ""
@@ -17,6 +18,47 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
   
   output = paste("$$\\begin{align}", formulasOutput, "\\end{align}$$")
   return(output)
+}
+
+#Takes any number and formats it in either scientific notation or rounded to a specififed number of decimal places
+#Can also handle a vector
+formatNumberForDisplay = function(number, debug = FALSE)
+{
+  #If it's got a length then lets apply the whole function again to the vector
+  if(length(number) > 1)
+  {
+    numbers = lapply(number, formatNumber)
+    numbers = unlist(numbers) #Unlist because datatable has problem with sorting lists
+    return(numbers)
+  }
+  
+  #Check if number is a factor (possibly a string) and just return as character
+  if(is.factor(number))
+    return(as.character(number))
+  
+  #If it's NULL, NA or not numeric then just return it
+  if(is.null(number) | is.na(number) | !is.numeric(number))
+  {
+     return(number)
+  }
+
+  #If it's 0 then just return 0
+  if(number == 0)
+  {
+    formattedNumber = 0;
+  }
+  #If it's less thant some value (e.g. 0.0001) then use scientific notation
+  else if(number < useScientificNotationIfLessThan)
+  {
+    formattedNumber = formatC(number, format = "e", digits = numScientificNotationDigits)
+  }
+  #Else, lets round the number
+  else
+  {
+    formattedNumber = round(number, numDecimalPlaces)
+  }
+  
+  return(formattedNumber)
 }
 
 # library(latex2exp)
