@@ -27,7 +27,7 @@ formatNumberForDisplay = function(number, debug = FALSE)
   #If it's got a length then lets apply the whole function again to the vector
   if(length(number) > 1)
   {
-    numbers = lapply(number, formatNumber)
+    numbers = lapply(number, formatNumberForDisplay)
     numbers = unlist(numbers) #Unlist because datatable has problem with sorting lists
     return(numbers)
   }
