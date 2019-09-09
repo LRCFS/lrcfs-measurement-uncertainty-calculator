@@ -22,15 +22,19 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 
 #Takes any number and formats it in either scientific notation or rounded to a specififed number of decimal places
 #Can also handle a vector
-formatNumberForDisplay = function(number, debug = FALSE)
+formatNumberForDisplay = function(number, input)
 {
   #If it's got a length then lets apply the whole function again to the vector
   if(length(number) > 1)
   {
-    numbers = lapply(number, formatNumberForDisplay)
+    numbers = lapply(number, function(x) formatNumberForDisplay(x,input))
     numbers = unlist(numbers) #Unlist because datatable has problem with sorting lists
     return(numbers)
   }
+  
+  numberOfDecimalPlaces = input$inputNumberOfDecimalPlaces
+  useScientificNotationIfLessThan = input$inputUseScientificNotationIfLessThan
+  numberOfScientificNotationDigits = input$intputNumberOfScientificNotationDigits
   
   #Check if number is a factor (possibly a string) and just return as character
   if(is.factor(number))
@@ -50,15 +54,27 @@ formatNumberForDisplay = function(number, debug = FALSE)
   #If it's less thant some value (e.g. 0.0001) then use scientific notation
   else if(number < useScientificNotationIfLessThan)
   {
-    formattedNumber = formatC(number, format = "e", digits = numScientificNotationDigits)
+    formattedNumber = formatC(number, format = "e", digits = numberOfScientificNotationDigits)
   }
   #Else, lets round the number
   else
   {
-    formattedNumber = round(number, numDecimalPlaces)
+    formattedNumber = round(number, numberOfDecimalPlaces)
   }
   
   return(formattedNumber)
+}
+
+colourNumber = function(value, useColour, colour)
+{
+  if(useColour)
+  {
+    return(paste0("\\color{",colour,"}{",value, "}"))
+  }
+  else
+  {
+    return(value)
+  }
 }
 
 # library(latex2exp)

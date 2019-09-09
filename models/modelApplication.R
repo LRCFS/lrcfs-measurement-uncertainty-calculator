@@ -194,3 +194,15 @@ hideResultTabs = function(){
   
   shinyjs::removeClass(selector = "#percentageExpandedUncertaintyStartPage", class="visible")
 }
+
+#Right side bar inputs
+observeEvent(input$useColours, {
+  if(input$useColours == FALSE)
+  {
+    shinyjs::addClass(selector = "#colourPickers", class="hidden")
+  }
+  else
+  {
+    shinyjs::removeClass(selector = "#colourPickers", class="hidden")
+  }
+})

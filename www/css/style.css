@@ -21,6 +21,10 @@ div#percentageExpandedUncertaintyStartPage.visible{
 	display: block !important;
 }
 
+.hidden{
+	display: none;
+}
+
 .MathJax_Display,
 .MathJax span {
 	text-align : left !important;

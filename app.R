@@ -1,4 +1,4 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","rmarkdown","knitr","webshot"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","rmarkdown","knitr","webshot","shinyWidgets","colourpicker"))
 #webshot::install_phantomjs() - on linux make sure you've got bzip2 installed for this to work
 
 rm(list = ls())
@@ -21,6 +21,8 @@ library(textutils)
 library(rmarkdown)
 library(knitr)
 library(webshot)
+library(shinyWidgets)
+library(colourpicker)
 
 source("models/modelHelperFunctions.R")
 
@@ -35,7 +37,7 @@ source("dal/loadSampleVolumeCSV.R")
 source("models/modelStaticProperties.R")
 
 source("views/viewStart.R")
-#source("views/viewRightSidebar.R")
+source("views/viewRightSidebar.R")
 source("views/viewCalibrationCurve.R")
 source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
@@ -51,7 +53,7 @@ ui <- dashboardPagePlus(title="MOU Calc v0.5",
                         dashboardHeaderPlus(title = tagList(
                           img(class = "logo-lg", src = "images/logo-large.png"), 
                           img(class = "logo-mini", src = "images/logo-small.png")),
-                          enable_rightsidebar = FALSE,
+                          enable_rightsidebar = TRUE,
                           rightSidebarIcon = "gears"
                         ),
                         dashboardSidebar(
@@ -88,7 +90,7 @@ ui <- dashboardPagePlus(title="MOU Calc v0.5",
                             tabDashboard
                           ) 
                         ),
-                        #rightsidebar = mouCalcRightSidebar,
+                        rightsidebar = mouCalcRightSidebar,
                         footer = dashboardFooter(
                           left_text = "Measurement of Uncertainty Calculator",
                           right_text = "Copyright LRCFS 2019"
@@ -101,6 +103,7 @@ server <- function(input, output, session) {
   
   source("controllers/controllerCalibrationCurve.R", local = TRUE)
   source("models/modelCalibrationCurve.R", local = TRUE)
+  source("reactives/reactiveCalibrationCurve.R", local = TRUE)
   
   source("models/modelMethodPrecision.R", local = TRUE)
   source("models/modelStandardSolution.R", local = TRUE)
