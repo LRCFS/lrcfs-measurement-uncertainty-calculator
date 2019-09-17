@@ -179,10 +179,10 @@ output$standardErrorOfRegression = renderUI({
 output$display_calibrationCurve_peakAreaRatioOfCaseSample = renderUI({
   if(!checkUsingWls()) return(NULL)
     
-  intercept = formatNumberForDisplay(getCalibrationCurve_intercept())
-  slope = formatNumberForDisplay(getCalibrationCurve_slope())
+  intercept = formatNumberForDisplay(getCalibrationCurve_intercept(), input)
+  slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample())
+  answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
   
   formulas = c("y_s &= b_0 + b_1x_s")
   formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",caseSampleMeanConcentration))
@@ -346,7 +346,7 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
     seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
-    results = c(results, formatNumberForDisplay(seor))
+    results = c(results, formatNumberForDisplay(seor, input))
   }
 
   formulas = c(paste("S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
@@ -371,7 +371,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   y = data$calibrationDataPeakArea
   weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
   
-  answer = formatNumberForDisplay(doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData))
+  answer = formatNumberForDisplay(doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData), input)
   
   formulas = c(paste("S_{",if(checkUsingWls())"w_{(p)}"else"p_{(x/y)}","} &= \\sqrt{\\frac{\\sum{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","}}}{\\sum{(n-1)}}} [[break]]"))
   formulas = c(formulas, paste("S_{",if(checkUsingWls())"w_{(p)}"else"p_{(x/y)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(checkUsingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
@@ -397,9 +397,9 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   n2 = lengths[1]
   n3 = lengths[length(results)]
   
-  s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared))
-  s2 = formatNumberForDisplay(results[1])
-  s3 = formatNumberForDisplay(results[length(results)])
+  s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared), input)
+  s2 = formatNumberForDisplay(results[1], input)
+  s3 = formatNumberForDisplay(results[length(results)], input)
   
   end = ""
   if(length(results) > 2)

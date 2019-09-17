@@ -1,8 +1,9 @@
 tabStart = tabItem(tabName = "start",
                    fluidRow(
-                     box(title="Welcome to MOU Calc", width=12,
-                         p("MOU Calc is the LRCFS Measurement of Uncertainty Calculator, which can used to calculator the Expanded Uncertatiny assocaited with drug testing given some calibration data."),
-                         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean arcu ligula, tincidunt vitae convallis non, laoreet id enim. Suspendisse potenti. Morbi placerat interdum orci, in dictum ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis sodales lacus sed sem congue, at aliquet dolor molestie. Aliquam nec pulvinar nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ipsum odio, lacinia feugiat nisl at, dictum viverra ligula. Donec tincidunt ante quis sodales maximus. Etiam eget sem at turpis posuere bibendum eu in purus. Nam eu feugiat odio."),
+                     box(title="Welcome to MUCalc", width=12,
+                         p("Measurement Uncertainty Calculator (MUCalc) is a software for calculating measurement uncertainty in accordance with the standards of International Organization for Standardization ISO/IEC 17025."),
+                         p("This version of the software computes uncertainty components for Method Precision, Standard Solution, Sample Volume and Calibration Curve with the Calibration Curve assumed to be linear. If data is uploaded for all four components, the Combined Uncertainty is computed using all four components. An uncertainty component can be excluded from the Combined Uncertainty by simply not uploading any data for that component."),
+                         p("Once data is uploaded, a step by step computation and details of all formulas used can be accessed by clicking on the respective uncertainty component tab displayed at the right hand size of screen. Each uncertainty component tab have three main tabs; Overview, Method and Step by step calculation tab, which together give detailed information on the approached used."),
                          hr(),
                          actionButton("helpStartPage", "Help", icon=icon("question"))
                      )
@@ -14,8 +15,7 @@ tabStart = tabItem(tabName = "start",
                                   actionButton("helpStartPage6", "", icon=icon("question")),
                                   div(
                                     h4("Upload Data Files"),
-                                    p("Using the Browse buttons below please upload the data required for each step for calculating the Expanded Uncertainty."),
-                                    p("To make sure your data is in the correct format please download the example CSV files that specify the required format for each calculation.")
+                                    p("All data should be saved as a CSV file before uploading to MUCalc. The exact format of data required can be accessed by downloading the Example Data file for each uncertainty component. The example data files can be edited to include lab specific data.")
                                   ),
                                   hr(),
                                   

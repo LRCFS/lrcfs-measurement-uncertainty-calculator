@@ -3,28 +3,24 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                               valueBox("Uncertainty of Method Precision", h2(uiOutput("display_methodPrecision_finalAnswer_top")), width = 12, color = "red", icon = icon("bullseye"))
                             ),
                             fluidRow(
-                               tabBox(title="Analysis", width=12,
-                                      tabPanel(title="Overview",
-                                               "Upload your Method Precision data via the settings menu",
-                                               HTML('<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>'),
-                                               "and see a whole bunch of cool number."
-                                      ),
-                                      tabPanel(title="Method",
-                                               "For the analysis of these reports we use the following function:..."
-                                      ),
-                                      tabPanel(title="Properties",
-                                               tags$ul(
-                                                 tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
-                                                 tags$li("\\(b_1\\) is the slop of the of regression line"),
-                                                 tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
-                                                 tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
-                                                 tags$li("\\(x_s\\) is the the amount of THC in test sample"),
-                                                 tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
-                                                 tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                                                 tags$li( "\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
-                                               )
-                                      )
-                               )
+                              box(title = "Overview", width=6,
+                                  p("A step-by-step approach for estimating the uncertainty of method precision is out lined here. The main methodology used is the pooled standard deviation approach."),
+                                  p("Where precision experiment is carried out for different nominal values of concentration such low, medium and high, the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.")
+                              ),
+                              box(title = "Method", width=6,
+                                  "The relative standard uncertainty of method precision is given by:",
+                                  "$$u_r(\\text{MethodPrec})_{\\text{(NV)}} = \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\text{NV}},$$",
+                                  "where",
+                                  "$$u(\\text{MethodPrec})_{\\text{(NV)}} = \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}},$$",
+                                  "and",
+                                  "$$S_{p(\\text{NV})} = \\sqrt{\\frac{\\sum{(S^2 \\times d)_{\\text{(NV)}}}}{\\sum d_{\\text{(NV)}}}}.$$",
+                                  tags$ul(
+                                    tags$li("\\(S\\) is the individual runs standard deviation"),
+                                    tags$li("\\(d\\) is the individual degrees of freedom"),
+                                    tags$li("\\(S_p\\) is the pooled standard deviation"),
+                                    tags$li("\\(NV\\) is the nominal value of concentration")
+                                  )
+                              )
                             ),
                             fluidRow(
                               tabBox(width=12, side="right",

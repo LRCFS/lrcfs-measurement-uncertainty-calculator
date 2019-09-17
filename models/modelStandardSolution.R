@@ -133,7 +133,7 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
   #Get the distinct insturments based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
   
-  formulas = c("u\\text{(Insturment)}_{\\text{(Vol,Tol)}} &= \\frac{\\text{Insturment Tolerance}}{\\text{Coverage Factor}} [[break]]")
+  formulas = c("u\\text{(Equipment)}_{\\text{(Vol,Tol)}} &= \\frac{\\text{Tolerance}}{\\text{Coverage Factor}} [[break]]")
   
   for(sampleVolumeItem in rownames(data))
   {
@@ -160,10 +160,10 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
 
 output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI({
 
-  #Get the distinct insturments based on the name, volume and tolerance
+  #Get the distinct Equipment based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
   
-  formulas = c("u_r\\text{(Insturment)}_{\\text{(Vol,Tol)}} &= \\frac{u\\text{(Insturment)}_{\\text{(Vol,Tol)}}}{\\text{Instrument Volume}} [[break]]")
+  formulas = c("u_r\\text{(Equipment)}_{\\text{(Vol,Tol)}} &= \\frac{u\\text{(Equipment)}_{\\text{(Vol,Tol)}}}{\\text{Volume}} [[break]]")
   
   for(instrumentRow in rownames(data))
   {
@@ -194,7 +194,7 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
   formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = \\color{",color3,"}{",baseSolution$relativeStandardUncertainty,"} [[break]]"))
   
   #Show base formula for relative standard uncertainty of solution calculations
-  formulas = c(formulas, "u_r\\text{(Solution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Insturment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Insturment)}_{\\text{(Vol,Tol)}}]}} [[break]]")
+  formulas = c(formulas, "u_r\\text{(Solution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}} [[break]]")
   
   for(i in rownames(solutionData))
   {
@@ -248,7 +248,7 @@ output$display_standardSolution_finalAnswer_top <- renderUI({
 
 output$display_standardSolution_finalAnswer_bottom <- renderUI({
   
-  formulas = character()
+  
   finalSolutionsData = getFinalSolutions(standardSolutionDataWithCalculations())
   equationNames = ""
   equationValues = ""
@@ -264,6 +264,7 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
     equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
     equationValues = paste0(equationValues, plus, round(solution$relativeStandardUncertainty,numDecimalPlaces),"^2")
   }
+  formulas = c("u_r(\\text{StdSolution}) &= \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}[[break]]")
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}[[break]]"))
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationValues,"}"))
   formulas = c(formulas, paste0("&=",standardSolutionResult()))

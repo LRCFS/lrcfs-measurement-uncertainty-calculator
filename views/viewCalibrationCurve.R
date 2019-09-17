@@ -5,11 +5,11 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,
-                       p("Lorem ipsum Suspendisse ultrices, lorem eget pellentesque eleifend, lectus ipsum tincidunt metus, venenatis accumsan libero diam eu velit. Cras et porttitor nisi. Ut blandit egestas lectus, eget suscipit elit efficitur eget. Quisque erat velit, interdum sit amet cursus at, auctor in quam. Integer vestibulum dolor quam, non scelerisque mi aliquet non. Aliquam erat volutpat."),
-                       p("Sed posuere ligula metus, ac placerat tortor tincidunt quis. Nam aliquam faucibus viverra. Duis imperdiet blandit massa, quis malesuada neque malesuada vel. Nam eget sodales libero, sed hendrerit est. Duis et magna sit amet lacus pellentesque placerat vitae a nunc. Integer quis placerat dolor. Donec at laoreet quam. Fusce ut lacus eget lacus dictum fermentum. Duis vel faucibus turpis. Vivamus placerat finibus congue. Nullam quis viverra lectus. Phasellus hendrerit ac est vitae euismod. Praesent a sodales justo.")
+                       p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required."),
+                       p("The method tab, shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.")
                    ),
                    box(title = "Method", width=6,
-                       "For the analysis of these reports we use the following function:",
+                       "The uncertainty of calibration curve is given by:",
                        "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
                        "where \\(S_{y/x}\\) is the standard error of regression given by",
                        "$$S_{x/y} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",

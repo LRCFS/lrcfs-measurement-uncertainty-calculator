@@ -3,27 +3,24 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                 valueBox("Uncertainty of Standard Solution", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("vial"))
                               ),
                               fluidRow(
-                                tabBox(title="Analysis", width=12,
-                                       tabPanel(title="Overview",
-                                                "Upload your Standard Solution data via the settings menu",
-                                                HTML('<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>'),
-                                                "and see a whole bunch of cool number."
-                                       ),
-                                       tabPanel(title="Method",
-                                                "For the analysis of these reports we use the following function:..."
-                                       ),
-                                       tabPanel(title="Properties",
-                                                tags$ul(
-                                                  tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
-                                                  tags$li("\\(b_1\\) is the slop of the of regression line"),
-                                                  tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
-                                                  tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
-                                                  tags$li("\\(x_s\\) is the the amount of THC in test sample"),
-                                                  tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
-                                                  tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                                                  tags$li( "\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
-                                                )
-                                       )
+                                box(title = "Overview", width=6,
+                                    p("Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of uncertainty associated with standard solution."),
+                                    p("The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the main final solutions used for the calibration curve."),
+                                    p("If more than one final solution exist (which may be due to splitting the calibration range), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainty (RSU) of the final set of solutions used for the calibration curve")
+                                ),
+                                box(title = "Method", width=6,
+                                    "The RSU of each equipment is computed using:",
+                                    "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
+                                    "The RSU of reference compound is calculated using",
+                                    "$$u_r(\\text{Reference Compound}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Purity}}$$",
+                                    "The RSU of each solution is computed using",
+                                    "$$u_r\\text{(Solution)} = \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}}$$",
+                                    "The overall RSU of standard solution is obtained by pooling the RSU's of the final set of solutions used for generating the calibration curve.",
+                                    "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}$$",
+                                    tags$ul(
+                                      tags$li("\\(\\text{Parent Solution}\\) is the solution from which a given is solution is made"),
+                                      tags$li("\\(N\\text{(Equipment)}\\) is the number of times an equipment is used in the preperation of a given solution")
+                                    )
                                 )
                               ),
                               fluidRow(
