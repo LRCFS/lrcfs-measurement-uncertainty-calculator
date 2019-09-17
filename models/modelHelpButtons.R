@@ -1,20 +1,36 @@
 ########################################
 ######### Start Page        ############
 ########################################
-observeEvent(input$helpStartPage, {
-  session$sendCustomMessage(type = 'helpStartPage', message = 1)
+observeEvent(input$help_start_start, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 1)
 })
 
-observeEvent(input$helpStartPage1, {
-  session$sendCustomMessage(type = 'helpStartPage', message = 1)
+observeEvent(input$help_start_calcurve, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 1)
 })
 
-observeEvent(input$helpStartPage5, {
-  session$sendCustomMessage(type = 'helpStartPage', message = 6)
+observeEvent(input$help_start_methodprec, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 2)
 })
 
-observeEvent(input$helpStartPage6, {
-  session$sendCustomMessage(type = 'helpStartPage', message = 9)
+observeEvent(input$help_start_stdsol, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 3)
+})
+
+observeEvent(input$help_start_samplevol, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 4)
+})
+
+observeEvent(input$help_start_weightedLeastSquare, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 5)
+})
+
+observeEvent(input$help_start_caseSampleData, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 6)
+})
+
+observeEvent(input$help_start_confidenceInterval, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 7)
 })
 
 
@@ -22,13 +38,5 @@ observeEvent(input$helpStartPage6, {
 ######### Calibration Curve ############
 ########################################
 observeEvent(input$helpCalibrationCurve, {
-  session$sendCustomMessage(type = 'helpCalibrationCurve', message = 1)
-})
-
-
-########################################
-######### Results Dashboard ############
-########################################
-observeEvent(input$helpResultsDashboard, {
-  session$sendCustomMessage(type = 'helpResultsDashboard', message = 1)
+  session$sendCustomMessage(type = 'runjs_help_calibrationCurve', message = 1)
 })

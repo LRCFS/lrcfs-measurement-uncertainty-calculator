@@ -13,95 +13,54 @@ function showHelp(steps, startingStep)
 	.start();
 }
 
-Shiny.addCustomMessageHandler("helpStartPage",
+Shiny.addCustomMessageHandler("runjs_help_start",
 function(startingStep) {
 	var steps = [
 		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)",
-			intro: '<h4>Case Sample Data</h4>\
-					<p>Case sample data! Awh man, this is so amazing. When you find out about case sample data you\'re going to be all like "no way man! that\'s super cool.</p>\
-					<iframe width="304" height="171" src="https://www.youtube-nocookie.com/embed/Gyrfsrd4zK0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\
-					<p>Awh man, wasn\'t that dope? Click next to find out more about other things! Yay!</p>'
+			element: "#shiny-tab-start #calcurve",
+			intro: '<h4>Calibration Curve</h4>\
+					<p>Upload data on concentration levels and peak area (ratios) used to generate the calibration curve. An example data file can be downloaded and edited.</p>\
+					<h4>External Standard Error</h4>\
+					<p>Upload existing data on concentration levels and peak area (ratios) from previous experiments if a pooled standard error of regression estimate is preferred.</p>',
+			position: "right",
+			width: "500px"
 		},
 		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > div > div.box-body > div:nth-child(3)",
-			intro: '<h4>Replicates</h4>\
-					<p>Replicates are cool. You should totally check them out.</p>\
-					<p>Aren\'t replicates the best?!</p>',
-			position: "top"
-		},
-		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > div > div.box-body > div:nth-child(4)",
-			intro: "<h4>Mean Concentration</h4>\
-					<p>Awwwh man! Did you hear about how the cool mean concentration dude was like 'no way man', then the other guy was all like 'yes way man!' and a totally awesome thing happened and everyoen was like 'GNARLEY!' and it totally went off the hook from there.</p>",
-			position: "bottom"
+			element: "#shiny-tab-start #methodprec",
+			intro: "<h4>Method Precision</h4>\
+					<p>Upload data for precision estimate across the different concentration range of Low, Medium and High.</p>",
+			position: "right"
 			
 		},
 		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div",
-			intro: "<h4>Case Sample Replicates</h4>\
-					<p>This information mirors the value entered above. Where you see this box/value being used on other pages this is the value that it represents.</p>\
-					<p>If you want to change it you can come back to the start page to change it at any time.</p>",
-			position: "bottom"
+			element: "#shiny-tab-start #stdsol",
+			intro: "<h4>Standard Solution</h4>\
+					<p>Two data files are required for standard solution; Structure and Equipment data. Equipment data requires information on all pipettes and flask used in each solution preparation including information on manufacturer’s tolerance and coverage factor, volume and number of times used for pipetting</p>\
+					<p>Structure data requires information on reference compound, its purity, tolerance and coverage factor and the structure of how the reference compound was diluted to form other solutions in generating the calibration curve.</p>",
+			position: "right"
 		},
 		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div",
-			intro: "<h4>Case Sample Mean Concentration</h4>\
-					<p>Help information here...</p>",
-			position: "bottom"
+			element: "#shiny-tab-start #samplevol",
+			intro: "<h4>Sample Volume</h4>\
+					<p>Sample Volume requires information on pipettes/flask used to measure sample volume, its tolerance, and volume and coverage factor.</p>",
+			position: "right"
 		},
 		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(3)",
+			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div > div",
+			intro: "<h4>Weighted Least Square Regression</h4>\
+					<p>Select a weight option to be applied to the model if weighted regression is required.</p>",
+			position: "left"
+		},
+		{
+			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)",
+			intro: "<h4>Case Sample Data</h4>\
+					<p>Specify the mean concentration reading of cases ample and the number of replicates taken.</p>",
+			position: "left"
+		},
+		{
+			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)",
 			intro: "<h4>Confidence Interval</h4>\
-					<p>Help information here...</p>",
-			position: "top"
-			
-		},
-		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div > div.box-body > div",
-			intro: "<h4>Specify Confidence Interval</h4>\
-					<p>Help information here...</p>",
-			position: "top"
-			
-		},
-		{
-			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > div",
-			intro: "<h4>Selected Confidence Interval</h4>\
-					<p>Help information here...</p>",
-			position: "bottom"
-			
-		},
-		{
-			element: "#fileUploadBox > div:nth-child(2)",
-			intro: "<h4>Upload Data Files</h4>\
-					<p>Help information here...</p>",
-			position: "left"
-		},
-		{
-			element: "#fileUploadBox > div:nth-child(4)",
-			intro: "<h4>Upload Calibration Curve Data</h4>\
-					<p>Help information here...</p>",
-			position: "left"
-		}
-		,
-		{
-			element: "#fileUploadBox > div:nth-child(6)",
-			intro: "<h4>Upload Method Precision Data</h4>\
-					<p>Help information here...</p>",
-			position: "left"
-		}
-		,
-		{
-			element: "#fileUploadBox > div:nth-child(8)",
-			intro: "<h4>Upload Standard Solution Data</h4>\
-					<p>Help information here...</p>",
-			position: "left"
-		}
-		,
-		{
-			element: "#fileUploadBox > div:nth-child(10)",
-			intro: "<h4>Upload Sample Volume Data</h4>\
-					<p>Help information here...</p>",
+					<p>Specify the confidence interval required to calculate the Expanded Uncertainty.</p>",
 			position: "left"
 		}
 	]
@@ -109,7 +68,7 @@ function(startingStep) {
 	showHelp(steps, startingStep);
 });
 
-Shiny.addCustomMessageHandler("helpCalibrationCurve",
+Shiny.addCustomMessageHandler("runjs_help_calibrationCurve",
 function(startingStep) {
 	var steps = [
 		{
@@ -160,26 +119,3 @@ function(startingStep) {
 	
 	showHelp(steps, startingStep);
 });
-
-
-
-Shiny.addCustomMessageHandler("helpResultsDashboard",
-function(startingStep) {
-	var steps = [
-		{
-			element: "#shiny-tab-dashboard .col-sm-6:nth-of-type(1) .small-box",
-			intro: "Hello world!1"
-		},
-		{
-			element: "#shiny-tab-dashboard .col-sm-6:nth-of-type(2) .small-box",
-			intro: "Hello world!2"
-		},
-		{
-			element: "#shiny-tab-dashboard .col-sm-6:nth-of-type(3) .small-box",
-			intro: "Hello world!3"
-		}
-	]
-	
-	showHelp(steps, startingStep);
-});
-
