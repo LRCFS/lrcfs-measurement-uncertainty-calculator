@@ -435,7 +435,8 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
 })
   
 output$display_calibrationCurve_finalAnswer_top = renderText({
-  return(paste("\\(u_r\\text{(CalCurve)}=\\)",getResultCalibrationCurve()))
+  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  return(paste("\\(u_r\\text{(CalCurve)}=\\)",answer))
 })
 
 output$display_calibrationCurve_finalAnswer_bottom = renderUI({
@@ -454,13 +455,16 @@ output$display_calibrationCurve_finalAnswer_bottom = renderUI({
 })
 
 output$display_calibrationCurve_finalAnswer_dashboard = renderUI({
-  return(paste("\\(u_r\\text{(CalCurve)}=\\)",getResultCalibrationCurve()))
+  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  return(paste("\\(u_r\\text{(CalCurve)}=\\)",answer))
 })
 
 output$display_calibrationCurve_finalAnswer_combinedUncertainty = renderUI({
-  return(paste(getResultCalibrationCurve()))
+  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  return(paste(answer))
 })
 
 output$display_calibrationCurve_finalAnswer_coverageFactor = renderUI({
-  return(paste(getResultCalibrationCurve()))
+  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  return(paste(answer))
 })
