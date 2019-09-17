@@ -86,7 +86,7 @@ standardSolutionResult = reactive({
   #Calculate our final answer based on our final calibration solutions
   relativeStandardUncertaintyOfCalibrationSolutions = getRelativeStandardUncertaintyOfCalibrationSolutions(finalSolutionsData)
   
-  return(round(relativeStandardUncertaintyOfCalibrationSolutions,numDecimalPlaces))
+  return(relativeStandardUncertaintyOfCalibrationSolutions)
 })
 
 standardSolutionDof = reactive({
@@ -219,8 +219,8 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
       }
       
       formulas = c(formulas, paste0("u_r\\text{(",solution$solution,")} &= \\sqrt{u_r\\text{(",solutionParent$solution,")}^2",instrumentEquationsNames,"}"))
-      formulas = c(formulas, paste0("&= \\sqrt{\\color{",color3,"}{",round(solutionParent$relativeStandardUncertainty,numDecimalPlaces),"}^2",instrumentEquationsValues,"}"))
-      formulas = c(formulas, paste0("&= \\color{",color3,"}{",round(solution$relativeStandardUncertainty,numDecimalPlaces),"} [[break]]"))
+      formulas = c(formulas, paste0("&= \\sqrt{\\color{",color3,"}{",solutionParent$relativeStandardUncertainty,"}^2",instrumentEquationsValues,"}"))
+      formulas = c(formulas, paste0("&= \\color{",color3,"}{",solution$relativeStandardUncertainty,"} [[break]]"))
     }
   }
   
@@ -262,7 +262,7 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
       plus = ""
     }
     equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
-    equationValues = paste0(equationValues, plus, round(solution$relativeStandardUncertainty,numDecimalPlaces),"^2")
+    equationValues = paste0(equationValues, plus, solution$relativeStandardUncertainty,"^2")
   }
   formulas = c("u_r(\\text{StdSolution}) &= \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}[[break]]")
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}[[break]]"))
@@ -348,10 +348,10 @@ getStandardUncertaintySS = function(numerator, denumerator = NA){
     denumerator = sqrt(3)
   }
   stdUncertainty = numerator / denumerator
-  return(round(stdUncertainty,numDecimalPlaces))
+  return(stdUncertainty)
 }
 
 getRelativeStandardUncertaintySS = function(standardUncertainty, denumerator){
   relStdUncertainty = standardUncertainty / denumerator
-  return(round(relStdUncertainty,numDecimalPlaces))
+  return(relStdUncertainty)
 }

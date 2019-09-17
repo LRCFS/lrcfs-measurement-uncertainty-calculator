@@ -21,7 +21,7 @@ effectiveDofResult = reactive({
   dofSampleVolume = Inf
   
   result = getEffectiveDegreesOfFreedom(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSampleVolume,dofSampleVolume,combinedUncertainty,meanCaseSampleConcentration)
-  return(round(result,numDecimalPlaces))
+  return(result)
 })
 
 coverageFactorResult = reactive({
@@ -147,13 +147,13 @@ output$display_coverageFactor_table <- DT::renderDataTable({
 #Display final answers
 output$display_coverageFactor_finalAnswer_top = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
+  output = paste0("\\(k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 
 output$display_coverageFactor_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  formulas = c(paste0("k_{{\\LARGE\\nu},c_i} = k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult()))
+  formulas = c(paste0("k_{{\\LARGE\\nu},c_i} = k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(HTML(output)))
@@ -161,7 +161,7 @@ output$display_coverageFactor_finalAnswer_bottom = renderUI({
 
 output$display_coverageFactor_finalAnswer_dashboard = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",round(effectiveDofResult()),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
+  output = paste0("\\(k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 

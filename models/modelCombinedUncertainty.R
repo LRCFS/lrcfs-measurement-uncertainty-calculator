@@ -5,7 +5,7 @@ combinedUncertaintyResult = reactive({
   uncStandardSolution = standardSolutionResult()
   uncSampleVolume = sampleVolumeResult()
   
-  result = round(get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume),numDecimalPlaces)
+  result = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
   return(result)
 })
 

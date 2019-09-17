@@ -51,16 +51,16 @@ methodPrecisionDataWithCalculations = reactive({
     ################################
     
     #Calculate the means for each run
-    dataMeans = round(colMeans(dataForConcentration, na.rm = TRUE), numDecimalPlaces)
+    dataMeans = colMeans(dataForConcentration, na.rm = TRUE)
     
     #Calculate the standard deveation for each concentration (using SD function and removing NA values)
-    dataStdDev = round(apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE)), numDecimalPlaces)
+    dataStdDev = apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE))
     
     #Calculate the Degrees of Freedom for each concentration (using length function but removing NA values then removing 1 (this is how you get DOF))
     dataDof = apply(dataForConcentration, 2, function(x) length(which(!is.na(x))))-1
     
     #pooledStandardDeviationNumerator
-    dataPooledStandardDeviationNumerator = round(dataStdDev^2 * dataDof, numDecimalPlaces)
+    dataPooledStandardDeviationNumerator = dataStdDev^2 * dataDof
     
     #Calculate the Pooled Variance
     dataPooledVariance = sum(dataStdDev^2 * dataDof, na.rm = TRUE)/sum(dataDof, na.rm = TRUE)
@@ -350,17 +350,17 @@ getMethodPrecisionDof = function(data, closestConcentration)
 }
 
 getPooledStandardDeviation = function(data, concentration){
-  answer = round(data[data$conc==concentration,]$pooledStdDeviation[1],numDecimalPlaces)
+  answer = data[data$conc==concentration,]$pooledStdDeviation[1]
   return(answer)
 }
 
 getStandardUncertainty = function(data, concentration){
-  answer = round(data[data$conc==concentration,]$stdUncertainty[1],numDecimalPlaces)
+  answer = data[data$conc==concentration,]$stdUncertainty[1]
   return(answer)
 }
 
 getRealtiveStandardUncertainty = function(data, concentration){
-  answer = round(data[data$conc==concentration,]$relativeStdUncertainty[1],numDecimalPlaces)
+  answer = data[data$conc==concentration,]$relativeStdUncertainty[1]
   return(answer)
 }
 

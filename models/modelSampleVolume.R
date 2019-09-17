@@ -29,7 +29,7 @@ sampleVolumeResult = reactive ({
     answer = answer + (result[i]^2 * data[i,]$measurementTimesUsed)
   }
   answer = sqrt(answer)
-  return(round(answer,numDecimalPlaces))
+  return(answer)
 })
 
 sampleVolumeDof = reactive({
