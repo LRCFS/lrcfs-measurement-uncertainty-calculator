@@ -238,18 +238,25 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
     stdErrorOfRegression = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrData)
   }
   stdErrorOfRegression = formatNumberForDisplay(stdErrorOfRegression, input)
+  stdErrorOfRegression = colourNumber(stdErrorOfRegression, input$useColours, input$colour4)
   
   slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
+  slope = colourNumber(slope, input$useColours, input$colour6)
   caseSampleReps = input$inputCaseSampleReplicates
   n = getCalibrationCurve_n()
+  n = colourNumber(n, input$useColours, input$colour5)
   caseSampleMeanConc = input$inputCaseSampleMeanConcentration
   meanX = formatNumberForDisplay(getCalibrationCurve_meanOfX(), input)
+  meanX = colourNumber(meanX, input$useColours, input$colour1)
   sumSqDevationX = formatNumberForDisplay(getCalibrationCurve_sumSqDeviationX(), input)
+  sumSqDevationX = colourNumber(sumSqDevationX, input$useColours, input$colour2)
   
   weightedCaseSample = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
   peakAreaRatioOfCaseSample = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
   calCurveMeanOfY = formatNumberForDisplay(getCalibrationCurve_meanOfY(), input)
+  calCurveMeanOfY = colourNumber(calCurveMeanOfY, input$useColours, input$colour1)
   sumOfWeightedXSquared = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared(), input)
+  sumOfWeightedXSquared = colourNumber(sumOfWeightedXSquared, input$useColours, input$colour2)
 
   answer = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   
@@ -270,11 +277,11 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   
   if(!checkUsingWls())
   {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",colourNumber(stdErrorOfRegression, input$useColours, input$colour4),"}{",colourNumber(slope, input$useColours, input$colour6),"} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{",colourNumber(n, input$useColours, input$colour5),"} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - ",colourNumber(meanX, input$useColours, input$colour1),")^2}{",colourNumber(sumSqDevationX, input$useColours, input$colour2),"} }"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{",n,"} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - ",meanX,")^2}{",sumSqDevationX,"} }"))
   }
   else
   {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",colourNumber(stdErrorOfRegression, input$useColours, input$colour4),"}}{",colourNumber(slope, input$useColours, input$colour6),"} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",weightedCaseSample,"}}} + \\frac{1}{",colourNumber(n, input$useColours, input$colour5),"} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",peakAreaRatioOfCaseSample,"}} - ",colourNumber(calCurveMeanOfY, input$useColours, input$colour1),")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",weightedCaseSample,"}}} + \\frac{1}{",n,"} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",peakAreaRatioOfCaseSample,"}} - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
   }
   
   
