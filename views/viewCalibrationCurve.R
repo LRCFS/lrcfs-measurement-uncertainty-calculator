@@ -8,21 +8,38 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required."),
                        p("The method tab, shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.")
                    ),
-                   box(title = "Method", width=6,
-                       "The uncertainty of calibration curve is given by:",
-                       "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
-                       "where \\(S_{y/x}\\) is the standard error of regression given by",
-                       "$$S_{x/y} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
-                       tags$ul(
-                         tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
-                         tags$li("\\(b_1\\) is the slope of the of regression line"),
-                         tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
-                         tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
-                         tags$li("\\(x_s\\) is the the amount of THC in test sample"),
-                         tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
-                         tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                         tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
-                       )
+                   tabBox(title = "Method", width=6,
+                          tabPanel("Non-Weighted",
+                                   "The uncertainty of calibration curve is given by:",
+                                   "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
+                                   "where \\(S_{y/x}\\) is the standard error of regression given by",
+                                   "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
+                                   tags$ul(
+                                     tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
+                                     tags$li("\\(b_1\\) is the Slope of the of regression line"),
+                                     tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
+                                     tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve"),
+                                     tags$li("\\(x_s\\) is the mean concentration of the Case Sample"),
+                                     tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
+                                     tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
+                                   )
+                          ),
+                          tabPanel("Weighted",
+                                   "Where weight is specified the uncertainty of calibration curve is given by:",
+                                   "$$u\\text{(CalCurve)} = \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} }$$",
+                                   "where \\(S_w\\) is the standard error of regression given by",
+                                   "$$S_w = \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n-2}}$$",
+                                   tags$ul(
+                                     tags$li("\\(S_{w}\\) is the standard error of weighted regression of \\(y\\) on \\(x\\)"),
+                                     tags$li("\\(b_1\\) is the Slope of the of the weighted regression line"),
+                                     tags$li("\\(y_s\\) is the mean of Peak Area Ratio of the Case Sample"),
+                                     tags$li("\\(\\overline{y}_w\\) is the weighted mean of peak area ratios"),
+                                     tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve"),
+                                     tags$li("\\(\\overline{x}_w\\) is the mean values of the different calibration standards"),
+                                     tags$li("\\(w\\) is the specified Weight"),
+                                     tags$li("\\(w_s\\) is the Weight of Case Sample")
+                                   )
+                          )
                    )
                  ),
                  fluidRow(
