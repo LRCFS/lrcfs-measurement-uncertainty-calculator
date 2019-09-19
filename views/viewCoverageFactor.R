@@ -3,27 +3,19 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    valueBox("Coverage Factor", h2(uiOutput("display_coverageFactor_finalAnswer_top")), width = 12, color = "teal", icon = icon("table"))
                  ),
                  fluidRow(
-                   tabBox(title="Analysis", width=12,
-                          tabPanel(title="Overview",
-                                   "Upload your Standard Solution data via the settings menu",
-                                   HTML('<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>'),
-                                   "and see a whole bunch of cool number."
-                          ),
-                          tabPanel(title="Method",
-                                   "For the analysis of these reports we use the following function:..."
-                          ),
-                          tabPanel(title="Properties",
-                                   tags$ul(
-                                     tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
-                                     tags$li("\\(b_1\\) is the slop of the of regression line"),
-                                     tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
-                                     tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
-                                     tags$li("\\(x_s\\) is the the amount of THC in test sample"),
-                                     tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
-                                     tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                                     tags$li( "\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
-                                   )
-                          )
+                   box(title = "Overview", width=6,
+                       p("Coverage factor \\((k)\\) is a number usually greater than one from which an expanded uncertainty is obtained when \\(k\\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.  "),
+                       p("An effective degrees of freedom is computed using the Welch-Satterthwaite equation with detailed calculation outlined in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the t-distribution table.")                   ),
+                   box(title = "Method", width=6,
+                       HTML("<p>The effective degrees of freedom \\(({\\LARGE\\nu}_{\\text{eff}})\\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:</p>"),
+                       p("$${\\LARGE\\nu}_{\\text{eff}} =\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}}$$"),
+                       p("The coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}})\\) is read from the t-distribution table using the calculated \\({\\Large\\nu}_{\\text{eff}}\\) and specified \\({\\small CI\\%}\\)"),
+                       p(" "),
+                       tags$ul(
+                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration"),
+                         tags$li("\\(\\nu\\) is the Degrees of Freedom for each uncertainty component"),
+                         tags$li("\\({\\small\\text{CombUncertainty}}\\) is the Combined Uncertainty of the individual uncertainty components")
+                       )
                    )
                  ),
                  fluidRow(
@@ -34,7 +26,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  fluidRow(
                    valueBox(uiOutput("display_sampleVolume_finalAnswer_coverageFactor"),"\\(u_r\\text{(SampleVolume)}\\)", width = 4, color = "maroon", icon = icon("flask")),
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v")),
-                   infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=4, icon=icon("percentage"), color="yellow")
+                   infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=4, icon=icon("percentage"), color="yellow")
                  ),
                  fluidRow(
                    box(width=3, side="right",

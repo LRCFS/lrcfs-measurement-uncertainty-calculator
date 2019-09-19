@@ -3,27 +3,17 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                    valueBox("Combined Uncertainty", h2(uiOutput("display_combinedUncertainty_finalAnswer_top")), width = 12, color = "purple", icon = icon("arrows-alt-v"))
                  ),
                  fluidRow(
-                   tabBox(title="Analysis", width=12,
-                          tabPanel(title="Overview",
-                                   "Upload your Standard Solution data via the settings menu",
-                                   HTML('<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>'),
-                                   "and see a whole bunch of cool number."
-                          ),
-                          tabPanel(title="Method",
-                                   "For the analysis of these reports we use the following function:..."
-                          ),
-                          tabPanel(title="Properties",
-                                   tags$ul(
-                                     tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
-                                     tags$li("\\(b_1\\) is the slop of the of regression line"),
-                                     tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
-                                     tags$li("\\(n\\) is the number of measurements used to generate the calibration curve"),
-                                     tags$li("\\(x_s\\) is the the amount of THC in test sample"),
-                                     tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards"),
-                                     tags$li("\\(x_i\\) is the target calibrator concentration at the \\(i\\) level"),
-                                     tags$li( "\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\)")
-                                   )
-                          )
+                   box(title = "Overview", width=6,
+                       p("The combined uncertainty is obtained by combining all the individual uncertainty components."),
+                       p("If data is uploaded for all the uncertainty components; Calibration curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process."),
+                       p("If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided. ")
+                   ),
+                   box(title = "Method", width=6,
+                       "The combined uncertainty is given by:",
+                       "$$\\text{CombUncertainty} = x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}}$$",
+                       tags$ul(
+                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration")
+                       )
                    )
                  ),
                  fluidRow(

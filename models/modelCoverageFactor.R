@@ -111,7 +111,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
 
-  formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{Combined Uncertainty}}{\\text{Case Sample Mean Concentration}})^4}{\\sum{\\frac{\\text{Individual Uncertainty}^4}{\\text{Individual DoF}}}} [[break]]")
+  formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")
   formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
   formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{",standardSolutionDof(),"} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{",sampleVolumeDof(),"}}"))
   
@@ -153,7 +153,7 @@ output$display_coverageFactor_finalAnswer_top = renderUI({
 
 output$display_coverageFactor_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  formulas = c(paste0("k_{{\\LARGE\\nu},c_i} = k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult()))
+  formulas = c(paste0("k_{{\\large\\nu_{\\text{eff}}},{\\small CI\\%}} = k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(HTML(output)))

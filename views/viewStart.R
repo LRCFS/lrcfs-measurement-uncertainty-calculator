@@ -14,7 +14,7 @@ tabStart = tabItem(tabName = "start",
                               box(width=12, id="fileUploadBox",
                                   div(
                                     h4("Upload Data Files"),
-                                    p("All data should be saved as a CSV file before uploading to MUCalc. The exact format of data required can be accessed by downloading the Example Data file for each uncertainty component. The example data files can be edited to include lab specific data.")
+                                    p("Data is required to compute each uncertainty component. All data should be saved as a CSV file before uploading to MUCalc. The exact format of data required can be accessed by downloading the Example Data file for each uncertainty component. The example data files can be edited to include lab specific data.")
                                   ),
                                   hr(),
                                   
@@ -72,7 +72,7 @@ tabStart = tabItem(tabName = "start",
                      ),
                      column(width=6,
                             fluidRow(
-                              box(title = "Weighted Least Square Regression", width = 12,
+                              box(title = "Weighted Least Square (WLS) Regression", width = 12,
                                   actionButton("help_start_weightedLeastSquare", "", icon=icon("question"), class="smallRightHelpInHeader"),
                                   p("To fit a weighted least square regression, the default weight of \\(w = 1\\) must be changed. A weight of \\(w = 1\\) implies an ordinary regression with no weights applied. The following weight options are currently available:"),
                                   p("\\(w = \\frac{1}{x}, \\frac{1}{x^2},\\frac{1}{y}\\) or \\(\\frac{1}{y^2}\\)"),
@@ -103,13 +103,13 @@ tabStart = tabItem(tabName = "start",
                               hr()
                             ),
                             fluidRow(
-                              box(title = "Confidence Interval",width = 12,
+                              box(title = "Confidence Interval \\( ( {\\small CI} ) \\)",width = 12,
                                   actionButton("help_start_confidenceInterval", "", icon=icon("question"), class="smallRightHelpInHeader"),
-                                  p("The specified Confidence Interval will be used to read the appropriate Coverage Factor from a t- distribution table."),
+                                  p("The specified Confidence Interval percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table."),
                                   p("This coverage factor is multiplied by the Combined Uncertainty to obtain the Expanded Uncertainty."),
                                   uiOutput("display_start_chooseConfidenceInterval")
                               ),
-                              infoBox("Confidence Interval\\((c_i)\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
+                              infoBox("Confidence Interval \\( ( {\\small CI} \\% ) \\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                             ),
                             fluidRow(
                               hr()

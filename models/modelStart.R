@@ -21,7 +21,7 @@ output$display_start_chooseConfidenceInterval = renderUI({
   columnNames = colnames(coverageFactorEffectiveDofTable[,-1]) #Get the columns but excluse the first column which is used for effective dof
   columnNames = sort(columnNames, decreasing = TRUE)
   
-  selectInput("inputConfidenceInterval", "Confidence Interval\\((c_i)\\):",
+  selectInput("inputConfidenceInterval", "Confidence Interval \\( ( {\\small CI} \\% ) \\):",
               c("Please select..." = "",
                 columnNames))
 })
