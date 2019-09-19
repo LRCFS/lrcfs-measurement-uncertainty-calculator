@@ -105,7 +105,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
 
 #Display final answers
 output$display_sampleVolume_finalAnswer_top = renderUI({
-  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",sampleVolumeResult()))
+  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",formatNumberForDisplay(sampleVolumeResult(),input)))
 })
 
 output$display_sampleVolume_finalAnswer_bottom = renderUI({
@@ -139,7 +139,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   formulas = c(formulas,formula)
   
-  formulas = c(formulas, paste("&= ", sampleVolumeResult()))
+  formulas = c(formulas, paste("&= ", formatNumberForDisplay(sampleVolumeResult(),input)))
   
   output = mathJaxAligned(formulas, 5, 20)
   
@@ -148,15 +148,15 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
 })
 
 output$display_sampleVolume_finalAnswer_dashboard = renderUI({
-  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",sampleVolumeResult()))
+  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",formatNumberForDisplay(sampleVolumeResult(),input)))
 })
 
 output$display_sampleVolume_finalAnswer_combinedUncertainty = renderUI({
-  return(paste(sampleVolumeResult()))
+  return(paste(formatNumberForDisplay(sampleVolumeResult(),input)))
 })
 
 output$display_sampleVolume_finalAnswer_coverageFactor = renderUI({
-  return(paste(sampleVolumeResult()))
+  return(paste(formatNumberForDisplay(sampleVolumeResult(),input)))
 })
   
 

@@ -24,7 +24,7 @@ expandedUncertaintyResultPercentage = reactive({
 
 output$display_expandedUncertainty_coverageFactorText = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}\\)")
+  output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}\\)")
   return(withMathJax(HTML(output)))
 })
 
@@ -34,7 +34,7 @@ output$display_expandedUncertainty_meanConcentration <- renderUI({
 })
 
 output$display_expandedUncertainty_finalAnswer_top = renderUI({
-  return(withMathJax(paste("\\(\\text{ExpUncertainty}=",expandedUncertaintyResult(),"\\)")))
+  return(withMathJax(paste("\\(\\text{ExpUncertainty}=",formatNumberForDisplay(expandedUncertaintyResult(),input),"\\)")))
 })
 
 output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
@@ -44,9 +44,9 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
   
   finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
 
-  formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",effectiveDof,",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
-  formulas = c(formulas, paste("&= \\bbox[#39CCCC,2pt]{",finalCoverageFactor,"} \\times \\bbox[#605CA8,2pt]{",combinedUncertaintyResult(),"}"))
-  formulas = c(formulas, paste("&=",expandedUncertaintyResult()))
+  formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",formatNumberForDisplay(effectiveDof,input),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
+  formulas = c(formulas, paste("&= \\bbox[#39CCCC,2pt]{",formatNumberForDisplay(finalCoverageFactor,input),"} \\times \\bbox[#605CA8,2pt]{",formatNumberForDisplay(combinedUncertaintyResult(),input),"}"))
+  formulas = c(formulas, paste("&=",formatNumberForDisplay(expandedUncertaintyResult(),input)))
   output = mathJaxAligned(formulas, 5,20)
   
   return(withMathJax(output))
@@ -56,22 +56,22 @@ output$display_expandedUncertainty_finalAnswerPercentage_bottom = renderUI({
   
   expandedUncertainty = expandedUncertaintyResult()
   csMeanConcentration = input$inputCaseSampleMeanConcentration
-  answer = (expandedUncertainty / csMeanConcentration) * 100
+  answer = expandedUncertaintyResultPercentage()
   
   formulas = c(paste0("\\text{%ExpUncertainty} &= \\frac{\\text{ExpUncertainty}}{x_s} \\times 100"))
-  formulas = c(formulas, paste("&= \\frac{",expandedUncertainty,"}{\\bbox[#F012BE,2pt]{",csMeanConcentration,"}} \\times 100"))
-  formulas = c(formulas, paste("&=",expandedUncertaintyResultPercentage(),"\\%"))
+  formulas = c(formulas, paste("&= \\frac{",formatNumberForDisplay(expandedUncertainty,input),"}{\\bbox[#F012BE,2pt]{",csMeanConcentration,"}} \\times 100"))
+  formulas = c(formulas, paste("&=",formatNumberForDisplay(answer,input),"\\%"))
   output = mathJaxAligned(formulas,5,20)
   
   return(withMathJax(output))
 })
 
 output$display_expandedUncertainty_finalAnswer_dashboard = renderUI({
-  return(withMathJax(paste("\\(\\text{ExpUncertainty}=",expandedUncertaintyResult(),"\\)")))
+  return(withMathJax(paste("\\(\\text{ExpUncertainty}=",formatNumberForDisplay(expandedUncertaintyResult(),input),"\\)")))
 })
 
 output$display_expandedUncertainty_finalAnswerPercentage_dashboard <- renderUI({
-  return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",expandedUncertaintyResultPercentage(),"\\%\\)")))
+  return(withMathJax(paste("\\(\\text{%ExpUncertainty}=",formatNumberForDisplay(expandedUncertaintyResultPercentage(),input),"\\%\\)")))
 })
 
 output$display_expandedUncertainty_finalAnswer_start <- renderUI({

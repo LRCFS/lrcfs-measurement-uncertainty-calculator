@@ -140,10 +140,10 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
     sampleVolumeItemData = data[sampleVolumeItem,]
 
     measurementDevice = sampleVolumeItemData$measurementDevice
-    measurementVolume = sampleVolumeItemData$measurementVolume
-    measurementCoverage = sampleVolumeItemData$measurementCoverage
-    measurementTolerance = sampleVolumeItemData$measurementTolerance
-    answerValue = sampleVolumeItemData$standardUncertainty
+    measurementVolume = formatNumberForDisplay(sampleVolumeItemData$measurementVolume,input)
+    measurementCoverage = formatNumberForDisplay(sampleVolumeItemData$measurementCoverage,input)
+    measurementTolerance = formatNumberForDisplay(sampleVolumeItemData$measurementTolerance,input)
+    answerValue = formatNumberForDisplay(sampleVolumeItemData$standardUncertainty,input)
     
     if(is.na(measurementCoverage))
     {
@@ -170,11 +170,11 @@ output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI
     instrumentData = data[instrumentRow,]
     
     measurementDevice = instrumentData$measurementDevice
-    measurementVolume = instrumentData$measurementVolume
-    measurementCoverage = instrumentData$measurementCoverage
-    measurementTolerance = instrumentData$measurementTolerance
-    measurementStandardUncertainty = instrumentData$standardUncertainty
-    answerValue = instrumentData$relativeStandardUncertainty
+    measurementVolume = formatNumberForDisplay(instrumentData$measurementVolume,input)
+    measurementCoverage = formatNumberForDisplay(instrumentData$measurementCoverage,input)
+    measurementTolerance = formatNumberForDisplay(instrumentData$measurementTolerance,input)
+    measurementStandardUncertainty = formatNumberForDisplay(instrumentData$standardUncertainty,input)
+    answerValue = formatNumberForDisplay(instrumentData$relativeStandardUncertainty,input)
     
     formulas = c(formulas, paste0("u_r\\text{(",measurementDevice,")}_{\\text{(",measurementVolume,",",measurementTolerance,")}} &= \\frac{\\color{",color1,"}{",measurementStandardUncertainty,"}}{",measurementVolume,"} = \\color{",color2,"}{", answerValue,"}"))
   }
@@ -191,7 +191,7 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
   
   #Display base solution relative standard uncertainty
   baseSolution = getBaseSolution(solutionData)
-  formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = \\color{",color3,"}{",baseSolution$relativeStandardUncertainty,"} [[break]]"))
+  formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = \\color{",color3,"}{",formatNumberForDisplay(baseSolution$relativeStandardUncertainty,input),"} [[break]]"))
   
   #Show base formula for relative standard uncertainty of solution calculations
   formulas = c(formulas, "u_r\\text{(Solution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}} [[break]]")
@@ -215,12 +215,12 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
           plus = ""
         }
         instrumentEquationsNames = paste0(instrumentEquationsNames,plus,"[u_r\\text{(",instrument$measurementDevice,")}^2_{\\text{",instrument$measurementVolume,",",instrument$measurementTolerance,"}} \\times N\\text{(",instrument$measurementDevice,")}_{\\text{",instrument$measurementVolume,",",instrument$measurementTolerance,"}}]")
-        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[\\color{",color2,"}{",instrument$relativeStandardUncertainty,"}^2\\times",instrument$measurementTimesUsed,"]")
+        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[\\color{",color2,"}{",formatNumberForDisplay(instrument$relativeStandardUncertainty,input),"}^2\\times",instrument$measurementTimesUsed,"]")
       }
       
       formulas = c(formulas, paste0("u_r\\text{(",solution$solution,")} &= \\sqrt{u_r\\text{(",solutionParent$solution,")}^2",instrumentEquationsNames,"}"))
-      formulas = c(formulas, paste0("&= \\sqrt{\\color{",color3,"}{",solutionParent$relativeStandardUncertainty,"}^2",instrumentEquationsValues,"}"))
-      formulas = c(formulas, paste0("&= \\color{",color3,"}{",solution$relativeStandardUncertainty,"} [[break]]"))
+      formulas = c(formulas, paste0("&= \\sqrt{\\color{",color3,"}{",formatNumberForDisplay(solutionParent$relativeStandardUncertainty,input),"}^2",instrumentEquationsValues,"}"))
+      formulas = c(formulas, paste0("&= \\color{",color3,"}{",formatNumberForDisplay(solution$relativeStandardUncertainty,input),"} [[break]]"))
     }
   }
   
@@ -243,7 +243,7 @@ output$display_standardSolution_measurementDataWithCalculations <- DT::renderDat
 
 #Display final answers
 output$display_standardSolution_finalAnswer_top <- renderUI({
-  return(paste("\\(u_r\\text{(StdSolution)}=\\)",standardSolutionResult()))
+  return(paste("\\(u_r\\text{(StdSolution)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
 output$display_standardSolution_finalAnswer_bottom <- renderUI({
@@ -262,27 +262,27 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
       plus = ""
     }
     equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
-    equationValues = paste0(equationValues, plus, solution$relativeStandardUncertainty,"^2")
+    equationValues = paste0(equationValues, plus, formatNumberForDisplay(solution$relativeStandardUncertainty,input),"^2")
   }
   formulas = c("u_r(\\text{StdSolution}) &= \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}[[break]]")
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}[[break]]"))
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationValues,"}"))
-  formulas = c(formulas, paste0("&=",standardSolutionResult()))
+  formulas = c(formulas, paste0("&=",formatNumberForDisplay(standardSolutionResult(),input)))
   
   output = mathJaxAligned(formulas, 5, 20)
   return(withMathJax(output))
 })
 
 output$display_standardSolution_finalAnswer_dashboard <- renderUI({
-  return(paste("\\(u_r\\text{(StdSolution)}=\\)",standardSolutionResult()))
+  return(paste("\\(u_r\\text{(StdSolution)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
 output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({
-  return(paste(standardSolutionResult()))
+  return(paste(formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
 output$display_standardSolution_finalAnswer_coverageFactor <- renderUI({
-  return(paste(standardSolutionResult()))
+  return(paste(formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
 

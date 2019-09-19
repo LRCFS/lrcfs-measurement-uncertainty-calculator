@@ -97,11 +97,11 @@ output$display_coverageFactor_dofSampleVolume = renderUI({
 
 output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
-  uncCalibrationCurve = getResultCalibrationCurve()
-  uncMethodPrecision = methodPrecisionResult()
-  uncStandardSolution = standardSolutionResult()
-  uncSampleVolume = sampleVolumeResult()
-  combinedUncertainty = combinedUncertaintyResult()
+  uncCalibrationCurve = formatNumberForDisplay(getResultCalibrationCurve(),input)
+  uncMethodPrecision = formatNumberForDisplay(methodPrecisionResult(),input)
+  uncStandardSolution = formatNumberForDisplay(standardSolutionResult(),input)
+  uncSampleVolume = formatNumberForDisplay(sampleVolumeResult(),input)
+  combinedUncertainty = formatNumberForDisplay(combinedUncertaintyResult(),input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
   #Degress of Freedom
@@ -115,7 +115,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
   formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{",standardSolutionDof(),"} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{",sampleVolumeDof(),"}}"))
   
-  result = paste("&=", effectiveDofResult())
+  result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)
   
   output = mathJaxAligned(formulas, 5, 20)
@@ -147,13 +147,13 @@ output$display_coverageFactor_table <- DT::renderDataTable({
 #Display final answers
 output$display_coverageFactor_finalAnswer_top = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
+  output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 
 output$display_coverageFactor_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  formulas = c(paste0("k_{{\\large\\nu_{\\text{eff}}},{\\small CI\\%}} = k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult()))
+  formulas = c(paste0("k_{{\\large\\nu_{\\text{eff}}},{\\small CI\\%}} = k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(HTML(output)))
@@ -161,7 +161,7 @@ output$display_coverageFactor_finalAnswer_bottom = renderUI({
 
 output$display_coverageFactor_finalAnswer_dashboard = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",effectiveDofResult(),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
+  output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
   return(withMathJax(HTML(output)))
 })
 

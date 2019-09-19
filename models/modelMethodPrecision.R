@@ -213,7 +213,8 @@ output$outputSumOfS2d <- renderUI({
   formula = character()
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("\\sum{(S^2 \\times d)_{(",conc,")}} &= \\color{",color2,"}{", getSumPooledStandardDeviationNumeratorForConcentration(data,conc), "}"))
+    answer = formatNumberForDisplay(getSumPooledStandardDeviationNumeratorForConcentration(data,conc),input)
+    formula = c(formula, paste0("\\sum{(S^2 \\times d)_{(",conc,")}} &= \\color{",color2,"}{",answer, "}"))
   }
   results = mathJaxAligned(formula)
   
@@ -233,8 +234,11 @@ output$outputPooledStandardDeviation <- renderUI({
 
   for(conc in getConcentrations(data))
   {
+    psdnfc = formatNumberForDisplay(getSumPooledStandardDeviationNumeratorForConcentration(data,conc),input)
+    sdoffc = getSumDofForConcentration(data, conc)
+    answer = formatNumberForDisplay(getPooledStandardDeviation(data, conc),input)
     
-    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{\\color{",color2,"}{",getSumPooledStandardDeviationNumeratorForConcentration(data,conc),"}}{\\color{",color1,"}{",getSumDofForConcentration(data, conc),"}}} = \\color{",color3,"}{", getPooledStandardDeviation(data, conc),"}"))
+    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{\\color{",color2,"}{",psdnfc,"}}{\\color{",color1,"}{",sdoffc,"}}} = \\color{",color3,"}{",answer,"}"))
   }
 
   results = mathJaxAligned(formula, 10, 20)
@@ -250,7 +254,10 @@ output$outputStandardUncertainty <- renderUI({
   
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color3,"}{",getPooledStandardDeviation(data, conc),"}}{\\sqrt{",input$inputCaseSampleReplicates,"}} = \\color{",color4,"}{", getStandardUncertainty(data, conc),"}"))
+    psd = formatNumberForDisplay(getPooledStandardDeviation(data, conc),input)
+    csr = input$inputCaseSampleReplicates
+    answer = formatNumberForDisplay(getStandardUncertainty(data, conc),input)
+    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color3,"}{",psd,"}}{\\sqrt{",csr,"}} = \\color{",color4,"}{",answer,"}"))
   }
   
   results = mathJaxAligned(formula, 10, 20)
@@ -266,7 +273,9 @@ output$outputRealtiveStandardUncertainties <- renderUI({
   
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color4,"}{",getStandardUncertainty(data, conc),"}}{",conc,"} = \\color{",color5,"}{", getRealtiveStandardUncertainty(data, conc), "}"))
+    su = formatNumberForDisplay(getStandardUncertainty(data, conc),input)
+    rsu = formatNumberForDisplay(getRealtiveStandardUncertainty(data, conc),input)
+    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color4,"}{",su,"}}{",conc,"} = \\color{",color5,"}{",rsu, "}"))
   }
   
   results = mathJaxAligned(formula, 10, 20)
@@ -275,7 +284,7 @@ output$outputRealtiveStandardUncertainties <- renderUI({
 })
 
 output$display_methodPrecision_finalAnswer_top <- renderUI({
-  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",methodPrecisionResult()))
+  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",formatNumberForDisplay(methodPrecisionResult(),input)))
 })
 
 output$display_methodPrecision_finalAnswer_bottom = renderUI({
@@ -296,21 +305,21 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
     output = "The closest concentration from your method precision data cannot be found.<br />This is usually because a Case Sample Mean Concentration has not been specified on the start page.<br /><br />"
   }
   
-  output = paste(output, "\\(u_r(\\text{MethodPrec})_{(", closetConcentration, ")}=", methodPrecisionResult(), "\\)")
+  output = paste(output, "\\(u_r(\\text{MethodPrec})_{(", closetConcentration, ")}=", formatNumberForDisplay(methodPrecisionResult(),input), "\\)")
   
   return(withMathJax(HTML(output)))
 })
 
 output$display_methodPrecision_finalAnswer_dashboard <- renderUI({
-  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",methodPrecisionResult()))
+  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",formatNumberForDisplay(methodPrecisionResult(),input)))
 })
 
 output$display_methodPrecision_finalAnswer_combinedUncertainty <- renderUI({
-  return(paste(methodPrecisionResult()))
+  return(paste(formatNumberForDisplay(methodPrecisionResult(),input)))
 })
 
 output$display_methodPrecision_finalAnswer_coverageFactor <- renderUI({
-  return(paste(methodPrecisionResult()))
+  return(paste(formatNumberForDisplay(methodPrecisionResult(),input)))
 })
   
 

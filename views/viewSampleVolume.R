@@ -3,10 +3,10 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                    valueBox("Uncertainty of Sample Volume", h2(uiOutput("display_sampleVolume_finalAnswer_top")), width = 12, color = "maroon", icon = icon("flask"))
                  ),
                  fluidRow(
-                   box(title = "Overview", width=6,
+                   box(title = "Overview", width=5,
                        p("The uncertainty of sample volume quantifies the uncertainty associated with quantifying the volume of case sample through the use of for example pipette.")
                    ),
-                   box(title = "Method", width=6,
+                   box(title = "Method", width=7,
                        "The RSU of each equipment is computed using:",
                        "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
                        "For more than one equipment, the RSU of sample volume is obtained by pooling the individual uncertainties using",

@@ -3,12 +3,12 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                 valueBox("Uncertainty of Standard Solution", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("vial"))
                               ),
                               fluidRow(
-                                box(title = "Overview", width=6,
+                                box(title = "Overview", width=5,
                                     p("Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of uncertainty associated with standard solution."),
                                     p("The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the main final solutions used for the calibration curve."),
                                     p("If more than one final solution exist (which may be due to splitting the calibration range), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainty (RSU) of the final set of solutions used for the calibration curve")
                                 ),
-                                box(title = "Method", width=6,
+                                box(title = "Method", width=7,
                                     "The RSU of each equipment is computed using:",
                                     "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
                                     "The RSU of reference compound is calculated using",
