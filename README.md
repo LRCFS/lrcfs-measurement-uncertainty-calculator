@@ -1,3 +1,3 @@
 # Measurement of uncertainty
 
-More details to come soon...
+More details to come soon
