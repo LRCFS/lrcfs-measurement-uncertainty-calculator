@@ -96,9 +96,9 @@ output$actionButton_start_downloadReport = downloadHandler(
     file.copy("data/report.Rmd", tempReport, overwrite = TRUE)
     
     # Set up parameters to pass to Rmd document
-    params <- list(calibrationCurveData = calibrationCurveData(),
-                   calibrationCurveDataReformatted = calibrationCurveDataReformatted(),
-                   externalStandardErrorData = externalStandardErrorData(),
+    params <- list(calibrationCurveData = getDataCalibrationCurve(),
+                   calibrationCurveDataReformatted = getDataCalibrationCurveReformatted(),
+                   externalStandardErrorData = getDataExternalStandardError(),
                    methodPrecisionData = methodPrecisionData(),
                    standardSolutionData = standardSolutionData(),
                    standardSolutionEquipmentData = standardSolutionMeasurementData(),
@@ -106,7 +106,7 @@ output$actionButton_start_downloadReport = downloadHandler(
                    inputCaseSampleReplicates = input$inputCaseSampleReplicates,
                    inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration,
                    inputConfidenceInterval = input$inputConfidenceInterval,
-                   uncCalibrationCurve = calibrationCurveResult(),
+                   uncCalibrationCurve = getResultCalibrationCurve(),
                    uncMethodPrecision = methodPrecisionResult(),
                    uncStandardSolution = standardSolutionResult(),
                    uncSampleVolume = sampleVolumeResult(),
