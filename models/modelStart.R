@@ -87,7 +87,7 @@ output$display_start_sampleVolumeFileUpload <- renderUI({
 })
 
 output$actionButton_start_downloadReport = downloadHandler(
-  filename = paste0("moucalc-report_",format(Sys.time(), "%Y%m%d_%H%M%S"),".html"),
+  filename = paste0("moucalc-report_",format(Sys.time(), "%Y%m%d_%H%M%S"),".pdf"),
   content = function(file) {
     # Copy the report file to a temporary directory before processing it, in
     # case we don't have write permissions to the current working dir (which
@@ -96,7 +96,7 @@ output$actionButton_start_downloadReport = downloadHandler(
     file.copy("data/report.Rmd", tempReport, overwrite = TRUE)
     
     # Set up parameters to pass to Rmd document
-    params <- list(calibrationCurveData = getDataCalibrationCurve(),
+    paramList = list(calibrationCurveData = getDataCalibrationCurve(),
                    calibrationCurveDataReformatted = getDataCalibrationCurveReformatted(),
                    externalStandardErrorData = getDataExternalStandardError(),
                    methodPrecisionData = methodPrecisionData(),
@@ -119,7 +119,7 @@ output$actionButton_start_downloadReport = downloadHandler(
     # child of the global environment (this isolates the code in the document
     # from the code in this app).
     rmarkdown::render(tempReport, output_file = file,
-                      params = params,
+                      params = paramList,
                       envir = new.env(parent = globalenv())
     )
   }

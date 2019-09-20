@@ -1,5 +1,6 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","rmarkdown","knitr","webshot","shinyWidgets","colourpicker"))
+#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","tinytex","rmarkdown","knitr","webshot","shinyWidgets","colourpicker"))
 #webshot::install_phantomjs() - on linux make sure you've got bzip2 installed for this to work
+#tinytex::install_tinytex()
 
 rm(list = ls())
 library(shiny)
@@ -18,6 +19,7 @@ library(utils)
 library(data.tree)
 library(rintrojs)
 library(textutils)
+library(tinytex)
 library(rmarkdown)
 library(knitr)
 library(webshot)
@@ -98,6 +100,11 @@ ui <- dashboardPagePlus(title="MOU Calc v0.5",
 )
 
 server <- function(input, output, session) {
+  
+  
+  #rmarkdown::render("test.Rmd", output_file = "test.pdf", params = list(testparam = "test123"), envir = new.env(parent = globalenv()))
+
+  
   source("models/modelApplication.R", local = TRUE)
   source("models/modelStart.R", local = TRUE)
   
