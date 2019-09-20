@@ -21,7 +21,7 @@ function(startingStep) {
 			intro: '<h4>Calibration Curve</h4>\
 					<p>Calibration curve data is data on concentration levels and peak area (ratios) used to generate the calibration for estimating the level of concentration in a given new sample.</p>\
 					<h4>External Standard Error</h4>\
-					<p>In place of the standard error of regression, standard error from previous calibration curve data can be pooled together with current calibration data to obtain a more reliable estimate. This is recommended if calibration curve data uploaded above have only one replicate or is based on simple point calibration system.</p>',
+					<p>In place of the standard error of regression, standard error from previous calibration curve data can be pooled together with current calibration data to obtain a more reliable estimate. This is recommended if calibration curve data uploaded above have only one replicate or is based on single point calibration system.</p>',
 			position: "right",
 			width: "500px"
 		},
@@ -64,7 +64,7 @@ function(startingStep) {
 			element: "#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)",
 			intro: "<h4>Confidence Interval</h4>\
 					<p>A 95% CI means that 95 out of 100 times, we will be correct in estimating an interval that is believed to include the unknown parameter of interest. A high percentage probability will broaden the estimated confidence interval and vice versa.</p>\
-					<p>Specify the required confidence interval percentage probability need to calculate the Expanded Uncertainty. </p>",
+					<p>Specify the required confidence interval percentage probability needed to calculate the Expanded Uncertainty. </p>",
 			position: "left"
 		}
 	]
