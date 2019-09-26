@@ -94,7 +94,7 @@ ui <- dashboardPagePlus(title="MOU Calc v0.5",
                         ),
                         rightsidebar = mouCalcRightSidebar,
                         footer = dashboardFooter(
-                          left_text = "Measurement of Uncertainty Calculator",
+                          left_text = "Measurement Uncertainty Calculator",
                           right_text = "Copyright LRCFS 2019"
                        )
 )
