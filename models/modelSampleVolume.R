@@ -26,7 +26,7 @@ sampleVolumeResult = reactive ({
   answer = 0
   for(i in 1:nrow(data))
   {
-    answer = answer + (result[i]^2 * data[i,]$measurementTimesUsed)
+    answer = answer + (result[i]^2 * data[i,]$equipmentTimesUsed)
   }
   answer = sqrt(answer)
   return(answer)
@@ -65,12 +65,12 @@ output$display_sampleVolume_standardUncertainty = renderUI({
   {
     sampleVolumeItemData = data[sampleVolumeItem,]
 
-    measurementDevice = sampleVolumeItemData$measurementDevice
-    measurementTolerance = sampleVolumeItemData$measurementTolerance
-    measurementCoverage = sampleVolumeItemData$measurementCoverage
+    equipment = sampleVolumeItemData$equipment
+    equipmentTolerance = sampleVolumeItemData$equipmentTolerance
+    equipmentCoverage = sampleVolumeItemData$equipmentCoverage
     answerValue = get_sampleVolume_standardUncerainty(sampleVolumeItemData)
     
-    formulas = c(formulas, paste0("u\\text{(",measurementDevice,")} &= \\frac{",measurementTolerance,"}{",measurementCoverage,"} = \\color{",color1,"}{", answerValue, "}"))
+    formulas = c(formulas, paste0("u\\text{(",equipment,")} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = \\color{",color1,"}{", answerValue, "}"))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -91,12 +91,12 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
   {
     sampleVolumeItemData = data[sampleVolumeItem,]
     
-    measurementDevice = sampleVolumeItemData$measurementDevice
+    equipment = sampleVolumeItemData$equipment
     stdUnc = get_sampleVolume_standardUncerainty(sampleVolumeItemData)
-    measurementVolume = sampleVolumeItemData$measurementVolume
+    equipmentVolume = sampleVolumeItemData$equipmentVolume
     answerValue = get_sampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
     
-    formulas = c(formulas, paste0("u_r\\text{(",measurementDevice,")} &= \\frac{\\color{",color1,"}{",stdUnc,"}}{",measurementVolume,"} = ", answerValue))
+    formulas = c(formulas, paste0("u_r\\text{(",equipment,")} &= \\frac{\\color{",color1,"}{",stdUnc,"}}{",equipmentVolume,"} = ", answerValue))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -133,7 +133,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
       string = paste("+",relativeStandardUncertainty,"^2")
     }
 
-    formula = paste(formula, string, "\\times", sampleVolumeItemData$measurementTimesUsed)
+    formula = paste(formula, string, "\\times", sampleVolumeItemData$equipmentTimesUsed)
   }
   formula = paste(formula, "}")
   
@@ -167,8 +167,8 @@ output$display_sampleVolume_finalAnswer_coverageFactor = renderUI({
 
 get_sampleVolume_standardUncerainty = function(data){
 
-  numerator = data$measurementTolerance
-  denumerator = data$measurementCoverage
+  numerator = data$equipmentTolerance
+  denumerator = data$equipmentCoverage
   
   if(is.na(denumerator) | denumerator == "NA" | denumerator == "" | denumerator == 0)
   {
@@ -183,7 +183,7 @@ get_sampleVolume_relativeStandardUncertainty = function(data)
 {
   stdUnc = get_sampleVolume_standardUncerainty(data)
   
-  relStdUnc = stdUnc / data$measurementVolume
+  relStdUnc = stdUnc / data$equipmentVolume
   return(relStdUnc)
 }
 

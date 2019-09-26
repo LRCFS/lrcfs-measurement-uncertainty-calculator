@@ -57,8 +57,8 @@ standardSolutionInstrumentDataWithCalculations = reactive({
     return(NULL)
   }
   
-  standardUncertainty = mapply(getStandardUncertaintySS, measurementData$measurementTolerance, measurementData$measurementCoverage)
-  relativeStandardUncertainty = getRelativeStandardUncertaintySS(standardUncertainty, measurementData$measurementVolume)
+  standardUncertainty = mapply(getStandardUncertaintySS, measurementData$equipmentTolerance, measurementData$equipmentCoverage)
+  relativeStandardUncertainty = getRelativeStandardUncertaintySS(standardUncertainty, measurementData$equipmentVolume)
   calculationResults = data.frame("standardUncertainty" = standardUncertainty, "relativeStandardUncertainty" = relativeStandardUncertainty)
   instrumentDataWithCalculations = cbind(measurementData, calculationResults)
   
@@ -131,7 +131,7 @@ output$display_standardSolution_solutionsNetwork <- renderGrViz({
 output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
 
   #Get the distinct insturments based on the name, volume and tolerance
-  data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
+  data = standardSolutionInstrumentDataWithCalculations() %>% distinct(equipment, equipmentVolume, equipmentTolerance, .keep_all = TRUE)
   
   formulas = c("u\\text{(Equipment)}_{\\text{(Vol,Tol)}} &= \\frac{\\text{Tolerance}}{\\text{Coverage Factor}} [[break]]")
   
@@ -139,18 +139,18 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
   {
     sampleVolumeItemData = data[sampleVolumeItem,]
 
-    measurementDevice = sampleVolumeItemData$measurementDevice
-    measurementVolume = formatNumberForDisplay(sampleVolumeItemData$measurementVolume,input)
-    measurementCoverage = formatNumberForDisplay(sampleVolumeItemData$measurementCoverage,input)
-    measurementTolerance = formatNumberForDisplay(sampleVolumeItemData$measurementTolerance,input)
+    equipment = sampleVolumeItemData$equipment
+    equipmentVolume = formatNumberForDisplay(sampleVolumeItemData$equipmentVolume,input)
+    equipmentCoverage = formatNumberForDisplay(sampleVolumeItemData$equipmentCoverage,input)
+    equipmentTolerance = formatNumberForDisplay(sampleVolumeItemData$equipmentTolerance,input)
     answerValue = formatNumberForDisplay(sampleVolumeItemData$standardUncertainty,input)
     
-    if(is.na(measurementCoverage))
+    if(is.na(equipmentCoverage))
     {
-      measurementCoverage = "\\sqrt{3}"
+      equipmentCoverage = "\\sqrt{3}"
     }
     
-    formulas = c(formulas, paste0("u\\text{(",measurementDevice,")}_{\\text{(",measurementVolume,",",measurementTolerance,")}} &= \\frac{",measurementTolerance,"}{",measurementCoverage,"} = \\color{",color1,"}{", answerValue,"}"))
+    formulas = c(formulas, paste0("u\\text{(",equipment,")}_{\\text{(",equipmentVolume,",",equipmentTolerance,")}} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = \\color{",color1,"}{", answerValue,"}"))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -161,7 +161,7 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
 output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI({
 
   #Get the distinct Equipment based on the name, volume and tolerance
-  data = standardSolutionInstrumentDataWithCalculations() %>% distinct(measurementDevice, measurementVolume, measurementTolerance, .keep_all = TRUE)
+  data = standardSolutionInstrumentDataWithCalculations() %>% distinct(equipment, equipmentVolume, equipmentTolerance, .keep_all = TRUE)
   
   formulas = c("u_r\\text{(Equipment)}_{\\text{(Vol,Tol)}} &= \\frac{u\\text{(Equipment)}_{\\text{(Vol,Tol)}}}{\\text{Volume}} [[break]]")
   
@@ -169,14 +169,14 @@ output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI
   {
     instrumentData = data[instrumentRow,]
     
-    measurementDevice = instrumentData$measurementDevice
-    measurementVolume = formatNumberForDisplay(instrumentData$measurementVolume,input)
-    measurementCoverage = formatNumberForDisplay(instrumentData$measurementCoverage,input)
-    measurementTolerance = formatNumberForDisplay(instrumentData$measurementTolerance,input)
+    equipment = instrumentData$equipment
+    equipmentVolume = formatNumberForDisplay(instrumentData$equipmentVolume,input)
+    equipmentCoverage = formatNumberForDisplay(instrumentData$equipmentCoverage,input)
+    equipmentTolerance = formatNumberForDisplay(instrumentData$equipmentTolerance,input)
     measurementStandardUncertainty = formatNumberForDisplay(instrumentData$standardUncertainty,input)
     answerValue = formatNumberForDisplay(instrumentData$relativeStandardUncertainty,input)
     
-    formulas = c(formulas, paste0("u_r\\text{(",measurementDevice,")}_{\\text{(",measurementVolume,",",measurementTolerance,")}} &= \\frac{\\color{",color1,"}{",measurementStandardUncertainty,"}}{",measurementVolume,"} = \\color{",color2,"}{", answerValue,"}"))
+    formulas = c(formulas, paste0("u_r\\text{(",equipment,")}_{\\text{(",equipmentVolume,",",equipmentTolerance,")}} &= \\frac{\\color{",color1,"}{",measurementStandardUncertainty,"}}{",equipmentVolume,"} = \\color{",color2,"}{", answerValue,"}"))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -214,8 +214,8 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
         {
           plus = ""
         }
-        instrumentEquationsNames = paste0(instrumentEquationsNames,plus,"[u_r\\text{(",instrument$measurementDevice,")}^2_{\\text{",instrument$measurementVolume,",",instrument$measurementTolerance,"}} \\times N\\text{(",instrument$measurementDevice,")}_{\\text{",instrument$measurementVolume,",",instrument$measurementTolerance,"}}]")
-        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[\\color{",color2,"}{",formatNumberForDisplay(instrument$relativeStandardUncertainty,input),"}^2\\times",instrument$measurementTimesUsed,"]")
+        instrumentEquationsNames = paste0(instrumentEquationsNames,plus,"[u_r\\text{(",instrument$equipment,")}^2_{\\text{",instrument$equipmentVolume,",",instrument$equipmentTolerance,"}} \\times N\\text{(",instrument$equipment,")}_{\\text{",instrument$equipmentVolume,",",instrument$equipmentTolerance,"}}]")
+        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[\\color{",color2,"}{",formatNumberForDisplay(instrument$relativeStandardUncertainty,input),"}^2\\times",instrument$equipmentTimesUsed,"]")
       }
       
       formulas = c(formulas, paste0("u_r\\text{(",solution$solution,")} &= \\sqrt{u_r\\text{(",solutionParent$solution,")}^2",instrumentEquationsNames,"}"))
@@ -320,7 +320,7 @@ getRelativeStandardUncertaintyOfCalibrationSolutions = function(calibrationSolut
 
 getUsageUncertainty = function(instrumentDataWithCalculations)
 {
-  return((instrumentDataWithCalculations$relativeStandardUncertainty)^2 * instrumentDataWithCalculations$measurementTimesUsed)
+  return((instrumentDataWithCalculations$relativeStandardUncertainty)^2 * instrumentDataWithCalculations$equipmentTimesUsed)
 }
 
 getRealtiveStandardUncertaintyForSolution = function(solutionName, solutionData, measurementData){
