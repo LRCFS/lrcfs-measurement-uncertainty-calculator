@@ -34,28 +34,28 @@ mouCalcRightSidebar = rightSidebar(
         colourInput("colour6", "Colour 6", value = "#FF007F"),
         colourInput("colour7", "Colour 7", value = "#BEBEBE")
     )
-  ),
-  rightSidebarTabContent(
-    id = 2,
-    title = "Case Sample Information",
-    p("Specify below the number of replicates and mean concentration for the sample that the calibration data was tested against."),
-    numericInput("inputCaseSampleReplicates",
-                 "Replicates \\((r_s)\\)",
-                 value = 2),
-    numericInput("aaa",
-                 "Mean Concentration\\((x_s)\\)",
-                 value = 2),
-    hr(),
-    h3("Confidence Interval"),
-    p("The confidence interval you specify below does something..."),
-    
-    
-    selectInput("bbb", "Confidence Interval\\((c_i)\\):",
-                c("99.73%" = "99.73%",
-                  "99%" = "99%",
-                  "95.45%" = "95.45%",
-                  "95%" = "95%",
-                  "90%" = "90%",
-                  "68.27%" = "68.27%"))
   )
+  # rightSidebarTabContent(
+  #   id = 2,
+  #   title = "Case Sample Information",
+  #   p("Specify below the number of replicates and mean concentration for the sample that the calibration data was tested against."),
+  #   numericInput("inputCaseSampleReplicates",
+  #                "Replicates \\((r_s)\\)",
+  #                value = 2),
+  #   numericInput("aaa",
+  #                "Mean Concentration\\((x_s)\\)",
+  #                value = 2),
+  #   hr(),
+  #   h3("Confidence Interval"),
+  #   p("The confidence interval you specify below does something..."),
+  #   
+  #   
+  #   selectInput("bbb", "Confidence Interval\\((c_i)\\):",
+  #               c("99.73%" = "99.73%",
+  #                 "99%" = "99%",
+  #                 "95.45%" = "95.45%",
+  #                 "95%" = "95%",
+  #                 "90%" = "90%",
+  #                 "68.27%" = "68.27%"))
+  # )
 )
