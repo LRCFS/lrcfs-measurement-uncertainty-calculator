@@ -52,7 +52,11 @@ th .MathJax_Display {
     float: right;
 }
 
-.introjs-tooltip{
+.introjs-top-middle-aligned,
+.introjs-right,
+.introjs-left,
+.introjs-left,
+.introjs-bottom-left-aligned{
 	min-width: 60% !important;
 	max-width: 80% !important;
 }
@@ -96,6 +100,11 @@ th .MathJax_Display {
     content: " ";
     clear: both;
     height: 0;
+}
+
+.introjs-floating{
+	width: 600px !important;
+	max-width: 600px !important;
 }
 
 
