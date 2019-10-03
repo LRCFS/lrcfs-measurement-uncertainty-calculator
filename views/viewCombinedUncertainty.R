@@ -28,5 +28,11 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                        title = "Combined Uncertainty", background = "purple", solidHeader = TRUE,
                        uiOutput("display_combinedUncertainty_finalAnswer_bottom")
                    )
+                 ),
+                 fluidRow(
+                   box(width=12, side="right",
+                       title = "Uncertainty Budget",
+                       plotlyOutput("display_combinedUncertainty_uncertaintyBudget")
+                   )
                  )
 )

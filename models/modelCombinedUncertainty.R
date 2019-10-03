@@ -13,6 +13,22 @@ combinedUncertaintyResult = reactive({
 # Outputs
 ###################################################################################
 
+output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
+  data = data.frame("CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SampleVolume" = sampleVolumeResult())
+  data = removeEmptyData(data)
+  
+  percentages = data/sum(data) * 100
+  percentagesMelt = melt(percentages)
+  
+  dataMelt = melt(data)
+  dataGraphReady = data.frame(uncertaintyComponent = dataMelt$variable, rsu = formatNumberForDisplay(dataMelt$value,input), percent = paste(formatNumberForDisplay(percentagesMelt$value,input),"%"))
+  
+  
+  plot_ly(dataGraphReady, x = ~uncertaintyComponent, y = ~rsu, text = ~percent, textposition="auto", name='Uncertainty Budget', type = 'bar') %>%
+    layout(xaxis = list(title = "Uncertainty Component"), yaxis = list(title = "RSU"))
+    
+})
+
 output$display_combinedUncertainty_meanConcentration <- renderUI({
   string = paste(input$inputCaseSampleMeanConcentration)
   return(string)
