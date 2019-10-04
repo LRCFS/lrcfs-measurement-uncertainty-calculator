@@ -11,4 +11,10 @@ color5 = "#DD4B39"
 color5 = "#DD4B39"
 color6 = "#FF007F"
 
+CombinedUncertaintyColor = 'rgba(96,92,168,1)'
+CalibrationCurveColor = 'rgba(0,115,183,1)'
+MethodPrecisionColor = 'rgba(221,75,57,1)'
+StandardSolutionColor = 'rgba(0,166,90,1)'
+SampleVolumeColor = 'rgba(216,27,96,1)'
+
 coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()

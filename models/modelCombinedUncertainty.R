@@ -14,7 +14,7 @@ combinedUncertaintyResult = reactive({
 ###################################################################################
 
 output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
-  data = data.frame("CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SampleVolume" = sampleVolumeResult())
+  data = data.frame("CombinedUncertainty" = combinedUncertaintyResult(), "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SampleVolume" = sampleVolumeResult())
   data = removeEmptyData(data)
   
   percentages = data/sum(data) * 100
@@ -23,10 +23,30 @@ output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
   dataMelt = melt(data)
   dataGraphReady = data.frame(uncertaintyComponent = dataMelt$variable, rsu = formatNumberForDisplay(dataMelt$value,input), percent = paste(formatNumberForDisplay(percentagesMelt$value,input),"%"))
   
+  colors = c(CombinedUncertaintyColor)
+  for(colname in colnames(data))
+  {
+    if(colname == "CalibrationCurve")
+    {
+      colors = c(colors, CalibrationCurveColor)
+    }
+    else if(colname == "MethodPrecision")
+    {
+      colors = c(colors, MethodPrecisionColor)
+    }
+    else if(colname == "StandardSolution")
+    {
+      colors = c(colors, StandardSolutionColor)
+    }
+    else if(colname == "SampleVolume")
+    {
+      colors = c(colors, SampleVolumeColor)
+    }
+  }
   
-  plot_ly(dataGraphReady, x = ~uncertaintyComponent, y = ~rsu, text = ~percent, textposition="auto", name='Uncertainty Budget', type = 'bar') %>%
-    layout(xaxis = list(title = "Uncertainty Component"), yaxis = list(title = "RSU"))
-    
+  plot_ly(dataGraphReady, x = ~rsu, y = ~uncertaintyComponent, text = ~rsu, textposition="auto", name='Uncertainty Budget', type = 'bar', orientation = 'h',
+          marker = list(color = colors)) %>%
+    layout(xaxis = list(title = "RSU"), yaxis = list(title = "", autorange="reversed"))
 })
 
 output$display_combinedUncertainty_meanConcentration <- renderUI({
