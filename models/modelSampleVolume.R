@@ -2,73 +2,28 @@
 # Outputs
 ###################################################################################
 
-#Reactive properties
-sampleVolumeData <- reactive({
-  if(myReactives$uploadedSampleVolume == TRUE)
-  {
-    data = sampleVolumeReadCSV(input$inputSampleVolumeFileUpload$datapath)
-    return(data)
-  }
-  else
-  {
-    return(NULL)
-  }
-})
-
-sampleVolumeResult = reactive ({
-  data = sampleVolumeData()
-  if(is.null(data))
-  {
-    return(NA)
-  }
-  
-  result = get_sampleVolume_relativeStandardUncertainty(data)
-  answer = 0
-  for(i in 1:nrow(data))
-  {
-    answer = answer + (result[i]^2 * data[i,]$equipmentTimesUsed)
-  }
-  answer = sqrt(answer)
-  return(answer)
-})
-
-sampleVolumeDof = reactive({
-  if(myReactives$uploadedSampleVolume == FALSE)
-  {
-    return(NA)
-  }
-  else
-  {
-    return("\\infty")
-  }
-})
-
 #Display input data
 output$display_sampleVolume_rawDataTable = DT::renderDataTable(
-  sampleVolumeData(),
+  getDataSampleVolume(),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
 )
 
 #Display calculations
 output$display_sampleVolume_standardUncertainty = renderUI({
-  
-  data = sampleVolumeData()
-  if(is.null(data))
-  {
-    return(NA)
-  }
-  
+  data = getDataSampleVolume()
+  if(is.null(data)) return(NA)
+
   formulas = c("u\\text{(Equipment)} &= \\frac{\\text{Tolerance}}{\\text{Coverage}} [[break]]")
 
-  for(sampleVolumeItem in rownames(sampleVolumeData()))
+  for(sampleVolumeItem in rownames(data))
   {
     sampleVolumeItemData = data[sampleVolumeItem,]
 
     equipment = sampleVolumeItemData$equipment
     equipmentTolerance = sampleVolumeItemData$equipmentTolerance
     equipmentCoverage = sampleVolumeItemData$equipmentCoverage
-    answerValue = get_sampleVolume_standardUncerainty(sampleVolumeItemData)
+    answerValue = doGetSampleVolume_standardUncerainty(sampleVolumeItemData)
     
     formulas = c(formulas, paste0("u\\text{(",equipment,")} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = \\color{",color1,"}{", answerValue, "}"))
   }
@@ -78,23 +33,19 @@ output$display_sampleVolume_standardUncertainty = renderUI({
 })
 
 output$display_sampleVolume_relativeStandardUncertainty = renderUI({
-  
-  data = sampleVolumeData()
-  if(is.null(data))
-  {
-    return(NA)
-  }
+  data = getDataSampleVolume()
+  if(is.null(data)) return(NA)
   
   formulas = c("u_r\\text{(Equipment)} &= \\frac{u\\text{(Equipment)}}{\\text{Volume}} [[break]]")
   
-  for(sampleVolumeItem in rownames(sampleVolumeData()))
+  for(sampleVolumeItem in rownames(data))
   {
     sampleVolumeItemData = data[sampleVolumeItem,]
     
     equipment = sampleVolumeItemData$equipment
-    stdUnc = get_sampleVolume_standardUncerainty(sampleVolumeItemData)
+    stdUnc = doGetSampleVolume_standardUncerainty(sampleVolumeItemData)
     equipmentVolume = sampleVolumeItemData$equipmentVolume
-    answerValue = get_sampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
+    answerValue = doGetSampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
     
     formulas = c(formulas, paste0("u_r\\text{(",equipment,")} &= \\frac{\\color{",color1,"}{",stdUnc,"}}{",equipmentVolume,"} = ", answerValue))
   }
@@ -105,16 +56,12 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
 
 #Display final answers
 output$display_sampleVolume_finalAnswer_top = renderUI({
-  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",formatNumberForDisplay(sampleVolumeResult(),input)))
+  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",formatNumberForDisplay(getResultSampleVolume(),input)))
 })
 
 output$display_sampleVolume_finalAnswer_bottom = renderUI({
-  
-  data = sampleVolumeData()
-  if(is.null(data))
-  {
-    return(NA)
-  }
+  data = getDataSampleVolume()
+  if(is.null(data)) return(NA)
   
   formulas = c("u_r\\text{(SampleVolume)} &= \\sqrt{\\sum{[u_r\\text{(Equipment)}^2 \\times N\\text{(Equipment)}}]}")
   
@@ -124,7 +71,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
     
     sampleVolumeItemData = data[sampleVolumeItem,]
     
-    relativeStandardUncertainty = get_sampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
+    relativeStandardUncertainty = doGetSampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
     
     if(sampleVolumeItem == 1){
       string = paste(relativeStandardUncertainty,"^2")
@@ -139,7 +86,7 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
   
   formulas = c(formulas,formula)
   
-  formulas = c(formulas, paste("&= ", formatNumberForDisplay(sampleVolumeResult(),input)))
+  formulas = c(formulas, paste("&= ", formatNumberForDisplay(getResultSampleVolume(),input)))
   
   output = mathJaxAligned(formulas, 5, 20)
   
@@ -148,42 +95,13 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
 })
 
 output$display_sampleVolume_finalAnswer_dashboard = renderUI({
-  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",formatNumberForDisplay(sampleVolumeResult(),input)))
+  return(paste("\\(u_r\\text{(SampleVolume)}=\\)",formatNumberForDisplay(getResultSampleVolume(),input)))
 })
 
 output$display_sampleVolume_finalAnswer_combinedUncertainty = renderUI({
-  return(paste(formatNumberForDisplay(sampleVolumeResult(),input)))
+  return(paste(formatNumberForDisplay(getResultSampleVolume(),input)))
 })
 
 output$display_sampleVolume_finalAnswer_coverageFactor = renderUI({
-  return(paste(formatNumberForDisplay(sampleVolumeResult(),input)))
+  return(paste(formatNumberForDisplay(getResultSampleVolume(),input)))
 })
-  
-
-
-###################################################################################
-# Helper Methods
-###################################################################################
-
-get_sampleVolume_standardUncerainty = function(data){
-
-  numerator = data$equipmentTolerance
-  denumerator = data$equipmentCoverage
-  
-  if(is.na(denumerator) | denumerator == "NA" | denumerator == "" | denumerator == 0)
-  {
-    denumerator = sqrt(3)
-  }
-  stdUncertainty = numerator / denumerator
-  return(stdUncertainty)
-
-}
-
-get_sampleVolume_relativeStandardUncertainty = function(data)
-{
-  stdUnc = get_sampleVolume_standardUncerainty(data)
-  
-  relStdUnc = stdUnc / data$equipmentVolume
-  return(relStdUnc)
-}
-

@@ -3,7 +3,7 @@ combinedUncertaintyResult = reactive({
   uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
-  uncSampleVolume = sampleVolumeResult()
+  uncSampleVolume = getResultSampleVolume()
   
   result = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
   return(result)
@@ -14,7 +14,7 @@ combinedUncertaintyResult = reactive({
 ###################################################################################
 
 output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
-  data = data.frame("CombinedUncertainty" = combinedUncertaintyResult(), "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SampleVolume" = sampleVolumeResult())
+  data = data.frame("CombinedUncertainty" = combinedUncertaintyResult(), "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SampleVolume" = getResultSampleVolume())
   data = removeEmptyData(data)
   
   percentages = data/sum(data) * 100
@@ -54,15 +54,16 @@ output$display_combinedUncertainty_meanConcentration <- renderUI({
   return(string)
 })
 
-output$display_combinedUncertainty_finalAnswer_top = renderUI({
-  return(paste("\\(\\text{CombUncertainty}=\\)",formatNumberForDisplay(combinedUncertaintyResult(),input)))
+output$display_combinedUncertainty_finalAnswer_top = renderText({
+  answer = formatNumberForDisplay(combinedUncertaintyResult(), input)
+  return(paste("\\(\\text{CombUncertainty}=\\)",answer))
 })
   
 output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   cc = formatNumberForDisplay(getResultCalibrationCurve(),input)
   mp = formatNumberForDisplay(methodPrecisionResult(),input)
   ss = formatNumberForDisplay(standardSolutionResult(),input)
-  sv = formatNumberForDisplay(sampleVolumeResult(),input)
+  sv = formatNumberForDisplay(getResultSampleVolume(),input)
   
   formula = c("\\text{CombUncertainty} &= x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}} [[break]]")
   formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SampleVolume})^2}")

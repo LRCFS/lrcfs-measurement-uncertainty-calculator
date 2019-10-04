@@ -114,7 +114,11 @@ server <- function(input, output, session) {
   
   source("models/modelMethodPrecision.R", local = TRUE)
   source("models/modelStandardSolution.R", local = TRUE)
+  
+  source("controllers/controllerSampleVolume.R", local = TRUE)
   source("models/modelSampleVolume.R", local = TRUE)
+  source("reactives/reactiveSampleVolume.R", local = TRUE)
+  
   source("models/modelCombinedUncertainty.R", local = TRUE)
   source("models/modelCoverageFactor.R", local = TRUE)
   source("models/modelExpandedUncertainty.R", local = TRUE)

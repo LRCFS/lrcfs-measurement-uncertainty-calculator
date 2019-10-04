@@ -283,8 +283,9 @@ output$outputRealtiveStandardUncertainties <- renderUI({
   return(withMathJax(HTML(results)))
 })
 
-output$display_methodPrecision_finalAnswer_top <- renderUI({
-  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",formatNumberForDisplay(methodPrecisionResult(),input)))
+output$display_methodPrecision_finalAnswer_top <- renderText({
+  answer = formatNumberForDisplay(methodPrecisionResult(), input)
+  return(paste("\\(u_r\\text{(MethodPrec)}=\\)",answer))
 })
 
 output$display_methodPrecision_finalAnswer_bottom = renderUI({
