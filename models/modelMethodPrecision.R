@@ -89,7 +89,7 @@ methodPrecisionDataWithCalculations = reactive({
 
 methodPrecisionDataWithCalculationsNeatHeaders = reactive({
   data = data.frame(methodPrecisionDataWithCalculations()$conc,methodPrecisionDataWithCalculations()$run,methodPrecisionDataWithCalculations()$mean,methodPrecisionDataWithCalculations()$stdDev,methodPrecisionDataWithCalculations()$dof,methodPrecisionDataWithCalculations()$pooledStandardDeviationNumerator)
-  colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} d)$$","$$S^2 \\times d$$")
+  colnames(data) = c("$$\\text{Nominal Value (NV)}$$","$$\\text{Run}$$","$$\\text{Mean (} \\overline{x})$$","$$\\text{Standard Deviation (} S)$$","$$\\text{Degrees of Freedom (} {\\large\\nu})$$","$$S^2 \\times {\\large\\nu}$$")
   return(data)
 })
 
@@ -199,7 +199,7 @@ output$outputSumOfDof <- renderUI({
   formula = character()
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("\\sum{d}_{(",conc,")} &= \\color{",color1,"}{", getSumDofForConcentration(data, conc), "}"))
+    formula = c(formula, paste0("\\sum{{\\large\\nu}}_{(",conc,")} &= \\color{",color1,"}{", getSumDofForConcentration(data, conc), "}"))
   }
   results = mathJaxAligned(formula)
 
@@ -214,7 +214,7 @@ output$outputSumOfS2d <- renderUI({
   for(conc in getConcentrations(data))
   {
     answer = formatNumberForDisplay(getSumPooledStandardDeviationNumeratorForConcentration(data,conc),input)
-    formula = c(formula, paste0("\\sum{(S^2 \\times d)_{(",conc,")}} &= \\color{",color2,"}{",answer, "}"))
+    formula = c(formula, paste0("\\sum{(S^2 \\times {\\large\\nu})_{(",conc,")}} &= \\color{",color2,"}{",answer, "}"))
   }
   results = mathJaxAligned(formula)
   
@@ -230,7 +230,7 @@ output$outputPooledStandardDeviation <- renderUI({
   
   data =  methodPrecisionDataWithCalculations()
   
-  formula = c("S_{p(\\text{NV})} &= \\sqrt{\\frac{\\sum{(S^2 \\times d)_{\\text{(NV)}}}}{\\sum d_{\\text{(NV)}}}} [[break]]")
+  formula = c("S_{p(\\text{NV})} &= \\sqrt{\\frac{\\sum{(S^2 \\times {\\large\\nu})_{\\text{(NV)}}}}{\\sum {\\large\\nu}_{\\text{(NV)}}}} [[break]]")
 
   for(conc in getConcentrations(data))
   {
