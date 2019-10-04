@@ -57,7 +57,7 @@ methodPrecisionDataWithCalculations = reactive({
     dataStdDev = apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE))
     
     #Calculate the Degrees of Freedom for each concentration (using length function but removing NA values then removing 1 (this is how you get DOF))
-    dataDof = apply(dataForConcentration, 2, function(x) length(which(!is.na(x))))-1
+    dataDof = apply(dataForConcentration, 2, calcMethodPrecisionDof)
     
     #pooledStandardDeviationNumerator
     dataPooledStandardDeviationNumerator = dataStdDev^2 * dataDof
@@ -326,6 +326,19 @@ output$display_methodPrecision_finalAnswer_coverageFactor <- renderUI({
 ###################################################################################
 # Helper Methods
 ###################################################################################
+
+calcMethodPrecisionDof = function(value)
+{
+  result = length(which(!is.na(value)))
+  if(result == 0)
+  {
+    return(NA)
+  }
+  else
+  {
+    return(result - 1)
+  }
+}
 
 getMethodPrecisionFinalAnswerClosestConcentration = function(data, caseSampleMeanConcentration)
 {
