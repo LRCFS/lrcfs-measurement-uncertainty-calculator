@@ -1,5 +1,5 @@
 ---
-title: "MOUCalc Report"
+title: "LRCFS Measurement Uncertainty Report"
 output: pdf_document
 params:
   calibrationCurveData: NA
@@ -9,6 +9,7 @@ params:
   standardSolutionData: NA
   standardSolutionEquipmentData: NA
   sampleVolumeData: NA
+  inputWeightLeastSquared: NA
   inputCaseSampleReplicates: NA
   inputCaseSampleMeanConcentration: NA
   inputConfidenceInterval: NA
@@ -21,15 +22,119 @@ params:
   expandedUncertaintyResultPercentage: NA
 ---
 
+**Date:** 1st Jan 2019
 
-# Some Latex
+**Report Issue Number:** 001
 
-$x = \sqrt{5/2}$
+**Software Version:** LRCFS Measurement Uncertainty Calculator (v0.5)
 
-\\( x = \\sqrt{5/2} \\)
+The following report was generated using the using the LRCFS Measurement Uncertainty Calculator (v0.5) available at www.dundee.ac.uk/lrcfs/mucalc.
 
-Some text
+## Summary
+This is a summary of the results based on the information:
 
+**Weighted Least Square Regression:** $`r params$inputWeightLeastSquared`$
+
+**Confidence Interval:** `r params$inputConfidenceInterval`
+
+| Case Sample Data      | Relative Standard Uncertainty              |
+|-----------------------|--------------------------------------------|
+|Replicates             |`r params$inputCaseSampleReplicates`        |
+|Mean Concentration     |`r params$inputCaseSampleMeanConcentration` |
+
+### Results
+
+| Uncertainty Component | Relative Standard Uncertainty |
+|-----------------------|-------------------------------|
+|Calibration Curve      |`r params$uncCalibrationCurve` |
+|Method Precision       |`r params$uncMethodPrecision`  |
+|Standard Solution      |`r params$uncStandardSolution` |
+|Sample Volume          |`r params$uncSampleVolume`     |
+
+#### Expanded Uncertainty: 0.59628
+
+### Report Author
+| Name | Signature | Job Title / Position | Date |
+|------|-----------|----------------------|------|
+|      |           |                      |      |
+
+### Approval 
+| Name | Signature | Job Title / Position | Date |
+|------|-----------|----------------------|------|
+|      |           |                      |      |
+
+
+# Appendix 1 - Calculations
+
+## Calibration Curve
+The uncertainty of calibration curve is given by:
+
+$$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$$
+
+where $S_{y/x}$ is the standard error of regression given by
+
+$$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$$
+
+- $S_{y/x}$ is the standard error of regressing $y$ on $x$
+
+- $b_1$ is the Slope of the of regression line
+
+- $r_s$ is the number of replicates made on test sample to determine $x_s$
+
+- $n$ is the number of measurements used to generate the Calibration Curve
+
+- $x_s$ is the mean concentration of the Case Sample
+
+- $\overline{x}$ is the mean values of the different calibration standards
+
+- $S_{xx}$ is the sum of squares deviation of $x$ given by $\sum\limits_{i=1}^n (x_i - \overline{x})^2$
+
+## Method Precision
+
+Work in progress...
+
+## Standard Solution
+
+Work in progress...
+
+## Sample Volume
+
+Work in progress...
+
+# Appendix 2 - Raw Data
 ```{r}
 params$calibrationCurveData
 ```
+
+```{r}
+params$externalStandardErrorData
+```
+
+```{r}
+params$methodPrecisionData
+```
+
+```{r}
+params$standardSolutionData
+```
+
+```{r}
+params$standardSolutionEquipmentData
+```
+
+
+```{r}
+params$sampleVolumeData
+```
+
+# END REPORT
+
+
+
+# Some Latex Test
+
+Latex inline looks like this: $x = \sqrt{5/2}$
+
+Latex on a new line looks like this: $$x = \sqrt{5/2}$$
+
+
