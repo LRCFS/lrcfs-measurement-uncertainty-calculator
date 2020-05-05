@@ -2,29 +2,44 @@
 #webshot::install_phantomjs() - on linux make sure you've got bzip2 installed for this to work
 #tinytex::install_tinytex()
 
+#Clear all lists from memory to avoid unintentional errors
 rm(list = ls())
-library(shiny)
-library(shinyjs)
-library(shinydashboard)
-library(shinydashboardPlus)
-library(ggplot2)
-library(reshape2)
-library(scales)
-library(dplyr)
-library(plotly)
-library(DT)
-library(DiagrammeR)
-library(stringr)
-library(utils)
-library(data.tree)
-library(rintrojs)
-library(textutils)
-library(tinytex)
-library(rmarkdown)
-library(knitr)
-library(webshot)
-library(shinyWidgets)
-library(colourpicker)
+
+#Create helper function to check for package and install/load if nessecary
+needPackage = function(packageName)
+{
+  #Check if the package has been installed (using the character.only flag allows you to search by a string)
+  if(!require(packageName, character.only=TRUE))
+  {
+    #If the package isn't installed then install it
+    install.packages(packageName)
+  }
+  #Include the library
+  library(packageName, character.only=TRUE)
+}
+
+needPackage('shiny')
+needPackage('shinyjs')
+needPackage('shinydashboard')
+needPackage('shinydashboardPlus')
+needPackage('ggplot2')
+needPackage('reshape2')
+needPackage('scales')
+needPackage('dplyr')
+needPackage('plotly')
+needPackage('DT')
+needPackage('DiagrammeR')
+needPackage('stringr')
+needPackage('utils')
+needPackage('data.tree')
+needPackage('rintrojs')
+needPackage('textutils')
+needPackage('tinytex')
+needPackage('rmarkdown')
+needPackage('knitr')
+needPackage('webshot')
+needPackage('shinyWidgets')
+needPackage('colourpicker')
 
 source("models/modelHelperFunctions.R")
 
