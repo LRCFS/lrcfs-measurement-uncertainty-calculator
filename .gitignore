@@ -39,3 +39,4 @@ rsconnect/
 shinyShortcut.vbs
 
 deploy/
+packrat/lib*/
