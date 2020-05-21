@@ -1,10 +1,7 @@
-#install.packages(c("shiny","shinyjs","shinydashboard","shinydashboardPlus","ggplot2","reshape2","scales","dplyr","plotly","DT","DiagrammeR","stringr","data.tree","rintrojs","textutils","tinytex","rmarkdown","knitr","webshot","shinyWidgets","colourpicker"))
-#webshot::install_phantomjs() - on linux make sure you've got bzip2 installed for this to work
-#tinytex::install_tinytex()
-
 #Clear all lists from memory to avoid unintentional errors
 rm(list = ls())
 
+#Load required libraries
 library(shiny)
 library(shinyjs)
 library(shinydashboard)
