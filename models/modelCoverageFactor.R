@@ -37,10 +37,14 @@ coverageFactorResult = reactive({
 
 #Display calculations
 
+output$display_coverageFactor_meanConcentration <- renderUI({
+  string = paste(input$inputCaseSampleMeanConcentration)
+  return(string)
+})
+
 output$display_coverageFactor_confidenceInterval = renderUI({
   return(as.character(input$inputConfidenceInterval))
 })
-
 
 output$display_coverageFactor_dofCalibrationCurve = renderUI({
   data = getDataCalibrationCurveReformatted()
@@ -82,14 +86,14 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
 })
 
 output$display_coverageFactor_dofStandardSolution = renderUI({
-  formulas = c(paste("{\\LARGE\\nu}_{\\text{StdSolution}} &= ", standardSolutionDof()))
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{StdSolution}} &= ",colourNumber(standardSolutionDof(), input$useColours, input$colour3)))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
 })
 
 output$display_coverageFactor_dofSampleVolume = renderUI({
-  formulas = c(paste("{\\LARGE\\nu}_{\\text{SampleVolume}} &= ", getSampleVolume_degreesOfFreedom()))
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{SampleVolume}} &= ",colourNumber(getSampleVolume_degreesOfFreedom(), input$useColours, input$colour4)))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
@@ -104,16 +108,16 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   combinedUncertainty = formatNumberForDisplay(combinedUncertaintyResult(),input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
-  #Degress of Freedom
+  #Degrees of Freedom
   #dof cal curve
   dofCalibrationCurve = getCalibrationCurve_degreesOfFreedom()
 
   #dof method precision
   dofMethodPrecision = methodPrecisionDof()
-
-  formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")
+  
+  formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")       
   formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{",colourNumber(dofCalibrationCurve, input$useColours, input$colour1),"} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{",colourNumber(dofMethodPrecision, input$useColours, input$colour2),"} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{",standardSolutionDof(),"} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{",getSampleVolume_degreesOfFreedom(),"}}"))
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF"),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"})^4}{\\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF"),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, input$colour1),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF"),"^4}{",colourNumber(dofMethodPrecision, input$useColours, input$colour2),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF"),"^4}{",colourNumber(standardSolutionDof(), input$useColours, input$colour3),"} + \\frac{",colourNumberBackground(uncSampleVolume, SampleVolumeColor, "#FFF"),"^4}{",colourNumber(getSampleVolume_degreesOfFreedom(), input$useColours, input$colour4),"}}"))
   
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)
@@ -135,9 +139,9 @@ output$display_coverageFactor_table <- DT::renderDataTable({
                         rownames = FALSE,
                         options = list(pageLength = 100, scrollX = TRUE, dom = '', columnDefs = list(list(className = "dt-right", targets = 0:ncol(coverageFactorEffectiveDofTable)-1))))%>%
     #Row Style
-    formatStyle(0,"EffectiveDoF",target = "row", backgroundColor = styleEqual(finalCoverageFactorEffectiveDof, "#D8F5F5"))%>%
+    formatStyle(0,"EffectiveDoF",target = "row", backgroundColor = styleEqual(finalCoverageFactorEffectiveDof, CoverageFactorTableHighligthColor))%>%
     #Colum style
-    formatStyle(confidenceInterval, backgroundColor = styleEqual(coverageFactor,"#39cccc","#D8F5F5"), color = styleEqual(coverageFactor,"#FFF","#000"), fontWeight =  styleEqual(coverageFactor,"bold","normal"))
+    formatStyle(confidenceInterval, backgroundColor = styleEqual(coverageFactor,CoverageFactorColor,CoverageFactorTableHighligthColor), color = styleEqual(coverageFactor,"#FFF","#000"), fontWeight =  styleEqual(coverageFactor,"bold","normal"))
     
 
   return(dataTable)

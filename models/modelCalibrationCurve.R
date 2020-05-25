@@ -186,7 +186,7 @@ output$display_calibrationCurve_peakAreaRatioOfCaseSample = renderUI({
   
   formulas = c("y_s &= b_0 + b_1x_s")
   formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",caseSampleMeanConcentration))
-  formulas = c(formulas, paste("&= ",answer))
+  formulas = c(formulas, paste("&= ",colourNumber(answer, input$useColours, input$colour8)))
   output = mathJaxAligned(formulas, 5, 20)
   
   box(width=3,
@@ -211,7 +211,7 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   else
     formulas = c(formulas, paste("&= \\frac{1}{",weightedCaseSampleDenominator,"}"))
   
-  formulas = c(formulas, paste("&=",answer))
+  formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour9)))
   output = mathJaxAligned(formulas, 5, 20)
   
   box(width=3,
@@ -281,7 +281,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   }
   else
   {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",weightedCaseSample,"} + \\frac{1}{",n,"} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",peakAreaRatioOfCaseSample,"}} - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9),"} + \\frac{1}{",n,"} + \\frac{(",colourNumber(peakAreaRatioOfCaseSample, input$useColours, input$colour8)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
   }
   
   
@@ -460,7 +460,7 @@ output$display_calibrationCurve_finalAnswer_bottom = renderUI({
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
   formulas = c(formulas, "u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}")
-  formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{\\bbox[#F012BE,2pt]{",caseSampleMeanConcentration,"}}"))
+  formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"}"))
   formulas = c(formulas, paste("&=",answer))
   
   output = mathJaxAligned(formulas, 5, 20)

@@ -44,8 +44,10 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
   
   finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
 
+  
+  
   formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",formatNumberForDisplay(effectiveDof,input),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
-  formulas = c(formulas, paste("&= \\bbox[#39CCCC,2pt]{",formatNumberForDisplay(finalCoverageFactor,input),"} \\times \\bbox[#605CA8,2pt]{",formatNumberForDisplay(combinedUncertaintyResult(),input),"}"))
+  formulas = c(formulas, paste("&= ",colourNumberBackground(formatNumberForDisplay(finalCoverageFactor,input),CoverageFactorColor,"#FFF")," \\times ", colourNumberBackground(formatNumberForDisplay(combinedUncertaintyResult(),input),CombinedUncertaintyColor,"#FFF")))
   formulas = c(formulas, paste("&=",formatNumberForDisplay(expandedUncertaintyResult(),input)))
   output = mathJaxAligned(formulas, 5,20)
   
@@ -59,7 +61,7 @@ output$display_expandedUncertainty_finalAnswerPercentage_bottom = renderUI({
   answer = expandedUncertaintyResultPercentage()
   
   formulas = c(paste0("\\text{%ExpUncertainty} &= \\frac{\\text{ExpUncertainty}}{x_s} \\times 100"))
-  formulas = c(formulas, paste("&= \\frac{",formatNumberForDisplay(expandedUncertainty,input),"}{\\bbox[#F012BE,2pt]{",csMeanConcentration,"}} \\times 100"))
+  formulas = c(formulas, paste("&= \\frac{",formatNumberForDisplay(expandedUncertainty,input),"}{",ColourCaseSampleMeanConcentration(csMeanConcentration),"} \\times 100"))
   formulas = c(formulas, paste("&=",formatNumberForDisplay(answer,input),"\\%"))
   output = mathJaxAligned(formulas,5,20)
   

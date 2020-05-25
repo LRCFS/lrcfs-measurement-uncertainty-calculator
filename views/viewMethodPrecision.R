@@ -34,6 +34,10 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                               )
                             ),
                             fluidRow(
+                              infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_methodPrecision_replicates"))), width=6, icon=icon("vials"), color="aqua"),
+                              infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_methodPrecision_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
+                            ),
+                            fluidRow(
                               box(width=12,
                                   title = "Step by Step Calculation",
                                   DT::dataTableOutput("methodPrecisionCalculations"),

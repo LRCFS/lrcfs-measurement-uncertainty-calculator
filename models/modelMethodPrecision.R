@@ -142,6 +142,16 @@ output$methodPrecisionRawData <- DT::renderDataTable(
   options = list(scrollX = TRUE, dom = 'tip')
 )
 
+output$display_methodPrecision_replicates = renderUI({
+  string = paste(input$inputCaseSampleReplicates)
+  return(string)
+})
+
+output$display_methodPrecision_meanConcentration = renderUI({
+  string = paste(input$inputCaseSampleMeanConcentration)
+  return(string)
+})
+
 #Show a datatable with all the calculations in it
 #Get the number of runs and use that as the page size to make navigation a little more straight forward
 output$methodPrecisionCalculations <- DT::renderDataTable(
@@ -299,7 +309,7 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
     concs = paste0(concs,i,",")
   }
   
-  output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s)\\) = ",input$inputCaseSampleMeanConcentration," is ",closetConcentration,"<br /><br />")
+  output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s)\\) of \\(",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration),"\\) is ",closetConcentration,"<br /><br />")
   
   if(is.na(closetConcentration))
   {

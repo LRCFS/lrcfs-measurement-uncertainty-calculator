@@ -25,8 +25,11 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  ),
                  fluidRow(
                    valueBox(uiOutput("display_sampleVolume_finalAnswer_coverageFactor"),"\\(u_r\\text{(SampleVolume)}\\)", width = 4, color = "maroon", icon = icon("flask")),
-                   valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v")),
-                   infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=4, icon=icon("percentage"), color="yellow")
+                   valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v"))
+                 ),
+                 fluidRow(
+                   infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_coverageFactor_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia"),
+                   infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=6, icon=icon("percentage"), color="yellow")
                  ),
                  fluidRow(
                    box(width=3, side="right",
