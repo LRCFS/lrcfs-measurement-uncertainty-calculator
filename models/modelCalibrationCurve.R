@@ -353,14 +353,18 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
     seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
-    results = c(results, formatNumberForDisplay(seor, input))
+    seorFromatted = formatNumberForDisplay(seor, input)
+    seorColoured = colourNumber(seorFromatted, input$useColours, input$colour7)
+    results = c(results, seorColoured)
   }
 
   formulas = c(paste("S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
 
   for(i in 1:length(results))
   {
-    formulas = c(formulas, paste0("S_{{",if(checkUsingWls())"w"else"y/x","}_{(\\text{",runNames[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",runNames[i],"})} = ", lengths[i]))
+    n = colourNumber(lengths[i], input$useColours, input$colour5)
+    
+    formulas = c(formulas, paste0("S_{{",if(checkUsingWls())"w"else"y/x","}_{(\\text{",runNames[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",runNames[i],"})} = ", n))
   }
   
   output = mathJaxAligned(formulas, 5, 20)
@@ -401,12 +405,22 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   lengths = unlist(apply(exStdErrorRunData, 2, doGetCalibrationCurve_n), use.names = FALSE)
   
   n1 = doGetCalibrationCurve_n(y)
+  n1 = colourNumber(n1, input$useColours, input$colour5)
+  
   n2 = lengths[1]
+  n2 = colourNumber(n2, input$useColours, input$colour5)
+  
   n3 = lengths[length(results)]
+  n3 = colourNumber(n3, input$useColours, input$colour5)
   
   s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared), input)
+  s1 = colourNumber(s1, input$useColours, input$colour4)
+  
   s2 = formatNumberForDisplay(results[1], input)
+  s2 = colourNumber(s2, input$useColours, input$colour7)
+  
   s3 = formatNumberForDisplay(results[length(results)], input)
+  s3 = colourNumber(s3, input$useColours, input$colour7)
   
   end = ""
   if(length(results) > 2)

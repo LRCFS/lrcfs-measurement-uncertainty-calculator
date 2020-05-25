@@ -26,13 +26,13 @@ mouCalcRightSidebar = rightSidebar(
       value = TRUE
     ),
     div(id="colourPickers",
-        colourInput("colour1", "Colour 1", value = "#3FA5BE"),
-        colourInput("colour2", "Colour 2", value = "#FCA311"),
-        colourInput("colour3", "Colour 3", value = "#8E0554"),
-        colourInput("colour4", "Colour 4", value = "#007A3D"),
-        colourInput("colour5", "Colour 5", value = "#DD4B39"),
-        colourInput("colour6", "Colour 6", value = "#FF007F"),
-        colourInput("colour7", "Colour 7", value = "#BEBEBE")
+        colourInput("colour1", "Colour 1", value = colour1),
+        colourInput("colour2", "Colour 2", value = colour2),
+        colourInput("colour3", "Colour 3", value = colour3),
+        colourInput("colour4", "Colour 4", value = colour4),
+        colourInput("colour5", "Colour 5", value = colour5),
+        colourInput("colour6", "Colour 6", value = colour6),
+        colourInput("colour7", "Colour 7", value = colour7)
     )
   )
   # rightSidebarTabContent(
