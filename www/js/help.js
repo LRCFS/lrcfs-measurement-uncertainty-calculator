@@ -1,7 +1,7 @@
 function showHelp(steps, startingStep)
 {
 	var intro = introJs();
-	intro.setOptions({steps});
+	intro.setOptions(steps);
 	
 	intro.setOption('skipLabel', '<i class="fa fa-times"></i> Close').setOption('nextLabel', 'Next <i class="fa fa-angle-right"></i>')
 	.setOption('prevLabel', '<i class="fa fa-angle-left"></i> Prev')
@@ -42,7 +42,7 @@ function(startingStep) {
 		{
 			element: '#shiny-tab-start #stdsol',
 			intro: '<h4>Standard Solution</h4>\
-					<p>Two data files are required for standard solution; Structure and Equipment data. Equipment data requires information on all pipettes and flask used in each solution preparation including information on manufacturer’s tolerance and coverage factor, volume and number of times used for pipetting</p>\
+					<p>Two data files are required for standard solution; Structure and Equipment data. Equipment data requires information on all pipettes and flask used in each solution preparation including information on manufacturer\'s tolerance and coverage factor, volume and number of times used for pipetting</p>\
 					<p>Structure data requires information on reference compound, its purity, tolerance and coverage factor and the structure of how the reference compound was diluted to form other solutions in generating the calibration curve.</p>',
 			position: 'right'
 		},
@@ -74,7 +74,7 @@ function(startingStep) {
 					<p>Specify the required confidence interval percentage probability needed to calculate the Expanded Uncertainty. </p>',
 			position: 'left'
 		}
-	]
+	];
 	
 	showHelp(steps, startingStep);
 });
@@ -132,7 +132,7 @@ function(startingStep) {
 			element: '#shiny-tab-calibrationCurve .box-body .row:nth-of-type(5) .box',
 			intro: 'Example help text 11'
 		}
-	]
+	];
 	
 	showHelp(steps, startingStep);
 });
