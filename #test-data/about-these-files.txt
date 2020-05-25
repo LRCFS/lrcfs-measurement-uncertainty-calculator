@@ -1,0 +1,5 @@
+The files in these folder are used to break the application.
+
+These files should not work and are designed to improve the application to "fail gracefully".
+
+Do not use these files and expect anything to work.

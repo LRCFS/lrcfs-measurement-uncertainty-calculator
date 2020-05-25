@@ -1,0 +1,3 @@
+These files can be used to test basic functionality of the application.
+
+Using these files will allow each section of the application to be loaded with correctly formatted data.

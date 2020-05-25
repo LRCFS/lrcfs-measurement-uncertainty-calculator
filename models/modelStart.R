@@ -93,7 +93,7 @@ output$actionButton_start_downloadReport = downloadHandler(
     # case we don't have write permissions to the current working dir (which
     # can happen when deployed).
     tempReport <- file.path(tempdir(), "temp_report.Rmd")
-    file.copy("data/report.Rmd", tempReport, overwrite = TRUE)
+    file.copy("views/report.Rmd", tempReport, overwrite = TRUE)
     
     # Set up parameters to pass to Rmd document
     paramList = list(calibrationCurveData = getDataCalibrationCurve(),
