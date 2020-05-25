@@ -52,7 +52,7 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
     n = getCalibrationCurve_n()
     formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
     formulas = c(formulas,paste0("&=",n,"-2"))
-    formulas = c(formulas,paste0("&= \\color{",color1,"}{",n-2,"}"))
+    formulas = c(formulas,paste0("&= ",colourNumber(n-2, input$useColours, input$colour1)))
   }
   else
   {
@@ -70,7 +70,7 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
   if(!is.na(n))
   {
     formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
-    formulas = c(formulas,paste0("&= \\color{",color2,"}{",n,"}"))
+    formulas = c(formulas,paste0("&= ",colourNumber(n, input$useColours, input$colour2)))
   }
   else
   {
@@ -113,7 +113,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
 
   formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")
   formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{\\color{",color1,"}{",dofCalibrationCurve,"}} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{\\color{",color2,"}{",dofMethodPrecision,"}} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{",standardSolutionDof(),"} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{",getSampleVolume_degreesOfFreedom(),"}}"))
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{\\bbox[#605CA8,1pt]{\\color{#FFF}{",combinedUncertainty,"}}}{\\bbox[#F012BE,1pt]{\\color{#FFF}{",caseSampleMeanConcentration,"}}})^4}{\\frac{\\bbox[#0073B7,1pt]{\\color{#FFF}{",uncCalibrationCurve,"}}^4}{",colourNumber(dofCalibrationCurve, input$useColours, input$colour1),"} + \\frac{\\bbox[#DD4B39,1pt]{\\color{#FFF}{",uncMethodPrecision,"}}^4}{",colourNumber(dofMethodPrecision, input$useColours, input$colour2),"} + \\frac{\\bbox[#00A65A,1pt]{\\color{#FFF}{",uncStandardSolution,"}}^4}{",standardSolutionDof(),"} + \\frac{\\bbox[#D81B60,2pt]{\\color{#FFF}{",uncSampleVolume,"}}^4}{",getSampleVolume_degreesOfFreedom(),"}}"))
   
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)

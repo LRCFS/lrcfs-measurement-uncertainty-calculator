@@ -191,7 +191,8 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
   
   #Display base solution relative standard uncertainty
   baseSolution = getBaseSolution(solutionData)
-  formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = \\color{",color3,"}{",formatNumberForDisplay(baseSolution$relativeStandardUncertainty,input),"} [[break]]"))
+  
+  formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = ",colourNumber(formatNumberForDisplay(baseSolution$relativeStandardUncertainty,input), input$useColours, input$colour3)," [[break]]"))
   
   #Show base formula for relative standard uncertainty of solution calculations
   formulas = c(formulas, "u_r\\text{(Solution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}} [[break]]")
