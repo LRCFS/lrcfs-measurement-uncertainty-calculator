@@ -11,6 +11,9 @@ color5 = "#DD4B39"
 color5 = "#DD4B39"
 color6 = "#FF007F"
 
+caseSampleReplicatesColour = "#00C0EF"
+caseSampleMeanConcentrationColour = "#F012BE"
+
 CombinedUncertaintyColor = 'rgba(96,92,168,1)'
 CalibrationCurveColor = 'rgba(0,115,183,1)'
 MethodPrecisionColor = 'rgba(221,75,57,1)'

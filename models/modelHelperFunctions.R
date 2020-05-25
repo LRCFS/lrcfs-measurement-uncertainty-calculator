@@ -77,6 +77,23 @@ colourNumber = function(value, useColour, colour)
   }
 }
 
+
+
+colourCaseSampleReplicates = function(value)
+{
+  return(colourNumberBackground(value,caseSampleReplicatesColour,"#FFF"))
+}
+
+ColourCaseSampleMeanConcentration = function(value)
+{
+  return(colourNumberBackground(value,caseSampleMeanConcentrationColour,"#FFF"))
+}
+
+colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex)
+{
+  return(paste0("\\bbox[",colourBackgroundHex,",2pt]{\\color{",colourForegroundHex,"}{",value,"}}"))
+}
+
 # library(latex2exp)
 # library(stringr)
 # printLatexFormula = function(latex, calc, variables){

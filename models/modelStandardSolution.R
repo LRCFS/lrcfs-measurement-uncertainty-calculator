@@ -150,7 +150,7 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
       equipmentCoverage = "\\sqrt{3}"
     }
     
-    formulas = c(formulas, paste0("u\\text{(",equipment,")}_{\\text{(",equipmentVolume,",",equipmentTolerance,")}} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = \\color{",color1,"}{", answerValue,"}"))
+    formulas = c(formulas, paste0("u\\text{(",equipment,")}_{\\text{(",equipmentVolume,",",equipmentTolerance,")}} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = ",colourNumber(answerValue, input$useColours, input$colour1)))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -176,7 +176,7 @@ output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI
     measurementStandardUncertainty = formatNumberForDisplay(instrumentData$standardUncertainty,input)
     answerValue = formatNumberForDisplay(instrumentData$relativeStandardUncertainty,input)
     
-    formulas = c(formulas, paste0("u_r\\text{(",equipment,")}_{\\text{(",equipmentVolume,",",equipmentTolerance,")}} &= \\frac{\\color{",color1,"}{",measurementStandardUncertainty,"}}{",equipmentVolume,"} = \\color{",color2,"}{", answerValue,"}"))
+    formulas = c(formulas, paste0("u_r\\text{(",equipment,")}_{\\text{(",equipmentVolume,",",equipmentTolerance,")}} &= \\frac{",colourNumber(measurementStandardUncertainty, input$useColours, input$colour1),"}{",equipmentVolume,"} = ",colourNumber(answerValue, input$useColours, input$colour2)))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -215,12 +215,11 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
           plus = ""
         }
         instrumentEquationsNames = paste0(instrumentEquationsNames,plus,"[u_r\\text{(",instrument$equipment,")}^2_{\\text{",instrument$equipmentVolume,",",instrument$equipmentTolerance,"}} \\times N\\text{(",instrument$equipment,")}_{\\text{",instrument$equipmentVolume,",",instrument$equipmentTolerance,"}}]")
-        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[\\color{",color2,"}{",formatNumberForDisplay(instrument$relativeStandardUncertainty,input),"}^2\\times",instrument$equipmentTimesUsed,"]")
+        instrumentEquationsValues = paste0(instrumentEquationsValues,plus,"[",colourNumber(formatNumberForDisplay(instrument$relativeStandardUncertainty,input), input$useColours, input$colour2),"^2\\times",instrument$equipmentTimesUsed,"]")
       }
-      
       formulas = c(formulas, paste0("u_r\\text{(",solution$solution,")} &= \\sqrt{u_r\\text{(",solutionParent$solution,")}^2",instrumentEquationsNames,"}"))
-      formulas = c(formulas, paste0("&= \\sqrt{\\color{",color3,"}{",formatNumberForDisplay(solutionParent$relativeStandardUncertainty,input),"}^2",instrumentEquationsValues,"}"))
-      formulas = c(formulas, paste0("&= \\color{",color3,"}{",formatNumberForDisplay(solution$relativeStandardUncertainty,input),"} [[break]]"))
+      formulas = c(formulas, paste0("&= \\sqrt{",colourNumber(formatNumberForDisplay(solutionParent$relativeStandardUncertainty,input), input$useColours, input$colour3),"^2",instrumentEquationsValues,"}"))
+      formulas = c(formulas, paste0("&= ",colourNumber(formatNumberForDisplay(solution$relativeStandardUncertainty,input), input$useColours, input$colour3)," [[break]]"))
     }
   }
   

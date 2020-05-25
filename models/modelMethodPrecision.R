@@ -199,7 +199,7 @@ output$outputSumOfDof <- renderUI({
   formula = character()
   for(conc in getConcentrations(data))
   {
-    formula = c(formula, paste0("\\sum{{\\large\\nu}}_{(",conc,")} &= \\color{",color1,"}{", getSumDofForConcentration(data, conc), "}"))
+    formula = c(formula, paste0("\\sum{{\\large\\nu}}_{(",conc,")} &= ", colourNumber(getSumDofForConcentration(data, conc), input$useColours, input$colour1)))
   }
   results = mathJaxAligned(formula)
 
@@ -214,7 +214,7 @@ output$outputSumOfS2d <- renderUI({
   for(conc in getConcentrations(data))
   {
     answer = formatNumberForDisplay(getSumPooledStandardDeviationNumeratorForConcentration(data,conc),input)
-    formula = c(formula, paste0("\\sum{(S^2 \\times {\\large\\nu})_{(",conc,")}} &= \\color{",color2,"}{",answer, "}"))
+    formula = c(formula, paste0("\\sum{(S^2 \\times {\\large\\nu})_{(",conc,")}} &= ",colourNumber(answer, input$useColours, input$colour2)))
   }
   results = mathJaxAligned(formula)
   
@@ -238,7 +238,7 @@ output$outputPooledStandardDeviation <- renderUI({
     sdoffc = getSumDofForConcentration(data, conc)
     answer = formatNumberForDisplay(getPooledStandardDeviation(data, conc),input)
     
-    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{\\color{",color2,"}{",psdnfc,"}}{\\color{",color1,"}{",sdoffc,"}}} = \\color{",color3,"}{",answer,"}"))
+    formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{",colourNumber(psdnfc, input$useColours, input$colour2),"}{",colourNumber(sdoffc, input$useColours, input$colour1),"}} = ",colourNumber(answer, input$useColours, input$colour3)))
   }
 
   results = mathJaxAligned(formula, 10, 20)
@@ -257,7 +257,7 @@ output$outputStandardUncertainty <- renderUI({
     psd = formatNumberForDisplay(getPooledStandardDeviation(data, conc),input)
     csr = input$inputCaseSampleReplicates
     answer = formatNumberForDisplay(getStandardUncertainty(data, conc),input)
-    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color3,"}{",psd,"}}{\\sqrt{",csr,"}} = \\color{",color4,"}{",answer,"}"))
+    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(psd, input$useColours, input$colour3),"}{\\sqrt{",colourCaseSampleReplicates(csr),"}} = ", colourNumber(answer, input$useColours, input$colour4)))
   }
   
   results = mathJaxAligned(formula, 10, 20)
@@ -275,7 +275,7 @@ output$outputRealtiveStandardUncertainties <- renderUI({
   {
     su = formatNumberForDisplay(getStandardUncertainty(data, conc),input)
     rsu = formatNumberForDisplay(getRealtiveStandardUncertainty(data, conc),input)
-    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{\\color{",color4,"}{",su,"}}{",conc,"} = \\color{",color5,"}{",rsu, "}"))
+    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(su, input$useColours, input$colour4),"}{",conc,"} = ",colourNumber(rsu, input$useColours, input$colour5)))
   }
   
   results = mathJaxAligned(formula, 10, 20)

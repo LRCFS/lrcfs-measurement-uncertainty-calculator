@@ -29,10 +29,10 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                        tabPanel("Solutions Network",
                                                 grVizOutput("display_standardSolution_solutionsNetwork")
                                        ),
-                                       tabPanel("Raw Solution Data",
+                                       tabPanel("Raw Structure Data",
                                                 DT::dataTableOutput("display_standardSolution_solutionRawData")
                                        ),
-                                       tabPanel("Raw Measurement Data",
+                                       tabPanel("Raw Equipment Data",
                                                 DT::dataTableOutput("display_standardSolution_measurementsRawData")
                                        )
                                 )

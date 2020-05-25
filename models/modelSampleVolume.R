@@ -25,7 +25,7 @@ output$display_sampleVolume_standardUncertainty = renderUI({
     equipmentCoverage = sampleVolumeItemData$equipmentCoverage
     answerValue = doGetSampleVolume_standardUncerainty(sampleVolumeItemData)
     
-    formulas = c(formulas, paste0("u\\text{(",equipment,")} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = \\color{",color1,"}{", answerValue, "}"))
+    formulas = c(formulas, paste0("u\\text{(",equipment,")} &= \\frac{",equipmentTolerance,"}{",equipmentCoverage,"} = ", colourNumber(answerValue, input$useColours, input$colour1)))
   }
   output = mathJaxAligned(formulas, 10, 20)
   
@@ -47,7 +47,7 @@ output$display_sampleVolume_relativeStandardUncertainty = renderUI({
     equipmentVolume = sampleVolumeItemData$equipmentVolume
     answerValue = doGetSampleVolume_relativeStandardUncertainty(sampleVolumeItemData)
     
-    formulas = c(formulas, paste0("u_r\\text{(",equipment,")} &= \\frac{\\color{",color1,"}{",stdUnc,"}}{",equipmentVolume,"} = ", answerValue))
+    formulas = c(formulas, paste0("u_r\\text{(",equipment,")} &= \\frac{",colourNumber(stdUnc, input$useColours, input$colour1),"}{",equipmentVolume,"} = ", answerValue))
   }
   output = mathJaxAligned(formulas, 10, 20)
   

@@ -277,7 +277,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   
   if(!checkUsingWls())
   {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{\\bbox[#00C0EF,2pt]{\\color{#FFF}{",caseSampleReps,"}}} + \\frac{1}{",n,"} + \\frac{(\\bbox[#F012BE,2pt]{\\color{#FFF}{",caseSampleMeanConc,"}} - ",meanX,")^2}{",sumSqDevationX,"} }"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourCaseSampleReplicates(caseSampleReps),"} + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumSqDevationX,"} }"))
   }
   else
   {
