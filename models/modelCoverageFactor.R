@@ -73,7 +73,7 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
   formulas = character()
   if(!is.na(n))
   {
-    formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{d_{(x_s)}}")
+    formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{{\\LARGE\\nu}_{\\text{(NV)}}}")
     formulas = c(formulas,paste0("&= ",colourNumber(n, input$useColours, input$colour2)))
   }
   else
