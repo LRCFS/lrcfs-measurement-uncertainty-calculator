@@ -39,7 +39,7 @@ output$display_start_calibrationCurveFileUpload <- renderUI({
 output$display_start_externalStandardErrorFileUpload <- renderUI({
   input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
   
-  fileInput = fileInput("inputExternalStandardErrorFileUpload", "External Standard Error (CSV)",
+  fileInput = fileInput("inputExternalStandardErrorFileUpload", "Pooled Standard Error (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   

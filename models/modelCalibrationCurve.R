@@ -323,7 +323,7 @@ output$display_calibrationCurve_externalStandardErrorUploadedData = renderUI({
   lengths = apply(exStdErrorRunData, 2, doGetCalibrationCurve_n) #then count all the runs lengths
   numberOfPeakAreaRatios = sum(lengths) #and add them together
                    
-  boxTitle = HTML(sprintf("External Calibration Curve Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d",numberOfRuns,numberOfReplicates,concentrationLevels,numberOfPeakAreaRatios))
+  boxTitle = HTML(sprintf("Calibration Curve Data for Pooled Standard Error<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d",numberOfRuns,numberOfReplicates,concentrationLevels,numberOfPeakAreaRatios))
   
   tabBox(width=12, side="right",
          title = boxTitle,
@@ -369,7 +369,7 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(title=paste("Standard Error of Regression (External Calibration Data) \\((S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}})\\)"), width = 5, withMathJax(HTML(output)))
+  box(title=paste("Standard Error of Regression \\((S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}})\\)"), width = 5, withMathJax(HTML(output)))
 })
 
 output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
@@ -445,7 +445,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   
   output = mathJaxAligned(formulas, 5, 20)
  
-  box(title=paste("Pooled Standard Error of Regression (External Calibration Data) \\((S_{",if(checkUsingWls())"w_{(p)}"else"p_{(y/x)}","})\\)"), width = 7,withMathJax(HTML(output)))
+  box(title=paste("Pooled Standard Error of Regression \\((S_{",if(checkUsingWls())"w_{(p)}"else"p_{(y/x)}","})\\)"), width = 7,withMathJax(HTML(output)))
 })
   
 output$display_calibrationCurve_finalAnswer_top = renderText({
