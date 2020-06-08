@@ -50,11 +50,10 @@ source("views/viewDashboard.R")
 `%ni%` = Negate(`%in%`)
 
 ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
-                        dashboardHeaderPlus(title = tagList(
-                          img(class = "logo-lg", src = "images/logo-large.png"), 
-                          img(class = "logo-mini", src = "images/logo-small.png")),
-                          enable_rightsidebar = TRUE,
-                          rightSidebarIcon = "gears"
+                        dashboardHeaderPlus(title = tagList(img(class = "logo-lg", src = "images/logo-large.png"), 
+                                                            img(class = "logo-mini", src = "images/logo-small.png")),
+                                            enable_rightsidebar = TRUE,
+                                            rightSidebarIcon = "gears"
                         ),
                         dashboardSidebar(
                           sidebarMenu(

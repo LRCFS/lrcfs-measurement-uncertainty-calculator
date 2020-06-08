@@ -1,7 +1,14 @@
 ---
-title: "LRCFS Measurement Uncertainty Report"
-output: pdf_document
+output: html_document
+
 params:
+  TIME: NA
+  APP_DEV: NA
+  APP_DEV_SHORT: NA
+  APP_NAME: NA
+  APP_NAME_SHORT: NA
+  APP_VER: NA
+  APP_LINK: NA
   calibrationCurveData: NA
   calibrationCurveDataReformatted: NA
   externalStandardErrorData: NA
@@ -18,31 +25,38 @@ params:
   uncStandardSolution: NA
   uncSampleVolume: NA
   combinedUncertaintyResult: NA
+  coverageFactorResult: NA
   expandedUncertaintyResult: NA
   expandedUncertaintyResultPercentage: NA
+  
+title: "`r params$APP_NAME` Report"
 ---
 
-**Date:** 1st Jan 2019
+## `r params$APP_DEV`
 
-**Report Issue Number:** 001
+#### Report Generated: `r params$TIME`
 
-**Software Version:** LRCFS Measurement Uncertainty Calculator (v0.5)
+#### Software Version: `r params$APP_NAME` (v`r params$APP_VER`)
 
-The following report was generated using the using the LRCFS Measurement Uncertainty Calculator (v0.5) available at www.dundee.ac.uk/lrcfs/mucalc.
+This report was automatically generated on `r params$TIME` using the using the `r params$APP_DEV_SHORT` `r params$APP_NAME` (v`r params$APP_VER`) available at `r params$APP_LINK`.
+
+***
 
 ## Summary
-This is a summary of the results based on the information:
+The following is a summary of the supplied data and results calculated.
 
-**Weighted Least Square Regression:** $`r params$inputWeightLeastSquared`$
+### Inputs
+The results of this report are made using the follow supplied information.
 
-**Confidence Interval:** `r params$inputConfidenceInterval`
-
-| Case Sample Data      | Relative Standard Uncertainty              |
-|-----------------------|--------------------------------------------|
-|Replicates             |`r params$inputCaseSampleReplicates`        |
-|Mean Concentration     |`r params$inputCaseSampleMeanConcentration` |
+| Input                           | Value Specified                           |
+|---------------------------------|--------------------------------------------|
+|Weighted Least Square Regression |$`r params$inputWeightLeastSquared`$        |
+|Replicates                       |`r params$inputCaseSampleReplicates`        |
+|Mean Concentration               |`r params$inputCaseSampleMeanConcentration` |
+|Confidence Interval              |`r params$inputConfidenceInterval`          |
 
 ### Results
+The calculated results for each individal component are shown below.
 
 | Uncertainty Component | Relative Standard Uncertainty |
 |-----------------------|-------------------------------|
@@ -51,22 +65,46 @@ This is a summary of the results based on the information:
 |Standard Solution      |`r params$uncStandardSolution` |
 |Sample Volume          |`r params$uncSampleVolume`     |
 
-#### Expanded Uncertainty: 0.59628
+| Attribute             | Value                                        |
+|-----------------------|----------------------------------------------|
+|Combined Uncertainty   |`r params$combinedUncertaintyResult`          |
+|Coverage Factor        |`r params$coverageFactorResult`               |
+|Expanded Uncertainty   |`r params$expandedUncertaintyResult`          |
+|% Expanded Uncertainty |`r params$expandedUncertaintyResultPercentage`|
+
+With the information supplied above the following result has been concentration result has been calculated.
+
+***
+# Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`
+***
+
+## Authorisation 
 
 ### Report Author
 | Name | Signature | Job Title / Position | Date |
 |------|-----------|----------------------|------|
+|&nbsp;|           |                      |      |
 |      |           |                      |      |
 
 ### Approval 
 | Name | Signature | Job Title / Position | Date |
 |------|-----------|----------------------|------|
+|&nbsp;|           |                      |      |
 |      |           |                      |      |
 
+***
 
 # Appendix 1 - Calculations
 
 ## Calibration Curve
+
+### Overview
+
+All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required.
+
+The method tab, shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.
+
+### Method
 The uncertainty of calibration curve is given by:
 
 $$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$$
@@ -91,8 +129,34 @@ $$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$$
 
 ## Method Precision
 
-Work in progress...
+### Overview
 
+A step-by-step approach for estimating the uncertainty of method precision is out lined here. The main methodology used is the pooled standard deviation approach.
+
+Where precision experiment is carried out for different nominal values of concentration such low, medium and high, the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.
+
+### Method
+
+The relative standard uncertainty of method precision is given by:
+
+$$u_r(\text{MethodPrec})_{\text{(NV)}} = \frac{u(\text{MethodPrec})_{\text{(NV)}}}{\text{NV}}$$
+
+where
+
+$$u(\text{MethodPrec})_{\text{(NV)}} = \frac{S_{p\text{(NV)}}}{\sqrt{r_s}}$$
+
+and
+
+$$S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\sum {\large\nu}_{\text{(NV)}}}}$$
+
+- $S$ is the individual runs standard deviation
+
+- ${\large\nu}$ is the individual degrees of freedom
+
+- $S_p$ is the pooled standard deviation
+
+- $NV$ is the nominal value of concentration
+                              
 ## Standard Solution
 
 Work in progress...
@@ -101,40 +165,66 @@ Work in progress...
 
 Work in progress...
 
+## Combined Uncertainty
+
+### Overview
+The combined uncertainty is obtained by combining all the individual uncertainty components.
+If data is uploaded for all the uncertainty components; Calibration curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
+If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.
+
+### Method
+The combined uncertainty is given by:
+$$\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Component)}^2}}$$
+
+- $x_s$ is the Case Sample Mean Concentration
+
+## Coverage Factor
+
+Work in progress...
+
+## Expanded Uncertainty
+
+Work in progress...
+
+## % Expanded Uncertainty
+
+Work in progress...
+
+***
+
 # Appendix 2 - Raw Data
-```{r}
+## Calibration Curve
+### Calibration Curve (CSV)
+```{r echo=FALSE}
 params$calibrationCurveData
 ```
 
-```{r}
+### External Standard Error (CSV)
+```{r echo=FALSE}
 params$externalStandardErrorData
 ```
 
-```{r}
+## Method Precision
+### Method Precision (CSV)
+```{r echo=FALSE}
 params$methodPrecisionData
 ```
 
-```{r}
+## Standard Solution
+### Standard Solution Structure (CSV)
+```{r echo=FALSE}
 params$standardSolutionData
 ```
 
-```{r}
+### Standard Solution Equipment (CSV)
+```{r echo=FALSE}
 params$standardSolutionEquipmentData
 ```
 
-
-```{r}
+## Sample Volume
+### Sample Volume (CSV)
+```{r echo=FALSE}
 params$sampleVolumeData
 ```
 
-# END REPORT
-
-
-
-# Some Latex Test
-
-Latex inline looks like this: $x = \sqrt{5/2}$
-
-Latex on a new line looks like this: $$x = \sqrt{5/2}$$
-
-
+# END OF REPORT
