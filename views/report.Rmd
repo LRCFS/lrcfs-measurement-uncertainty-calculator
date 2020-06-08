@@ -42,6 +42,22 @@ This report was automatically generated on `r params$TIME` using the using the `
 
 ***
 
+## Authorisation 
+
+### Report Author
+| Name | Signature | Job Title / Position | Date |
+|------|-----------|----------------------|------|
+|&nbsp;|           |                      |      |
+|      |           |                      |      |
+
+### Approval 
+| Name | Signature | Job Title / Position | Date |
+|------|-----------|----------------------|------|
+|&nbsp;|           |                      |      |
+|      |           |                      |      |
+
+\newpage
+
 ## Summary
 The following is a summary of the supplied data and results calculated.
 
@@ -78,21 +94,7 @@ With the information supplied above the following result has been concentration 
 # Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`
 ***
 
-## Authorisation 
-
-### Report Author
-| Name | Signature | Job Title / Position | Date |
-|------|-----------|----------------------|------|
-|&nbsp;|           |                      |      |
-|      |           |                      |      |
-
-### Approval 
-| Name | Signature | Job Title / Position | Date |
-|------|-----------|----------------------|------|
-|&nbsp;|           |                      |      |
-|      |           |                      |      |
-
-***
+\newpage 
 
 # Appendix 1 - Calculations
 
@@ -127,6 +129,7 @@ $$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$$
 
 - $S_{xx}$ is the sum of squares deviation of $x$ given by $\sum\limits_{i=1}^n (x_i - \overline{x})^2$
 
+\newpage
 ## Method Precision
 
 ### Overview
@@ -156,15 +159,18 @@ $$S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\
 - $S_p$ is the pooled standard deviation
 
 - $NV$ is the nominal value of concentration
-                              
+
+\newpage
 ## Standard Solution
 
 Work in progress...
 
+\newpage
 ## Sample Volume
 
 Work in progress...
 
+\newpage
 ## Combined Uncertainty
 
 ### Overview
@@ -178,20 +184,24 @@ $$\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Compo
 
 - $x_s$ is the Case Sample Mean Concentration
 
+\newpage
 ## Coverage Factor
 
 Work in progress...
 
+\newpage
 ## Expanded Uncertainty
 
 Work in progress...
 
+\newpage
 ## % Expanded Uncertainty
 
 Work in progress...
 
 ***
 
+\newpage 
 # Appendix 2 - Raw Data
 ## Calibration Curve
 ### Calibration Curve (CSV)
@@ -199,17 +209,20 @@ Work in progress...
 params$calibrationCurveData
 ```
 
+\newpage
 ### External Standard Error (CSV)
 ```{r echo=FALSE}
 params$externalStandardErrorData
 ```
 
+\newpage
 ## Method Precision
 ### Method Precision (CSV)
 ```{r echo=FALSE}
 params$methodPrecisionData
 ```
 
+\newpage
 ## Standard Solution
 ### Standard Solution Structure (CSV)
 ```{r echo=FALSE}
@@ -221,6 +234,7 @@ params$standardSolutionData
 params$standardSolutionEquipmentData
 ```
 
+\newpage
 ## Sample Volume
 ### Sample Volume (CSV)
 ```{r echo=FALSE}
