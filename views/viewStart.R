@@ -1,9 +1,8 @@
 tabStart = tabItem(tabName = "start",
                    fluidRow(
-                     box(title="Welcome to MUCalc", width=12,
-                         p("Measurement Uncertainty Calculator (MUCalc) is a software for calculating measurement uncertainty in accordance with the standards of International Organization for Standardization ISO/IEC 17025."),
-                         p("This version of the software computes uncertainty components for Method Precision, Standard Solution, Sample Volume and Calibration Curve with the Calibration Curve assumed to be linear. If data is uploaded for all four components, the Combined Uncertainty is computed using all four components. An uncertainty component can be excluded from the Combined Uncertainty by simply not uploading any data for that component."),
-                         p("Once data is uploaded, a step by step computation and details of all formulas used can be accessed by clicking on the respective uncertainty component tab displayed at the left hand size of screen. Each uncertainty component tab have three main tabs; Overview, Method and Step by step calculation tab, which together give detailed information on the approached used."),
+                     box(title=paste0("Welcome to ",APP_NAME_SHORT), width=12,
+                         p(paste0("The ",APP_DEV," ",APP_NAME," (",APP_NAME_SHORT,") is an application for calculating measurement uncertainty in accordance with the standards of International Organization for Standardization ISO/IEC 17025.")),
+                         p(paste0("This version (v",APP_VER,") of the software computes uncertainty components for Method Precision, Standard Solution, Sample Volume and Calibration Curve with the Calibration Curve assumed to be linear. If data is uploaded for all four components, the Combined Uncertainty is computed using all four components. An uncertainty component can be excluded from the Combined Uncertainty by simply not uploading any data for that component.")),                         p("Once data is uploaded, a step by step computation and details of all formulas used can be accessed by clicking on the respective uncertainty component tab displayed at the left hand size of screen. Each uncertainty component tab have three main tabs; Overview, Method and Step by step calculation tab, which together give detailed information on the approached used."),
                          hr(),
                          actionButton("help_start_start", "Help", icon=icon("question"))
                      )
@@ -14,7 +13,7 @@ tabStart = tabItem(tabName = "start",
                               box(width=12, id="fileUploadBox",
                                   div(
                                     h4("Upload Data Files"),
-                                    p("Data is required to compute each uncertainty component. All data should be saved as a CSV file before uploading to MUCalc. The exact format of data required can be accessed by downloading the Example Data file for each uncertainty component. The example data files can be edited to include lab specific data.")
+                                    p(paste0("Data is required to compute each uncertainty component. All data should be saved as a CSV file before uploading to ",APP_NAME_SHORT,". The exact format of data required can be accessed by downloading the Example Data file for each uncertainty component. The example data files can be edited to include lab specific data."))
                                   ),
                                   hr(),
                                   

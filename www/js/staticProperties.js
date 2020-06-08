@@ -1,0 +1,5 @@
+APP_DEV = "Leverhulme Research Centre for Forensic Science"
+APP_DEV_SHORT = "LRCFS"
+APP_NAME = "Measurement Uncertainty Calculator"
+APP_NAME_SHORT = "MUCalc"
+APP_VER = "0.5"

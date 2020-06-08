@@ -49,7 +49,7 @@ source("views/viewDashboard.R")
 
 `%ni%` = Negate(`%in%`)
 
-ui <- dashboardPagePlus(title="MUCalc v0.5",
+ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
                         dashboardHeaderPlus(title = tagList(
                           img(class = "logo-lg", src = "images/logo-large.png"), 
                           img(class = "logo-mini", src = "images/logo-small.png")),
@@ -74,6 +74,7 @@ ui <- dashboardPagePlus(title="MUCalc v0.5",
                           useShinyjs(),
                           tags$head(tags$link(rel = "shortcut icon", href = "images/favicon.ico")),
                           tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "css/style.css")),
+                          tags$head(tags$script(src="js/staticProperties.js")),
                           tags$head(tags$script(src="js/help.js")),
                           #Use MathJax for rendering inline LaTeX functions
                           withMathJax(),
@@ -98,11 +99,6 @@ ui <- dashboardPagePlus(title="MUCalc v0.5",
 )
 
 server <- function(input, output, session) {
-  
-  
-  #rmarkdown::render("test.Rmd", output_file = "test.pdf", params = list(testparam = "test123"), envir = new.env(parent = globalenv()))
-
-  
   source("models/modelApplication.R", local = TRUE)
   source("models/modelStart.R", local = TRUE)
   
