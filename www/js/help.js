@@ -1,9 +1,8 @@
 function showHelp(steps, startingStep)
 {
 	var intro = introJs();
-	intro.setOptions(steps);
-	
-	intro.setOption('skipLabel', '<i class="fa fa-times"></i> Close').setOption('nextLabel', 'Next <i class="fa fa-angle-right"></i>')
+	intro.setOption('steps', steps)
+	.setOption('skipLabel', '<i class="fa fa-times"></i> Close').setOption('nextLabel', 'Next <i class="fa fa-angle-right"></i>')
 	.setOption('prevLabel', '<i class="fa fa-angle-left"></i> Prev')
 	.setOption('showBullets', false)
 	.setOption('showProgress', true)
