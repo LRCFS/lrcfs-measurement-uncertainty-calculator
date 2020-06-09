@@ -5,7 +5,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  fluidRow(
                    box(title = "Overview", width=6,
                        p("Coverage factor \\((k)\\) is a number usually greater than one from which an expanded uncertainty is obtained when \\(k\\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.  "),
-                       p("An effective degrees of freedom is computed using the Welch-Satterthwaite equation with detailed calculation outlined in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the t-distribution table.")                   ),
+                       p("An effective degrees of freedom is computed using the Welch-Satterthwaite equation with details given in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the t-distribution table.")                   ),
                    box(title = "Method", width=6,
                        HTML("<p>The effective degrees of freedom \\(({\\LARGE\\nu}_{\\text{eff}})\\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:</p>"),
                        p("$${\\LARGE\\nu}_{\\text{eff}} =\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}}$$"),

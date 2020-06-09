@@ -6,7 +6,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
                    box(title = "Overview", width=6,
                        p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required."),
-                       p("The method tab, shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.")
+                       p("The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.")
                    ),
                    tabBox(title = "Method", width=6,
                           tabPanel("Non-Weighted",
@@ -15,7 +15,8 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                    "where \\(S_{y/x}\\) is the standard error of regression given by",
                                    "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
                                    tags$ul(
-                                     tags$li("\\(S_{y/x}\\) is the standard error of regressing \\(y\\) on \\(x\\)"),
+                                     tags$li("\\(y_i\\) observed peak area ratio for a given concentration \\(x_i\\)"),
+                                     tags$li("\\(y^i\\) predicted value of \\(y\\) for a given value \\(x_i\\)"),
                                      tags$li("\\(b_1\\) is the Slope of the of regression line"),
                                      tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
                                      tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve"),
