@@ -2,6 +2,21 @@
 # Outputs
 ###################################################################################
 
+
+
+output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
+  input$inputWeightLeastSquared #This line is here to attach the event to update when the option is changed
+
+  if(input$inputWeightLeastSquared != 1)
+  {
+    numericInput("inputCaseSampleMeanPeakAreaRatio",
+                 withMathJax("Mean Peak Area Ratio\\((y_s)\\)"),
+                 value = NULL)
+  }
+  
+})
+
+
 output$display_start_replicates <- renderUI({
   string = paste(input$inputCaseSampleReplicates)
   return(string)

@@ -178,21 +178,35 @@ output$standardErrorOfRegression = renderUI({
 
 output$display_calibrationCurve_peakAreaRatioOfCaseSample = renderUI({
   if(!checkUsingWls()) return(NULL)
+  
+  if(!checkMeanPeakAreaRatioSpecified())
+  {
+    intercept = formatNumberForDisplay(getCalibrationCurve_intercept(), input)
+    slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
+    caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+    answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
     
-  intercept = formatNumberForDisplay(getCalibrationCurve_intercept(), input)
-  slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
-  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
+    formulas = c("\\hat{y}_s &= b_0 + b_1x_s")
+    formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",caseSampleMeanConcentration))
+    formulas = c(formulas, paste("&= ",colourNumber(answer, input$useColours, input$colour8)))
+    output = mathJaxAligned(formulas, 5, 20)
+    
+    box(width=3,
+        title = "Peak Area Ratio of Case Sample",
+        output
+    )
+  }
+  else
+  {
+    answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
+    
+    box(width=3,
+        title = "Peak Area Ratio of Case Sample",
+        withMathJax(paste0("\\(y_s = ",colourNumber(answer, input$useColours, input$colour8),"\\)"))
+    )
+  }
   
-  formulas = c("y_s &= b_0 + b_1x_s")
-  formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",caseSampleMeanConcentration))
-  formulas = c(formulas, paste("&= ",colourNumber(answer, input$useColours, input$colour8)))
-  output = mathJaxAligned(formulas, 5, 20)
   
-  box(width=3,
-      title = "Peak Area Ratio of Case Sample",
-      output
-  )
 })
 
 output$display_calibrationCurve_weightedCaseSample = renderUI({

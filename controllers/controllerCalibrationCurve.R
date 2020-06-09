@@ -6,6 +6,14 @@ doCheckUsingWls = function(wlsSelectedOption)
   }
   return(TRUE)
 }
+doCheckMeanPeakAreaRatioSpecified = function(specifiedPeakAreaRatio)
+{
+  if(is.na(specifiedPeakAreaRatio))
+  {
+    return(FALSE)
+  }
+  return(TRUE)
+}
 doGetCalibrationCurve_intercept = function(x,y,wlsValues){
   linearRegerssion = doGetCalibrationCurve_linearRegression(x,y,wlsValues)
   intercept = coef(linearRegerssion)[1]
@@ -126,7 +134,7 @@ doGetCalibrationCurve_standardErrorOfRegression = function(x,y,wlsValues){
   return(standardErrorOfRegression)
 }
 
-doGetCalibrationCurve_weightedCaseSampleDenominator = function(x,y,wlsSelectedOption,caseSampleMeanConcentration)
+doGetCalibrationCurve_weightedCaseSampleDenominator = function(x,y,wlsSelectedOption,caseSampleMeanConcentration,specifiedPeakAreaRatio)
 {
   if(wlsSelectedOption == 1)
   {
@@ -138,21 +146,26 @@ doGetCalibrationCurve_weightedCaseSampleDenominator = function(x,y,wlsSelectedOp
   }
   else(wlsSelectedOption == 4 | wlsSelectedOption == 5)
   {
-    peakAreaRatio = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption)
+    peakAreaRatio = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
     return(peakAreaRatio)
   }
 }
 
-doGetCalibrationCurve_weightedCaseSample = function(x,y,caseSampleMeanConcentration,wlsSelectedOption){
+doGetCalibrationCurve_weightedCaseSample = function(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio){
   
-  peakAreaRatio = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption)
+  peakAreaRatio = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
   
   answer = doGetCalibrationCurve_weightedLeastSquared(caseSampleMeanConcentration,peakAreaRatio,wlsSelectedOption)
   
   return(answer)
 }
 
-doGetCalibrationCurve_peakAreaRatioOfCaseSample = function(x,y,caseSampleMeanConcentration,wlsSelectedOption){
+doGetCalibrationCurve_peakAreaRatioOfCaseSample = function(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio){
+  # If the user has specified a peak area ratio then use that
+  if(isTruthy(specifiedPeakAreaRatio))
+    return(specifiedPeakAreaRatio)
+  
+  #No value specified so return the calculation
   weightedLeastSquaredValues = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
   
   intercept = doGetCalibrationCurve_intercept(x,y,weightedLeastSquaredValues)
@@ -237,7 +250,7 @@ doGetCalibrationCurve_wlsLatex = function(wlsSelectedOption){
   return("")
 }
 
-doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
 {
   wlsValues = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
   
@@ -251,8 +264,8 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
     syx = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,wlsValues,extStdErrorData)
   }
   
-  weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption)
-  peakAreaRatioOfCaseSample = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption)
+  weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
+  peakAreaRatioOfCaseSample = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
   calCurveMeanOfY = getCalibrationCurve_meanOfY()
   sumOfWeightedXSquared = getCalibrationCurve_sumOfWeightedXSquared()
   meanOfX = getCalibrationCurve_meanOfX()
@@ -304,8 +317,8 @@ doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsValues,exStdE
   return(answer)
 }
 
-doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
-  uncertaintyOfCalibration = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
+  uncertaintyOfCalibration = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
   answer = uncertaintyOfCalibration / caseSampleMeanConcentration
   return(answer)
 }

@@ -7,6 +7,12 @@ checkUsingWls = reactive({
   return(result)
 })
 
+checkMeanPeakAreaRatioSpecified = reactive({
+  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  result = doCheckMeanPeakAreaRatioSpecified(specifiedPeakAreaRatio)
+  return(result)
+})
+
 
 
 ##############################################
@@ -137,11 +143,12 @@ getResultCalibrationCurve = reactive({
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
   wlsSelectedValue = input$inputWeightLeastSquared
+  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   extStdErrorData = getDataExternalStandardError()
   caseSampleReplicates = input$inputCaseSampleReplicates
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
-  answer = doGetCalibrationCurve_relativeStandardUncertainty(x,y,wlsSelectedValue,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
+  answer = doGetCalibrationCurve_relativeStandardUncertainty(x,y,wlsSelectedValue,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
   return(answer)
 })
 
@@ -358,8 +365,9 @@ getCalibrationCurve_peakAreaRatioOfCaseSample = reactive({
   y = data$calibrationDataPeakArea
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   wlsSelectedOption = input$inputWeightLeastSquared
+  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   
-  answer = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption)
+  answer = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
   return(answer)
 })
 
@@ -385,8 +393,9 @@ getCalibrationCurve_weightedCaseSample = reactive({
   y = data$calibrationDataPeakArea
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   wlsSelectedOption = input$inputWeightLeastSquared
+  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   
-  answer = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption)
+  answer = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
   return(answer)
 })
 
@@ -398,10 +407,11 @@ getCalibrationCurve_uncertaintyOfCalibration = reactive({
   y = data$calibrationDataPeakArea
   extStdErrorData = getDataExternalStandardError()
   wlsSelectedOption = input$inputWeightLeastSquared
+  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   caseSampleReplicates = input$inputCaseSampleReplicates
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
-  answer = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+  answer = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
   
   return(answer)
 })
