@@ -1,6 +1,6 @@
 tabStandardSolution = tabItem(tabName = "standardSolution",
                               fluidRow(
-                                valueBox("Uncertainty of Standard Solution", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("vial"))
+                                valueBox("Uncertainty of Standard Solution", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("flask"))
                               ),
                               fluidRow(
                                 box(title = "Overview", width=5,

@@ -1,6 +1,6 @@
 tabSampleVolume = tabItem(tabName = "sampleVolume",
                  fluidRow(
-                   valueBox("Uncertainty of Sample Volume", h2(uiOutput("display_sampleVolume_finalAnswer_top")), width = 12, color = "maroon", icon = icon("flask"))
+                   valueBox("Uncertainty of Sample Volume", h2(uiOutput("display_sampleVolume_finalAnswer_top")), width = 12, color = "maroon", icon = icon("vial"))
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,
