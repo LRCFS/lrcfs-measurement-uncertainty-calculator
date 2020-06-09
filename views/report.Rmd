@@ -19,6 +19,7 @@ params:
   inputWeightLeastSquared: NA
   inputCaseSampleReplicates: NA
   inputCaseSampleMeanConcentration: NA
+  inputCaseSampleMeanPeakAreaRatio: NA
   inputConfidenceInterval: NA
   uncCalibrationCurve: NA
   uncMethodPrecision: NA
@@ -69,6 +70,7 @@ The results of this report are made using the follow supplied information.
 |Weighted Least Square Regression |$`r params$inputWeightLeastSquared`$        |
 |Replicates                       |`r params$inputCaseSampleReplicates`        |
 |Mean Concentration               |`r params$inputCaseSampleMeanConcentration` |
+|Mean Peak Area Ratio             |`r params$inputCaseSampleMeanPeakAreaRatio` |
 |Confidence Interval              |`r params$inputConfidenceInterval`          |
 
 ### Results

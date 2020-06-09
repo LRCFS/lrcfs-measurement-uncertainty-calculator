@@ -7,15 +7,13 @@
 output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
   input$inputWeightLeastSquared #This line is here to attach the event to update when the option is changed
 
-  if(input$inputWeightLeastSquared != 1)
+  if(checkUsingWls())
   {
     numericInput("inputCaseSampleMeanPeakAreaRatio",
                  withMathJax("Mean Peak Area Ratio\\((y_s)\\)"),
                  value = NULL)
   }
-  
 })
-
 
 output$display_start_replicates <- renderUI({
   string = paste(input$inputCaseSampleReplicates)
@@ -25,6 +23,13 @@ output$display_start_replicates <- renderUI({
 output$display_start_meanConcentration <- renderUI({
   string = paste(input$inputCaseSampleMeanConcentration)
   return(string)
+})
+
+output$display_start_meanPar <- renderUI({
+  if(checkUsingWls())
+  {
+    infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=12, icon=icon("chart-bar"), color="orange")
+  }
 })
 
 output$display_start_confidenceInterval <- renderUI({
@@ -128,6 +133,7 @@ output$actionButton_start_downloadReport = downloadHandler(
                     inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
                     inputCaseSampleReplicates = input$inputCaseSampleReplicates,
                     inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration,
+                    inputCaseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio,
                     inputConfidenceInterval = input$inputConfidenceInterval,
                     uncCalibrationCurve = getResultCalibrationCurve(),
                     uncMethodPrecision = methodPrecisionResult(),

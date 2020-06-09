@@ -23,6 +23,7 @@ colour9 = "#00D900"
 
 caseSampleReplicatesColour =        "#00C0EF" #shiny "aqua"
 caseSampleMeanConcentrationColour = "#F012BE" #shiny "fuchsia"
+caseSampleMeanParColour =           "#FF851B" #shiny "orange"
 
 CombinedUncertaintyColor =          '#605CA8' #shiny "purple"
 CoverageFactorColor =               '#39CCCC' #shiny "teal"

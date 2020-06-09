@@ -98,7 +98,8 @@ tabStart = tabItem(tabName = "start",
                                   uiOutput("display_start_caseSampleMeanPeakAreaRatio")
                               ),
                               infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
-                              infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
+                              infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia"),
+                              uiOutput("display_start_meanPar")
                             ),
                             fluidRow(
                               hr()

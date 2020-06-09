@@ -89,7 +89,7 @@ observeEvent(input$reset_inputSampleVolumeFileUpload, {
 })
 
 #Additional homepage inputs
-observeEvent(input$inputConfidenceInterval, {
+observeEvent(input$inputWeightLeastSquared, {
   checkIfShowResults()
 })
 
@@ -100,6 +100,15 @@ observeEvent(input$inputCaseSampleReplicates, {
 observeEvent(input$inputCaseSampleMeanConcentration, {
   checkIfShowResults()
 })
+
+observeEvent(input$inputCaseSampleMeanPeakAreaRatio, {
+  checkIfShowResults()
+})
+
+observeEvent(input$inputConfidenceInterval, {
+  checkIfShowResults()
+})
+
 
 checkIfShowResults = function(){
 
@@ -123,21 +132,34 @@ checkIfShowResults = function(){
      (myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment) ||
      myReactives$uploadedSampleVolume)
   {
-    #Check that case sample replicates, mean concentration and confidence interval have been specified correctly
+    #Check that case sample replicates, mean concentration, peak area ratio and confidence interval have been specified correctly
     inputCaseSampleReplicates = input$inputCaseSampleReplicates
     if(is.null(inputCaseSampleReplicates) | !is.numeric(inputCaseSampleReplicates))
     {
       inputCaseSampleReplicates = 0;
     }
+    
     inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
     if(is.null(inputCaseSampleMeanConcentration) | !is.numeric(inputCaseSampleMeanConcentration))
     {
       inputCaseSampleMeanConcentration = 0;
     }
     
+    inputCaseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+    if(checkUsingWls())
+    {
+      if(is.null(inputCaseSampleMeanPeakAreaRatio) | !is.numeric(inputCaseSampleMeanPeakAreaRatio))
+      {
+        inputCaseSampleMeanPeakAreaRatio = 0;
+      }
+    }else{
+      inputCaseSampleMeanPeakAreaRatio = 1
+    }
+    
     if(input$inputConfidenceInterval != "" &
        inputCaseSampleReplicates > 0 &
-       inputCaseSampleMeanConcentration > 0)
+       inputCaseSampleMeanConcentration > 0 &
+       inputCaseSampleMeanPeakAreaRatio > 0)
     {
       showResultTabs()
     }

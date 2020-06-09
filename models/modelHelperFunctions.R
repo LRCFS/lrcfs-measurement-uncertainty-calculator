@@ -89,6 +89,11 @@ ColourCaseSampleMeanConcentration = function(value)
   return(colourNumberBackground(value,caseSampleMeanConcentrationColour,"#FFF"))
 }
 
+ColourCaseSampleMeanPeakAreaRatio = function(value)
+{
+  return(colourNumberBackground(value,caseSampleMeanParColour,"#FFF"))
+}
+
 colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex)
 {
   return(paste0("\\bbox[",colourBackgroundHex,",2pt]{\\color{",colourForegroundHex,"}{",value,"}}"))

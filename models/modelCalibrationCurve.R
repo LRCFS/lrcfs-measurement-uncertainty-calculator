@@ -11,6 +11,13 @@ output$display_calibrationCurve_meanConcentration = renderUI({
   return(string)
 })
 
+output$display_calibrationCurve_meanPar <- renderUI({
+  if(checkUsingWls())
+  {
+    infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=4, icon=icon("chart-bar"), color="orange")
+  }
+})
+
 output$calibrationData = DT::renderDataTable(
   getDataCalibrationCurve(),
   rownames = FALSE,
@@ -176,39 +183,6 @@ output$standardErrorOfRegression = renderUI({
   return(withMathJax(HTML(output)))
 })
 
-output$display_calibrationCurve_peakAreaRatioOfCaseSample = renderUI({
-  if(!checkUsingWls()) return(NULL)
-  
-  if(!checkMeanPeakAreaRatioSpecified())
-  {
-    intercept = formatNumberForDisplay(getCalibrationCurve_intercept(), input)
-    slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
-    caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-    answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
-    
-    formulas = c("\\hat{y}_s &= b_0 + b_1x_s")
-    formulas = c(formulas, paste("&= ",intercept," + ",slope,"\\times",caseSampleMeanConcentration))
-    formulas = c(formulas, paste("&= ",colourNumber(answer, input$useColours, input$colour8)))
-    output = mathJaxAligned(formulas, 5, 20)
-    
-    box(width=3,
-        title = "Peak Area Ratio of Case Sample",
-        output
-    )
-  }
-  else
-  {
-    answer = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
-    
-    box(width=3,
-        title = "Peak Area Ratio of Case Sample",
-        withMathJax(paste0("\\(y_s = ",colourNumber(answer, input$useColours, input$colour8),"\\)"))
-    )
-  }
-  
-  
-})
-
 output$display_calibrationCurve_weightedCaseSample = renderUI({
   if(!checkUsingWls()) return(NULL)
     
@@ -266,7 +240,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   sumSqDevationX = colourNumber(sumSqDevationX, input$useColours, input$colour2)
   
   weightedCaseSample = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
-  peakAreaRatioOfCaseSample = formatNumberForDisplay(getCalibrationCurve_peakAreaRatioOfCaseSample(), input)
+  peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
   calCurveMeanOfY = formatNumberForDisplay(getCalibrationCurve_meanOfY(), input)
   calCurveMeanOfY = colourNumber(calCurveMeanOfY, input$useColours, input$colour1)
   sumOfWeightedXSquared = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared(), input)
@@ -295,7 +269,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   }
   else
   {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9),"} + \\frac{1}{",n,"} + \\frac{(",colourNumber(peakAreaRatioOfCaseSample, input$useColours, input$colour8)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9),"} + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
   }
   
   

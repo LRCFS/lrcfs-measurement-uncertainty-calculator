@@ -58,8 +58,9 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    )
                  ),
                  fluidRow(
-                   infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_replicates"))), width=6, icon=icon("vials"), color="aqua"),
-                   infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia")
+                   infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_replicates"))), width=4, icon=icon("vials"), color="aqua"),
+                   infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia"),
+                   uiOutput("display_calibrationCurve_meanPar")
                  ),
                  fluidRow(
                    box(title = "Step by Step Calculations", width=12,
@@ -78,7 +79,6 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 3,
                            uiOutput("standardErrorOfRegression")
                        ),
-                       uiOutput("display_calibrationCurve_peakAreaRatioOfCaseSample"),
                        uiOutput("display_calibrationCurve_weightedCaseSample")
                      ),
                      fluidRow(

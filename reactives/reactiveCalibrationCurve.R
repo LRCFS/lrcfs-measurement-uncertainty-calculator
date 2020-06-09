@@ -357,19 +357,19 @@ getCalibrationCurve_standardErrorOfRegression = reactive({
   return(answer)
 })
 
-getCalibrationCurve_peakAreaRatioOfCaseSample = reactive({
-  data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  
-  x = data$calibrationDataConcentration
-  y = data$calibrationDataPeakArea
-  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  wlsSelectedOption = input$inputWeightLeastSquared
-  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
-  
-  answer = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
-  return(answer)
-})
+# getCalibrationCurve_peakAreaRatioOfCaseSample = reactive({
+#   data = getDataCalibrationCurveReformatted()
+#   if(is.null(data))return(NULL)
+#   
+#   x = data$calibrationDataConcentration
+#   y = data$calibrationDataPeakArea
+#   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+#   wlsSelectedOption = input$inputWeightLeastSquared
+#   specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+#   
+#   answer = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
+#   return(answer)
+# })
 
 getCalibrationCurve_weightedCaseSampleDenominator = reactive({
   data = getDataCalibrationCurveReformatted()
