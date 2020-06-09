@@ -16,7 +16,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                    "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
                                    tags$ul(
                                      tags$li("\\(y_i\\) observed peak area ratio for a given concentration \\(x_i\\)"),
-                                     tags$li("\\(y^i\\) predicted value of \\(y\\) for a given value \\(x_i\\)"),
+                                     tags$li("\\(\\hat{y}_i\\) predicted value of \\(y\\) for a given value \\(x_i\\)"),
                                      tags$li("\\(b_1\\) is the Slope of the of regression line"),
                                      tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)"),
                                      tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve"),
