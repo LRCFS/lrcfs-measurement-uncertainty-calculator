@@ -1,3 +1,8 @@
+$(document).ready(function() {
+  
+  
+});
+
 function showHelp(steps, startingStep)
 {
 	var intro = introJs();
@@ -29,7 +34,6 @@ function showHelp(steps, startingStep)
   reloadMathjax.observe(target, {
     attributes: true
   });
-  
 }
 
 Shiny.addCustomMessageHandler('runjs_help_start',

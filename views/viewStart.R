@@ -77,12 +77,12 @@ tabStart = tabItem(tabName = "start",
                                   p("To fit a weighted least square regression, the default weight of \\(w = 1\\) must be changed. A weight of \\(w = 1\\) implies an ordinary regression with no weights applied. The following weight options are currently available:"),
                                   p("\\(w = \\frac{1}{x}, \\frac{1}{x^2},\\frac{1}{y}\\) or \\(\\frac{1}{y^2}\\)"),
                                   p("Select a weight option to be applied to the model if weighted regression is required. Note that a default weight of '1' results in a simple linear regression with no weighting."),
-                                  selectInput("inputWeightLeastSquared", "Weight \\((w)\\):",
-                                              c("Default (1)" = 1,
-                                                "Concentraion (1/x)" = 2,
-                                                "Concentraion Squared (1/x^2)" = 3,
-                                                "Peak Area (1/y)" = 4,
-                                                "Peak Area Squared (1/y^2)" = 5))
+                                  selectizeInput("inputWeightLeastSquared", "Weight \\((w)\\):",
+                                              c("Default \\((1)\\)" = 1,
+                                                "Concentraion \\((1/x)\\)" = 2,
+                                                "Concentraion Squared \\((1/x^2)\\)" = 3,
+                                                "Peak Area \\((1/y)\\)" = 4,
+                                                "Peak Area Squared \\((1/y^2)\\)" = 5))
                               )
                             ),
                             fluidRow(
