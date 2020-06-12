@@ -18,8 +18,8 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                     "The RSU of standard (spiking) solution is obtained by pooling the RSU's of the calibration curve spiking range.",
                                     "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}$$",
                                     tags$ul(
-                                      tags$li("\\(\\text{Parent Solution}\\) is the solution from which a given solution is made"),
-                                      tags$li("\\(N\\text{(Equipment)}\\) is the number of times a piece of equipment is used in the preparation of a given solution")
+                                      tags$li("\\(\\text{Parent Solution}\\) is the solution from which a given solution is made."),
+                                      tags$li("\\(N\\text{(Equipment)}\\) is the number of times a piece of equipment is used in the preparation of a given solution.")
                                     )
                                 )
                               ),

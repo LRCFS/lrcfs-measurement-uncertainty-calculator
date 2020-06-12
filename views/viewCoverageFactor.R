@@ -9,12 +9,12 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    box(title = "Method", width=6,
                        HTML("<p>The effective degrees of freedom \\(({\\LARGE\\nu}_{\\text{eff}})\\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:</p>"),
                        p("$${\\LARGE\\nu}_{\\text{eff}} =\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}}$$"),
-                       p("The coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}})\\) is read from the t-distribution table using the calculated \\({\\Large\\nu}_{\\text{eff}}\\) and specified \\({\\small CI\\%}\\)"),
+                       p("The coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}})\\) is read from the t-distribution table using the calculated \\({\\Large\\nu}_{\\text{eff}}\\) and specified \\({\\small CI\\%}\\)."),
                        p(" "),
                        tags$ul(
-                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration"),
-                         tags$li("\\(\\nu\\) is the Degrees of Freedom for each uncertainty component"),
-                         tags$li("\\({\\small\\text{CombUncertainty}}\\) is the Combined Uncertainty of the individual uncertainty components")
+                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration."),
+                         tags$li("\\(\\nu\\) is the Degrees of Freedom for each uncertainty component."),
+                         tags$li("\\({\\small\\text{CombUncertainty}}\\) is the Combined Uncertainty of the individual uncertainty components.")
                        )
                    )
                  ),

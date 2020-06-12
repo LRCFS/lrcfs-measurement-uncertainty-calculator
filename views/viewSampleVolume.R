@@ -18,7 +18,7 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                        "The overall RSU of standard solution is obtained by pooling the RSU's of the final set of solutions used for generating the calibration curve.",
                        "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}$$",
                        tags$ul(
-                         tags$li("\\(N\\text{(Equipment)}\\) is the number of times an equipment is used in the preperation of a given solution")
+                         tags$li("\\(N\\text{(Equipment)}\\) is the number of times an equipment is used in the preperation of a given solution.")
                        )
                    )
                  ),

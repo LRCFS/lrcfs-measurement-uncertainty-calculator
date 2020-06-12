@@ -5,14 +5,14 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                  fluidRow(
                    box(title = "Overview", width=6,
                        p("The combined uncertainty is obtained by combining all the individual uncertainty components."),
-                       p("If data is uploaded for all the uncertainty components; Calibration curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process."),
-                       p("If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided. ")
+                       p("If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process."),
+                       p("If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.")
                    ),
                    box(title = "Method", width=6,
                        "The combined uncertainty is given by:",
                        "$$\\text{CombUncertainty} = x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}}$$",
                        tags$ul(
-                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration")
+                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration.")
                        )
                    )
                  ),

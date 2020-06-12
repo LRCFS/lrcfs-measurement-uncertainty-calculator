@@ -15,10 +15,10 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                   "and",
                                   "$$S_{p(\\text{NV})} = \\sqrt{\\frac{\\sum{(S^2 \\times {\\large\\nu})_{\\text{(NV)}}}}{\\sum {\\large\\nu}_{\\text{(NV)}}}}.$$",
                                   tags$ul(
-                                    tags$li("\\(S\\) is the individual runs standard deviation"),
-                                    tags$li("\\({\\large\\nu}\\) is the individual degrees of freedom"),
-                                    tags$li("\\(S_p\\) is the pooled standard deviation"),
-                                    tags$li("\\(NV\\) is the nominal value of concentration")
+                                    tags$li("\\(S\\) is the individual runs standard deviation."),
+                                    tags$li("\\({\\large\\nu}\\) is the individual degrees of freedom."),
+                                    tags$li("\\(S_p\\) is the pooled standard deviation."),
+                                    tags$li("\\(NV\\) is the nominal value of concentration.")
                                   )
                               )
                             ),

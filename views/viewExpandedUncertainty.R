@@ -11,10 +11,10 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                        p("$$\\text{ExpUncertainty} = k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}} \\times \\text{CombUncertainty}$$"),
                        p("with percentage expanded uncertainty given by:"),
                        p("$$\\text{%ExpUncertainty} = \\frac{\\text{ExpUncertainty}}{x_s} \\times 100$$"),
-                       p("where"),
+                       p("where:"),
                        tags$ul(
-                         tags$li("\\(k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}}\\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage"),
-                         tags$li("\\({\\small\\text{CombUncertainty}}\\) is the combined uncertainty"),
+                         tags$li("\\(k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}}\\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage."),
+                         tags$li("\\({\\small\\text{CombUncertainty}}\\) is the combined uncertainty."),
                          tags$li("\\(x_s\\) case sample mean concentration.")
                        )
                    )
