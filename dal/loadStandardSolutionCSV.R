@@ -45,7 +45,7 @@ standardSolutionBuildNetwork = function(compoundAndSolutionData) {
 
   SetGraphStyle(solutionsTree, rankdir = "TB")
   SetEdgeStyle(solutionsTree, arrowhead = "vee", color = "black", penwidth = 2)
-  SetNodeStyle(solutionsTree, style = "filled,rounded", shape = "box", fillcolor = "LightBlue", fontname = "helvetica", tooltip = GetDefaultTooltip)
+  SetNodeStyle(solutionsTree, style = "filled,rounded", shape = "box", fillcolor = StandardSolutionColor, fontname = "helvetica", tooltip = GetDefaultTooltip)
   
   return(solutionsTree)
 }
