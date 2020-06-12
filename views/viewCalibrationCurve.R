@@ -1,7 +1,7 @@
 tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
-                   valueBox("Uncertainty of Calibration Curve", h2(textOutput("display_calibrationCurve_finalAnswer_top")), width = 12, color = "blue", icon = icon("chart-line")),
-                   actionButton("helpCalibrationCurve", "Help", icon=icon("question"))
+                   valueBox("Uncertainty of Calibration Curve", h2(textOutput("display_calibrationCurve_finalAnswer_top")), width = 12, color = "blue", icon = icon("chart-line"))
+                   #,actionButton("helpCalibrationCurve", "Help", icon=icon("question"))
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,

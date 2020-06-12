@@ -12,6 +12,13 @@ output$display_dashboard_meanConcentration <- renderUI({
   return(string)
 })
 
+output$display_dashboard_meanPar <- renderUI({
+  if(checkUsingWls())
+  {
+    infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=3, icon=icon("chart-bar"), color="orange")
+  }
+})
+
 output$display_dashboard_confidenceInterval <- renderUI({
   string = paste(input$inputConfidenceInterval)
   return(string)

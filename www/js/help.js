@@ -17,17 +17,17 @@ function(startingStep) {
 	var steps = [
 		{
 			intro: '<h4>' + APP_NAME + ' Help</h4>\
-					<p>Welcome to the ' + APP_NAME_SHORT + ' help. These help windows are specific to each section so make sure to explore the help on each page as the use the application.</p>\
-					<p>To use the help, move between each sections by using the <strong>previous</strong> and <strong>next</strong> buttons at the bottom of each help window. You can exit the help at any tmie by clicking the <strong>close</strong> button or just outside a help window.</p>\
-					<p>To get started make sure to view our short demo video below to see what\'s possible.</p>\
+					<p>Welcome to the ' + APP_NAME_SHORT + ' help. These help windows are specific to each section so make sure to explore the help on each page as you use the application.</p>\
+					<p>To use the help, move between each section by using the <strong>Previous</strong> and <strong>Next</strong> buttons at the bottom of each help window. You can exit the help at any time by clicking the <strong>Close</strong> button or just outside a help window.</p>\
+					<p>To get started, make sure to view our short demo video below to see what\'s possible.</p>\
 					<p><iframe width=\'100%\' height=\'350px\' src=\'https://www.youtube.com/embed/tVWiK4zL_yQ\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe></p>\
-					<p>Click <strong>next</strong> to continue through the help or <strong>close</strong> to exit.</p>'
+					<p>Click <strong>Next</strong> to continue through the help or <strong>Close</strong> to exit.</p>'
 		},
 		{
 			element: '#shiny-tab-start #calcurve',
 			intro: '<h4>Calibration Curve</h4>\
 					<p>Calibration curve data is data on concentration levels and peak area (ratios) used to generate the calibration for estimating the level of concentration in a given new sample.</p>\
-					<h4>External Standard Error</h4>\
+					<h4>Pooled Standard Error</h4>\
 					<p>In place of the standard error of regression, standard error from previous calibration curve data can be pooled together with current calibration data to obtain a more reliable estimate. This is recommended if calibration curve data uploaded above have only one replicate or is based on single point calibration system.</p>',
 			position: 'right'
 		},
@@ -48,13 +48,13 @@ function(startingStep) {
 		{
 			element: '#shiny-tab-start #samplevol',
 			intro: '<h4>Sample Volume</h4>\
-					<p>Sample Volume requires information on pipettes/flask used to measure sample volume, its tolerance, and volume and coverage factor.</p>',
+					<p>Sample volume requires information on pipettes/flask used to measure sample volume, its tolerance, volume and coverage factor.</p>',
 			position: 'right'
 		},
 		{
 			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div > div',
 			intro: '<h4>Weighted Least Square (WLS) Regression</h4>\
-					<p>WLS is recommend if the standard deviation data correlates with the magnitude of the concentration being estimated, such that plot of residuals shows a non-constant error (termed heteroscedasticity).</p>\
+					<p>WLS is recommend if the standard deviation of data correlates with the magnitude of the concentration being estimated, such that plot of residuals shows a non-constant error (termed heteroscedasticity).</p>\
 					<p><img src="images/wls-help.png" alt="Example plot showing the presence of heteroscedasticity" style="width: 100%"/></p>\
 					<p>Figure from <a href="https://pdfs.semanticscholar.org/5814/151283d2b44412edfb8ae5a9d3e53616fa32.pdf" target="_blank">Regression and Calibration</a> shows an example of where the standard deviation of data is proportional to the magnitude concentration (a) such that the plot of residuals have high variability for high predicted values. For more information on choosing the appropriate weight see the paper by <a href="https://pubs.acs.org/doi/pdf/10.1021/ac5018265" target="_blank">Huidong Gu et al.</a></p>',
 			position: 'left'
@@ -62,8 +62,9 @@ function(startingStep) {
 		{
 			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)',
 			intro: '<h4>Case Sample Data</h4>\
-					<p>Case sample replicate is the number of repeated measurement taken on a sample to estimate the mean concentration of the sample.</p>\
-					<p>Case sample mean concentration is the amount of compound substance estimated to be contained in a given sample.</p>',
+					<p>Case sample replicate $(r_s)$ is the number of repeated measurements taken on a sample to estimate the mean concentration of the sample.</p>\
+					<p>Case sample mean concentration $(x_s)$ is the mean amount of compound substance estimated to be contained in a given sample.</p>\
+					<p>Case sample mean peak area ratio $(y_s)$ is the mean peak area (ratio) or instrument response used to estimate the concentration of a given sample.</p>',
 			position: 'left'
 		},
 		{
@@ -85,7 +86,7 @@ function(startingStep) {
 			intro: '<h4>Uncertainty of Calibration Curve</h4>\
 			<p>The help on this page is not completed. It will likely have a demo video showing you the overall functionality followed by more information for each section.</p>\
 			<p><iframe width=\'100%\' height=\'350px\' src=\'https://www.youtube.com/embed/tVWiK4zL_yQ?start=103\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe></p>\
-			<p>Click <strong>next</strong> to continue through the help or <strong>close</strong> to exit.</p>'
+			<p>Click <strong>Next</strong> to continue through the help or <strong>Close</strong> to exit.</p>'
 		},
 		{
 			element: '#uploadedCalibrationDataStats',
