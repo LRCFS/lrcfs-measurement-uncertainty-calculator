@@ -76,13 +76,13 @@ output$display_sampleVolume_finalAnswer_bottom = renderUI({
     relativeStandardUncertainty = formatNumberForDisplay(doGetSampleVolume_relativeStandardUncertainty(sampleVolumeItemData),input)
     
     if(sampleVolumeItem == 1){
-      string = paste(relativeStandardUncertainty,"^2")
+      string = paste("[",relativeStandardUncertainty,"^2")
     }
     else{
-      string = paste("+",relativeStandardUncertainty,"^2")
+      string = paste("+ [",relativeStandardUncertainty,"^2")
     }
 
-    formula = paste(formula, string, "\\times", sampleVolumeItemData$equipmentTimesUsed)
+    formula = paste(formula, string, "\\times", sampleVolumeItemData$equipmentTimesUsed, "]")
   }
   formula = paste(formula, "}")
   

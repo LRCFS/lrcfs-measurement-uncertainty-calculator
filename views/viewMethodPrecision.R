@@ -4,8 +4,8 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                             ),
                             fluidRow(
                               box(title = "Overview", width=6,
-                                  p("A step-by-step approach for estimating the uncertainty of method precision is out lined here. The main methodology used is the pooled standard deviation approach."),
-                                  p("Where precision experiment is carried out for different nominal values of concentration such low, medium and high, the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.")
+                                  p("A step-by-step approach for estimating the uncertainty of method precision is outlined here. The main methodology used is the pooled standard deviation approach."),
+                                  p("Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.")
                               ),
                               box(title = "Method", width=6,
                                   "The relative standard uncertainty of method precision is given by:",
@@ -15,7 +15,7 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                   "and",
                                   "$$S_{p(\\text{NV})} = \\sqrt{\\frac{\\sum{(S^2 \\times {\\large\\nu})_{\\text{(NV)}}}}{\\sum {\\large\\nu}_{\\text{(NV)}}}}.$$",
                                   tags$ul(
-                                    tags$li("\\(S\\) is the individual runs standard deviation."),
+                                    tags$li("\\(S\\) is the standard deviation for each run."),
                                     tags$li("\\({\\large\\nu}\\) is the individual degrees of freedom."),
                                     tags$li("\\(S_p\\) is the pooled standard deviation."),
                                     tags$li("\\(NV\\) is the nominal value of concentration.")

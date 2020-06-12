@@ -93,7 +93,7 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                         rightsidebar = mouCalcRightSidebar,
                         footer = dashboardFooter(
                           left_text = "Measurement Uncertainty Calculator",
-                          right_text = "Copyright LRCFS 2019"
+                          right_text = paste0("Copyright LRCFS ",format(Sys.time(), "%Y"))
                        )
 )
 
