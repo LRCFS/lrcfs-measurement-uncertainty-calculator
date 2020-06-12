@@ -11,7 +11,25 @@ function showHelp(steps, startingStep)
 	.goToStepNumber(startingStep)
 	.start();
 	
-	MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'body']);
+	var introJsClass = '.introjs-tooltip';
+	
+	//after we started introjs load mathjax again to force any latex conversion
+	MathJax.Hub.Queue(["Typeset", MathJax.Hub, introJsClass]);
+	
+	//Lets then attach an observer to the tooltips so that any time its displayed we can force mathjax again
+	var target = document.querySelector(introJsClass);
+	
+  var reloadMathjax = new MutationObserver(function(mutations) {
+    if(window.getComputedStyle(target).getPropertyValue( 'display' ) !== 'none')
+    {
+       MathJax.Hub.Queue(["Typeset", MathJax.Hub, introJsClass]);
+    }
+  });
+ 
+  reloadMathjax.observe(target, {
+    attributes: true
+  });
+  
 }
 
 Shiny.addCustomMessageHandler('runjs_help_start',
