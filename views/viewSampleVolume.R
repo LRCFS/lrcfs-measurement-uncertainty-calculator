@@ -10,7 +10,7 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                        "The RSU of each equipment is computed using:",
                        "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
                        "The RSU of sample volume is given by:",
-                       "$$u_r\\text{(SampleVolume)} = \\sqrt{\\sum{[u_r(SampleVolume)_{\\text{(Equipment)}}^2 \\times N(\\text{Equipment})}]}$$",
+                       "$$u_r\\text{(SampleVolume)} = \\sqrt{\\sum{[u_r(\\text{Equipment})_{\\text{(Vol,Tol)}}^2 \\times N(\\text{Equipment})_{\\text{(Vol,Tol)}}}]}$$",
                        tags$ul(
                          tags$li("\\(N\\text{(Equipment)}\\) is the number of times a piece of equipment is used taking the volume of a given sample.")
                        )

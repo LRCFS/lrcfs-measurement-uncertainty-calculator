@@ -1,2 +1,3 @@
 equipment,equipmentVolume,equipmentTolerance,equipmentCoverage,equipmentTimesUsed
 pipette,1000,5,2,1
+flask,2000,10,3,2
