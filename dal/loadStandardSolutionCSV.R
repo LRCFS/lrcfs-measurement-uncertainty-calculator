@@ -40,7 +40,7 @@ standardSolutionMergeData = function(compoundAndSolutionData, measurementData) {
 
 standardSolutionBuildNetwork = function(compoundAndSolutionData) {
   
-  solutionsRootNode = Node$new("Solutions")
+  solutionsRootNode = Node$new("Spiking Solution")
   solutionsTree = buildTree(compoundAndSolutionData, solutionsRootNode)
 
   SetGraphStyle(solutionsTree, rankdir = "TB")
@@ -53,7 +53,7 @@ standardSolutionBuildNetwork = function(compoundAndSolutionData) {
 buildTree = function(compoundAndSolutionData, parentNode) 
 {
   madeFrom = ""
-  if(parentNode$name != "Solutions")
+  if(parentNode$name != "Spiking Solution")
   {
     madeFrom = parentNode$name
   }

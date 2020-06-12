@@ -264,7 +264,7 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
     equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
     equationValues = paste0(equationValues, plus, formatNumberForDisplay(solution$relativeStandardUncertainty,input),"^2")
   }
-  formulas = c("u_r(\\text{StdSolution}) &= \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}[[break]]")
+  formulas = c("u_r(\\text{StdSolution}) &= \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}[[break]]")
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}[[break]]"))
   formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationValues,"}"))
   formulas = c(formulas, paste0("&=",formatNumberForDisplay(standardSolutionResult(),input)))

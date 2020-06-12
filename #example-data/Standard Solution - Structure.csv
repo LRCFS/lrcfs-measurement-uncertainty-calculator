@@ -3,5 +3,5 @@ THC,,1000000,33000,2
 Stock Solution A,THC,,,
 Working Solution B,Stock Solution A,,,
 Working Solution C,Stock Solution A,,,
-Calibration Solution D,Working Solution C,,,
-Calibration Solution E,Working Solution B,,,
+Calibrators Range 1,Working Solution C,,,
+Calibrators Range 2,Working Solution B,,,

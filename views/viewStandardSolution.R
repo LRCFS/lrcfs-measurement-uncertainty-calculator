@@ -4,9 +4,9 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                               ),
                               fluidRow(
                                 box(title = "Overview", width=5,
-                                    p("Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of uncertainty associated with standard solution."),
-                                    p("The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the main final solutions used for the calibration curve."),
-                                    p("If more than one final solution exist (which may be due to splitting the calibration range), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainty (RSU) of the final set of solutions used for the calibration curve")
+                                    p("Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of the uncertainty associated with spiking the calibration standards."),
+                                    p("The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve."),
+                                    p("If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.")
                                 ),
                                 box(title = "Method", width=7,
                                     "The RSU of each equipment is computed using:",
@@ -15,11 +15,11 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                     "$$u_r(\\text{Reference Compound}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Purity}}$$",
                                     "The RSU of each solution is computed using",
                                     "$$u_r\\text{(Solution)} = \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}}$$",
-                                    "The overall RSU of standard solution is obtained by pooling the RSU's of the final set of solutions used for generating the calibration curve.",
-                                    "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}$$",
+                                    "The RSU of standard (spiking) solution is obtained by pooling the RSU's of the calibration curve spiking range.",
+                                    "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}$$",
                                     tags$ul(
-                                      tags$li("\\(\\text{Parent Solution}\\) is the solution from which a given is solution is made"),
-                                      tags$li("\\(N\\text{(Equipment)}\\) is the number of times an equipment is used in the preperation of a given solution")
+                                      tags$li("\\(\\text{Parent Solution}\\) is the solution from which a given solution is made"),
+                                      tags$li("\\(N\\text{(Equipment)}\\) is the number of times a piece of equipment is used in the preparation of a given solution")
                                     )
                                 )
                               ),
