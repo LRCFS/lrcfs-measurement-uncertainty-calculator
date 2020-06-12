@@ -10,6 +10,8 @@ function showHelp(steps, startingStep)
 	.setOption('hideNext', true)
 	.goToStepNumber(startingStep)
 	.start();
+	
+	
 }
 
 Shiny.addCustomMessageHandler('runjs_help_start',
@@ -62,9 +64,9 @@ function(startingStep) {
 		{
 			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)',
 			intro: '<h4>Case Sample Data</h4>\
-					<p>Case sample replicate $(r_s)$ is the number of repeated measurements taken on a sample to estimate the mean concentration of the sample.</p>\
+					<p>Case sample replicates $(r_s)$ is the number of repeated measurements taken on a sample to estimate the mean concentration of the sample.</p>\
 					<p>Case sample mean concentration $(x_s)$ is the mean amount of compound substance estimated to be contained in a given sample.</p>\
-					<p>Case sample mean peak area ratio $(y_s)$ is the mean peak area (ratio) or instrument response used to estimate the concentration of a given sample.</p>',
+					<p>If a Weighted Least Square Regression has been choosen then the case sample mean peak area ratio $(y_s)$ is the mean peak area (ratio) or instrument response used to estimate the concentration of a given sample.</p>',
 			position: 'left'
 		},
 		{
