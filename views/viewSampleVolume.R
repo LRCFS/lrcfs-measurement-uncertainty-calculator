@@ -9,16 +9,10 @@ tabSampleVolume = tabItem(tabName = "sampleVolume",
                    box(title = "Method", width=7,
                        "The RSU of each equipment is computed using:",
                        "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
-                       "For more than one equipment, the RSU of sample volume is obtained by pooling the individual uncertainties using:",
+                       "The RSU of sample volume is given by:",
                        "$$u_r\\text{(SampleVolume)} = \\sqrt{\\sum{[u_r(SampleVolume)_{\\text{(Equipment)}}^2 \\times N(\\text{Equipment})}]}$$",
-                       
-                       "$$u_r(\\text{Reference Compound}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Purity}}$$",
-                       "The RSU of each solution is computed using:",
-                       "$$u_r\\text{(Solution)} = \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}}$$",
-                       "The overall RSU of standard solution is obtained by pooling the RSU's of the final set of solutions used for generating the calibration curve.",
-                       "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Final Calibration Solutions)}^2}}$$",
                        tags$ul(
-                         tags$li("\\(N\\text{(Equipment)}\\) is the number of times an equipment is used in the preperation of a given solution.")
+                         tags$li("\\(N\\text{(Equipment)}\\) is the number of times a piece of equipment is used taking the volume of a given sample.")
                        )
                    )
                  ),
