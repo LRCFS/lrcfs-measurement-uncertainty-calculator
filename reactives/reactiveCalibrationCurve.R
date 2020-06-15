@@ -380,8 +380,9 @@ getCalibrationCurve_weightedCaseSampleDenominator = reactive({
   
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   wlsSelectedOption = input$inputWeightLeastSquared
+  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   
-  answer = doGetCalibrationCurve_weightedCaseSampleDenominator(x,y,wlsSelectedOption,caseSampleMeanConcentration)
+  answer = doGetCalibrationCurve_weightedCaseSampleDenominator(x,y,wlsSelectedOption,caseSampleMeanConcentration,specifiedPeakAreaRatio)
   return(answer)
 })
 
