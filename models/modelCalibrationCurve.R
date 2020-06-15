@@ -77,7 +77,7 @@ output$display_calibrationCurve_weightedMeanOfX = renderUI({
   answer = formatNumberForDisplay(getCalibrationCurve_meanOfX(), input)
   
   formulas = c("\\overline{x}_w &= \\frac{\\sum{w_ix_i}}{n}")
-  formulas = c(formulas, paste("& = \\frac{",sumOfWeightedX,"}{",n,"}"))
+  formulas = c(formulas, paste("& = \\frac{",sumOfWeightedX,"}{",colourNumber(n, input$useColours, input$colour5),"}"))
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour1)))
   output = mathJaxAligned(formulas, 5)
 
@@ -107,7 +107,7 @@ output$display_calibrationCurve_weightedMeanOfY = renderUI({
   answer = formatNumberForDisplay(getCalibrationCurve_meanOfY(), input)
   
   formulas = c("\\overline{y}_w &= \\frac{\\sum{w_iy_i}}{n}")
-  formulas = c(formulas, paste("& = \\frac{",sumOfWeightedY,"}{",n,"}"))
+  formulas = c(formulas, paste("& = \\frac{",sumOfWeightedY,"}{",colourNumber(n, input$useColours, input$colour5),"}"))
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour1)))
   output = mathJaxAligned(formulas, 5)
   
@@ -189,6 +189,18 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   wlsSelectedOption = input$inputWeightLeastSquared
   
   weightedCaseSampleDenominator = formatNumberForDisplay(getCalibrationCurve_weightedCaseSampleDenominator(), input)
+  
+  #If we're using case sample mean or case sample peak area ratio then lets color it correctly
+  if(wlsSelectedOption == 2 | wlsSelectedOption == 3)
+  {
+    weightedCaseSampleDenominator = ColourCaseSampleMeanConcentration(weightedCaseSampleDenominator)
+  }
+  else if (wlsSelectedOption == 4 | wlsSelectedOption == 5)
+  {
+    weightedCaseSampleDenominator = ColourCaseSampleMeanPeakAreaRatio(weightedCaseSampleDenominator)
+  }
+    
+  
   answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
   
   formulas = c(paste("w_s &=", getCalibrationCurve_wlsLatex()))
