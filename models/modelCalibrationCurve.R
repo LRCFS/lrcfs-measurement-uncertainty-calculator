@@ -263,14 +263,14 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   if(is.null(exStdErrData))
   {
     if(checkUsingWls())
-      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
     else
       formulas = c("u\\text{(CalCurve)} &= \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
   else
   {
     if(checkUsingWls())
-      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w_{p}}}{b_1} \\sqrt{\\frac{1}{w_{s}} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w_{p}}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
     else
       formulas = c("u\\text{(CalCurve)} &= \\frac{S_{p_{(y/x)}}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
@@ -281,7 +281,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   }
   else
   {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9),"} + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
   }
   
   
