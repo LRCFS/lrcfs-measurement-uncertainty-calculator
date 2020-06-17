@@ -384,8 +384,8 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   
   answer = formatNumberForDisplay(doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData), input)
   
-  formulas = c(paste("S_{",if(checkUsingWls())"w_{(p)}"else"p_{(y/x)}","} &= \\sqrt{\\frac{\\sum{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","}}}{\\sum{(n-1)}}} [[break]]"))
-  formulas = c(formulas, paste("S_{",if(checkUsingWls())"w_{(p)}"else"p_{(y/x)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(checkUsingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
+  formulas = c(paste("S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","} &= \\sqrt{\\frac{\\sum{(n_{(k)}-1)S^2_{",if(checkUsingWls())"w_{(k)}"else"y/x","}}}{\\sum{(n_{(k)}-1)}}} [[break]]"))
+  formulas = c(formulas, paste("S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(checkUsingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
   
   exStdErrorRunData = exStdErrorData
   exStdErrorRunData$conc = NULL
@@ -425,12 +425,12 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   end = ""
   if(length(results) > 2)
   {
-    endNumerator = paste(" + \\ldots + (",n3,"-1) \\times ",s3,"^2")
+    endNumerator = paste(" + [\\ldots + (",n3,"-1) \\times ",s3,"^2]")
     endDemoninator = paste(" + \\ldots + (",n3,"-1)")
   }
   else if(length(results) == 2)
   {
-    endNumerator = paste(" + (",n3,"-1) \\times ",s3,"^2")
+    endNumerator = paste(" + [(",n3,"-1) \\times ",s3,"^2]")
     endDemoninator = paste(" + (",n3,"-1)")
   }
   else
@@ -439,13 +439,13 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
     endDemoninator = ""
   }
   
-  formulas = c(formulas, paste0("&= \\sqrt{\\frac{(",n1,"-1) \\times ",s1,"^2 + (",n2,"-1) \\times ",s2,"^2",endNumerator,"}{(",n1,"-1) + (",n2,"-1)",endDemoninator,"}} [[break]]"))
+  formulas = c(formulas, paste0("&= \\sqrt{\\frac{(",n1,"-1) \\times ",s1,"^2 + [(",n2,"-1) \\times ",s2,"^2]",endNumerator,"}{(",n1,"-1) + (",n2,"-1)",endDemoninator,"}} [[break]]"))
 
   formulas = c(formulas, paste0("&=",colourNumber(answer, input$useColours, input$colour4)))
   
   output = mathJaxAligned(formulas, 5, 20)
  
-  box(title=paste("Pooled Standard Error of Regression \\((S_{",if(checkUsingWls())"w_{(p)}"else"p_{(y/x)}","})\\)"), width = 7,withMathJax(HTML(output)))
+  box(title=paste("Pooled Standard Error of Regression \\((S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","})\\)"), width = 7,withMathJax(HTML(output)))
 })
   
 output$display_calibrationCurve_finalAnswer_top = renderText({
