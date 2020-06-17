@@ -42,7 +42,8 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                      tags$li("\\(\\overline{y}_w\\) is the weighted mean of peak area ratios."),
                                      tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve."),
                                      tags$li("\\(\\overline{x}_w\\) is the mean values of the different calibration standards."),
-                                     tags$li("\\(w\\) is the specified Weight."),
+                                     tags$li("\\(W\\) is the specified Weight."),
+                                     tags$li("\\(w\\) is the standardised weight given by \\(W(\\frac{n}{\\sum{W}})\\)"),
                                      tags$li("\\(w_s\\) is the Weight of Case Sample.")
                                    )
                           )

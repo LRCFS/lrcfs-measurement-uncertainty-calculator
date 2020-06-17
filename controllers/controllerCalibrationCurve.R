@@ -98,8 +98,10 @@ doGetCalibrationCurve_sqDeviation = function(values){
 doGetCalibrationCurve_sumOfWeightedXSquared = function(x,y,wlsSelectedOption){
   if(is.null(x) | is.null(y)) return(NA)
   
+  n = doGetCalibrationCurve_n(y)
   weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
-  weightedXSquared = doGetCalibrationCurve_weightedXSquared(weightedLeastSquared,x)
+  standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+  weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
   
   answer = sum(weightedXSquared)
   return(answer)
@@ -184,6 +186,11 @@ doGetCalibrationCurve_weightedLeastSquared = function(x,y,wlsSelectedOption){
   }
 }
 
+doGetCalibrationCurve_standardisedWeight = function(wls, n){
+  answer = wls * (n/sum(wls))
+  return(answer)
+}
+
 doGetCalibrationCurve_weightedLeastSquaredFunction = function(wlsSelectedOption){
   if(wlsSelectedOption == 1)
   {
@@ -213,19 +220,19 @@ doGetCalibrationCurve_weightedLeastSquaredFunction = function(wlsSelectedOption)
 
 doGetCalibrationCurve_wlsLatex = function(wlsSelectedOption){
   if(wlsSelectedOption == 1)
-    return("w=1")
+    return("W=1")
   
   if(wlsSelectedOption == 2)
-    return("w=\\frac{1}{x}")
+    return("W=\\frac{1}{x}")
   
   if(wlsSelectedOption == 3)
-    return("w=\\frac{1}{x^2}")
+    return("W=\\frac{1}{x^2}")
   
   if(wlsSelectedOption == 4)
-    return("w=\\frac{1}{y}")
+    return("W=\\frac{1}{y}")
   
   if(wlsSelectedOption == 5)
-    return("w=\\frac{1}{y^2}")
+    return("W=\\frac{1}{y^2}")
   
   return("")
 }

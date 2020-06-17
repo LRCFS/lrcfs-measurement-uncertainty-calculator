@@ -80,22 +80,25 @@ getDataCalibrationCurveRearranged = reactive({
   #Get Weight
   weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
   
+  #standardised weight
+  standardisedWeight = getCalibrationCurve_standardisedWeight()
+  
   #Get Weight
-  wx = weightedLeastSquared * x
-  wy = weightedLeastSquared * y
+  wx = standardisedWeight * x
+  wy = standardisedWeight * y
   
   ### Predicted Y value is the regression cofficient of Y compared to X
-  predictedY = doGetCalibrationCurve_predicetedY(x,y, weightedLeastSquared);
+  predictedY = doGetCalibrationCurve_predicetedY(x,y, standardisedWeight);
   
   ### Get error Sum Squared of y
-  errorSqDevationY = doGetCalibrationCurve_errorSqDeviationY(x,y,weightedLeastSquared);
-  weightedErrorSqDevationY = doGetCalibrationCurve_weightedErrorSqDeviationY(weightedLeastSquared,errorSqDevationY)
+  errorSqDevationY = doGetCalibrationCurve_errorSqDeviationY(x,y,standardisedWeight);
+  weightedErrorSqDevationY = doGetCalibrationCurve_weightedErrorSqDeviationY(standardisedWeight,errorSqDevationY)
   
-  weightedXSquared = doGetCalibrationCurve_weightedXSquared(weightedLeastSquared,x)
+  weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
   
   ##Get data in dataframe
-  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,weightedLeastSquared,wx,wy,weightedXSquared,sqDevationX,predictedY,errorSqDevationY,weightedErrorSqDevationY)
-  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_ix_i$$","$$w_iy_i$$","$$wx^2$$","$$\\text{Sq. Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$","$$w_i(y_i - \\hat{y}_i)^2$$")
+  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,weightedLeastSquared,standardisedWeight,wx,wy,weightedXSquared,sqDevationX,predictedY,errorSqDevationY,weightedErrorSqDevationY)
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_i=W_i(\\frac{n}{\\sum{W_i}})$$","$$w_ix_i$$","$$w_iy_i$$","$$wx^2$$","$$\\text{Sq. Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$","$$w_i(y_i - \\hat{y}_i)^2$$")
   
   return(rearrangedCalibrationDataFrame)
 })
@@ -176,6 +179,17 @@ getCalibrationCurve_weightedLeastSquared = reactive({
   return(answer)
 })
 
+getCalibrationCurve_standardisedWeight = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data)) return(NULL)
+  
+  wls = getCalibrationCurve_weightedLeastSquared()
+  n = getCalibrationCurve_n()
+  
+  answer = doGetCalibrationCurve_standardisedWeight(wls, n)
+  return(answer)
+})
+
 getCalibrationCurve_intercept = reactive({
   data = getDataCalibrationCurveReformatted()
   if(is.null(data)) return(NULL)
@@ -214,11 +228,10 @@ getCalibrationCurve_slope = reactive({
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+
+  standarisedWeight = getCalibrationCurve_standardisedWeight()
   
-  
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
-  
-  answer = doGetCalibrationCurve_slope(x,y,weightedLeastSquared)
+  answer = doGetCalibrationCurve_slope(x,y,standarisedWeight)
   
   return(answer)
 })
@@ -250,9 +263,9 @@ getCalibrationCurve_sumOfWeightedX = reactive({
   if(is.null(data)) return(NULL)
   
   x = data$calibrationDataConcentration
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
+  standardisedWeight = getCalibrationCurve_standardisedWeight()
   
-  answer = sum(weightedLeastSquared * x)
+  answer = sum(standardisedWeight * x)
   
   return(answer)
 })
@@ -285,9 +298,9 @@ getCalibrationCurve_sumOfWeightedY = reactive({
   if(is.null(data)) return(NULL)
   
   y = data$calibrationDataPeakArea
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
+  standardisedWeight = getCalibrationCurve_standardisedWeight()
   
-  answer = sum(weightedLeastSquared * y)
+  answer = sum(standardisedWeight * y)
   
   return(answer)
 })
@@ -339,10 +352,10 @@ getCalibrationCurve_errorSqDeviationY = reactive({
 })
 
 getCalibrationCurve_weightedErrorSqDeviationY = reactive({
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
+  standardisedWeight = getCalibrationCurve_standardisedWeight()
   errorSqDevationY = getCalibrationCurve_errorSqDeviationY()
   
-  answer = doGetCalibrationCurve_weightedErrorSqDeviationY(weightedLeastSquared,errorSqDevationY)
+  answer = doGetCalibrationCurve_weightedErrorSqDeviationY(standardisedWeight,errorSqDevationY)
 })
 
 getCalibrationCurve_standardErrorOfRegression = reactive({
@@ -351,9 +364,9 @@ getCalibrationCurve_standardErrorOfRegression = reactive({
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
+  standardisedWeights = getCalibrationCurve_standardisedWeight()
   
-  answer = doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared)
+  answer = doGetCalibrationCurve_standardErrorOfRegression(x,y,standardisedWeights)
   return(answer)
 })
 
