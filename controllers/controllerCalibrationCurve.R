@@ -56,7 +56,9 @@ doGetCalibrationCurve_meanOfX = function(x,y,wlsSelectedOption){
   if(doCheckUsingWls(wlsSelectedOption))
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
-    wx = weightedLeastSquared * x
+    n = doGetCalibrationCurve_n(y)
+    standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+    wx = standardisedWeights * x
     meanOfX = mean(wx)
   }
   else
@@ -73,7 +75,9 @@ doGetCalibrationCurve_meanOfY = function(x,y,wlsSelectedOption){
   if(doCheckUsingWls(wlsSelectedOption))
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
-    wy = weightedLeastSquared * y
+    n = doGetCalibrationCurve_n(y)
+    standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+    wy = standardisedWeights * y
     meanOfY = mean(wy)
   }
   else
