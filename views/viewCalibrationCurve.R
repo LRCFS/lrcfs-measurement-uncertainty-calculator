@@ -79,9 +79,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      ),
                      fluidRow(
                        box(title = "Error Sum of Squares of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_errorSumSqY")),
-                       box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 3,
-                           uiOutput("standardErrorOfRegression")
-                       ),
+                       uiOutput("display_calibrationCurve_standardErrorOfRegression"),
                        uiOutput("display_calibrationCurve_weightedCaseSample")
                      ),
                      fluidRow(

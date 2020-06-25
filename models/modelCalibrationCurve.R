@@ -47,7 +47,7 @@ output$display_calibrationCurve_linearRegression = renderUI({
   
   formulas = c(paste0("\\text{Intercept}(b_0) &=",intercept))
   formulas = c(formulas, paste0("\\text{Slope}(b_1) &= ", colourNumber(slope, input$useColours, input$colour6)))
-  formulas = c(formulas, paste0("R^2 &=",rSquare))
+  formulas = c(formulas, paste0("R^2_{\\text{adj}} &=",rSquare))
   formulas = c(formulas, paste0("n &= ",colourNumber(n, input$useColours, input$colour5)))
   output = mathJaxAligned(formulas, 10)
   
@@ -163,7 +163,7 @@ output$display_calibrationCurve_errorSumSqY = renderUI({
   return(withMathJax(HTML(output)))
 })
 
-output$standardErrorOfRegression = renderUI({
+output$display_calibrationCurve_standardErrorOfRegression = renderUI({
   n = getCalibrationCurve_n()
 
   errorSqDeviationY = getCalibrationCurve_errorSqDeviationY()
@@ -180,7 +180,10 @@ output$standardErrorOfRegression = renderUI({
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour4)))
   output = mathJaxAligned(formulas, 5, 20)
   
-  return(withMathJax(HTML(output)))
+  box(width = 3,
+      title=paste("Standard Error of Regression \\((S_{",if(checkUsingWls())"w"else"y/x","})\\)"),
+      output
+  )
 })
 
 output$display_calibrationCurve_weightedCaseSample = renderUI({
@@ -231,7 +234,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   stdErrorOfRegression = 0
   if(is.null(exStdErrData))
   {
-    stdErrorOfRegression = doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared)
+    stdErrorOfRegression = getCalibrationCurve_standardErrorOfRegression()
   }
   else
   {

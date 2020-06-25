@@ -243,16 +243,18 @@ doGetCalibrationCurve_wlsLatex = function(wlsSelectedOption){
 
 doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,caseSampleMeanPar,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
 {
+  n = doGetCalibrationCurve_n(y)
   wlsValues = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
+  standardisedWeight = doGetCalibrationCurve_standardisedWeight(wlsValues, n)
   
   syx = 0
   if(is.null(extStdErrorData))
   {
-    syx = doGetCalibrationCurve_standardErrorOfRegression(x,y,wlsValues)
+    syx = doGetCalibrationCurve_standardErrorOfRegression(x,y,standardisedWeight)
   }
   else
   {
-    syx = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,wlsValues,extStdErrorData)
+    syx = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeight,extStdErrorData)
   }
   
   weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,caseSampleMeanPar)
