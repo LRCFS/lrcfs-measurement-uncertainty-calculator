@@ -370,6 +370,22 @@ getCalibrationCurve_standardErrorOfRegression = reactive({
   return(answer)
 })
 
+getCalibrationCurve_pooledStdErrorOfRegression = reactive(
+{
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data)) return(NULL)
+  
+  exStdErrorData = getDataExternalStandardError()
+  if(is.null(exStdErrorData))
+    return(NULL)
+  
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
+  
+  standardisedWeights = getCalibrationCurve_standardisedWeight()
+  answer = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeights,exStdErrorData)
+})
+
 # getCalibrationCurve_peakAreaRatioOfCaseSample = reactive({
 #   data = getDataCalibrationCurveReformatted()
 #   if(is.null(data))return(NULL)

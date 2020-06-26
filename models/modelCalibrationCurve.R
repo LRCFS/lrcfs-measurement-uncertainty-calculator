@@ -227,7 +227,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   data = getDataCalibrationCurveReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
+  standardisedWeights = getCalibrationCurve_standardisedWeight()
   
   exStdErrData = getDataExternalStandardError()
 
@@ -238,7 +238,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   }
   else
   {
-    stdErrorOfRegression = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrData)
+    stdErrorOfRegression = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeights,exStdErrData)
   }
   stdErrorOfRegression = formatNumberForDisplay(stdErrorOfRegression, input)
   stdErrorOfRegression = colourNumber(stdErrorOfRegression, input$useColours, input$colour4)
@@ -278,14 +278,20 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
       formulas = c("u\\text{(CalCurve)} &= \\frac{S_{p_{(y/x)}}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
   
-  if(!checkUsingWls())
-  {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourCaseSampleReplicates(caseSampleReps),"} + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumSqDevationX,"} }"))
-  }
-  else
-  {
-    formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
-  }
+  #if(is.null(exStdErrData))
+  #{
+    if(!checkUsingWls())
+    {
+      formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourCaseSampleReplicates(caseSampleReps),"} + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumSqDevationX,"} }"))
+    }
+    else
+    {
+      formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+    }
+ # }
+  #else{
+    #DO WORK HERE
+ # }
   
   
   formulas = c(formulas, paste("&=",answer))
@@ -355,13 +361,15 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   for(i in runNames)
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
-    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
+    n = doGetCalibrationCurve_n(exStdErrorRunData[,i])
+    standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],standardisedWeights)
     seorFromatted = formatNumberForDisplay(seor, input)
     seorColoured = colourNumber(seorFromatted, input$useColours, input$colour7)
     results = c(results, seorColoured)
   }
 
-  formulas = c(paste("S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
+  formulas = c(paste("S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n ",if(checkUsingWls())"w_i","(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
 
   for(i in 1:length(results))
   {
@@ -383,9 +391,8 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   data = getDataCalibrationCurveReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
-  weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
-  
-  answer = formatNumberForDisplay(doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,weightedLeastSquared,exStdErrorData), input)
+
+  answer = formatNumberForDisplay(getCalibrationCurve_pooledStdErrorOfRegression(), input)
   
   formulas = c(paste("S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","} &= \\sqrt{\\frac{\\sum{(n_{(k)}-1)S^2_{",if(checkUsingWls())"w_{(k)}"else"y/x","}}}{\\sum{(n_{(k)}-1)}}} [[break]]"))
   formulas = c(formulas, paste("S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(checkUsingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
@@ -397,7 +404,9 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   for(i in colnames(exStdErrorRunData))
   {
     weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
-    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],weightedLeastSquared)
+    n = doGetCalibrationCurve_n(exStdErrorRunData[,i])
+    standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],standardisedWeights)
     
     df = data.frame(seor)
     names(df) = i
@@ -416,7 +425,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   n3 = lengths[length(results)]
   n3 = colourNumber(n3, input$useColours, input$colour5)
   
-  s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,weightedLeastSquared), input)
+  s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,standardisedWeights), input)
   s1 = colourNumber(s1, input$useColours, input$colour4)
   
   s2 = formatNumberForDisplay(results[1], input)
