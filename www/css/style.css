@@ -1,3 +1,39 @@
+.main-header .logo {
+  height: 70px;
+  padding: 10px 0 0 15px;
+}
+
+.main-header .sidebar-toggle {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.main-header .navbar-nav > li > a {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.main-sidebar,
+.control-sidebar {
+  padding-top: 70px;
+}
+
+
+
+/* Fixes for when mobile view with larger header */
+.main-header {
+    max-height: 150px;
+}
+
+@media screen and (max-width: 767px){
+  .main-sidebar{
+    padding-top: 140px;
+  }
+}
+
+/* End fixes for mobile view */
+
+
 a[data-value="calibrationCurve"],
 a[data-value="methodPrecision"],
 a[data-value="standardSolution"],
@@ -12,8 +48,25 @@ a[data-value="dashboard"],
 }
 
 .navbar{
-	background: #3c8dbc url("../images/lrcfs-logo.png") top right no-repeat !important;
+	background: #2e2d2c url("../images/lrcfs-logo.png") 99% 50% no-repeat !important;
 }
+
+.skin-blue .main-header .logo{
+  background-color: #424140;
+}
+
+  .skin-blue .main-header .logo:hover {
+      background-color: #2e2d2c;
+  }
+  
+  .skin-blue .main-header .navbar .sidebar-toggle:hover {
+      background-color: #424140;
+  }
+  
+  .skin-blue .main-header .navbar .nav > li > a:hover {
+      background-color: #424140;
+      color: #f6f6f6;
+  }
 
 .visible,
 a.visible,
@@ -91,6 +144,19 @@ th .MathJax_Display {
 	margin: 0 0 20px 0;
 	display: none;
 }
+
+.footerItem{
+  
+}
+
+.footerLogo{
+  float: right;
+  margin-left: 20px;
+}
+
+  .footerLogo img{
+    height: 41px;
+  }
 
 /* new clearfix */
 .clear:after {

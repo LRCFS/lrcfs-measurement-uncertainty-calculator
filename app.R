@@ -92,8 +92,11 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                         ),
                         rightsidebar = mouCalcRightSidebar,
                         footer = dashboardFooter(
-                          left_text = "Measurement Uncertainty Calculator",
-                          right_text = paste0("Copyright LRCFS ",format(Sys.time(), "%Y"))
+                          left_text = HTML(paste0("<div class='footerItem'>Measurement Uncertainty Calculator (v",APP_VER,") &copy;",format(Sys.time(), "%Y"),"</div>
+                                           <div class='footerItem'><a href='https://www.dundee.ac.uk/leverhulme/'>Developed by LRCFS</a></div>
+                                           <div class='footerItem'><a href='https://www.leverhulme.ac.uk/'>Funded by The Leverhulme Trust</a></div>")),
+                          right_text = HTML("<div class='footerLogo'><a href='https://www.dundee.ac.uk/leverhulme/'><img src='images/lrcfs-logo-colour.png'  alt='Visit LRCFS website' /></a></div>
+                                            <div class='footerLogo'><a href='https://www.leverhulme.ac.uk'><img src='images/lt-logo-colour.png' alt='Visit The Leverhulme Trust website' /></a></div>")
                        )
 )
 
