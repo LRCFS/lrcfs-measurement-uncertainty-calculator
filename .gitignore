@@ -40,3 +40,4 @@ shinyShortcut.vbs
 
 deploy/
 packrat/lib*/
+packrat/bundles
