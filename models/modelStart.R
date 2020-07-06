@@ -107,7 +107,7 @@ output$display_start_sampleVolumeFileUpload <- renderUI({
 })
 
 output$actionButton_start_downloadReport = downloadHandler(
-  filename = paste0(APP_DEV_SHORT,"-",APP_NAME_SHORT,"-Report.html"),
+  filename = paste0(APP_DEV_SHORT,"-",APP_NAME_SHORT,"-Report-",format(Sys.time(), "%Y-%m-%d"),".html"),
   content = function(file) {
     # Copy the report file to a temporary directory before processing it, in
     # case we don't have write permissions to the current working dir (which

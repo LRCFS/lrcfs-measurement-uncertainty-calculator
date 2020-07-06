@@ -2,8 +2,8 @@ APP_DEV = "Leverhulme Research Centre for Forensic Science"
 APP_DEV_SHORT = "LRCFS"
 APP_NAME = "Measurement Uncertainty Calculator"
 APP_NAME_SHORT = "MUCalc"
-APP_VER = "0.6.6"
-APP_LINK = "https://www.dundee.ac.uk/leverhulme/projects/details/measurement-uncertainty-calculator.php"
+APP_VER = "1.0.0"
+APP_LINK = "https://github.com/LRCFS/lrcfs-measurement-uncertainty-calculator"
 
 #Properties used by formatNumber helperFunction
 # numDecimalPlaces = 6

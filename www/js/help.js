@@ -43,9 +43,7 @@ function(startingStep) {
 			intro: '<h4>' + APP_NAME + ' Help</h4>\
 					<p>Welcome to the ' + APP_NAME_SHORT + ' help. These help windows are specific to each section so make sure to explore the help on each page as you use the application.</p>\
 					<p>To use the help, move between each section by using the <strong>Previous</strong> and <strong>Next</strong> buttons at the bottom of each help window. You can exit the help at any time by clicking the <strong>Close</strong> button or just outside a help window.</p>\
-					<p>To get started, make sure to view our short demo video below to see what\'s possible.</p>\
-					<p><iframe width=\'100%\' height=\'350px\' src=\'https://www.youtube.com/embed/tVWiK4zL_yQ\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe></p>\
-					<p>Click <strong>Next</strong> to continue through the help or <strong>Close</strong> to exit.</p>'
+					<p>To get started click <strong>Next</strong> to continue through the help or <strong>Close</strong> to exit.</p>'
 		},
 		{
 			element: '#shiny-tab-start #calcurve',

@@ -103,106 +103,231 @@ With the information supplied above the following result has been concentration 
 ## Calibration Curve
 
 ### Overview
-
 All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required.
-
-The method tab, shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.
+The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.
 
 ### Method
+#### Non Weighted
 The uncertainty of calibration curve is given by:
 
-$$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$$
+$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$
 
 where $S_{y/x}$ is the standard error of regression given by
 
-$$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$$
+$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$
 
-- $S_{y/x}$ is the standard error of regressing $y$ on $x$
+- $x_i$ concentration at level $i$.
 
-- $b_1$ is the Slope of the of regression line
+- $y_i$ observed peak area ratio for a given concentration $x_i$.
 
-- $r_s$ is the number of replicates made on test sample to determine $x_s$
+- $\hat{y}_i$ predicted value of $y$ for a given value $x_i$.
 
-- $n$ is the number of measurements used to generate the Calibration Curve
+- $b_1$ is the Slope of the of regression line.
 
-- $x_s$ is the mean concentration of the Case Sample
+- $x_s$ is the mean concentration of the Case Sample.
 
-- $\overline{x}$ is the mean values of the different calibration standards
+- $r_s$ is the number of replicates made on test sample to determine $x_s$.
 
-- $S_{xx}$ is the sum of squares deviation of $x$ given by $\sum\limits_{i=1}^n (x_i - \overline{x})^2$
+- $n$ is the number of measurements used to generate the Calibration Curve.
 
-\newpage
+- $\overline{x}$ is the mean values of the different calibration standards.
+
+- $S_{xx}$ is the sum of squares deviation of $x$ given by $\sum\limits_{i=1}^n (x_i - \overline{x})^2$.
+
+
+#### Weighted
+Where weight is specified the uncertainty of calibration curve is given by:
+
+$u\text{(CalCurve)} = \frac{S_{w}}{b_1} \sqrt{\frac{1}{w_{s}(r_s)} + \frac{1}{n} + \frac{(y_s - \overline{y}_w)^2}{b_1^2[\sum{wx^2-n(\overline{x}_w)^2}]} }$
+
+where $S_w$ is the standard error of regression given by
+
+$S_w = \sqrt{\frac{\sum\limits_{i=1}^n w_i(y_i-\hat{y}_i)^2}{n-2}}$
+
+- $x_i$ concentration at level $i$.
+
+- $x_s$ is the mean concentration of the Case Sample.
+
+- $r_s$ is the number of replicates made on test sample to determine $x_s$.
+
+- $y_i$ observed peak area ratio for a given concentration $x_i$.
+
+- $\hat{y}_i$ predicted value of $y$ for a given value $x_i$.
+
+- $b_1$ is the Slope of the of the weighted regression line.
+
+- $y_s$ is the mean of Peak Area Ratio of the Case Sample.
+
+- $\overline{y}_w$ is the weighted mean of peak area ratios.
+
+- $n$ is the number of measurements used to generate the Calibration Curve.
+
+- $\overline{x}_w$ is the mean values of the different calibration standards.
+
+- $W$ is the specified Weight.
+
+- $w$ is the standardised weight given by $W(\frac{n}{\sum{W}})$
+
+- $w_s$ is the Weight of Case Sample.
+
+***
+\newpage 
 ## Method Precision
 
 ### Overview
 
-A step-by-step approach for estimating the uncertainty of method precision is out lined here. The main methodology used is the pooled standard deviation approach.
+A step-by-step approach for estimating the uncertainty of method precision is outlined here. The main methodology used is the pooled standard deviation approach.
 
-Where precision experiment is carried out for different nominal values of concentration such low, medium and high, the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.
+Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.
 
 ### Method
 
 The relative standard uncertainty of method precision is given by:
 
-$$u_r(\text{MethodPrec})_{\text{(NV)}} = \frac{u(\text{MethodPrec})_{\text{(NV)}}}{\text{NV}}$$
+$u_r(\text{MethodPrec})_{\text{(NV)}} = \frac{u(\text{MethodPrec})_{\text{(NV)}}}{\text{NV}},$
 
 where
 
-$$u(\text{MethodPrec})_{\text{(NV)}} = \frac{S_{p\text{(NV)}}}{\sqrt{r_s}}$$
+$u(\text{MethodPrec})_{\text{(NV)}} = \frac{S_{p\text{(NV)}}}{\sqrt{r_s}},$
 
 and
 
-$$S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\sum {\large\nu}_{\text{(NV)}}}}$$
+$S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\sum {\large\nu}_{\text{(NV)}}}}.$
 
-- $S$ is the individual runs standard deviation
+- \(S\) is the standard deviation for each run.
 
-- ${\large\nu}$ is the individual degrees of freedom
+- \({\large\nu}\) is the individual degrees of freedom.
 
-- $S_p$ is the pooled standard deviation
+- \(S_p\) is the pooled standard deviation.
 
-- $NV$ is the nominal value of concentration
+- \(NV\) is the nominal value of concentration.
 
-\newpage
+***
+\newpage 
 ## Standard Solution
 
-Work in progress...
+### Overview
 
-\newpage
+Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of the uncertainty associated with spiking the calibration standards.
+
+The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve.
+
+If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.
+
+### Method
+
+The RSU of each equipment is computed using:
+
+$u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Volume}}$
+
+The RSU of reference compound is calculated using:
+
+$u_r(\text{Reference Compound}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Purity}}$
+
+The RSU of each solution is computed using:
+
+$u_r\text{(Solution)} = \sqrt{u_r\text{(Parent Solution)}^2 + \sum{[u_r\text{(Equipment)}^2_{\text{(Vol,Tol)}} \times N\text{(Equipment)}_{\text{(Vol,Tol)}}]}}$
+
+The RSU of standard (spiking) solution is obtained by pooling the RSU's of the calibration curve spiking range.
+
+$u_r(\text{StdSolution}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)}^2}}$
+
+- \(\text{Parent Solution}\) is the solution from which a given solution is made.
+
+- \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in the preparation of a given solution.
+
+***
+\newpage 
 ## Sample Volume
 
-Work in progress...
+### Overview
 
-\newpage
+The uncertainty of sample volume quantifies the uncertainty associated with quantifying the volume of case sample through the use of for example pipette.
+
+### Method
+
+The RSU of each equipment is computed using:
+
+$u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Volume}}$
+
+The RSU of sample volume is given by:
+
+$u_r\text{(SampleVolume)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,Tol)}}^2 \times N(\text{Equipment})_{\text{(Vol,Tol)}}}]}$
+
+
+- \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in taking the volume of a given sample.
+
+***
+\newpage 
 ## Combined Uncertainty
 
 ### Overview
+
 The combined uncertainty is obtained by combining all the individual uncertainty components.
-If data is uploaded for all the uncertainty components; Calibration curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
+
+If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
+
 If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.
 
 ### Method
 The combined uncertainty is given by:
-$$\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Component)}^2}}$$
 
-- $x_s$ is the Case Sample Mean Concentration
+$\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Component)}^2}}$
 
-\newpage
-## Coverage Factor
-
-Work in progress...
-
-\newpage
-## Expanded Uncertainty
-
-Work in progress...
-
-\newpage
-## % Expanded Uncertainty
-
-Work in progress...
+- \(x_s\) is the Case Sample Mean Concentration.
 
 ***
+\newpage 
+## Coverage Factor
 
+### Overview
+
+Coverage factor \((k)\) is a number usually greater than one from which an expanded uncertainty is obtained when \(k\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.
+
+An effective degrees of freedom is computed using the Welch-Satterthwaite equation with details given in the Method tab. The derived effective degrees of freedom along with the specified \({\small CI\%}\) is used to read a value (termed coverage factor) from the t-distribution table.
+
+### Method
+
+The effective degrees of freedom \(({\LARGE\nu}_{\text{eff}})\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:
+
+${\LARGE\nu}_{\text{eff}} =\frac{(\frac{\text{CombUncertainty}}{x_s})^4}{\sum{\frac{u_r\text{(Individual Uncertainty Component)}^4}{{\LARGE\nu}_{\text{(Individual Uncertainty Component)}}}}}$
+
+The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read from the t-distribution table using the calculated \({\Large\nu}_{\text{eff}}\) and specified \({\small CI\%}\).
+
+- \(x_s\) is the Case Sample Mean Concentration.
+
+- \(\nu\) is the Degrees of Freedom for each uncertainty component.
+
+- \({\small\text{CombUncertainty}}\) is the Combined Uncertainty of the individual uncertainty components.
+
+***
+\newpage 
+## Expanded Uncertainty
+
+### Overview
+
+The expanded uncertainty  is the final step of measurement uncertainty computation. It is computed by multiplying the combined uncertainty with the coverage factor.
+
+### Method
+
+The expanded uncertainty \(\text{(ExpUncertainty)}\) is given by:
+
+$\text{ExpUncertainty} = k_{{\large\nu}_{\text{eff}}, {\small CI\%}} \times \text{CombUncertainty}$
+
+with percentage expanded uncertainty given by:
+
+$\text{%ExpUncertainty} = \frac{\text{ExpUncertainty}}{x_s} \times 100$
+
+where:
+
+- \(k_{{\large\nu}_{\text{eff}}, {\small CI\%}}\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage.
+
+- \({\small\text{CombUncertainty}}\) is the combined uncertainty.
+
+- \(x_s\) case sample mean concentration.
+
+
+***
 \newpage 
 # Appendix 2 - Raw Data
 ## Calibration Curve
