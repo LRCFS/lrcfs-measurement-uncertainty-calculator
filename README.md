@@ -5,3 +5,32 @@ The Leverhulme Research Centre for Forensic Science Measurement Uncertainty Calc
 The software computes uncertainty components for Method Precision, Standard Solution, Sample Volume and Calibration Curve with the Calibration Curve assumed to be linear. If data is uploaded for all four components, the Combined Uncertainty is computed using all four components. An uncertainty component can be excluded from the Combined Uncertainty by simply not uploading any data for that component.
 
 Once data is uploaded, a step by step computation and details of all formulas used can be accessed for reviewed.
+
+# Using the LRCFS MUCalc
+You can access a publicaly available version of this application at: https://lrcfs.dundee.ac.uk/apps/measurement-uncertainty-calculator/
+
+# Running the MUCalc from source with RStudio
+MUCalc uses packrat (https://rstudio.github.io/packrat/) to manage dependancies of the various packages it uses.
+This ensures that the versions of the packages you use for this project work correctly and won't interfeare with
+other versions of the same packages you might be using on other projects.
+
+## Running MUCalc source for the first time
+To get started, open this file in RStudio and run the following command, ensuring that your working directory is set to the folder in which this file is stored.
+> getwd()
+
+If your working directory is not set correctly, use the following command to set your working directory - replacing the example path between the quotes.
+> setwd("c:/example/directory/application")
+
+Once your working directly is correctly set, install the "packrat" package with the following command.
+> install.packages("packrat")
+
+Once installed you will be able to run the following packrat command to "restore" the correct versions of packages required.
+This command is checking the .\packrat\packrat.lock file and is loading all the saved version of these packages from .\packrat\src\
+> packrat::restore()
+
+MUCalc uses a package called "shiny" (https://shiny.rstudio.com/) for rendering the website you see when you start the application.
+RStudio has built in support for Shiny and because we've just installed it (if you haven't used Shiny before) you must restart your RStudio instance and open the app.R file.
+
+> Close R Studio and open app.R
+
+Now that we've installed all the required dependancies, and loaded the app.R in RStudio, you will see an option to "Run App" at the top right of the app.R source code.
