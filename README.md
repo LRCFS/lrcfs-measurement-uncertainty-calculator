@@ -9,7 +9,7 @@ The software computes uncertainty components for Method Precision, Standard Solu
 Once data is uploaded, a step by step computation and details of all formulas used can be accessed for reviewed.
 
 # Using the LRCFS MUCalc
-You can access a publicaly available version of this application at: https://lrcfs.dundee.ac.uk/apps/measurement-uncertainty-calculator/
+You can access a publicaly available version of this application at: https://uod.ac.uk/lrcfsmucalc
 
 # Running the MUCalc from source with RStudio
 MUCalc uses packrat (https://rstudio.github.io/packrat/) to manage dependancies of the various packages it uses.
