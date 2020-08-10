@@ -27,6 +27,9 @@ APP_NAME = "Measurement Uncertainty Calculator"
 APP_NAME_SHORT = "MUCalc"
 APP_VER = "1.0.0"
 APP_LINK = "https://github.com/LRCFS/lrcfs-measurement-uncertainty-calculator"
+APP_DOI_URL = "https://zenodo.org/badge/latestdoi/187221339"
+APP_DOI_BAGE_URL = "https://zenodo.org/badge/187221339.svg"
+APP_DOI_HTML = paste0("<a href='",APP_DOI_URL,"'><img src='",APP_DOI_BAGE_URL,"' alt='DOI Badge'/></a>")
 
 #Properties used by formatNumber helperFunction
 # numDecimalPlaces = 6
