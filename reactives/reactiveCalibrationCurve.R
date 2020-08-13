@@ -97,8 +97,8 @@ getDataCalibrationCurveRearranged = reactive({
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
   
-  ### Get Squared Devation of X
-  sqDevationX = doGetCalibrationCurve_sqDeviation(x);
+  ### Get Weighted Squared Devation of X
+  weightedSqDevationX = getCalibrationCurve_weightedSqDeviationX();
   
   #Get Weight
   weightedLeastSquared = getCalibrationCurve_weightedLeastSquared()
@@ -120,8 +120,8 @@ getDataCalibrationCurveRearranged = reactive({
   weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
   
   ##Get data in dataframe
-  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,weightedLeastSquared,standardisedWeight,wx,wy,weightedXSquared,sqDevationX,predictedY,errorSqDevationY,weightedErrorSqDevationY)
-  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_i=W_i(\\frac{n}{\\sum{W_i}})$$","$$w_ix_i$$","$$w_iy_i$$","$$wx^2$$","$$\\text{Sq. Deviation} (x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$","$$w_i(y_i - \\hat{y}_i)^2$$")
+  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,weightedLeastSquared,standardisedWeight,wx,wy,weightedXSquared,weightedSqDevationX,predictedY,errorSqDevationY,weightedErrorSqDevationY)
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_i=W_i(\\frac{n}{\\sum{W_i}})$$","$$w_ix_i$$","$$w_iy_i$$","$$wx^2$$","$$w_i(x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$","$$w_i(y_i - \\hat{y}_i)^2$$")
   
   return(rearrangedCalibrationDataFrame)
 })
@@ -191,6 +191,32 @@ getCalibrationCurve_degreesOfFreedom = reactive({
 ##############################################
 # Get Numbers
 ##############################################
+
+getCalibrationCurve_weightedSqDeviationX = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data)) return(NULL)
+  
+  standarisedWeight = getCalibrationCurve_standardisedWeight()
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
+  
+  answer = doGetCalibrationCurve_weightedSqDeviation(standarisedWeight, x)
+  return(answer)
+})
+
+getCalibrationCurve_sumWeightedSqDeviationX = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data)) return(NULL)
+  
+  standarisedWeight = getCalibrationCurve_standardisedWeight()
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
+  
+  answer = doGetCalibrationCurve_sumWeightedSqDeviation(standarisedWeight, x)
+  return(answer)
+})
+
+
 getCalibrationCurve_weightedLeastSquared = reactive({
   data = getDataCalibrationCurveReformatted()
   if(is.null(data)) return(NULL)
@@ -350,17 +376,17 @@ getCalibrationCurve_sumSqDeviationX = reactive({
   return(answer)
 })
 
-getCalibrationCurve_sumOfWeightedXSquared = reactive({
-  data = getDataCalibrationCurveReformatted()
-  if(is.null(data)) return(NULL)
-  
-  x = data$calibrationDataConcentration
-  y = data$calibrationDataPeakArea
-  wlsSelectedOption = input$inputWeightLeastSquared
-  
-  answer = doGetCalibrationCurve_sumOfWeightedXSquared(x,y,wlsSelectedOption)
-  return(answer)
-})
+# getCalibrationCurve_sumOfWeightedXSquared = reactive({
+#   data = getDataCalibrationCurveReformatted()
+#   if(is.null(data)) return(NULL)
+#   
+#   x = data$calibrationDataConcentration
+#   y = data$calibrationDataPeakArea
+#   wlsSelectedOption = input$inputWeightLeastSquared
+#   
+#   answer = doGetCalibrationCurve_sumOfWeightedXSquared(x,y,wlsSelectedOption)
+#   return(answer)
+# })
 
 getCalibrationCurve_errorSqDeviationY = reactive({
   data = getDataCalibrationCurveReformatted()

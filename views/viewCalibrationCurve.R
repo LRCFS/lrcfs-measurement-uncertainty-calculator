@@ -51,7 +51,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                           ),
                           tabPanel("Weighted",
                                    "Where weight is specified the uncertainty of calibration curve is given by:",
-                                   "$$u\\text{(CalCurve)} = \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} }$$",
+                                   "$$u\\text{(CalCurve)} = \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} }$$",
                                    "where \\(S_w\\) is the standard error of regression given by",
                                    "$$S_w = \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n-2}}$$",
                                    tags$ul(
@@ -62,12 +62,12 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                      tags$li("\\(\\hat{y}_i\\) predicted value of \\(y\\) for a given value \\(x_i\\)."),
                                      tags$li("\\(b_1\\) is the Slope of the of the weighted regression line."),
                                      tags$li("\\(y_s\\) is the mean of Peak Area Ratio of the Case Sample."),
-                                     tags$li("\\(\\overline{y}_w\\) is the weighted mean of peak area ratios."),
                                      tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve."),
                                      tags$li("\\(\\overline{x}_w\\) is the mean values of the different calibration standards."),
                                      tags$li("\\(W\\) is the specified Weight."),
                                      tags$li("\\(w\\) is the standardised weight given by \\(W(\\frac{n}{\\sum{W}})\\)"),
-                                     tags$li("\\(w_s\\) is the Weight of Case Sample.")
+                                     tags$li("\\(w_s\\) is the Weight of Case Sample."),
+                                     tags$li("\\(S_{{xx}_w}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n w_i(x_i - \\overline{x})^2\\).")
                                    )
                           )
                    )
@@ -97,8 +97,8 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        uiOutput("display_calibrationCurve_weightedMeanOfX"),
                        uiOutput("display_calibrationCurve_meanOfY"),
                        uiOutput("display_calibrationCurve_weightedMeanOfY"),
-                       uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX"),
-                       uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
+                       uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX")
+                       #uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
                      ),
                      fluidRow(
                        box(title = "Error Sum of Squares of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_errorSumSqY")),

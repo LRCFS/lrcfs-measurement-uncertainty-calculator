@@ -122,17 +122,27 @@ doGetCalibrationCurve_sqDeviation = function(values){
   return(sqDevation)
 }
 
-doGetCalibrationCurve_sumOfWeightedXSquared = function(x,y,wlsSelectedOption){
-  if(is.null(x) | is.null(y)) return(NA)
-  
-  n = doGetCalibrationCurve_n(y)
-  weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
-  standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
-  weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
-  
-  answer = sum(weightedXSquared)
+doGetCalibrationCurve_sumWeightedSqDeviation = function(weights, values){
+  answer = sum(doGetCalibrationCurve_weightedSqDeviation(weights, values))
   return(answer)
 }
+
+doGetCalibrationCurve_weightedSqDeviation = function(weights, values){
+  weightedSqDeviation = weights * (values - mean(values))^2
+  return(weightedSqDeviation)
+}
+
+# doGetCalibrationCurve_sumOfWeightedXSquared = function(x,y,wlsSelectedOption){
+#   if(is.null(x) | is.null(y)) return(NA)
+#   
+#   n = doGetCalibrationCurve_n(y)
+#   weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
+#   standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+#   weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
+#   
+#   answer = sum(weightedXSquared)
+#   return(answer)
+# }
 
 doGetCalibrationCurve_errorSqDeviationY = function(x,y,wlsValues){
   errorSqDeviationY = (na.omit(y) - doGetCalibrationCurve_predicetedY(x,y,wlsValues))^2
@@ -283,7 +293,8 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
   weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,caseSampleMeanPar)
   peakAreaRatioOfCaseSample = caseSampleMeanPar
   calCurveMeanOfY = getCalibrationCurve_meanOfY()
-  sumOfWeightedXSquared = getCalibrationCurve_sumOfWeightedXSquared()
+  #sumOfWeightedXSquared = getCalibrationCurve_sumOfWeightedXSquared()
+  sumWeightedSqDeviationX = getCalibrationCurve_sumWeightedSqDeviationX()
   meanOfX = getCalibrationCurve_meanOfX()
   sumSqDeviationX = doGetCalibrationCurve_sumSqDeviationX(x)
   slope = getCalibrationCurve_slope()
@@ -292,7 +303,7 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
   uncertaintyOfCalibration = 0
   if(doCheckUsingWls(wlsSelectedOption))
   {
-    uncertaintyOfCalibration = (syx / slope) * (sqrt((1/(weightedCaseSample*caseSampleReplicates))+(1/n)+((peakAreaRatioOfCaseSample-calCurveMeanOfY)^2 / (slope^2*(sumOfWeightedXSquared-n*meanOfX^2)))))
+    uncertaintyOfCalibration = (syx / slope) * (sqrt((1/(weightedCaseSample*caseSampleReplicates))+(1/n)+((caseSampleMeanConcentration-meanOfX)^2 / (sumWeightedSqDeviationX))))
   }
   else
   {

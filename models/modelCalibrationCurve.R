@@ -138,11 +138,9 @@ output$display_calibrationCurve_weightedMeanOfY = renderUI({
 })
 
 output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
-  if(checkUsingWls()) return(NULL) #Don't display if we're using Weighted Least Square
-    
-  answer = formatNumberForDisplay(getCalibrationCurve_sumSqDeviationX(), input)
+  answer = formatNumberForDisplay(getCalibrationCurve_sumWeightedSqDeviationX(), input)
   
-  formulas = c("S_{xx} &= \\sum\\limits_{i=1}^n(x_i - \\overline{x})^2")
+  formulas = c("S_{{xx}_w} &= \\sum\\limits_{i=1}^nw_i(x_i - \\overline{x})^2")
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour2)))
   output = mathJaxAligned(formulas, 5)
   
@@ -152,23 +150,21 @@ output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
       )
 })
 
-output$display_calibrationCurve_sumOfWeightedXSquared = renderUI({
-  if(!checkUsingWls()) return(NULL) #Only display if we're using Weighted Least Square
-    
-  data = getDataCalibrationCurveReformatted()
-  y = data$calibrationDataPeakArea
-  x = data$calibrationDataConcentration
-  
-  answer = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared(), input)
-  
-  formulas = c(paste("\\sum{w_ix_i^2} = ",colourNumber(answer, input$useColours, input$colour2)))
-  output = mathJaxAligned(formulas, 5)
-  
-  box(title = "Sum of \\(wx^2\\)",
-      width = 3,
-      withMathJax(HTML(output))
-  )
-})
+# output$display_calibrationCurve_sumOfWeightedXSquared = renderUI({
+#   data = getDataCalibrationCurveReformatted()
+#   y = data$calibrationDataPeakArea
+#   x = data$calibrationDataConcentration
+#   
+#   answer = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared(), input)
+#   
+#   formulas = c(paste("\\sum{w_ix_i^2} = ",colourNumber(answer, input$useColours, input$colour2)))
+#   output = mathJaxAligned(formulas, 5)
+#   
+#   box(title = "Sum of \\(wx^2\\)",
+#       width = 3,
+#       withMathJax(HTML(output))
+#   )
+# })
 
 output$display_calibrationCurve_errorSumSqY = renderUI({
   errorSqDeviationY = getCalibrationCurve_errorSqDeviationY()
@@ -281,22 +277,22 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
   calCurveMeanOfY = formatNumberForDisplay(getCalibrationCurve_meanOfY(), input)
   calCurveMeanOfY = colourNumber(calCurveMeanOfY, input$useColours, input$colour1)
-  sumOfWeightedXSquared = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedXSquared(), input)
-  sumOfWeightedXSquared = colourNumber(sumOfWeightedXSquared, input$useColours, input$colour2)
+  sumWeightedSqDeviationX = formatNumberForDisplay(getCalibrationCurve_sumWeightedSqDeviationX(), input)
+  sumWeightedSqDeviationX = colourNumber(sumWeightedSqDeviationX, input$useColours, input$colour2)
 
   answer = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   
   if(is.null(exStdErrData))
   {
     if(checkUsingWls())
-      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]")
     else
       formulas = c("u\\text{(CalCurve)} &= \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
   else
   {
     if(checkUsingWls())
-      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w_{p}}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(y_s - \\overline{y}_w)^2}{b_1^2[\\sum{wx^2-n(\\overline{x}_w)^2}]} } [[break]]")
+      formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w_{p}}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]")
     else
       formulas = c("u\\text{(CalCurve)} &= \\frac{S_{p_{(y/x)}}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}} } [[break]]")
   }
@@ -309,7 +305,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
     }
     else
     {
-      formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample)," - ",calCurveMeanOfY,")^2}{",slope,"^2[",sumOfWeightedXSquared,"-",n,"\\times",meanX,"^2]}}"))
+      formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumWeightedSqDeviationX,"}}"))
     }
  # }
   #else{
