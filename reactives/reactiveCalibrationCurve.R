@@ -108,7 +108,6 @@ getDataCalibrationCurveRearranged = reactive({
   
   #Get Weight
   wx = standardisedWeight * x
-  wy = standardisedWeight * y
   
   ### Predicted Y value is the regression cofficient of Y compared to X
   predictedY = doGetCalibrationCurve_predicetedY(x,y, standardisedWeight);
@@ -117,11 +116,9 @@ getDataCalibrationCurveRearranged = reactive({
   errorSqDevationY = doGetCalibrationCurve_errorSqDeviationY(x,y,standardisedWeight);
   weightedErrorSqDevationY = doGetCalibrationCurve_weightedErrorSqDeviationY(standardisedWeight,errorSqDevationY)
   
-  weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
-  
   ##Get data in dataframe
-  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,weightedLeastSquared,standardisedWeight,wx,wy,weightedXSquared,weightedSqDevationX,predictedY,errorSqDevationY,weightedErrorSqDevationY)
-  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w_i=W_i(\\frac{n}{\\sum{W_i}})$$","$$w_ix_i$$","$$w_iy_i$$","$$wx^2$$","$$w_i(x_i-\\overline{x})^2$$","$$\\hat{y}_i = b_0 + b_1x_i$$","$$(y_i - \\hat{y}_i)^2$$","$$w_i(y_i - \\hat{y}_i)^2$$")
+  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,weightedLeastSquared,standardisedWeight,wx,weightedSqDevationX,predictedY,weightedErrorSqDevationY)
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w=W(\\frac{n}{\\sum{W_i}})$$","$$wx$$","$$w(x-\\overline{x})^2$$","$$\\hat{y} = b_0 + b_1x$$","$$w(y - \\hat{y})^2$$")
   
   return(rearrangedCalibrationDataFrame)
 })

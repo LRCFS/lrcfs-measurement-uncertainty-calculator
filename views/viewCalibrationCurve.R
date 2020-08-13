@@ -32,23 +32,6 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        p("The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.")
                    ),
                    tabBox(title = "Method", width=6,
-                          tabPanel("Non-Weighted",
-                                   "The uncertainty of calibration curve is given by:",
-                                   "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
-                                   "where \\(S_{y/x}\\) is the standard error of regression given by",
-                                   "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
-                                   tags$ul(
-                                     tags$li("\\(x_i\\) concentration at level \\(i\\)."),
-                                     tags$li("\\(y_i\\) observed peak area ratio for a given concentration \\(x_i\\)."),
-                                     tags$li("\\(\\hat{y}_i\\) predicted value of \\(y\\) for a given value \\(x_i\\)."),
-                                     tags$li("\\(b_1\\) is the Slope of the of regression line."),
-                                     tags$li("\\(x_s\\) is the mean concentration of the Case Sample."),
-                                     tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)."),
-                                     tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve."),
-                                     tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards."),
-                                     tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\).")
-                                   )
-                          ),
                           tabPanel("Weighted",
                                    "Where weight is specified the uncertainty of calibration curve is given by:",
                                    "$$u\\text{(CalCurve)} = \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} }$$",
@@ -68,6 +51,23 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                      tags$li("\\(w\\) is the standardised weight given by \\(W(\\frac{n}{\\sum{W}})\\)"),
                                      tags$li("\\(w_s\\) is the Weight of Case Sample."),
                                      tags$li("\\(S_{{xx}_w}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n w_i(x_i - \\overline{x})^2\\).")
+                                   )
+                          ),
+                          tabPanel("Non-Weighted",
+                                   "The uncertainty of calibration curve is given by:",
+                                   "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
+                                   "where \\(S_{y/x}\\) is the standard error of regression given by",
+                                   "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
+                                   tags$ul(
+                                     tags$li("\\(x_i\\) concentration at level \\(i\\)."),
+                                     tags$li("\\(y_i\\) observed peak area ratio for a given concentration \\(x_i\\)."),
+                                     tags$li("\\(\\hat{y}_i\\) predicted value of \\(y\\) for a given value \\(x_i\\)."),
+                                     tags$li("\\(b_1\\) is the Slope of the of regression line."),
+                                     tags$li("\\(x_s\\) is the mean concentration of the Case Sample."),
+                                     tags$li("\\(r_s\\) is the number of replicates made on test sample to determine \\(x_s\\)."),
+                                     tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve."),
+                                     tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards."),
+                                     tags$li("\\(S_{xx}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n (x_i - \\overline{x})^2\\).")
                                    )
                           )
                    )
@@ -93,10 +93,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                      DT::dataTableOutput('rearrangedCalibrationData'),
                      fluidRow(
                        box(title = "Linear Regression", width = 3, uiOutput("display_calibrationCurve_linearRegression")),
-                       uiOutput("display_calibrationCurve_meanOfX"),
                        uiOutput("display_calibrationCurve_weightedMeanOfX"),
-                       uiOutput("display_calibrationCurve_meanOfY"),
-                       uiOutput("display_calibrationCurve_weightedMeanOfY"),
                        uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX")
                        #uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
                      ),

@@ -300,15 +300,7 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
   slope = getCalibrationCurve_slope()
   n = getCalibrationCurve_n()
   
-  uncertaintyOfCalibration = 0
-  if(doCheckUsingWls(wlsSelectedOption))
-  {
-    uncertaintyOfCalibration = (syx / slope) * (sqrt((1/(weightedCaseSample*caseSampleReplicates))+(1/n)+((caseSampleMeanConcentration-meanOfX)^2 / (sumWeightedSqDeviationX))))
-  }
-  else
-  {
-    uncertaintyOfCalibration = (syx / slope) * (sqrt((1/caseSampleReplicates)+(1/n)+((caseSampleMeanConcentration-meanOfX)^2 / sumSqDeviationX)))
-  }
+  uncertaintyOfCalibration = (syx / slope) * (sqrt((1/(weightedCaseSample*caseSampleReplicates))+(1/n)+((caseSampleMeanConcentration-meanOfX)^2 / (sumWeightedSqDeviationX))))
   
   return(uncertaintyOfCalibration)
 }
