@@ -23,14 +23,18 @@
 
 myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedExternalStandardError=FALSE,
+                             uploadedCustomWls=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
                              uploadedSampleVolume=FALSE)
 
 
+
+
 myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
                              uploadedExternalStandardError=NULL,
+                             uploadedCustomWls=NULL,
                              uploadedMethodPrecision=NULL,
                              uploadedStandardSolutionStructure=NULL,
                              uploadedStandardSolutionEquipment=NULL,
@@ -60,6 +64,19 @@ observeEvent(input$reset_inputCalibrationCurveFileUpload, {
   myReactiveErrors$uploadedCalibrationCurve = NULL
   myReactives$uploadedExternalStandardError = FALSE
   myReactiveErrors$uploadedExternalStandardError = NULL
+  checkIfShowResults()
+})
+
+#Custom Weights file upload and reset
+observeEvent(input$inputCustomWlsFileUpload, {
+  filePath = input$inputCustomWlsFileUpload$datapath
+  myReactiveErrors$uploadedCustomWls = calibrationCurveCustomWlsReadCSV(filePath, TRUE)
+  myReactives$uploadedCustomWls = is.null(myReactiveErrors$uploadedCustomWls)
+  checkIfShowResults()
+})
+observeEvent(input$reset_inputCustomWlsFileUpload, {
+  myReactives$uploadedCustomWls = FALSE
+  myReactiveErrors$uploadedCustomWls = NULL
   checkIfShowResults()
 })
 
@@ -128,6 +145,10 @@ observeEvent(input$inputCaseSampleMeanPeakAreaRatio, {
   checkIfShowResults()
 })
 
+observeEvent(input$inputCaseSampleCustomWeight, {
+  checkIfShowResults()
+})
+
 observeEvent(input$inputConfidenceInterval, {
   checkIfShowResults()
 })
@@ -138,36 +159,77 @@ checkIfShowResults = function(){
   #Show/hide errors
   showHideError("display_start_error_calibrationCurveFileUpload", myReactiveErrors$uploadedCalibrationCurve)
   showHideError("display_start_error_externalStandardErrorFileUpload", myReactiveErrors$uploadedExternalStandardError)
+  showHideError("display_start_error_customWlsFileUpload", myReactiveErrors$uploadedCustomWls)
   showHideError("display_start_error_methodPrecisionFileUpload", myReactiveErrors$uploadedMethodPrecision)
   showHideError("display_start_error_standardSolutionStructureFileUpload", myReactiveErrors$uploadedStandardSolutionStructure)
   showHideError("display_start_error_standardSolutionEquipmentFileUpload", myReactiveErrors$uploadedStandardSolutionEquipment)
   showHideError("display_start_error_sampleVolumeFileUpload", myReactiveErrors$uploadedSampleVolume)
   
   #show/hide menu items
-  showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", myReactives$uploadedCalibrationCurve)
+  if(checkUsingCustomWls())
+  {
+    showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", myReactives$uploadedCalibrationCurve & myReactives$uploadedCustomWls)
+  }
+  else
+  {
+    showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", myReactives$uploadedCalibrationCurve)
+  }
   showHideMenuItem(".sidebar-menu li a[data-value=methodPrecision]", myReactives$uploadedMethodPrecision)
   showHideMenuItem(".sidebar-menu li a[data-value=standardSolution]", myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment)
   showHideMenuItem(".sidebar-menu li a[data-value=sampleVolume]", myReactives$uploadedSampleVolume)
   
+  
+  #Deterine if we should show the results tabs
   #check if we've uploaded any one type of data
   if(myReactives$uploadedCalibrationCurve ||
      myReactives$uploadedMethodPrecision ||
      (myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment) ||
      myReactives$uploadedSampleVolume)
   {
-    #Check that case sample replicates, mean concentration, peak area ratio and confidence interval have been specified correctly
+    #Check that we have valid inputs
+    
+    #Check custom weights uploaded if needed
+    checkCustomWls = FALSE
+    checkCaseSampleWeight = FALSE
+    if(checkUsingCustomWls())
+    {
+      if(myReactives$uploadedCustomWls){
+        checkCustomWls = TRUE
+      }
+      else{
+        checkCustomWls = FALSE
+      }
+      
+      inputCaseSampleCustomWeight = input$inputCaseSampleCustomWeight
+      if(is.null(inputCaseSampleCustomWeight) | !is.numeric(inputCaseSampleCustomWeight)){
+        checkCaseSampleWeight = FALSE
+      }
+      else{
+        checkCaseSampleWeight = TRUE
+      }
+    }
+    else
+    {
+      checkCustomWls = TRUE
+      checkCaseSampleWeight = TRUE
+    }
+    
+    
+    #Check case sample replicates
     inputCaseSampleReplicates = input$inputCaseSampleReplicates
     if(is.null(inputCaseSampleReplicates) | !is.numeric(inputCaseSampleReplicates))
     {
       inputCaseSampleReplicates = 0;
     }
     
+    #check mean concentration
     inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
     if(is.null(inputCaseSampleMeanConcentration) | !is.numeric(inputCaseSampleMeanConcentration))
     {
       inputCaseSampleMeanConcentration = 0;
     }
     
+    #check peak area ratio
     inputCaseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
     if(checkNeedPeakAreaRatio())
     {
@@ -179,7 +241,20 @@ checkIfShowResults = function(){
       inputCaseSampleMeanPeakAreaRatio = 1
     }
     
-    if(input$inputConfidenceInterval != "" &
+    #check confidence interval
+    inputConfidenceInterval = input$inputConfidenceInterval
+    if(input$inputConfidenceInterval != "")
+    {
+      inputConfidenceInterval = TRUE
+    }
+    else{
+      inputConfidenceInterval = FALSE
+    }
+    
+    
+    if(checkCustomWls == TRUE &
+       checkCaseSampleWeight == TRUE &
+       inputConfidenceInterval == TRUE &
        inputCaseSampleReplicates > 0 &
        inputCaseSampleMeanConcentration > 0 &
        inputCaseSampleMeanPeakAreaRatio > 0)

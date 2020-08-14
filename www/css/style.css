@@ -111,8 +111,11 @@ th .MathJax_Display {
 	text-align : right !important;
 }
 
+
+
 #fileUploadBox a,
-#fileUploadBox button{
+#fileUploadBox button,
+#reset_inputCustomWlsFileUpload{
 	float: right;
 }
 

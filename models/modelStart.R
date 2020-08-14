@@ -38,6 +38,17 @@ output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
   }
 })
 
+output$display_start_caseSampleCustomWeight <- renderUI({
+  input$inputWeightLeastSquared #This line is here to attach the event to update when the option is changed
+  
+  if(checkUsingCustomWls())
+  {
+    numericInput("inputCaseSampleCustomWeight",
+                 withMathJax("Weight \\((W_s)\\)"),
+                 value = NULL)
+  }
+})
+
 output$display_start_replicates <- renderUI({
   string = paste(input$inputCaseSampleReplicates)
   return(string)
@@ -52,6 +63,13 @@ output$display_start_meanPar <- renderUI({
   if(checkNeedPeakAreaRatio())
   {
     infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=12, icon=icon("chart-bar"), color="orange")
+  }
+})
+
+output$display_start_customWeight <- renderUI({
+  if(checkUsingCustomWls())
+  {
+    infoBox(withMathJax(HTML("Case Sample<br />Weight\\((W_s)\\)")),input$inputCaseSampleCustomWeight, width=12, icon=icon("weight"), color="red")
   }
 })
 
@@ -127,6 +145,38 @@ output$display_start_sampleVolumeFileUpload <- renderUI({
                         accept = c(".csv"))
   
   return(fileInput)
+})
+
+output$display_start_customWlsFileUpload <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  fileInput = ""
+  if(checkUsingCustomWls())
+  {
+    fileInput = fileInput("inputCustomWlsFileUpload", "Custom Weights (CSV)",
+                          multiple = FALSE,
+                          accept = c(".csv"))
+  }
+  
+  return(fileInput)
+})
+
+output$display_start_customWlsFileUploadErrorDiv <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  if(checkUsingCustomWls())
+  {
+    return(div("Error with uploaded file...", class="error", id="display_start_error_customWlsFileUpload"))
+  }
+})
+
+output$display_start_customWlsFileUploadRemoveDataButton <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  if(checkUsingCustomWls())
+  {
+    return(actionButton("reset_inputCustomWlsFileUpload", "Remove Custom Weights Data", icon=icon("times")))
+  }
 })
 
 output$actionButton_start_downloadReport = downloadHandler(

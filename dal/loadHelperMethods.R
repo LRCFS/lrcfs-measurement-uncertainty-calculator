@@ -1,7 +1,10 @@
 removeEmptyData = function(df)
 {
   #Remove NA rows
-  df = df[!apply(is.na(df) | df == "", 1, all),]
+  if(ncol(df) > 1)
+  {
+    df = df[!apply(is.na(df) | df == "", 1, all),]
+  }
   #Remove NA columns
   df = df[colSums(!is.na(df)) > 0]
   return(df)

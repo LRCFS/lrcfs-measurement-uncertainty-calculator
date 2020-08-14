@@ -105,7 +105,11 @@ tabStart = tabItem(tabName = "start",
                                                 "Concentraion \\((1/x)\\)" = 2,
                                                 "Concentraion Squared \\((1/x^2)\\)" = 3,
                                                 "Peak Area \\((1/y)\\)" = 4,
-                                                "Peak Area Squared \\((1/y^2)\\)" = 5))
+                                                "Peak Area Squared \\((1/y^2)\\)" = 5,
+                                                "Specify custom Weights..." = 999)),
+                                  uiOutput("display_start_customWlsFileUpload"),
+                                  uiOutput("display_start_customWlsFileUploadErrorDiv"),
+                                  uiOutput("display_start_customWlsFileUploadRemoveDataButton"),
                               )
                             ),
                             fluidRow(
@@ -118,11 +122,13 @@ tabStart = tabItem(tabName = "start",
                                   numericInput("inputCaseSampleMeanConcentration",
                                                "Mean Concentration\\((x_s)\\)",
                                                value = NULL),
-                                  uiOutput("display_start_caseSampleMeanPeakAreaRatio")
+                                  uiOutput("display_start_caseSampleMeanPeakAreaRatio"),
+                                  uiOutput("display_start_caseSampleCustomWeight")
                               ),
                               infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_start_replicates"))), width=6, icon=icon("vials"), color="aqua"),
                               infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_start_meanConcentration"))), width=6, icon=icon("map-marker"), color="fuchsia"),
-                              uiOutput("display_start_meanPar")
+                              uiOutput("display_start_meanPar"),
+                              uiOutput("display_start_customWeight")
                             ),
                             fluidRow(
                               hr()

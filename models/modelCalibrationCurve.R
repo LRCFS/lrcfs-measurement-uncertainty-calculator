@@ -155,10 +155,11 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   
   caseSampleMeanConc = input$inputCaseSampleMeanConcentration
   peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
+  caseSampleWeight = input$inputCaseSampleCustomWeight
   sumOfWeights = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedLeastSquared(), input)
   answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
   
-  formulas = c("w_s &= W(\\frac{n}{\\sum{W_i}})")
+  formulas = c("w_s &= W_s(\\frac{n}{\\sum{W_i}})")
   
   if(wlsSelectedOption == 1)
   {
@@ -179,6 +180,10 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   else if (wlsSelectedOption == 5)
   {
     formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+  }
+  else if (wlsSelectedOption == 999)
+  {
+    formulas = c(formulas, paste("&= ",caseSampleWeight,"(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour9)))
