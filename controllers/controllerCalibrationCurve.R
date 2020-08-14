@@ -29,6 +29,14 @@ doCheckUsingWls = function(wlsSelectedOption)
   }
   return(TRUE)
 }
+doCheckNeedPeakAreaRatio = function(wlsSelectedOption)
+{
+  if(wlsSelectedOption == 4 || wlsSelectedOption == 5)
+  {
+    return(TRUE)
+  }
+  return(FALSE)
+}
 doCheckMeanPeakAreaRatioSpecified = function(specifiedPeakAreaRatio)
 {
   if(is.na(specifiedPeakAreaRatio))
@@ -189,11 +197,12 @@ doGetCalibrationCurve_weightedCaseSampleDenominator = function(x,y,wlsSelectedOp
   }
 }
 
-doGetCalibrationCurve_weightedCaseSample = function(x,y,caseSampleMeanConcentration,wlsSelectedOption,caseSampleMeanPar){
+doGetCalibrationCurve_weightedCaseSample = function(caseSampleMeanConcentration,caseSampleMeanPar,n,sumofwieghts,wlsSelectedOption){
   
-  answer = doGetCalibrationCurve_weightedLeastSquared(caseSampleMeanConcentration,caseSampleMeanPar,wlsSelectedOption)
+  weightedCaseSample = doGetCalibrationCurve_weightedLeastSquared(caseSampleMeanConcentration,caseSampleMeanPar,wlsSelectedOption)
+  standarisedWeightedCaseSample = weightedCaseSample * (n/sumofwieghts)
   
-  return(answer)
+  return(standarisedWeightedCaseSample)
 }
   
 doGetCalibrationCurve_degreesOfFreedom = function(values){
@@ -221,6 +230,11 @@ doGetCalibrationCurve_weightedLeastSquared = function(x,y,wlsSelectedOption){
   {
     return(NULL)
   }
+}
+
+doGetCalibrationCurve_sumOfWeightedLeastSquared = function(x,y,wlsSelectedOption){
+  answer = sum(doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption))
+  return(answer)
 }
 
 doGetCalibrationCurve_standardisedWeight = function(wls, n){
@@ -277,6 +291,7 @@ doGetCalibrationCurve_wlsLatex = function(wlsSelectedOption){
 doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,caseSampleMeanPar,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
 {
   n = doGetCalibrationCurve_n(y)
+  sumOfWeights = doGetCalibrationCurve_sumOfWeightedLeastSquared(x,y,wlsSelectedOption)
   wlsValues = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
   standardisedWeight = doGetCalibrationCurve_standardisedWeight(wlsValues, n)
   
@@ -290,15 +305,14 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
     syx = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeight,extStdErrorData)
   }
   
-  weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,caseSampleMeanPar)
+  weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(caseSampleMeanConcentration,caseSampleMeanPar,n,sumOfWeights,wlsSelectedOption)
   peakAreaRatioOfCaseSample = caseSampleMeanPar
-  calCurveMeanOfY = getCalibrationCurve_meanOfY()
-  #sumOfWeightedXSquared = getCalibrationCurve_sumOfWeightedXSquared()
-  sumWeightedSqDeviationX = getCalibrationCurve_sumWeightedSqDeviationX()
-  meanOfX = getCalibrationCurve_meanOfX()
+  calCurveMeanOfY = doGetCalibrationCurve_meanOfY(x,y,wlsSelectedOption)
+  sumWeightedSqDeviationX = doGetCalibrationCurve_sumWeightedSqDeviation(standardisedWeight, x)
+  meanOfX = doGetCalibrationCurve_meanOfX(x,y,wlsSelectedOption)
   sumSqDeviationX = doGetCalibrationCurve_sumSqDeviationX(x)
-  slope = getCalibrationCurve_slope()
-  n = getCalibrationCurve_n()
+  slope = doGetCalibrationCurve_slope(x,y,wlsValues)
+  n = doGetCalibrationCurve_n(y)
   
   uncertaintyOfCalibration = (syx / slope) * (sqrt((1/(weightedCaseSample*caseSampleReplicates))+(1/n)+((caseSampleMeanConcentration-meanOfX)^2 / (sumWeightedSqDeviationX))))
   

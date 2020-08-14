@@ -28,12 +28,12 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,
-                       p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required."),
-                       p("The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.")
+                       p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required."),
+                       p("The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivilent to a simple linear regression (non-weighted) formula if the weight \\(W=1\\) is specified.")
                    ),
                    tabBox(title = "Method", width=6,
                           tabPanel("Weighted",
-                                   "Where weight is specified the uncertainty of calibration curve is given by:",
+                                   "Where a weight \\(W \\neq 1\\) is specified the uncertainty of calibration curve is given by:",
                                    "$$u\\text{(CalCurve)} = \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} }$$",
                                    "where \\(S_w\\) is the standard error of regression given by",
                                    "$$S_w = \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n-2}}$$",
@@ -54,7 +54,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                    )
                           ),
                           tabPanel("Non-Weighted",
-                                   "The uncertainty of calibration curve is given by:",
+                                   "When a wieght of \\(W = 1\\) is specified the uncertainty is simplified to the following:",
                                    "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
                                    "where \\(S_{y/x}\\) is the standard error of regression given by",
                                    "$$S_{y/x} = \\sqrt{\\frac{\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2}{n-2}}$$",
@@ -92,13 +92,13 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    box(title = "Step by Step Calculations", width=12,
                      DT::dataTableOutput('rearrangedCalibrationData'),
                      fluidRow(
-                       box(title = "Linear Regression", width = 3, uiOutput("display_calibrationCurve_linearRegression")),
+                       box(title = "Linear Regression", width = 4, uiOutput("display_calibrationCurve_linearRegression")),
                        uiOutput("display_calibrationCurve_weightedMeanOfX"),
                        uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX")
                        #uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
                      ),
                      fluidRow(
-                       box(title = "Error Sum of Squares of \\(y\\)", width = 3, uiOutput("display_calibrationCurve_errorSumSqY")),
+                       box(title = "Error Sum of Squares of \\(y\\)", width = 4, uiOutput("display_calibrationCurve_errorSumSqY")),
                        uiOutput("display_calibrationCurve_standardErrorOfRegression"),
                        uiOutput("display_calibrationCurve_weightedCaseSample")
                      ),

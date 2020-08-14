@@ -30,7 +30,7 @@
 output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
   input$inputWeightLeastSquared #This line is here to attach the event to update when the option is changed
 
-  if(checkUsingWls())
+  if(checkNeedPeakAreaRatio())
   {
     numericInput("inputCaseSampleMeanPeakAreaRatio",
                  withMathJax("Mean Peak Area Ratio\\((y_s)\\)"),
@@ -49,7 +49,7 @@ output$display_start_meanConcentration <- renderUI({
 })
 
 output$display_start_meanPar <- renderUI({
-  if(checkUsingWls())
+  if(checkNeedPeakAreaRatio())
   {
     infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=12, icon=icon("chart-bar"), color="orange")
   }

@@ -169,7 +169,7 @@ checkIfShowResults = function(){
     }
     
     inputCaseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
-    if(checkUsingWls())
+    if(checkNeedPeakAreaRatio())
     {
       if(is.null(inputCaseSampleMeanPeakAreaRatio) | !is.numeric(inputCaseSampleMeanPeakAreaRatio))
       {

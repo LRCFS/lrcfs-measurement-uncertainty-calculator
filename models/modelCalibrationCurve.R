@@ -35,7 +35,7 @@ output$display_calibrationCurve_meanConcentration = renderUI({
 })
 
 output$display_calibrationCurve_meanPar <- renderUI({
-  if(checkUsingWls())
+  if(checkNeedPeakAreaRatio())
   {
     infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=4, icon=icon("chart-bar"), color="orange")
   }
@@ -87,7 +87,7 @@ output$display_calibrationCurve_weightedMeanOfX = renderUI({
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour1)))
   output = mathJaxAligned(formulas, 5)
 
-  box(title = "Mean of Weighted \\(x\\)", width = 3, withMathJax(HTML(output)))
+  box(title = "Mean of Weighted \\(x\\)", width = 4, withMathJax(HTML(output)))
 })
 
 output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
@@ -98,7 +98,7 @@ output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
   output = mathJaxAligned(formulas, 5)
   
   box(title = "Sum of Squared Deviation of \\(x\\)",
-      width = 3,
+      width = 4,
       withMathJax(HTML(output))
       )
 })
@@ -123,7 +123,7 @@ output$display_calibrationCurve_errorSumSqY = renderUI({
   errorSqDeviationY = getCalibrationCurve_weightedErrorSqDeviationY()
   answer = formatNumberForDisplay(sum(errorSqDeviationY), input)
 
-  formulas = c(paste("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n",if(checkUsingWls())"w_i","(y_i-\\hat{y}_i)^2"))
+  formulas = c(paste("S_{y\\hat{y}} &=\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2"))
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour3)))
   output = mathJaxAligned(formulas, 5)
   
@@ -138,55 +138,54 @@ output$display_calibrationCurve_standardErrorOfRegression = renderUI({
   
   answer = formatNumberForDisplay(getCalibrationCurve_standardErrorOfRegression(), input)
   
-  formulas = c(paste("S_{",if(checkUsingWls())"w"else"y/x","} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n",if(checkUsingWls())"w_i","(y_i-\\hat{y}_i)^2}{n-2}}","[[break]]"))
-  formulas = c(formulas, paste("S_{",if(checkUsingWls())"w"else"y/x","} &= \\sqrt{\\frac{",colourNumber(sumErrorSqDeviationY, input$useColours, input$colour3),"}{",colourNumber(n, input$useColours, input$colour5),"-2}}"))
+  formulas = c(paste("S_{w} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n-2}}","[[break]]"))
+  formulas = c(formulas, paste("S_{w} &= \\sqrt{\\frac{",colourNumber(sumErrorSqDeviationY, input$useColours, input$colour3),"}{",colourNumber(n, input$useColours, input$colour5),"-2}}"))
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour4)))
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(width = 3,
-      title=paste("Standard Error of Regression \\((S_{",if(checkUsingWls())"w"else"y/x","})\\)"),
+  box(width = 4,
+      title=paste("Standard Error of Regression \\((S_{w})\\)"),
       output
   )
 })
 
 output$display_calibrationCurve_weightedCaseSample = renderUI({
   wlsSelectedOption = input$inputWeightLeastSquared
+  n = getCalibrationCurve_n()
   
-  output = ""
+  caseSampleMeanConc = input$inputCaseSampleMeanConcentration
+  peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
+  sumOfWeights = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedLeastSquared(), input)
+  answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
+  
+  formulas = c("w_s &= W(\\frac{n}{\\sum{W_i}})")
+  
   if(wlsSelectedOption == 1)
   {
-    answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
-    output = paste0("\\(w_s = W = ",colourNumber(answer, input$useColours, input$colour9),"\\)")
+    formulas = c(formulas, paste("&= 1(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
-  else
+  else if(wlsSelectedOption == 2)
   {
-    weightedCaseSampleDenominator = formatNumberForDisplay(getCalibrationCurve_weightedCaseSampleDenominator(), input)
-    
-    #If we're using case sample mean or case sample peak area ratio then lets color it correctly
-    if(wlsSelectedOption == 2 | wlsSelectedOption == 3)
-    {
-      weightedCaseSampleDenominator = ColourCaseSampleMeanConcentration(weightedCaseSampleDenominator)
-    }
-    else if (wlsSelectedOption == 4 | wlsSelectedOption == 5)
-    {
-      weightedCaseSampleDenominator = ColourCaseSampleMeanPeakAreaRatio(weightedCaseSampleDenominator)
-    }
-      
-    answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
-    
-    formulas = c(paste("w_s &=", getCalibrationCurve_wlsLatex()))
-    
-    #If we're using a squared demoniator then add a squared sign
-    if(wlsSelectedOption == 3 | wlsSelectedOption == 5)
-      formulas = c(formulas, paste("&= \\frac{1}{",weightedCaseSampleDenominator,"^2}"))
-    else
-      formulas = c(formulas, paste("&= \\frac{1}{",weightedCaseSampleDenominator,"}"))
-    
-    formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour9)))
-    output = mathJaxAligned(formulas, 5, 20)
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanConcentration(caseSampleMeanConc),"}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+  }
+  else if(wlsSelectedOption == 3)
+  {
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanConcentration(caseSampleMeanConc),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+  }
+  else if (wlsSelectedOption == 4)
+  {
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample),"}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+  }
+  else if (wlsSelectedOption == 5)
+  {
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   
-  box(width=3,
+  formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour9)))
+
+  output = mathJaxAligned(formulas, 5, 20)
+  
+  box(width=4,
       title = "Weight used for Case Sample",
       output
   )
@@ -325,18 +324,18 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
     results = c(results, seorColoured)
   }
 
-  formulas = c(paste("S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n ",if(checkUsingWls())"w_i","(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
+  formulas = c(paste("S_{{w}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
 
   for(i in 1:length(results))
   {
     n = colourNumber(lengths[i], input$useColours, input$colour5)
     
-    formulas = c(formulas, paste0("S_{{",if(checkUsingWls())"w"else"y/x","}_{(\\text{",runNames[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",runNames[i],"})} = ", n))
+    formulas = c(formulas, paste0("S_{{w}_{(\\text{",runNames[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",runNames[i],"})} = ", n))
   }
   
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(title=paste("Standard Error of Regression \\((S_{{",if(checkUsingWls())"w"else"y/x","}_{(j)}})\\)"), width = 5, withMathJax(HTML(output)))
+  box(title=paste("Standard Error of Regression \\((S_{{w}_{(j)}})\\)"), width = 5, withMathJax(HTML(output)))
 })
 
 output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
@@ -350,8 +349,8 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
 
   answer = formatNumberForDisplay(getCalibrationCurve_pooledStdErrorOfRegression(), input)
   
-  formulas = c(paste("S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","} &= \\sqrt{\\frac{\\sum{(n_{(k)}-1)S^2_{",if(checkUsingWls())"w_{(k)}"else"y/x","}}}{\\sum{(n_{(k)}-1)}}} [[break]]"))
-  formulas = c(formulas, paste("S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","} &= \\sqrt{\\frac{(n-1)S^2_{",if(checkUsingWls())"w"else"y/x","} + \\sum{(n_{(j)}-1)S^2_{",if(checkUsingWls())"w"else"y/x","_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
+  formulas = c(paste("S_{w_{p}} &= \\sqrt{\\frac{\\sum{(n_{(k)}-1)S^2_{w_{(k)}}}}{\\sum{(n_{(k)}-1)}}} [[break]]"))
+  formulas = c(formulas, paste("S_{w_{p}} &= \\sqrt{\\frac{(n-1)S^2_{w} + \\sum{(n_{(j)}-1)S^2_{w_{(j)}}}}{(n-1) + \\sum{(n_{(j)}-1)}}} [[break]]"))
   
   exStdErrorRunData = exStdErrorData
   exStdErrorRunData$conc = NULL
@@ -413,7 +412,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   
   output = mathJaxAligned(formulas, 5, 20)
  
-  box(title=paste("Pooled Standard Error of Regression \\((S_{",if(checkUsingWls())"w_{p}"else"p_{(y/x)}","})\\)"), width = 7,withMathJax(HTML(output)))
+  box(title=paste("Pooled Standard Error of Regression \\((S_{w_{p}})\\)"), width = 7,withMathJax(HTML(output)))
 })
   
 output$display_calibrationCurve_finalAnswer_top = renderText({

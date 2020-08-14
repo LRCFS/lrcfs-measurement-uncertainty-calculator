@@ -30,6 +30,12 @@ checkUsingWls = reactive({
   return(result)
 })
 
+checkNeedPeakAreaRatio = reactive({
+  wlsSelectedOption = input$inputWeightLeastSquared
+  result = doCheckNeedPeakAreaRatio(wlsSelectedOption)
+  return(result)
+})
+
 checkMeanPeakAreaRatioSpecified = reactive({
   specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   result = doCheckMeanPeakAreaRatioSpecified(specifiedPeakAreaRatio)
@@ -222,6 +228,17 @@ getCalibrationCurve_weightedLeastSquared = reactive({
   y = data$calibrationDataPeakArea
   
   answer = doGetCalibrationCurve_weightedLeastSquared(x,y,input$inputWeightLeastSquared)
+  return(answer)
+})
+
+getCalibrationCurve_sumOfWeightedLeastSquared = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data)) return(NULL)
+  
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
+  
+  answer = doGetCalibrationCurve_sumOfWeightedLeastSquared(x,y,input$inputWeightLeastSquared)
   return(answer)
 })
 
@@ -467,11 +484,13 @@ getCalibrationCurve_weightedCaseSample = reactive({
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  n = getCalibrationCurve_n()
+  sumOfWeights = getCalibrationCurve_sumOfWeightedLeastSquared()
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   wlsSelectedOption = input$inputWeightLeastSquared
   specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   
-  answer = doGetCalibrationCurve_weightedCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
+  answer = doGetCalibrationCurve_weightedCaseSample(caseSampleMeanConcentration,specifiedPeakAreaRatio,n,sumOfWeights,wlsSelectedOption)
   return(answer)
 })
 
