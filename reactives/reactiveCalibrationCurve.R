@@ -89,6 +89,18 @@ getDataCustomWls = reactive({
   }
 })
 
+getDataCustomWlsPooled = reactive({
+  if(myReactives$uploadedCustomWlsPooled == TRUE)
+  {
+    data = calibrationCurveCustomWlsPooledReadCSV(input$inputCustomWlsPooledFileUpload$datapath)
+    return(data)
+  }
+  else
+  {
+    return(NULL)
+  }
+})
+
 getDataCalibrationCurveReformatted = reactive({
   data = getDataCalibrationCurve();
   if(is.null(data))
@@ -191,6 +203,7 @@ getResultCalibrationCurve = reactive({
   y = data$calibrationDataPeakArea
   wlsSelectedValue = input$inputWeightLeastSquared
   customWls = getDataCustomWls()
+  customPooled = getDataCustomWlsPooled()
   
   specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   extStdErrorData = getDataExternalStandardError()
@@ -198,7 +211,7 @@ getResultCalibrationCurve = reactive({
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   caseSampleWeight = input$inputCaseSampleCustomWeight
   
-  answer = doGetCalibrationCurve_relativeStandardUncertainty(x,y,wlsSelectedValue,customWls,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
+  answer = doGetCalibrationCurve_relativeStandardUncertainty(x,y,wlsSelectedValue,customWls,customPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
   return(answer)
 })
 
@@ -469,9 +482,11 @@ getCalibrationCurve_pooledStdErrorOfRegression = reactive(
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
+  wlsSelectedOption = input$inputWeightLeastSquared
+  customWlsPooled = getDataCustomWlsPooled()
   
   standardisedWeights = getCalibrationCurve_standardisedWeight()
-  answer = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeights,exStdErrorData)
+  answer = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,wlsSelectedOption,standardisedWeights,customWlsPooled,exStdErrorData)
 })
 
 # getCalibrationCurve_peakAreaRatioOfCaseSample = reactive({
@@ -530,12 +545,13 @@ getCalibrationCurve_uncertaintyOfCalibration = reactive({
   extStdErrorData = getDataExternalStandardError()
   wlsSelectedOption = input$inputWeightLeastSquared
   customWls = getDataCustomWls()
+  customWlsPooled = getDataCustomWlsPooled()
   caseSampleWeight = input$inputCaseSampleCustomWeight
   specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
   caseSampleReplicates = input$inputCaseSampleReplicates
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
-  answer = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,customWls,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+  answer = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
   
   return(answer)
 })

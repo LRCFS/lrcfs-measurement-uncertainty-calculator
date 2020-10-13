@@ -25,7 +25,8 @@ tabDashboard = tabItem(tabName = "dashboard",
                        fluidRow(
                          infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_dashboard_replicates"))), width=3, icon=icon("vials"), color="aqua"),
                          infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_dashboard_meanConcentration"))), width=3, icon=icon("map-marker"), color="fuchsia"),
-                         uiOutput("display_dashboard_meanPar"),
+                         uiOutput("display_dashboard_caseSampleMeanPar"),
+                         uiOutput("display_dashboard_caseSampleWeight"),
                          infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_dashboard_confidenceInterval"))), width=3, icon=icon("percentage"), color="yellow")
                        ),
                        fluidRow(

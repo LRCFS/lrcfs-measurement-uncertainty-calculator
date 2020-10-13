@@ -35,10 +35,17 @@ output$display_dashboard_meanConcentration <- renderUI({
   return(string)
 })
 
-output$display_dashboard_meanPar <- renderUI({
-  if(checkUsingWls())
+output$display_dashboard_caseSampleMeanPar <- renderUI({
+  if(checkNeedPeakAreaRatio())
   {
     infoBox(withMathJax(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)")),input$inputCaseSampleMeanPeakAreaRatio, width=3, icon=icon("chart-bar"), color="orange")
+  }
+})
+
+output$display_dashboard_caseSampleWeight <- renderUI({
+  if(checkUsingCustomWls())
+  {
+    infoBox(withMathJax(HTML("Case Sample<br />Weight\\((W_s)\\)")),formatNumberForDisplay(input$inputCaseSampleCustomWeight, input), width=3, icon=icon("weight"), color="red")
   }
 })
 

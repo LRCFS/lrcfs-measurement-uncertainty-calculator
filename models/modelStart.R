@@ -69,7 +69,7 @@ output$display_start_meanPar <- renderUI({
 output$display_start_customWeight <- renderUI({
   if(checkUsingCustomWls())
   {
-    infoBox(withMathJax(HTML("Case Sample<br />Weight\\((W_s)\\)")),input$inputCaseSampleCustomWeight, width=12, icon=icon("weight"), color="red")
+    infoBox(withMathJax(HTML("Case Sample<br />Weight\\((W_s)\\)")),formatNumberForDisplay(input$inputCaseSampleCustomWeight, input), width=12, icon=icon("weight"), color="red")
   }
 })
 
@@ -147,6 +147,18 @@ output$display_start_sampleVolumeFileUpload <- renderUI({
   return(fileInput)
 })
 
+#########
+output$display_start_customWlsFileUploadExampleDownloadLink <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  if(checkUsingCustomWls())
+  {
+    return(a("Download Example Calibration Curve Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-customWeights.csv"))
+  }
+  return(NULL)
+})
+
+
 output$display_start_customWlsFileUpload <- renderUI({
   input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
   
@@ -179,6 +191,41 @@ output$display_start_customWlsFileUploadRemoveDataButton <- renderUI({
   }
 })
 
+#########
+output$display_start_customWlsPooledFileUploadExampleDownloadLink <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  if(checkUsingCustomWls())
+  {
+    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledCustomWeights.csv"))
+  }
+  return(NULL)
+})
+
+
+output$display_start_customWlsPooledFileUpload <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  fileInput = ""
+  if(checkUsingCustomWls())
+  {
+    fileInput = fileInput("inputCustomWlsPooledFileUpload", "Custom Pooled Weights (CSV)",
+                          multiple = FALSE,
+                          accept = c(".csv"))
+  }
+  
+  return(fileInput)
+})
+
+output$display_start_customWlsPooledFileUploadErrorDiv <- renderUI({
+  input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  if(checkUsingCustomWls())
+  {
+    return(div("Error with uploaded file...", class="error", id="display_start_error_customWlsPooledFileUpload"))
+  }
+})
+
 output$actionButton_start_downloadReport = downloadHandler(
   filename = paste0(APP_DEV_SHORT,"-",APP_NAME_SHORT,"-Report-",format(Sys.time(), "%Y-%m-%d"),".html"),
   content = function(file) {
@@ -204,9 +251,11 @@ output$actionButton_start_downloadReport = downloadHandler(
                     standardSolutionEquipmentData = standardSolutionMeasurementData(),
                     sampleVolumeData = getDataSampleVolume(),
                     inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
+                    customWls = getDataCustomWls(),
                     inputCaseSampleReplicates = input$inputCaseSampleReplicates,
                     inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration,
                     inputCaseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio,
+                    inputCaseSampleWeight = input$inputCaseSampleCustomWeight,
                     inputConfidenceInterval = input$inputConfidenceInterval,
                     uncCalibrationCurve = getResultCalibrationCurve(),
                     uncMethodPrecision = methodPrecisionResult(),

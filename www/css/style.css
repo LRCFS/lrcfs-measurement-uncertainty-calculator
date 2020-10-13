@@ -115,7 +115,9 @@ th .MathJax_Display {
 
 #fileUploadBox a,
 #fileUploadBox button,
-#reset_inputCustomWlsFileUpload{
+#reset_inputCustomWlsFileUpload,
+#display_start_customWlsFileUploadExampleDownloadLink,
+#display_start_customWlsPooledFileUploadExampleDownloadLink{
 	float: right;
 }
 

@@ -86,7 +86,8 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
                    infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_replicates"))), width=4, icon=icon("vials"), color="aqua"),
                    infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_calibrationCurve_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia"),
-                   uiOutput("display_calibrationCurve_meanPar")
+                   uiOutput("display_calibrationCurve_meanPar"),
+                   uiOutput("display_calibrationCurve_caseSampleWeight")
                  ),
                  fluidRow(
                    box(title = "Step by Step Calculations", width=12,

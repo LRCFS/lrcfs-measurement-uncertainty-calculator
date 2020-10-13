@@ -17,9 +17,11 @@ params:
   standardSolutionEquipmentData: NA
   sampleVolumeData: NA
   inputWeightLeastSquared: NA
+  customWls: NA
   inputCaseSampleReplicates: NA
   inputCaseSampleMeanConcentration: NA
   inputCaseSampleMeanPeakAreaRatio: NA
+  inputCaseSampleWeight: NA
   inputConfidenceInterval: NA
   uncCalibrationCurve: NA
   uncMethodPrecision: NA
@@ -90,16 +92,17 @@ The following is a summary of the supplied data and results calculated.
 ### Inputs
 The results of this report are made using the follow supplied information.
 
-| Input                           | Value Specified                           |
+| Input                           | Value Specified                            |
 |---------------------------------|--------------------------------------------|
 |Weighted Least Square Regression |$`r params$inputWeightLeastSquared`$        |
-|Replicates                       |`r params$inputCaseSampleReplicates`        |
-|Mean Concentration               |`r params$inputCaseSampleMeanConcentration` |
-|Mean Peak Area Ratio             |`r params$inputCaseSampleMeanPeakAreaRatio` |
+|Case Sample Replicates           |`r params$inputCaseSampleReplicates`        |
+|Case Sample Mean Concentration   |`r params$inputCaseSampleMeanConcentration` |
+|Case Sample Mean Peak Area Ratio |`r params$inputCaseSampleMeanPeakAreaRatio` |
+|Case Sample Weight               |`r params$inputCaseSampleWeight`            |
 |Confidence Interval              |`r params$inputConfidenceInterval`          |
 
 ### Results
-The calculated results for each individal component are shown below.
+The calculated results for each individual component are shown below.
 
 | Uncertainty Component | Relative Standard Uncertainty |
 |-----------------------|-------------------------------|
@@ -365,6 +368,12 @@ params$calibrationCurveData
 ### External Standard Error (CSV)
 ```{r echo=FALSE}
 params$externalStandardErrorData
+```
+
+\newpage
+### Specified Custom Weights (CSV)
+```{r echo=FALSE}
+params$customWls
 ```
 
 \newpage

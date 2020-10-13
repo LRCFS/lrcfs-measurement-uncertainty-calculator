@@ -29,4 +29,12 @@ calibrationCurveCustomWlsReadCSV = function(filePath = NULL, validate = FALSE) {
   return(loadCsv(filePath, validate, columnsToCheck))
 }
 
+calibrationCurveCustomWlsPooledReadCSV = function(filePath = NULL, validate = FALSE) {
+  
+  #The columns that the data should have
+  columnsToCheck = list("run1" = "Your data must contain weight information for at least one run.")
+  
+  return(loadCsv(filePath, validate, columnsToCheck))
+}
+
 

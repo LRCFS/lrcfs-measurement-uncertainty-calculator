@@ -43,7 +43,7 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
   return(output)
 }
 
-#Takes any number and formats it in either scientific notation or rounded to a specififed number of decimal places
+#Takes any number and formats it in either scientific notation or rounded to a specified number of decimal places
 #Can also handle a vector
 formatNumberForDisplay = function(number, input)
 {
@@ -64,7 +64,7 @@ formatNumberForDisplay = function(number, input)
     return(as.character(number))
   
   #If it's NULL, NA or not numeric then just return it
-  if(is.null(number) | is.na(number) | !is.numeric(number))
+  if(is.null(number) | any(is.na(number)) | !is.numeric(number))
   {
      return(number)
   }
@@ -74,7 +74,7 @@ formatNumberForDisplay = function(number, input)
   {
     formattedNumber = 0;
   }
-  #If it's less thant some value (e.g. 0.0001) then use scientific notation
+  #If it's less than some value (e.g. 0.0001) then use scientific notation
   else if(number < useScientificNotationIfLessThan)
   {
     formattedNumber = formatC(number, format = "e", digits = numberOfScientificNotationDigits)
@@ -115,6 +115,11 @@ ColourCaseSampleMeanConcentration = function(value)
 ColourCaseSampleMeanPeakAreaRatio = function(value)
 {
   return(colourNumberBackground(value,caseSampleMeanParColour,"#FFF"))
+}
+
+ColourCaseSampleWeight = function(value)
+{
+  return(colourNumberBackground(value,caseSampleWeightColour,"#FFF"))
 }
 
 colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex)

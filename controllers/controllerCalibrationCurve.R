@@ -315,7 +315,7 @@ doGetCalibrationCurve_wlsLatex = function(wlsSelectedOption){
   return("")
 }
 
-doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,customWls,caseSampleWeight,caseSampleMeanPar,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,caseSampleMeanPar,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
 {
   n = doGetCalibrationCurve_n(y)
   sumOfWeights = doGetCalibrationCurve_sumOfWeightedLeastSquared(x,y,wlsSelectedOption,customWls)
@@ -329,7 +329,7 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
   }
   else
   {
-    syx = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeight,extStdErrorData)
+    syx = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,wlsSelectedOption,standardisedWeight,customWlsPooled,extStdErrorData)
   }
   
   weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(caseSampleMeanConcentration,caseSampleMeanPar,n,sumOfWeights,wlsSelectedOption,customWls,caseSampleWeight)
@@ -346,15 +346,19 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
   return(uncertaintyOfCalibration)
 }
 
-doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsValues,exStdErrData){
+doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsSelectedOption,wlsValues,customWlsPooled,exStdErrData){
   exStdErrRunData = exStdErrData
   exStdErrRunData$conc = NULL
+  
+  n = doGetCalibrationCurve_n(y)
   
   results = list()
   for(i in colnames(exStdErrRunData))
   {
-    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrData$conc,exStdErrRunData[,i],input$inputWeightLeastSquared)
-    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrData$conc,exStdErrRunData[,i],weightedLeastSquared)
+    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrData$conc,exStdErrRunData[,i],wlsSelectedOption,data.frame(customWlsPooled[,i]))
+    n = doGetCalibrationCurve_n(exStdErrRunData[,i])
+    standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrData$conc,exStdErrRunData[,i],standardisedWeights)
     
     answer = data.frame(seor)
     names(answer) = i
@@ -372,13 +376,18 @@ doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsValues,exStdE
   demoninatorSum = doGetCalibrationCurve_n(y) - 1
   demoninator = demoninatorExternalDataSum + demoninatorSum
   
-  answer = sqrt(numerator/demoninator)
   
+  cat(file=stderr(), "results", results, "\n")
+  cat(file=stderr(), "green number (seor)", doGetCalibrationCurve_standardErrorOfRegression(x,y,wlsValues), "\n")
+  cat(file=stderr(), "numerator", numerator, "\n")
+  cat(file=stderr(), "demoninator", demoninator, "\n")
+  
+  answer = sqrt(numerator/demoninator)
   return(answer)
 }
 
-doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,customWls,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
-  uncertaintyOfCalibration = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,customWls,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
+  uncertaintyOfCalibration = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
   answer = uncertaintyOfCalibration / caseSampleMeanConcentration
   return(answer)
 }

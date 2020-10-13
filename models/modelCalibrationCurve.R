@@ -41,6 +41,13 @@ output$display_calibrationCurve_meanPar <- renderUI({
   }
 })
 
+output$display_calibrationCurve_caseSampleWeight <- renderUI({
+  if(checkUsingCustomWls())
+  {
+    infoBox(withMathJax(HTML("Case Sample<br />Weight\\((W_s)\\)")),formatNumberForDisplay(input$inputCaseSampleCustomWeight, input), width=4, icon=icon("weight"), color="red")
+  }
+})
+
 output$calibrationData = DT::renderDataTable(
   getDataCalibrationCurve(),
   rownames = FALSE,
@@ -155,7 +162,7 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   
   caseSampleMeanConc = input$inputCaseSampleMeanConcentration
   peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
-  caseSampleWeight = input$inputCaseSampleCustomWeight
+  caseSampleWeight = formatNumberForDisplay(input$inputCaseSampleCustomWeight, input)
   sumOfWeights = formatNumberForDisplay(getCalibrationCurve_sumOfWeightedLeastSquared(), input)
   answer = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
   
@@ -183,7 +190,7 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   }
   else if (wlsSelectedOption == 999)
   {
-    formulas = c(formulas, paste("&= ",caseSampleWeight,"(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+    formulas = c(formulas, paste("&= ",ColourCaseSampleWeight(caseSampleWeight),"(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour9)))
@@ -191,7 +198,7 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   output = mathJaxAligned(formulas, 5, 20)
   
   box(width=4,
-      title = "Weight used for Case Sample",
+      title = "Standardised Weight of Case Sample",
       output
   )
 })
@@ -211,7 +218,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   }
   else
   {
-    stdErrorOfRegression = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,standardisedWeights,exStdErrData)
+    stdErrorOfRegression = getCalibrationCurve_pooledStdErrorOfRegression()
   }
   stdErrorOfRegression = formatNumberForDisplay(stdErrorOfRegression, input)
   stdErrorOfRegression = colourNumber(stdErrorOfRegression, input$useColours, input$colour4)
@@ -318,9 +325,10 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   lengths = apply(exStdErrorRunData, 2, doGetCalibrationCurve_n)
   results = c()
 
+  customWlsPooled = getDataCustomWlsPooled()
   for(i in runNames)
   {
-    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
+    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared,data.frame(customWlsPooled[,i]))
     n = doGetCalibrationCurve_n(exStdErrorRunData[,i])
     standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
     seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],standardisedWeights)
@@ -359,11 +367,12 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   
   exStdErrorRunData = exStdErrorData
   exStdErrorRunData$conc = NULL
+  customWlsPooled = getDataCustomWlsPooled()
   
   results = list()
   for(i in colnames(exStdErrorRunData))
   {
-    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared)
+    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared,data.frame(customWlsPooled[,i]))
     n = doGetCalibrationCurve_n(exStdErrorRunData[,i])
     standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
     seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],standardisedWeights)
@@ -385,7 +394,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   n3 = lengths[length(results)]
   n3 = colourNumber(n3, input$useColours, input$colour5)
   
-  s1 = formatNumberForDisplay(doGetCalibrationCurve_standardErrorOfRegression(x,y,standardisedWeights), input)
+  s1 = formatNumberForDisplay(getCalibrationCurve_standardErrorOfRegression(), input)
   s1 = colourNumber(s1, input$useColours, input$colour4)
   
   s2 = formatNumberForDisplay(results[1], input)

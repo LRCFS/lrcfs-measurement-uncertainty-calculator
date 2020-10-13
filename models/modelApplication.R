@@ -24,6 +24,7 @@
 myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedExternalStandardError=FALSE,
                              uploadedCustomWls=FALSE,
+                             uploadedCustomWlsPooled=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
@@ -35,6 +36,7 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
 myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
                              uploadedExternalStandardError=NULL,
                              uploadedCustomWls=NULL,
+                             uploadedCustomWlsPooled=NULL,
                              uploadedMethodPrecision=NULL,
                              uploadedStandardSolutionStructure=NULL,
                              uploadedStandardSolutionEquipment=NULL,
@@ -77,6 +79,16 @@ observeEvent(input$inputCustomWlsFileUpload, {
 observeEvent(input$reset_inputCustomWlsFileUpload, {
   myReactives$uploadedCustomWls = FALSE
   myReactiveErrors$uploadedCustomWls = NULL
+  
+  myReactives$uploadedCustomWlsPooled = FALSE
+  myReactiveErrors$uploadedCustomWlsPooled = NULL
+
+  checkIfShowResults()
+})
+observeEvent(input$inputCustomWlsPooledFileUpload, {
+  filePath = input$inputCustomWlsPooledFileUpload$datapath
+  myReactiveErrors$uploadedCustomWlsPooled = calibrationCurveCustomWlsPooledReadCSV(filePath, TRUE)
+  myReactives$uploadedCustomWlsPooled = is.null(myReactiveErrors$uploadedCustomWlsPooled)
   checkIfShowResults()
 })
 
@@ -160,6 +172,7 @@ checkIfShowResults = function(){
   showHideError("display_start_error_calibrationCurveFileUpload", myReactiveErrors$uploadedCalibrationCurve)
   showHideError("display_start_error_externalStandardErrorFileUpload", myReactiveErrors$uploadedExternalStandardError)
   showHideError("display_start_error_customWlsFileUpload", myReactiveErrors$uploadedCustomWls)
+  showHideError("display_start_error_customWlsPooledFileUpload", myReactiveErrors$uploadedCustomWlsPooled)
   showHideError("display_start_error_methodPrecisionFileUpload", myReactiveErrors$uploadedMethodPrecision)
   showHideError("display_start_error_standardSolutionStructureFileUpload", myReactiveErrors$uploadedStandardSolutionStructure)
   showHideError("display_start_error_standardSolutionEquipmentFileUpload", myReactiveErrors$uploadedStandardSolutionEquipment)
@@ -179,7 +192,7 @@ checkIfShowResults = function(){
   showHideMenuItem(".sidebar-menu li a[data-value=sampleVolume]", myReactives$uploadedSampleVolume)
   
   
-  #Deterine if we should show the results tabs
+  #Determine if we should show the results tabs
   #check if we've uploaded any one type of data
   if(myReactives$uploadedCalibrationCurve ||
      myReactives$uploadedMethodPrecision ||
