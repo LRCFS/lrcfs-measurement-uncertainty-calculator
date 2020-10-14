@@ -140,8 +140,8 @@ tabStart = tabItem(tabName = "start",
                             fluidRow(
                               box(title = "Coverage Factor \\((k)\\)",width = 12,
                                   actionButton("help_start_confidenceInterval", "", icon=icon("question"), class="smallRightHelpInHeader"),
-                                  p("A coverage factor can be manually specified below, or automatically calculated by specifiying a Confidence Interval."),
-                                  p("The specified Confidence Interval percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table where as a manually specified Coverage Factor will take precidance over the specified Confidence Interval."),
+                                  p("A coverage factor can be manually specified below, or automatically calculated by specifying a Confidence Interval."),
+                                  p("The specified Confidence Interval percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table, whereas a manually specified Coverage Factor will take precedence over the specified Confidence Interval."),
                                   column(width=6,
                                          uiOutput("display_start_chooseConfidenceInterval")
                                   ),

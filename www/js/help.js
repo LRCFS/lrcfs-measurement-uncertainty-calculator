@@ -116,9 +116,10 @@ function(startingStep) {
 		},
 		{
 			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)',
-			intro: '<h4>Confidence Interval</h4>\
-					<p>A 95% CI means that 95 out of 100 times, we will be correct in estimating an interval that is believed to include the unknown parameter of interest. A high percentage probability will broaden the estimated confidence interval and vice versa.</p>\
-					<p>Specify the required confidence interval percentage probability needed to calculate the Expanded Uncertainty. </p>',
+			intro: '<h4>Coverage Factor</h4>\
+					<p>Coverage Factor can be calculated automatically or manually specified.</p>\
+					<p><strong>Automatic:</strong> By specifying a Confidence Interval the Coverage Factor is automatically obtained by using the appropriate Coverage Factor from a t-distribution table.</p>\
+					<p><strong>Manual:</strong> Alternatively, if a specific Coverage Factor is specified the Confidence Interval will be ignored and the specified Coverage Factor will be used for all calculations. </p>',
 			position: 'left'
 		}
 	];
