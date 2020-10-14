@@ -181,7 +181,19 @@ checkIfShowResults = function(){
   #show/hide menu items
   if(checkUsingCustomWls())
   {
-    showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", myReactives$uploadedCalibrationCurve & myReactives$uploadedCustomWls)
+    if(myReactives$uploadedCalibrationCurve && !myReactives$uploadedExternalStandardError && myReactives$uploadedCustomWls)
+    {
+      showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", TRUE)
+    }
+    else if(myReactives$uploadedCalibrationCurve && myReactives$uploadedExternalStandardError && myReactives$uploadedCustomWls && myReactives$uploadedCustomWlsPooled)
+    {
+      showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", TRUE)
+    }
+    else
+    {
+      showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", FALSE)
+    }
+
   }
   else
   {
@@ -206,10 +218,16 @@ checkIfShowResults = function(){
     checkCaseSampleWeight = FALSE
     if(checkUsingCustomWls())
     {
-      if(myReactives$uploadedCustomWls){
+      if(myReactives$uploadedCalibrationCurve && !myReactives$uploadedExternalStandardError && myReactives$uploadedCustomWls)
+      {
         checkCustomWls = TRUE
       }
-      else{
+      else if(myReactives$uploadedCalibrationCurve && myReactives$uploadedExternalStandardError && myReactives$uploadedCustomWls && myReactives$uploadedCustomWlsPooled)
+      {
+        checkCustomWls = TRUE
+      }
+      else
+      {
         checkCustomWls = FALSE
       }
       
