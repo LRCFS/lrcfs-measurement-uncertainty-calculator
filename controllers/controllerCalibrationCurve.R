@@ -347,6 +347,8 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
 }
 
 doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsSelectedOption,wlsValues,customWlsPooled,exStdErrData){
+  if(wlsSelectedOption == 999 && is.null(customWlsPooled)) return(NULL)
+  
   exStdErrRunData = exStdErrData
   exStdErrRunData$conc = NULL
   
