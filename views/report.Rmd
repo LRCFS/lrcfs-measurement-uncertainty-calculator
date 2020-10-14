@@ -18,11 +18,13 @@ params:
   sampleVolumeData: NA
   inputWeightLeastSquared: NA
   customWls: NA
+  customWlsPooled: NA
   inputCaseSampleReplicates: NA
   inputCaseSampleMeanConcentration: NA
   inputCaseSampleMeanPeakAreaRatio: NA
   inputCaseSampleWeight: NA
   inputConfidenceInterval: NA
+  inputManualCoverageFactor: NA
   uncCalibrationCurve: NA
   uncMethodPrecision: NA
   uncStandardSolution: NA
@@ -92,14 +94,15 @@ The following is a summary of the supplied data and results calculated.
 ### Inputs
 The results of this report are made using the follow supplied information.
 
-| Input                           | Value Specified                            |
-|---------------------------------|--------------------------------------------|
-|Weighted Least Square Regression |$`r params$inputWeightLeastSquared`$        |
-|Case Sample Replicates           |`r params$inputCaseSampleReplicates`        |
-|Case Sample Mean Concentration   |`r params$inputCaseSampleMeanConcentration` |
-|Case Sample Mean Peak Area Ratio |`r params$inputCaseSampleMeanPeakAreaRatio` |
-|Case Sample Weight               |`r params$inputCaseSampleWeight`            |
-|Confidence Interval              |`r params$inputConfidenceInterval`          |
+| Input                             | Value Specified                            |
+|-----------------------------------|--------------------------------------------|
+|Weighted Least Square Regression   |$`r params$inputWeightLeastSquared`$        |
+|Case Sample Replicates             |`r params$inputCaseSampleReplicates`        |
+|Case Sample Mean Concentration     |`r params$inputCaseSampleMeanConcentration` |
+|Case Sample Mean Peak Area Ratio   |`r params$inputCaseSampleMeanPeakAreaRatio` |
+|Case Sample Weight                 |`r params$inputCaseSampleWeight`            |
+|Confidence Interval                |`r params$inputConfidenceInterval`          |
+|Manually Specified Coverage Factor |`r params$inputManualCoverageFactor`        |
 
 ### Results
 The calculated results for each individual component are shown below.
@@ -374,6 +377,12 @@ params$externalStandardErrorData
 ### Specified Custom Weights (CSV)
 ```{r echo=FALSE}
 params$customWls
+```
+
+\newpage
+### Specified Custom Weights for Pooled External Standard Error (CSV)
+```{r echo=FALSE}
+params$customWlsPooled
 ```
 
 \newpage

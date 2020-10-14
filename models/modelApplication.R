@@ -165,6 +165,10 @@ observeEvent(input$inputConfidenceInterval, {
   checkIfShowResults()
 })
 
+observeEvent(input$inputManualCoverageFactor, {
+  checkIfShowResults()
+})
+
 
 checkIfShowResults = function(){
 
@@ -285,7 +289,7 @@ checkIfShowResults = function(){
     
     if(checkCustomWls == TRUE &
        checkCaseSampleWeight == TRUE &
-       inputConfidenceInterval == TRUE &
+       (inputConfidenceInterval == TRUE || usingManualCoverageFactor() == TRUE) &
        inputCaseSampleReplicates > 0 &
        inputCaseSampleMeanConcentration > 0 &
        inputCaseSampleMeanPeakAreaRatio > 0)
@@ -328,7 +332,17 @@ showHideMenuItem = function(elementSelector, show)
 
 showResultTabs = function(){
   shinyjs::addClass(selector = ".sidebar-menu li a[data-value=combinedUncertainty]", class="visible")
-  shinyjs::addClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
+  
+  #only show the coverage factor calculations if we aren't using a manually specified coverage factor
+  if(!usingManualCoverageFactor())
+  {
+    shinyjs::addClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
+  }
+  else
+  {
+    shinyjs::removeClass(selector = ".sidebar-menu li a[data-value=coverageFactor]", class="visible")
+  }
+  
   shinyjs::addClass(selector = ".sidebar-menu li a[data-value=expandedUncertainty]", class="visible")
   shinyjs::addClass(selector = ".sidebar-menu li a[data-value=dashboard]", class="visible")
   

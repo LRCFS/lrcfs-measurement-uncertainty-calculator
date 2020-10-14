@@ -138,13 +138,25 @@ tabStart = tabItem(tabName = "start",
                               hr()
                             ),
                             fluidRow(
-                              box(title = "Confidence Interval \\( ( {\\small CI} ) \\)",width = 12,
+                              box(title = "Coverage Factor \\((k)\\)",width = 12,
                                   actionButton("help_start_confidenceInterval", "", icon=icon("question"), class="smallRightHelpInHeader"),
-                                  p("The specified Confidence Interval percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table."),
-                                  p("This coverage factor is multiplied by the Combined Uncertainty to obtain the Expanded Uncertainty."),
-                                  uiOutput("display_start_chooseConfidenceInterval")
+                                  p("A coverage factor can be manually specified below, or automatically calculated by specifiying a Confidence Interval."),
+                                  p("The specified Confidence Interval percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table where as a manually specified Coverage Factor will take precidance over the specified Confidence Interval."),
+                                  column(width=6,
+                                         uiOutput("display_start_chooseConfidenceInterval")
+                                  ),
+                                  column(width=6,
+                                         numericInput("inputManualCoverageFactor",
+                                                      "Coverage Factor \\((k)\\)",
+                                                      value = NULL),
+                                  ),
                               ),
-                              infoBox("Confidence Interval \\( ( {\\small CI} \\% ) \\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
+                              column(width=6,
+                                infoBox("Confidence Interval \\( ( {\\small CI} \\% ) \\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
+                              ),
+                              column(width=6,
+                                infoBox("Coverage Factor \\((k)\\)",HTML(paste(uiOutput("display_start_coverageFactor"))), width=12, icon=icon("table"), color="teal")
+                              )
                             ),
                             fluidRow(
                               hr()

@@ -47,11 +47,20 @@ effectiveDofResult = reactive({
   return(result)
 })
 
+usingManualCoverageFactor = reactive({
+  if(!is.null(input$inputManualCoverageFactor) && !is.na(input$inputManualCoverageFactor))
+  {
+    return(TRUE)
+  }
+  return(FALSE)
+})
+
 coverageFactorResult = reactive({
+  manualCoverageFactor = input$inputManualCoverageFactor
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
   
-  return(getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval))
+  return(getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval, manualCoverageFactor))
 })
 
 ###################################################################################
@@ -154,7 +163,7 @@ output$display_coverageFactor_table <- DT::renderDataTable({
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
   finalCoverageFactorEffectiveDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDofTable, effectiveDof)
-  coverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
+  coverageFactor = coverageFactorResult()
   
   coverageFactorEffectiveDofTable[nrow(coverageFactorEffectiveDofTable),1]  = "Inf"
   
@@ -188,7 +197,17 @@ output$display_coverageFactor_finalAnswer_bottom = renderUI({
 
 output$display_coverageFactor_finalAnswer_dashboard = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
+  
+  output = NULL
+  if(usingManualCoverageFactor())
+  {
+    output = paste0("\\(k=",coverageFactorResult(),"\\)")
+  }
+  else
+  {
+    output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
+  }
+  
   return(withMathJax(HTML(output)))
 })
 
@@ -249,7 +268,8 @@ getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effe
   return(as.character(closestDof))
 }
 
-getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval){
+getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval, manualCoverageFactor){
+  if(usingManualCoverageFactor()) return(manualCoverageFactor)
   
   closestDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof)
   

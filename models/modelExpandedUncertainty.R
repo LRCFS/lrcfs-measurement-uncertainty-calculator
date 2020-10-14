@@ -22,14 +22,7 @@
 ###########################################################################
 
 expandedUncertaintyResult = reactive({
-  
-  confidenceInterval = input$inputConfidenceInterval
-  effectiveDof = effectiveDofResult()
-  
-  finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
-  
-  result = finalCoverageFactor * combinedUncertaintyResult()
-  
+  result = coverageFactorResult() * combinedUncertaintyResult()
   return(result)
 })
 
@@ -47,7 +40,16 @@ expandedUncertaintyResultPercentage = reactive({
 
 output$display_expandedUncertainty_coverageFactorText = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}\\)")
+  output = NULL
+  if(usingManualCoverageFactor())
+  {
+    output = paste0("\\(k\\)")
+  }
+  else
+  {
+    output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}\\)")
+  }
+  
   return(withMathJax(HTML(output)))
 })
 
@@ -64,11 +66,8 @@ output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
   
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
-  
-  finalCoverageFactor = getCoverageFactor(coverageFactorEffectiveDofTable, effectiveDof, confidenceInterval)
+  finalCoverageFactor = coverageFactorResult()
 
-  
-  
   formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",formatNumberForDisplay(effectiveDof,input),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
   formulas = c(formulas, paste("&= ",colourNumberBackground(formatNumberForDisplay(finalCoverageFactor,input),CoverageFactorColor,"#FFF")," \\times ", colourNumberBackground(formatNumberForDisplay(combinedUncertaintyResult(),input),CombinedUncertaintyColor,"#FFF")))
   formulas = c(formulas, paste("&=",formatNumberForDisplay(expandedUncertaintyResult(),input)))

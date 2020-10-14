@@ -78,6 +78,11 @@ output$display_start_confidenceInterval <- renderUI({
   return(string)
 })
 
+output$display_start_coverageFactor <- renderUI({
+  string = paste(coverageFactorResult())
+  return(string)
+})
+
 output$display_start_chooseConfidenceInterval = renderUI({
   columnNames = colnames(coverageFactorEffectiveDofTable[,-1]) #Get the columns but excluse the first column which is used for effective dof
   columnNames = sort(columnNames, decreasing = TRUE)
@@ -252,11 +257,13 @@ output$actionButton_start_downloadReport = downloadHandler(
                     sampleVolumeData = getDataSampleVolume(),
                     inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
                     customWls = getDataCustomWls(),
+                    customWlsPooled = getDataCustomWlsPooled(),
                     inputCaseSampleReplicates = input$inputCaseSampleReplicates,
                     inputCaseSampleMeanConcentration = input$inputCaseSampleMeanConcentration,
                     inputCaseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio,
                     inputCaseSampleWeight = input$inputCaseSampleCustomWeight,
                     inputConfidenceInterval = input$inputConfidenceInterval,
+                    inputManualCoverageFactor = input$inputManualCoverageFactor,
                     uncCalibrationCurve = getResultCalibrationCurve(),
                     uncMethodPrecision = methodPrecisionResult(),
                     uncStandardSolution = standardSolutionResult(),
