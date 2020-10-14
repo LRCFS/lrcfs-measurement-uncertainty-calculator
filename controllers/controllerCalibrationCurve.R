@@ -375,13 +375,7 @@ doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsSelectedOptio
   demoninatorExternalDataSum = sum(lengths - 1)
   demoninatorSum = doGetCalibrationCurve_n(y) - 1
   demoninator = demoninatorExternalDataSum + demoninatorSum
-  
-  
-  cat(file=stderr(), "results", results, "\n")
-  cat(file=stderr(), "green number (seor)", doGetCalibrationCurve_standardErrorOfRegression(x,y,wlsValues), "\n")
-  cat(file=stderr(), "numerator", numerator, "\n")
-  cat(file=stderr(), "demoninator", demoninator, "\n")
-  
+
   answer = sqrt(numerator/demoninator)
   return(answer)
 }
