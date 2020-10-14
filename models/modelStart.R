@@ -209,7 +209,7 @@ output$display_start_customWlsPooledFileUpload <- renderUI({
   fileInput = ""
   if(checkUsingCustomWls())
   {
-    fileInput = fileInput("inputCustomWlsPooledFileUpload", "Custom Pooled Weights (CSV)",
+    fileInput = fileInput("inputCustomWlsPooledFileUpload", HTML("Custom Pooled Weights (CSV)<br /><span id='customPooledWlsInfo'>(only required if Pooled Standard Error has been specified)</span>"),
                           multiple = FALSE,
                           accept = c(".csv"))
   }

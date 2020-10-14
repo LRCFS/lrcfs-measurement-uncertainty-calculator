@@ -121,6 +121,11 @@ th .MathJax_Display {
 	float: right;
 }
 
+#customPooledWlsInfo{
+    font-weight: normal !important;
+    font-size: small;
+}
+
 #help_start_start{
 	position: absolute;
     top: 10px;
