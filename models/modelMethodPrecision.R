@@ -216,10 +216,10 @@ output$methodPrecisionRawDataGraph <- renderPlotly({
   }
 
   #Add plots for each run
-  for(trace in runNames)
-  {
-    plotlyPlot = plotlyPlot %>% add_trace(x = ~conc, y = as.formula(paste0("~", trace)), name=sprintf("Method-%s",trace))
-  }
+  #for(trace in runNames)
+  #{
+  #  plotlyPlot = plotlyPlot %>% add_trace(x = ~conc, y = as.formula(paste0("~", trace)), name=sprintf("Method-%s",trace))
+  #}
   
   
   return(plotlyPlot)
