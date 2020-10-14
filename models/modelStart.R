@@ -197,7 +197,7 @@ output$display_start_customWlsPooledFileUploadExampleDownloadLink <- renderUI({
   
   if(checkUsingCustomWls())
   {
-    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledCustomWeights.csv"))
+    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledStandardError-customWeights.csv"))
   }
   return(NULL)
 })

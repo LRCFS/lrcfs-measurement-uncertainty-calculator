@@ -243,23 +243,14 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
 
   answer = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   
-  if(is.null(exStdErrData))
+  sw="S_{w}"
+  if(!is.null(exStdErrData))
   {
-    formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]")
+    sw="S_{w_{p}}"
   }
-  else
-  {
-    formulas = c("u\\text{(CalCurve)} &= \\frac{S_{w_{p}}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]")
-  }
-  
-  #if(is.null(exStdErrData))
-  #{
-      formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumWeightedSqDeviationX,"}}"))
- # }
-  #else{
-    #DO WORK HERE
- # }
-  
+  formulas = c(paste0("u\\text{(CalCurve)} &= \\frac{",sw,"}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]"))
+  formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumWeightedSqDeviationX,"}}"))
+
   
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
