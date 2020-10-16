@@ -51,7 +51,7 @@ methodPrecisionDataWithCalculations = reactive({
   caseSampleMean = input$inputCaseSampleMeanConcentration
 
   #Create empty dataframe to return results
-  calculationsData = data.frame(conc= numeric(0), run=character(0), mean= numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0))
+  calculationsData = data.frame(conc= numeric(0), run=character(0), mean=numeric(0), concMean=numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0))
   
   #For each concentration in the unique concentrations loaded from our data
   for(concentration in uniqeConcentrations)
@@ -76,6 +76,9 @@ methodPrecisionDataWithCalculations = reactive({
     #Calculate the means for each run
     dataMeans = colMeans(dataForConcentration, na.rm = TRUE)
     
+    #Calculate the mean concentration for the nominal value (using the whole table for the conc to avoid issues with empty feilds)
+    meanConcForNv = mean(as.matrix(allData[allData$conc==concentration,-1]),na.rm = TRUE)
+    
     #Calculate the standard deveation for each concentration (using SD function and removing NA values)
     dataStdDev = apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE))
     
@@ -94,15 +97,15 @@ methodPrecisionDataWithCalculations = reactive({
     #Calculate the Standard Uncertainty
     dataStdUncertainty = dataPooledStdDeviation/sqrt(caseSampleReplicate)
     
-    #Calculate the Standard Uncertainty
-    dataRelativeStdUncertainty = dataStdUncertainty / concentration
+    #Calculate the relative Standard Uncertainty
+    dataRelativeStdUncertainty = dataStdUncertainty / meanConcForNv
     
     ################################
     # Append the data for return
     ################################
     
     #Full all the data in a dataframe
-    calculationResults = data.frame("conc"= concentration, "run" = dataRuns, "mean" = dataMeans, "stdDev" = dataStdDev, "dof" = dataDof, "pooledStandardDeviationNumerator" = dataPooledStandardDeviationNumerator, "pooledVariance" = dataPooledVariance, "pooledStdDeviation" = dataPooledStdDeviation, "stdUncertainty" = dataStdUncertainty, "relativeStdUncertainty" =dataRelativeStdUncertainty)
+    calculationResults = data.frame("conc"= concentration, "run" = dataRuns, "mean" = dataMeans, "concMean" = meanConcForNv, "stdDev" = dataStdDev, "dof" = dataDof, "pooledStandardDeviationNumerator" = dataPooledStandardDeviationNumerator, "pooledVariance" = dataPooledVariance, "pooledStdDeviation" = dataPooledStdDeviation, "stdUncertainty" = dataStdUncertainty, "relativeStdUncertainty" =dataRelativeStdUncertainty)
     #Appened the result dataframe with the results from this concentrations calculations
     calculationsData = rbind(calculationsData, calculationResults)
   }
@@ -239,6 +242,20 @@ output$outputSumOfDof <- renderUI({
   return(withMathJax(results))
 })
 
+output$outputMeanConcForNv <- renderUI({
+  data = methodPrecisionDataWithCalculations()
+  
+  formula = character()
+  for(conc in getConcentrations(data))
+  {
+    answer = formatNumberForDisplay(getMeanConcForNv(data, conc),input)
+    formula = c(formula, paste0("\\overline{x}_{(",conc,")} &= ", colourNumber(answer, input$useColours, input$colour6)))
+  }
+  results = mathJaxAligned(formula)
+  
+  return(withMathJax(results))
+})
+
 output$outputSumOfS2d <- renderUI({
   
   data = methodPrecisionDataWithCalculations()
@@ -300,15 +317,16 @@ output$outputStandardUncertainty <- renderUI({
 
 #Display the Realtive Standard Uncertainties for each concentration in the data
 output$outputRealtiveStandardUncertainties <- renderUI({
-  data =  methodPrecisionDataWithCalculations()
+  data = methodPrecisionDataWithCalculations()
   
-  formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\text{NV}} [[break]]")
+  formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\overline{x}_{\\text{(NV)}}} [[break]]")
   
   for(conc in getConcentrations(data))
   {
     su = formatNumberForDisplay(getStandardUncertainty(data, conc),input)
+    meanConcForNv = formatNumberForDisplay(getMeanConcForNv(data, conc),input)
     rsu = formatNumberForDisplay(getRealtiveStandardUncertainty(data, conc),input)
-    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(su, input$useColours, input$colour4),"}{",conc,"} = ",colourNumber(rsu, input$useColours, input$colour5)))
+    formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(su, input$useColours, input$colour4),"}{",colourNumber(meanConcForNv, input$useColours, input$colour6),"} = ",colourNumber(rsu, input$useColours, input$colour5)))
   }
   
   results = mathJaxAligned(formula, 10, 20)
@@ -435,6 +453,13 @@ getNumberOfRuns = function(data){
 getSumDofForConcentration = function(data, concentration)
 {
   answer = sum(data[data$conc==concentration,]$dof)
+  return(answer)
+}
+
+#expects raw data rather than datacalc data.frame
+getMeanConcForNv = function(data, concentration)
+{
+  answer = data[data$conc==concentration,-1]$concMean[1]
   return(answer)
 }
 
