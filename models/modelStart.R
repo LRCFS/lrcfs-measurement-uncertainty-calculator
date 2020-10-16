@@ -79,8 +79,11 @@ output$display_start_confidenceInterval <- renderUI({
 })
 
 output$display_start_coverageFactor <- renderUI({
-  string = paste(coverageFactorResult())
-  return(string)
+  coverageFactor = coverageFactorResult()
+  if(!is.null(coverageFactor) && !is.na(coverageFactor))
+  {
+    return(paste(coverageFactor))
+  }
 })
 
 output$display_start_chooseConfidenceInterval = renderUI({

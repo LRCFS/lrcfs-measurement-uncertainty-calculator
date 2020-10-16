@@ -246,7 +246,11 @@ getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effe
   highestPossibleDof = getHighestPossibleDofInCoverageFactorEffectiveDof(coverageFactorEffectiveDof)
   
   closestDof = 0
-  if(is.na(effectiveDof) | effectiveDof < 1)
+  if(is.na(effectiveDof))
+  {
+    closestDof = NA
+  }
+  else if(effectiveDof < 1)
   {
     closestDof = 1
   }
@@ -273,6 +277,13 @@ getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenc
   
   closestDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof)
   
-  result = coverageFactorEffectiveDof[as.character(closestDof),confidenceInterval]
-  return(result)
+  if(is.na(closestDof))
+  {
+    return(NA)
+  }
+  else
+  {
+    result = coverageFactorEffectiveDof[as.character(closestDof),confidenceInterval]
+    return(result)
+  }
 }
