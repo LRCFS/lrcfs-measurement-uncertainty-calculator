@@ -196,33 +196,33 @@ output$methodPrecisionRawDataGraph <- renderPlotly({
                        layout(boxmode = "group", xaxis = list(title="Concentration"), yaxis = list(title="Peak Area Ratio"))
 
   #Add plots for each concentration row
-  rowConcRun = 1
-  oldRowConc = 0
-  for(i in 1:nrow(data)) {
-    row <- data[i,]
-    rowConc = row$conc
-
-    if(rowConc != oldRowConc)
-    {
-      oldRowConc = rowConc
-      rowConcRun = 1
-    }
-
-    #Remove concentration column and return rotate table to get list of values
-    row$conc = NULL
-    row = melt(row)
-
-    #print(row)
-    plotlyPlot = plotlyPlot %>% add_trace(x = rowConc, y = row$value, name=sprintf("Conc%d-Rep%d",rowConc,rowConcRun))
-
-    rowConcRun = rowConcRun + 1
-  }
+  # rowConcRun = 1
+  # oldRowConc = 0
+  # for(i in 1:nrow(data)) {
+  #   row <- data[i,]
+  #   rowConc = row$conc
+  # 
+  #   if(rowConc != oldRowConc)
+  #   {
+  #     oldRowConc = rowConc
+  #     rowConcRun = 1
+  #   }
+  # 
+  #   #Remove concentration column and return rotate table to get list of values
+  #   row$conc = NULL
+  #   row = melt(row)
+  # 
+  #   #print(row)
+  #   plotlyPlot = plotlyPlot %>% add_trace(x = rowConc, y = row$value, name=sprintf("Conc%d-Rep%d",rowConc,rowConcRun))
+  # 
+  #   rowConcRun = rowConcRun + 1
+  # }
 
   #Add plots for each run
-  #for(trace in runNames)
-  #{
-  #  plotlyPlot = plotlyPlot %>% add_trace(x = ~conc, y = as.formula(paste0("~", trace)), name=sprintf("Method-%s",trace))
-  #}
+  for(trace in runNames)
+  {
+   plotlyPlot = plotlyPlot %>% add_trace(x = ~conc, y = as.formula(paste0("~", trace)), name=sprintf("%s",trace))
+  }
   
   
   return(plotlyPlot)
