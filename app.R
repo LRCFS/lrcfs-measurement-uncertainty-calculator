@@ -56,7 +56,7 @@ source("dal/loadCalibrationCurvePooledDataCSV.R")
 source("dal/loadCalibrationCurveCustomWlsCSV.R")
 source("dal/loadMethodPrecisionCSV.R")
 source("dal/loadStandardSolutionCSV.R")
-source("dal/loadSampleVolumeCSV.R")
+source("dal/loadSamplePreparationCSV.R")
 
 source("models/modelStaticProperties.R")
 
@@ -65,7 +65,7 @@ source("views/viewRightSidebar.R")
 source("views/viewCalibrationCurve.R")
 source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
-source("views/viewSampleVolume.R")
+source("views/viewSamplePreparation.R")
 source("views/viewCombinedUncertainty.R")
 source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
@@ -85,7 +85,7 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                             menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
                             menuItem("Method Precision", tabName = "methodPrecision", icon = icon("bullseye")),
                             menuItem("Standard Solution", tabName = "standardSolution", icon = icon("flask")),
-                            menuItem("Sample Volume", tabName = "sampleVolume", icon = icon("vial")),
+                            menuItem("Sample Preparation", tabName = "samplePreparation", icon = icon("vial")),
                             menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("arrows-alt-v")),
                             menuItem("Coverage Factor", tabName = "coverageFactor", icon = icon("table")),
                             menuItem("Expanded Uncertainty", tabName = "expandedUncertainty", icon = icon("arrows-alt")),
@@ -107,7 +107,7 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                             tabCalibrationCurve,
                             tabMethodPrecision,
                             tabStandardSolution,
-                            tabSampleVolume,
+                            tabSamplePreparation,
                             tabCombinedUncertainty,
                             tabCoverageFactor,
                             tabExpandedUncertainty,
@@ -136,9 +136,9 @@ server <- function(input, output, session) {
   source("models/modelMethodPrecision.R", local = TRUE)
   source("models/modelStandardSolution.R", local = TRUE)
   
-  source("controllers/controllerSampleVolume.R", local = TRUE)
-  source("models/modelSampleVolume.R", local = TRUE)
-  source("reactives/reactiveSampleVolume.R", local = TRUE)
+  source("controllers/controllerSamplePreparation.R", local = TRUE)
+  source("models/modelSamplePreparation.R", local = TRUE)
+  source("reactives/reactiveSamplePreparation.R", local = TRUE)
   
   source("models/modelCombinedUncertainty.R", local = TRUE)
   source("models/modelCoverageFactor.R", local = TRUE)

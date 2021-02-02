@@ -47,7 +47,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial"))
                  ),
                  fluidRow(
-                   valueBox(uiOutput("display_sampleVolume_finalAnswer_coverageFactor"),"\\(u_r\\text{(SampleVolume)}\\)", width = 4, color = "maroon", icon = icon("flask")),
+                   valueBox(uiOutput("display_samplePreparation_finalAnswer_coverageFactor"),"\\(u_r\\text{(SamplePreparation)}\\)", width = 4, color = "maroon", icon = icon("flask")),
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v"))
                  ),
                  fluidRow(
@@ -68,8 +68,8 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                        uiOutput("display_coverageFactor_dofStandardSolution")
                    ),
                    box(width=3, side="right",
-                       title = "Degrees of Freedom of Sample Volume",
-                       uiOutput("display_coverageFactor_dofSampleVolume")
+                       title = "Degrees of Freedom of Sample Preparation",
+                       uiOutput("display_coverageFactor_dofSamplePreparation")
                    )
                  ),
                  fluidRow(

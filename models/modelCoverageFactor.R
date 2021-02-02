@@ -26,7 +26,7 @@ effectiveDofResult = reactive({
   uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
-  uncSampleVolume = getResultSampleVolume()
+  uncSamplePreparation = getResultSamplePreparation()
   combinedUncertainty = combinedUncertaintyResult()
   meanCaseSampleConcentration = input$inputCaseSampleMeanConcentration
   
@@ -40,10 +40,10 @@ effectiveDofResult = reactive({
   #dof Standard Solution
   dofStandardSolution = Inf
   
-  #dof Sample Volume
-  dofSampleVolume = Inf
+  #dof Sample Preparation
+  dofSamplePreparation = Inf
   
-  result = getEffectiveDegreesOfFreedom(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSampleVolume,dofSampleVolume,combinedUncertainty,meanCaseSampleConcentration)
+  result = getEffectiveDegreesOfFreedom(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSamplePreparation,dofSamplePreparation,combinedUncertainty,meanCaseSampleConcentration)
   return(result)
 })
 
@@ -124,8 +124,8 @@ output$display_coverageFactor_dofStandardSolution = renderUI({
   return(withMathJax(output))
 })
 
-output$display_coverageFactor_dofSampleVolume = renderUI({
-  formulas = c(paste("{\\LARGE\\nu}_{\\text{SampleVolume}} &= ",colourNumber(getSampleVolume_degreesOfFreedom(), input$useColours, input$colour4)))
+output$display_coverageFactor_dofSamplePreparation = renderUI({
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{SamplePreparation}} &= ",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, input$colour4)))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
@@ -136,7 +136,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   uncCalibrationCurve = formatNumberForDisplay(getResultCalibrationCurve(),input)
   uncMethodPrecision = formatNumberForDisplay(methodPrecisionResult(),input)
   uncStandardSolution = formatNumberForDisplay(standardSolutionResult(),input)
-  uncSampleVolume = formatNumberForDisplay(getResultSampleVolume(),input)
+  uncSamplePreparation = formatNumberForDisplay(getResultSamplePreparation(),input)
   combinedUncertainty = formatNumberForDisplay(combinedUncertaintyResult(),input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
@@ -148,8 +148,8 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   dofMethodPrecision = methodPrecisionDof()
   
   formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")       
-  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SampleVolume})^4}{{\\LARGE\\nu}_{\\text{SampleVolume}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF"),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"})^4}{\\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF"),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, input$colour1),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF"),"^4}{",colourNumber(dofMethodPrecision, input$useColours, input$colour2),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF"),"^4}{",colourNumber(standardSolutionDof(), input$useColours, input$colour3),"} + \\frac{",colourNumberBackground(uncSampleVolume, SampleVolumeColor, "#FFF"),"^4}{",colourNumber(getSampleVolume_degreesOfFreedom(), input$useColours, input$colour4),"}}"))
+  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SamplePreparation})^4}{{\\LARGE\\nu}_{\\text{SamplePreparation}}}}")
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF"),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"})^4}{\\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF"),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, input$colour1),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF"),"^4}{",colourNumber(dofMethodPrecision, input$useColours, input$colour2),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF"),"^4}{",colourNumber(standardSolutionDof(), input$useColours, input$colour3),"} + \\frac{",colourNumberBackground(uncSamplePreparation, SamplePreparationColor, "#FFF"),"^4}{",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, input$colour4),"}}"))
   
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)
@@ -218,14 +218,14 @@ output$display_coverageFactor_finalAnswer_expandedUncertainty = renderUI({
 ###################################################################################
 # Helper Methods
 ###################################################################################
-getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSampleVolume,dofSampleVolume,combinedUncertainty, meanCaseSampleConcentration)
+getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSamplePreparation,dofSamplePreparation,combinedUncertainty, meanCaseSampleConcentration)
 {
   dofCu = (combinedUncertainty / meanCaseSampleConcentration)^4
   
   dofCc = uncCalibrationCurve^4 / dofCalibrationCurve
   dofMp = uncMethodPrecision^4 / dofMethodPrecision
   dofSs = uncStandardSolution^4 / dofStandardSolution
-  dofSv = uncSampleVolume^4 / dofSampleVolume
+  dofSv = uncSamplePreparation^4 / dofSamplePreparation
   dofSum = sum(dofCc, dofMp, dofSs, dofSv, na.rm = TRUE)
   
   calc = dofCu / dofSum

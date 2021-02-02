@@ -145,10 +145,10 @@ output$display_start_standardSolutionEquipmentFileUpload <- renderUI({
   return(fileInput)
 })
 
-output$display_start_sampleVolumeFileUpload <- renderUI({
-  input$reset_inputSampleVolumeFileUpload #This line is here to attach the event to update when the button is clicked
+output$display_start_samplePreparationFileUpload <- renderUI({
+  input$reset_inputSamplePreparationFileUpload #This line is here to attach the event to update when the button is clicked
   
-  fileInput = fileInput("inputSampleVolumeFileUpload", "Sample Volume (CSV)",
+  fileInput = fileInput("inputSamplePreparationFileUpload", "Sample Preparation (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   
@@ -257,7 +257,7 @@ output$actionButton_start_downloadReport = downloadHandler(
                     methodPrecisionData = methodPrecisionData(),
                     standardSolutionData = standardSolutionData(),
                     standardSolutionEquipmentData = standardSolutionMeasurementData(),
-                    sampleVolumeData = getDataSampleVolume(),
+                    samplePreparationData = getDataSamplePreparation(),
                     inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
                     customWls = getDataCustomWls(),
                     customWlsPooled = getDataCustomWlsPooled(),
@@ -270,7 +270,7 @@ output$actionButton_start_downloadReport = downloadHandler(
                     uncCalibrationCurve = getResultCalibrationCurve(),
                     uncMethodPrecision = methodPrecisionResult(),
                     uncStandardSolution = standardSolutionResult(),
-                    uncSampleVolume = getResultSampleVolume(),
+                    uncSamplePreparation = getResultSamplePreparation(),
                     combinedUncertaintyResult = combinedUncertaintyResult(),
                     coverageFactorResult = coverageFactorResult(),
                     expandedUncertaintyResult = expandedUncertaintyResult(),

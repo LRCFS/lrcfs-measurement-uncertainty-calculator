@@ -28,7 +28,7 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
-                             uploadedSampleVolume=FALSE)
+                             uploadedSamplePreparation=FALSE)
 
 
 
@@ -40,7 +40,7 @@ myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
                              uploadedMethodPrecision=NULL,
                              uploadedStandardSolutionStructure=NULL,
                              uploadedStandardSolutionEquipment=NULL,
-                             uploadedSampleVolume=NULL)
+                             uploadedSamplePreparation=NULL)
 
 #Calibration Curve File upload and reset
 observeEvent(input$inputCalibrationCurveFileUpload, {
@@ -127,16 +127,16 @@ observeEvent(input$reset_inputStandardSolutionFileUpload, {
   checkIfShowResults()
 })
 
-#Sample Volume File upload and reset
-observeEvent(input$inputSampleVolumeFileUpload, {
-  filePath = input$inputSampleVolumeFileUpload$datapath
-  myReactiveErrors$uploadedSampleVolume = sampleVolumeReadCSV(filePath, TRUE)
-  myReactives$uploadedSampleVolume = is.null(myReactiveErrors$uploadedSampleVolume)
+#Sample Preparation File upload and reset
+observeEvent(input$inputSamplePreparationFileUpload, {
+  filePath = input$inputSamplePreparationFileUpload$datapath
+  myReactiveErrors$uploadedSamplePreparation = samplePreparationReadCSV(filePath, TRUE)
+  myReactives$uploadedSamplePreparation = is.null(myReactiveErrors$uploadedSamplePreparation)
   checkIfShowResults()
 })
-observeEvent(input$reset_inputSampleVolumeFileUpload, {
-  myReactives$uploadedSampleVolume = FALSE
-  myReactiveErrors$uploadedSampleVolume = NULL
+observeEvent(input$reset_inputSamplePreparationFileUpload, {
+  myReactives$uploadedSamplePreparation = FALSE
+  myReactiveErrors$uploadedSamplePreparation = NULL
   checkIfShowResults()
 })
 
@@ -180,7 +180,7 @@ checkIfShowResults = function(){
   showHideError("display_start_error_methodPrecisionFileUpload", myReactiveErrors$uploadedMethodPrecision)
   showHideError("display_start_error_standardSolutionStructureFileUpload", myReactiveErrors$uploadedStandardSolutionStructure)
   showHideError("display_start_error_standardSolutionEquipmentFileUpload", myReactiveErrors$uploadedStandardSolutionEquipment)
-  showHideError("display_start_error_sampleVolumeFileUpload", myReactiveErrors$uploadedSampleVolume)
+  showHideError("display_start_error_samplePreparationFileUpload", myReactiveErrors$uploadedSamplePreparation)
   
   #show/hide menu items
   if(checkUsingCustomWls())
@@ -205,7 +205,7 @@ checkIfShowResults = function(){
   }
   showHideMenuItem(".sidebar-menu li a[data-value=methodPrecision]", myReactives$uploadedMethodPrecision)
   showHideMenuItem(".sidebar-menu li a[data-value=standardSolution]", myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment)
-  showHideMenuItem(".sidebar-menu li a[data-value=sampleVolume]", myReactives$uploadedSampleVolume)
+  showHideMenuItem(".sidebar-menu li a[data-value=samplePreparation]", myReactives$uploadedSamplePreparation)
   
   
   #Determine if we should show the results tabs
@@ -213,7 +213,7 @@ checkIfShowResults = function(){
   if(myReactives$uploadedCalibrationCurve ||
      myReactives$uploadedMethodPrecision ||
      (myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment) ||
-     myReactives$uploadedSampleVolume)
+     myReactives$uploadedSamplePreparation)
   {
     #Check that we have valid inputs
     

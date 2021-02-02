@@ -21,42 +21,45 @@
 #
 ###########################################################################
 
-doGetSampleVolume_standardUncerainty = function(data){
-  numerator = data$equipmentTolerance
-  denumerator = data$equipmentCoverage
-  
-  if(is.na(denumerator) | denumerator == "NA" | denumerator == "" | denumerator == 0)
+getDataSamplePreparation = reactive({
+  if(myReactives$uploadedSamplePreparation == TRUE)
   {
-    denumerator = sqrt(3)
+    data = samplePreparationReadCSV(input$inputSamplePreparationFileUpload$datapath)
+    return(data)
   }
-  answer = numerator / denumerator
+  else
+  {
+    return(NULL)
+  }
+})
+
+getResultSamplePreparation = reactive ({
+  data = getDataSamplePreparation()
+  if(is.null(data)) return(NA)
   
+  answer = doGetSamplePreparation_result(data)
   return(answer)
-}
+})
 
-doGetSampleVolume_relativeStandardUncertainty = function(data)
-{
-  stdUnc = doGetSampleVolume_standardUncerainty(data)
-  
-  answer = stdUnc / data$equipmentVolume
-  
-  return(answer)
-}
-
-
-doGetSampleVolume_result = function(data)
-{
-  if(is.null(data))
+getSamplePreparation_degreesOfFreedom = reactive({
+  if(myReactives$uploadedSamplePreparation == FALSE)
   {
     return(NA)
   }
-  
-  result = doGetSampleVolume_relativeStandardUncertainty(data)
-  answer = 0
-  for(i in 1:nrow(data))
+  else
   {
-    answer = answer + (result[i]^2 * data[i,]$equipmentTimesUsed)
+    return("\\infty")
   }
-  answer = sqrt(answer)
-  return(answer)
-}
+})
+
+getSamplePreparation_standardUncerainty = reactive({
+  data = getDataSamplePreparation()
+  return(doGetSamplePreparation_standardUncerainty(data))
+})
+
+getSamplePreparation_relativeStandardUncertainty = reactive({
+  data = getDataSamplePreparation()
+  return(doGetSamplePreparation_relativeStandardUncertainty(data))
+})
+
+

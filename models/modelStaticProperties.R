@@ -58,6 +58,6 @@ CoverageFactorTableHighligthColor = '#D8F5F5'
 CalibrationCurveColor =             '#0073B7' #shiny "blue"
 MethodPrecisionColor =              '#DD4B39' #shiny "red"
 StandardSolutionColor =             '#00A65A' #shiny "green"
-SampleVolumeColor =                 '#D81B60' #shiny "maroon"
+SamplePreparationColor =            '#D81B60' #shiny "maroon"
 
 coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()

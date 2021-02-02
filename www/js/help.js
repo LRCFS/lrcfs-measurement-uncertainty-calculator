@@ -93,9 +93,9 @@ function(startingStep) {
 			position: 'right'
 		},
 		{
-			element: '#shiny-tab-start #samplevol',
-			intro: '<h4>Sample Volume</h4>\
-					<p>Sample volume requires information on pipettes/flask used to measure sample volume, its tolerance, volume and coverage factor.</p>',
+			element: '#shiny-tab-start #sampleprep',
+			intro: '<h4>Sample Preparation</h4>\
+					<p>Sample Preparation requires information on pipettes/flask/scales used to measure sample volume, weight, its tolerance, and coverage factor.</p>',
 			position: 'right'
 		},
 		{

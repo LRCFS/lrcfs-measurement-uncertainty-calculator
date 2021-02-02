@@ -21,16 +21,42 @@
 #
 ###########################################################################
 
-sampleVolumeReadCSV = function(filePath = NULL, validate = FALSE) {
+doGetSamplePreparation_standardUncerainty = function(data){
+  numerator = data$equipmentCapacityTolerance
+  denumerator = data$equipmentCoverage
   
-  #The columns that the data should have
-  columnsToCheck = list("equipment" = "Your data must contain...",
-                        "equipmentVolume" = "Your data must contain...",
-                        "equipmentTolerance" = "Your data must contain...",
-                        "equipmentCoverage" = "Your data must contain...",
-                        "equipmentTimesUsed" = "Your data must contain...")
+  if(is.na(denumerator) | denumerator == "NA" | denumerator == "" | denumerator == 0)
+  {
+    denumerator = sqrt(3)
+  }
+  answer = numerator / denumerator
   
-  return(loadCsv(filePath, validate, columnsToCheck))
+  return(answer)
 }
 
-#data = sampleVolumeReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\sampleVolume\\sampleVolumeSampleData.csv", TRUE);data
+doGetSamplePreparation_relativeStandardUncertainty = function(data)
+{
+  stdUnc = doGetSamplePreparation_standardUncerainty(data)
+  
+  answer = stdUnc / data$equipmentCapacity
+  
+  return(answer)
+}
+
+
+doGetSamplePreparation_result = function(data)
+{
+  if(is.null(data))
+  {
+    return(NA)
+  }
+  
+  result = doGetSamplePreparation_relativeStandardUncertainty(data)
+  answer = 0
+  for(i in 1:nrow(data))
+  {
+    answer = answer + (result[i]^2 * data[i,]$equipmentTimesUsed)
+  }
+  answer = sqrt(answer)
+  return(answer)
+}

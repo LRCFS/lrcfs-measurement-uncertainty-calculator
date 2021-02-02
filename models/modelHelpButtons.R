@@ -40,7 +40,7 @@ observeEvent(input$help_start_stdsol, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 4)
 })
 
-observeEvent(input$help_start_samplevol, {
+observeEvent(input$help_start_sampleprep, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 5)
 })
 

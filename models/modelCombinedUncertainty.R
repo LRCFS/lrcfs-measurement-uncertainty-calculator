@@ -26,9 +26,9 @@ combinedUncertaintyResult = reactive({
   uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
-  uncSampleVolume = getResultSampleVolume()
+  uncSamplePreparation = getResultSamplePreparation()
   
-  result = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
+  result = get_combinedUncertainty_finalAnswer(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSamplePreparation)
   return(result)
 })
 
@@ -37,7 +37,7 @@ combinedUncertaintyResult = reactive({
 ###################################################################################
 
 output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
-  data = data.frame("CombinedUncertainty" = combinedUncertaintyResult(), "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SampleVolume" = getResultSampleVolume())
+  data = data.frame("CombinedUncertainty" = combinedUncertaintyResult(), "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
   data = removeEmptyData(data)
   
   percentages = data/sum(data) * 100
@@ -61,9 +61,9 @@ output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
     {
       colors = c(colors, StandardSolutionColor)
     }
-    else if(colname == "SampleVolume")
+    else if(colname == "SamplePreparation")
     {
-      colors = c(colors, SampleVolumeColor)
+      colors = c(colors, SamplePreparationColor)
     }
   }
   
@@ -86,11 +86,11 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   cc = formatNumberForDisplay(getResultCalibrationCurve(),input)
   mp = formatNumberForDisplay(methodPrecisionResult(),input)
   ss = formatNumberForDisplay(standardSolutionResult(),input)
-  sv = formatNumberForDisplay(getResultSampleVolume(),input)
+  sv = formatNumberForDisplay(getResultSamplePreparation(),input)
   
   formula = c("\\text{CombUncertainty} &= x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}} [[break]]")
-  formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SampleVolume})^2}")
-  formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration),"\\sqrt{",colourNumberBackground(cc, CalibrationCurveColor, "#FFF"),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF"),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF"),"^2+",colourNumberBackground(sv, SampleVolumeColor, "#FFF"),"^2}"))
+  formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SamplePreparation})^2}")
+  formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration),"\\sqrt{",colourNumberBackground(cc, CalibrationCurveColor, "#FFF"),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF"),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF"),"^2+",colourNumberBackground(sv, SamplePreparationColor, "#FFF"),"^2}"))
   formula = c(formula, paste("&= ",formatNumberForDisplay(combinedUncertaintyResult(),input)))
   output = mathJaxAligned(formula, 5, 20)
   
@@ -112,9 +112,9 @@ output$display_combinedUncertainty_finalAnswer_expandedUncertainty = renderUI({
 ###################################################################################
 # Helper Methods
 ###################################################################################
-get_combinedUncertainty_finalAnswer = function(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSampleVolume)
+get_combinedUncertainty_finalAnswer = function(meanConcentration, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSamplePreparation)
 {
-  sumUncertainties = sum(uncCalibrationCurve^2,uncMethodPrecision^2,uncStandardSolution^2,uncSampleVolume^2, na.rm = TRUE)
+  sumUncertainties = sum(uncCalibrationCurve^2,uncMethodPrecision^2,uncStandardSolution^2,uncSamplePreparation^2, na.rm = TRUE)
   answer = meanConcentration * sqrt(sumUncertainties)
   return(answer)
 }

@@ -15,7 +15,7 @@ params:
   methodPrecisionData: NA
   standardSolutionData: NA
   standardSolutionEquipmentData: NA
-  sampleVolumeData: NA
+  samplePreparationData: NA
   inputWeightLeastSquared: NA
   customWls: NA
   customWlsPooled: NA
@@ -28,7 +28,7 @@ params:
   uncCalibrationCurve: NA
   uncMethodPrecision: NA
   uncStandardSolution: NA
-  uncSampleVolume: NA
+  uncSamplePreparation: NA
   combinedUncertaintyResult: NA
   coverageFactorResult: NA
   expandedUncertaintyResult: NA
@@ -112,7 +112,7 @@ The calculated results for each individual component are shown below.
 |Calibration Curve      |`r params$uncCalibrationCurve` |
 |Method Precision       |`r params$uncMethodPrecision`  |
 |Standard Solution      |`r params$uncStandardSolution` |
-|Sample Volume          |`r params$uncSampleVolume`     |
+|Sample Preparation     |`r params$uncSamplePreparation`|
 
 | Attribute             | Value                                        |
 |-----------------------|----------------------------------------------|
@@ -269,7 +269,7 @@ $u_r(\text{StdSolution}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)
 
 ***
 \newpage 
-## Sample Volume
+## Sample Preparation
 
 ### Overview
 
@@ -279,11 +279,11 @@ The uncertainty of sample volume quantifies the uncertainty associated with quan
 
 The RSU of each equipment is computed using:
 
-$u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Volume}}$
+$u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Capacity}}$
 
 The RSU of sample volume is given by:
 
-$u_r\text{(SampleVolume)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,Tol)}}^2 \times N(\text{Equipment})_{\text{(Vol,Tol)}}}]}$
+$u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,Tol)}}^2 \times N(\text{Equipment})_{\text{(Cap,Tol)}}}]}$
 
 
 - \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in taking the volume of a given sample.
@@ -296,7 +296,7 @@ $u_r\text{(SampleVolume)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,Tol)}}
 
 The combined uncertainty is obtained by combining all the individual uncertainty components.
 
-If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Standard Solution and Sample Volume, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
+If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Standard Solution and Sample Preparation, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
 
 If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.
 
@@ -405,10 +405,10 @@ params$standardSolutionEquipmentData
 ```
 
 \newpage
-## Sample Volume
-### Sample Volume (CSV)
+## Sample Preparation
+### Sample Preparation (CSV)
 ```{r echo=FALSE}
-params$sampleVolumeData
+params$samplePreparationData
 ```
 
 # END OF REPORT

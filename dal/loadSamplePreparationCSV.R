@@ -21,45 +21,16 @@
 #
 ###########################################################################
 
-getDataSampleVolume = reactive({
-  if(myReactives$uploadedSampleVolume == TRUE)
-  {
-    data = sampleVolumeReadCSV(input$inputSampleVolumeFileUpload$datapath)
-    return(data)
-  }
-  else
-  {
-    return(NULL)
-  }
-})
-
-getResultSampleVolume = reactive ({
-  data = getDataSampleVolume()
-  if(is.null(data)) return(NA)
+samplePreparationReadCSV = function(filePath = NULL, validate = FALSE) {
   
-  answer = doGetSampleVolume_result(data)
-  return(answer)
-})
+  #The columns that the data should have
+  columnsToCheck = list("equipment" = "Your data must contain...",
+                        "equipmentCapacity" = "Your data must contain...",
+                        "equipmentCapacityTolerance" = "Your data must contain...",
+                        "equipmentCoverage" = "Your data must contain...",
+                        "equipmentTimesUsed" = "Your data must contain...")
+  
+  return(loadCsv(filePath, validate, columnsToCheck))
+}
 
-getSampleVolume_degreesOfFreedom = reactive({
-  if(myReactives$uploadedSampleVolume == FALSE)
-  {
-    return(NA)
-  }
-  else
-  {
-    return("\\infty")
-  }
-})
-
-getSampleVolume_standardUncerainty = reactive({
-  data = getDataSampleVolume()
-  return(doGetSampleVolume_standardUncerainty(data))
-})
-
-getSampleVolume_relativeStandardUncertainty = reactive({
-  data = getDataSampleVolume()
-  return(doGetSampleVolume_relativeStandardUncertainty(data))
-})
-
-
+data = samplePreparationReadCSV("D:\\GitHub\\LRCFS\\lrcfs-measurement-uncertainty-calculator\\www\\exampleData\\exampleData-samplePreparation.csv", FALSE);data
