@@ -28,7 +28,8 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
-                             uploadedSamplePreparation=FALSE)
+                             uploadedSamplePreparation=FALSE,
+                             uploadedHomogeneity=FALSE)
 
 
 
@@ -40,7 +41,8 @@ myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
                              uploadedMethodPrecision=NULL,
                              uploadedStandardSolutionStructure=NULL,
                              uploadedStandardSolutionEquipment=NULL,
-                             uploadedSamplePreparation=NULL)
+                             uploadedSamplePreparation=NULL,
+                             uploadedHomogeneity=NULL)
 
 #Calibration Curve File upload and reset
 observeEvent(input$inputCalibrationCurveFileUpload, {
@@ -140,6 +142,19 @@ observeEvent(input$reset_inputSamplePreparationFileUpload, {
   checkIfShowResults()
 })
 
+#Homogeneity File upload and reset
+observeEvent(input$inputHomogeneityFileUpload, {
+  filePath = input$inputHomogeneityFileUpload$datapath
+  myReactiveErrors$uploadedHomogeneity = homogeneityReadCSV(filePath, TRUE)
+  myReactives$uploadedHomogeneity = is.null(myReactiveErrors$uploadedHomogeneity)
+  checkIfShowResults()
+})
+observeEvent(input$reset_inputHomogeneityFileUpload, {
+  myReactives$uploadedHomogeneity = FALSE
+  myReactiveErrors$uploadedHomogeneity = NULL
+  checkIfShowResults()
+})
+
 #Additional homepage inputs
 observeEvent(input$inputWeightLeastSquared, {
   checkIfShowResults()
@@ -181,6 +196,7 @@ checkIfShowResults = function(){
   showHideError("display_start_error_standardSolutionStructureFileUpload", myReactiveErrors$uploadedStandardSolutionStructure)
   showHideError("display_start_error_standardSolutionEquipmentFileUpload", myReactiveErrors$uploadedStandardSolutionEquipment)
   showHideError("display_start_error_samplePreparationFileUpload", myReactiveErrors$uploadedSamplePreparation)
+  showHideError("display_start_error_homogeneityFileUpload", myReactiveErrors$uploadedHomogeneity)
   
   #show/hide menu items
   if(checkUsingCustomWls())
@@ -206,6 +222,7 @@ checkIfShowResults = function(){
   showHideMenuItem(".sidebar-menu li a[data-value=methodPrecision]", myReactives$uploadedMethodPrecision)
   showHideMenuItem(".sidebar-menu li a[data-value=standardSolution]", myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment)
   showHideMenuItem(".sidebar-menu li a[data-value=samplePreparation]", myReactives$uploadedSamplePreparation)
+  showHideMenuItem(".sidebar-menu li a[data-value=homogeneity]", myReactives$uploadedHomogeneity)
   
   
   #Determine if we should show the results tabs
@@ -213,7 +230,8 @@ checkIfShowResults = function(){
   if(myReactives$uploadedCalibrationCurve ||
      myReactives$uploadedMethodPrecision ||
      (myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment) ||
-     myReactives$uploadedSamplePreparation)
+     myReactives$uploadedSamplePreparation ||
+     myReactives$uploadedHomogeneity)
   {
     #Check that we have valid inputs
     

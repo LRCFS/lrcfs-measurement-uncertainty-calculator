@@ -50,7 +50,7 @@ colour9 = "#00D900"
 caseSampleReplicatesColour =        "#00C0EF" #shiny "aqua"
 caseSampleMeanConcentrationColour = "#F012BE" #shiny "fuchsia"
 caseSampleMeanParColour =           "#FF851B" #shiny "orange"
-caseSampleWeightColour =           "#DD4B39" #shiny "red"
+caseSampleWeightColour =            "#DD4B39" #shiny "red"
 
 CombinedUncertaintyColor =          '#605CA8' #shiny "purple"
 CoverageFactorColor =               '#39CCCC' #shiny "teal"
@@ -59,5 +59,6 @@ CalibrationCurveColor =             '#0073B7' #shiny "blue"
 MethodPrecisionColor =              '#DD4B39' #shiny "red"
 StandardSolutionColor =             '#00A65A' #shiny "green"
 SamplePreparationColor =            '#D81B60' #shiny "maroon"
+HomogeneityColor =                  '#FF0000' 
 
 coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()

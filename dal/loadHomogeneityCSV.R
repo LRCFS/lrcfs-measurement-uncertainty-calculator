@@ -21,14 +21,10 @@
 #
 ###########################################################################
 
-samplePreparationReadCSV = function(filePath = NULL, validate = FALSE) {
+homogeneityReadCSV = function(filePath = NULL, validate = FALSE) {
   
   #The columns that the data should have
-  columnsToCheck = list("equipment" = "Your data must contain...",
-                        "equipmentCapacity" = "Your data must contain...",
-                        "equipmentCapacityTolerance" = "Your data must contain...",
-                        "equipmentCoverage" = "Your data must contain...",
-                        "equipmentTimesUsed" = "Your data must contain...")
+  columnsToCheck = list("vial1" = "Your data must contain...")
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }

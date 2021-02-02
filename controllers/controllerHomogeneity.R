@@ -21,14 +21,11 @@
 #
 ###########################################################################
 
-samplePreparationReadCSV = function(filePath = NULL, validate = FALSE) {
+doGetHomogeneity_standardUncerainty = function(data){
   
-  #The columns that the data should have
-  columnsToCheck = list("equipment" = "Your data must contain...",
-                        "equipmentCapacity" = "Your data must contain...",
-                        "equipmentCapacityTolerance" = "Your data must contain...",
-                        "equipmentCoverage" = "Your data must contain...",
-                        "equipmentTimesUsed" = "Your data must contain...")
+}
+
+doGetHomogeneity_relativeStandardUncertainty = function(data)
+{
   
-  return(loadCsv(filePath, validate, columnsToCheck))
 }

@@ -155,6 +155,16 @@ output$display_start_samplePreparationFileUpload <- renderUI({
   return(fileInput)
 })
 
+output$display_start_homogeneityFileUpload <- renderUI({
+  input$reset_inputHomogeneityFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  fileInput = fileInput("inputHomogeneityFileUpload", "Homogeneity (CSV)",
+                        multiple = FALSE,
+                        accept = c(".csv"))
+  
+  return(fileInput)
+})
+
 #########
 output$display_start_customWlsFileUploadExampleDownloadLink <- renderUI({
   input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
@@ -258,6 +268,7 @@ output$actionButton_start_downloadReport = downloadHandler(
                     standardSolutionData = standardSolutionData(),
                     standardSolutionEquipmentData = standardSolutionMeasurementData(),
                     samplePreparationData = getDataSamplePreparation(),
+                    homogeneityData = getDataHomogeneity(),
                     inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
                     customWls = getDataCustomWls(),
                     customWlsPooled = getDataCustomWlsPooled(),
@@ -271,6 +282,7 @@ output$actionButton_start_downloadReport = downloadHandler(
                     uncMethodPrecision = methodPrecisionResult(),
                     uncStandardSolution = standardSolutionResult(),
                     uncSamplePreparation = getResultSamplePreparation(),
+                    uncHomogeneity = getResultHomogeneity(),
                     combinedUncertaintyResult = combinedUncertaintyResult(),
                     coverageFactorResult = coverageFactorResult(),
                     expandedUncertaintyResult = expandedUncertaintyResult(),

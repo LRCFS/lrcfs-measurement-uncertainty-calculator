@@ -21,14 +21,38 @@
 #
 ###########################################################################
 
-samplePreparationReadCSV = function(filePath = NULL, validate = FALSE) {
-  
-  #The columns that the data should have
-  columnsToCheck = list("equipment" = "Your data must contain...",
-                        "equipmentCapacity" = "Your data must contain...",
-                        "equipmentCapacityTolerance" = "Your data must contain...",
-                        "equipmentCoverage" = "Your data must contain...",
-                        "equipmentTimesUsed" = "Your data must contain...")
-  
-  return(loadCsv(filePath, validate, columnsToCheck))
-}
+getDataHomogeneity = reactive({
+  if(myReactives$uploadedHomogeneity == TRUE)
+  {
+    data = homogeneityReadCSV(input$inputHomogeneityFileUpload$datapath)
+    return(data)
+  }
+  else
+  {
+    return(NULL)
+  }
+})
+
+
+getHomogeneity_degreesOfFreedom = reactive({
+  if(myReactives$uploadedHomogeneity == FALSE)
+  {
+    return(NA)
+  }
+  else
+  {
+    return("\\infty")
+  }
+})
+
+getHomogeneity_standardUncerainty = reactive({
+  data = getDataHomogeneity()
+  return(doGetHomogeneity_standardUncerainty(data))
+})
+
+getHomogeneity_relativeStandardUncertainty = reactive({
+  data = getDataHomogeneity()
+  return(doGetHomogeneity_relativeStandardUncertainty(data))
+})
+
+

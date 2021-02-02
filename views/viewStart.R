@@ -41,6 +41,17 @@ tabStart = tabItem(tabName = "start",
                                   ),
                                   hr(),
                                   
+                                  div(id="homogeneity",
+                                      actionButton("help_start_homogeneity", "", icon=icon("question"), class="smallRightHelp"),
+                                      h4("Homogeneity"),
+                                      a("Download Example Homogeneity CSV", href="exampleData/exampleData-homogeneity.csv"),
+                                      uiOutput("display_start_homogeneityFileUpload"),
+                                      div("Error with uploaded file...", class="error", id="display_start_error_homogeneityFileUpload"),
+                                      actionButton("reset_inputHomogeneityFileUpload", "Remove Homogeneity Data", icon=icon("times")),
+                                      div(class="clear")
+                                  ),
+                                  hr(),
+                                  
                                   div(id="calcurve",
                                     actionButton("help_start_calcurve", "", icon=icon("question"), class="smallRightHelp"),
                                     h4("Calibration Curve"),
@@ -85,11 +96,13 @@ tabStart = tabItem(tabName = "start",
                                     h4("Sample Preparation"),
                                     a("Download Example Sample Preparation CSV", href="exampleData/exampleData-samplepreparation.csv"),
                                     uiOutput("display_start_samplePreparationFileUpload"),
-                                    div("Error with uploaded file...", class="error", id="display_start_error_sampleVolumeFileUpload"),
+                                    div("Error with uploaded file...", class="error", id="display_start_error_samplePreparationFileUpload"),
                                     actionButton("reset_inputSamplePreparationFileUpload", "Remove Sample Preparation Data", icon=icon("times")),
                                     div(class="clear")
                                   ),
                                   hr()
+                                  
+                                  
                               )
                             )
                      ),
