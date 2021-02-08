@@ -33,6 +33,11 @@ getDataHomogeneity = reactive({
   }
 })
 
+getDataHomogeneityCalcs = reactive({
+  data = doGetDataHomogeneityCalcs(getDataHomogeneity())
+  return(data)
+})
+
 
 getHomogeneity_degreesOfFreedom = reactive({
   if(myReactives$uploadedHomogeneity == FALSE)

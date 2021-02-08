@@ -50,6 +50,15 @@ output$display_homogeneity_rawDataGraph <- renderPlotly({
   return(plotlyPlot)
 })
 
+#Display homogeneity calcs
+output$display_homogeneity_calcsTable = DT::renderDataTable(
+  getDataHomogeneityCalcs(),
+  rownames = FALSE,
+  options = list(scrollX = TRUE, dom = 'tip')
+)
+
+
+
 
 
 #Display values needed for calculations

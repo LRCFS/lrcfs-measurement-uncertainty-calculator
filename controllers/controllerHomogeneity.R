@@ -21,6 +21,11 @@
 #
 ###########################################################################
 
+doGetDataHomogeneityCalcs = function(data)
+{
+  return(apply(data, 2, calcHomogeneitySquares))
+}
+
 doGetHomogeneity_standardUncerainty = function(data){
   
 }
@@ -29,3 +34,38 @@ doGetHomogeneity_relativeStandardUncertainty = function(data)
 {
   
 }
+
+
+
+calcHomogeneitySquares = function(x)
+{
+  answer = (x - mean(x))^2
+  return(answer)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

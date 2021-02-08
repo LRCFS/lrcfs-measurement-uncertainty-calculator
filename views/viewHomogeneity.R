@@ -30,10 +30,19 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
                    ),
                    box(title = "Method", width=7,
+                       p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of variance (ANOVA)"), "test is carried out where the Mean Sum of Squares Between (\\(MSS_B\\)) is defined as:"),
+                       p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2}  {k-1}$$"),
+                       p("and the Mean Sum of Squares Within the groups (\\(MSS_W\\)) is defined as:"),
+                       p("$$MSS_w = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n (X_{ij}-\\overline{X}_j)^2}  {n-k}$$"),
+                       p("and the \\(F\\) value is given by:"),
+                       p("$$F = \\frac{MSS_B}{MSS_w}$$"),
                        tags$ul(
-                         tags$li("\\(N\\) is the number of vials"),
-                         tags$li("\\(n\\) is the number of replicates per vial"),
-                         tags$li("\\(N_t\\) total number of measurements")
+                         tags$li("\\(k\\) is the number of groups/vials."),
+                         tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
+                         tags$li("\\(n\\) total number of measurements."),
+                         tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
+                         tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
+                         tags$li("\\(\\overline{X}_T\\) is the ground mean of all measurements.")
                        )
                    )
                  ),
@@ -48,7 +57,12 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                           )
                    )
                  ),
-                 
+                 fluidRow(
+                   box(width=12, side="right",
+                          title = "Calculations",
+                          DT::dataTableOutput("display_homogeneity_calcsTable")
+                   )
+                 ),
                  fluidRow(
                    box(width=6, side="right",
                        title = "Values Needed",
