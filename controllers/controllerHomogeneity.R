@@ -21,9 +21,76 @@
 #
 ###########################################################################
 
-doGetDataHomogeneityCalcs = function(data)
+doGetHomogeneityNumCols = function(data)
 {
-  return(apply(data, 2, calcHomogeneitySquares))
+  return(ncol(data))
+}
+
+# Returns the number of values in each column excluding NA
+doGetHomogeneityNumWithin = function(data)
+{
+  return(colSums(!is.na(data)))
+}
+
+doGetHomogeneityMeansWithin = function(data)
+{
+  return(apply(data, 2, mean, na.rm = TRUE ))
+}
+
+doGetHomogeneityCalcs = function(data)
+{
+  return(data.frame(apply(data, 2, calcHomogeneitySquares)))
+}
+
+doGetHomogeneitySumOfSquaredDeviation = function(data)
+{
+  data = doGetHomogeneityCalcs(data)
+  return(apply(data, 2, sum, na.rm = TRUE))
+}
+
+doGetHomogeneitySumOfSquaresWithin = function(data)
+{
+  data = doGetHomogeneitySumOfSquaredDeviation(data)
+  return(sum(data, na.rm = TRUE))
+}
+
+doGetHomogeneityMeanSumOfSquaresWithin = function(data)
+{
+  sumOfSquaresWithin = doGetHomogeneitySumOfSquaresWithin(data)
+  numOfValues = doGetHomogeneityNumOfValues(data)
+  numCols = doGetHomogeneityNumCols(data)
+  
+  answer = sumOfSquaresWithin / (numOfValues - numCols)
+  return(answer)
+}
+
+doGetHomogeneitySumOfAllValues = function(data)
+{
+  return(sum(data, na.rm = TRUE))
+}
+
+doGetHomogeneityNumOfValues = function(data)
+{
+  dataAsVactor = unlist(data);
+  countWithoutNas = length(which(!is.na(dataAsVactor)))
+  return(countWithoutNas)
+}
+
+doGetHomogeneityGrandMean = function(data)
+{
+  answer = doGetHomogeneitySumOfAllValues(data) / doGetHomogeneityNumOfValues(data)
+  return(answer)
+}
+
+doGetDataHomogeneityNumeratorBetween = function(data)
+{
+  nj = doGetHomogeneityNumWithin(data)
+  xBar = doGetHomogeneityMeansWithin(data)
+  grandMean = doGetHomogeneityGrandMean(data)
+  
+  answer = nj * (xBar - grandMean)^2
+  
+  return(answer)
 }
 
 doGetHomogeneity_standardUncerainty = function(data){
@@ -39,7 +106,7 @@ doGetHomogeneity_relativeStandardUncertainty = function(data)
 
 calcHomogeneitySquares = function(x)
 {
-  answer = (x - mean(x))^2
+  answer = (x - mean(x, na.rm = TRUE))^2
   return(answer)
 }
 

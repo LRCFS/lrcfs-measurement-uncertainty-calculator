@@ -31,9 +31,9 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                    ),
                    box(title = "Method", width=7,
                        p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of variance (ANOVA)"), "test is carried out where the Mean Sum of Squares Between (\\(MSS_B\\)) is defined as:"),
-                       p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2}  {k-1}$$"),
+                       p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 }$$"),
                        p("and the Mean Sum of Squares Within the groups (\\(MSS_W\\)) is defined as:"),
-                       p("$$MSS_w = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n (X_{ij}-\\overline{X}_j)^2}  {n-k}$$"),
+                       p("$$MSS_w = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n (X_{ij}-\\overline{X}_j)^2 } { n-k }$$"),
                        p("and the \\(F\\) value is given by:"),
                        p("$$F = \\frac{MSS_B}{MSS_w}$$"),
                        tags$ul(
@@ -42,7 +42,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                          tags$li("\\(n\\) total number of measurements."),
                          tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
                          tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
-                         tags$li("\\(\\overline{X}_T\\) is the ground mean of all measurements.")
+                         tags$li("\\(\\overline{X}_T\\) is the grand mean of all measurements.")
                        )
                    )
                  ),
@@ -59,8 +59,9 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                          title = "Calculations",
-                          DT::dataTableOutput("display_homogeneity_calcsTable")
+                       title = "Means \\(\\overline{X}_j\\)",
+                       p("These are the means."),
+                       DT::dataTableOutput("display_homogeneity_calcsTable3")
                    )
                  ),
                  fluidRow(
@@ -69,10 +70,24 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        uiOutput("display_homogeneity_valuedNeeded")
                    ),
                    box(width=6, side="right",
-                       title = "Groud Mean",
-                       uiOutput("display_homogeneity_groundMean")
+                       title = "Grand Mean",
+                       uiOutput("display_homogeneity_grandMean")
                    )
-                 )
+                 ),
+                 fluidRow(
+                   box(width=12, side="right",
+                          title = "Calculations \\((X_{ij}-\\overline{X}_j)^2\\)",
+                          p("These are the \\((X_{ij}-\\overline{X}_j)^2\\) caculations for each vial."),
+                          DT::dataTableOutput("display_homogeneity_calcsTable")
+                   )
+                 ),
+                 fluidRow(
+                   box(width=6, side="right",
+                       title = "Mean Sum of Squares Within (\\(MSS_W\\))",
+                       uiOutput("display_homogeneity_meanSumOfSquaresWithin")
+                   )
+                 ),
+                 
                  # fluidRow(
                  #   box(width=12, side="right",
                  #       title = "Overall Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,

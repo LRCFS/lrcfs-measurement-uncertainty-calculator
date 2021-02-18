@@ -51,29 +51,90 @@ output$display_homogeneity_rawDataGraph <- renderPlotly({
 })
 
 #Display homogeneity calcs
-output$display_homogeneity_calcsTable = DT::renderDataTable(
-  getDataHomogeneityCalcs(),
+output$display_homogeneity_calcsTable3 = DT::renderDataTable(
+  sapply(getDataHomogeneity(), function(x) formatNumberForDisplay(x, input)),
+  container = htmltools::withTags(table(
+    tableHeader(colnames(getDataHomogeneity())),
+    tfoot(
+      tr(
+        lapply(paste("\\(n_{",rep(1:getHomogeneityNumCols_value()),"}=\\)",getHomogeneityNumWithin()), th)
+      ),
+      tr(
+        lapply(paste("\\(\\overline{X}_{",rep(1:getHomogeneityNumCols_value()),"}=\\)",getDataHomogeneityMeansWithin()), th)
+      ),
+      tr(
+        th(colspan = getHomogeneityNumCols_value(), class="tableFormula", paste("\\( n_j(\\overline{X}_{j}-\\overline{X}_T)^2 \\)"))
+      ),
+      tr(
+        lapply(paste("\\(= \\)",getDataHomogeneityNumeratorBetween()), th)
+      ),
+      tr(
+        th(colspan = getHomogeneityNumCols_value(), class="tableFormula", paste("\\( \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 = ", 999 , "\\)"))
+      )
+    )
+  )),
   rownames = FALSE,
-  options = list(scrollX = TRUE, dom = 'tip')
+  options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:getHomogeneityNumCols_value()-1)))
 )
 
-
-
-
+#Display homogeneity calcs
+output$display_homogeneity_calcsTable = DT::renderDataTable(
+  sapply(getDataHomogeneityCalcs(), function(x) formatNumberForDisplay(x, input)),
+  container = htmltools::withTags(table(
+    tableHeader(colnames(getDataHomogeneityCalcs())),
+    tfoot(
+      tr(
+        th(colspan = getHomogeneityNumCols_value(), class="result", paste("\\(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n (X_{ij}-\\overline{X}_j)^2 = ",getHomogeneitySumOfSquaresWithin(),"\\)"))
+      )
+    ),
+    tableFooter(paste("\\(\\sum_{",rep(1:getHomogeneityNumCols_value()),"}=\\)",getDataHomogeneitySumOfSquaredDeviation()))
+  )),
+  rownames = FALSE,
+  options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:ncol(getDataHomogeneityCalcs())-1)))
+)
 
 #Display values needed for calculations
 output$display_homogeneity_valuedNeeded = renderUI({
   
-  formulas = c(paste0("\\text{N} &=", 1))
-  formulas = c(formulas, paste0("\\text{n} &=", 1))
-  formulas = c(formulas, paste0("\\text{N_t} &=", 1))
+  n = getHomogeneityNumOfValues()
+  k = getHomogeneityNumCols()
+  
+  formulas = c(paste0("\\text{n} &=", n))
+  formulas = c(formulas, paste0("\\text{k} &=", k))
   output = mathJaxAligned(formulas, 10)
   
   return(withMathJax(HTML(output)))
   
 })
 
-output$display_homogeneity_groundMean = renderUI({
+output$display_homogeneity_grandMean = renderUI({
+  
+  top = getHomogeneitySumOfAllValues()
+  n = getHomogeneityNumOfValues()
+  answer = getHomogeneityGrandMean()
+  
+  formulas = c(paste0("\\overline{X}_T &= \\frac{\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n X_{ij}}{n}"))
+  formulas = c(formulas, paste0("&= \\frac{",top,"}{",n,"}"))
+  formulas = c(formulas, paste0("&= ", answer))
+  
+  output = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(output)))
+})
+
+
+output$display_homogeneity_meanSumOfSquaresWithin = renderUI({
+
+  top = getHomogeneitySumOfSquaresWithin()
+  n = getHomogeneityNumOfValues()
+  k = getHomogeneityNumCols()
+  answer = getHomogeneityMeanSumOfSquaresWithin()
+  
+  formulas = c(paste0("MSS_w &= \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n (X_{ij}-\\overline{X}_j)^2 } { n-k }"))
+  formulas = c(formulas, paste0("&= \\frac{",top,"}{",n," - ", k, "}"))
+  formulas = c(formulas, paste0("&= ", answer))
+  
+  output = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(output)))
   
 })
 

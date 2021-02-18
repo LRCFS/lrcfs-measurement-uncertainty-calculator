@@ -163,7 +163,7 @@ output$uploadedMethodPrecisionDataStats <- renderUI({
 
 #Show a datatable with the RAW data loaded (hides searching with dom attribute)
 output$methodPrecisionRawData <- DT::renderDataTable(
-  methodPrecisionData(),
+  sapply(methodPrecisionData(), function(x) formatNumberForDisplay(x, input)),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
 )
@@ -181,7 +181,7 @@ output$display_methodPrecision_meanConcentration = renderUI({
 #Show a datatable with all the calculations in it
 #Get the number of runs and use that as the page size to make navigation a little more straight forward
 output$methodPrecisionCalculations <- DT::renderDataTable(
-  methodPrecisionDataWithCalculationsNeatHeaders(),
+  sapply(methodPrecisionDataWithCalculationsNeatHeaders(), function(x) formatNumberForDisplay(x, input)),
   rownames = FALSE,
   options = list(pageLength = getNumberOfRuns(methodPrecisionData()), scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:5)))
 )

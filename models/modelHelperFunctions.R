@@ -45,7 +45,7 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 
 #Takes any number and formats it in either scientific notation or rounded to a specified number of decimal places
 #Can also handle a vector
-formatNumberForDisplay = function(number, input)
+formatNumberForDisplay = function(number, input = NULL)
 {
   #If it's got a length then lets apply the whole function again to the vector
   if(length(number) > 1)
@@ -55,9 +55,17 @@ formatNumberForDisplay = function(number, input)
     return(numbers)
   }
   
-  numberOfDecimalPlaces = input$inputNumberOfDecimalPlaces
-  useScientificNotationIfLessThan = input$inputUseScientificNotationIfLessThan
-  numberOfScientificNotationDigits = input$intputNumberOfScientificNotationDigits
+  numberOfDecimalPlaces = 6
+  useScientificNotationIfLessThan = 0.001
+  numberOfScientificNotationDigits = 2
+  
+  if(!is.null(input))
+  {
+    numberOfDecimalPlaces = input$inputNumberOfDecimalPlaces
+    useScientificNotationIfLessThan = input$inputUseScientificNotationIfLessThan
+    numberOfScientificNotationDigits = input$intputNumberOfScientificNotationDigits
+  }
+    
   
   #Check if number is a factor (possibly a string) and just return as character
   if(is.factor(number))

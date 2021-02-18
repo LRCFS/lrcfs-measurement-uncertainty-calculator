@@ -28,3 +28,13 @@ homogeneityReadCSV = function(filePath = NULL, validate = FALSE) {
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
+
+
+#data = homogeneityReadCSV("D:\\GitHub\\LRCFS\\lrcfs-measurement-uncertainty-calculator\\www\\exampleData\\exampleData-homogeneity.csv"); data
+# typeof(data)
+# 
+# calcs = doGetHomogeneityCalcs(data); calcs
+# typeof(calcs)
+# 
+# test = data.frame(calcs)
+# typeof(test)

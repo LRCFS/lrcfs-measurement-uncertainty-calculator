@@ -33,11 +33,86 @@ getDataHomogeneity = reactive({
   }
 })
 
-getDataHomogeneityCalcs = reactive({
-  data = doGetDataHomogeneityCalcs(getDataHomogeneity())
+# Returns a single number of columns in the dataset
+getHomogeneityNumCols = reactive({
+  data = getHomogeneityNumCols_value()
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour2)
   return(data)
 })
 
+# We use this value for rendering the right number of columns in datatables so need a direct value
+getHomogeneityNumCols_value = reactive({
+  data = doGetHomogeneityNumCols(getDataHomogeneity())
+  return(data)
+})
+
+# Returns the number of values in each column excluding NAs
+getHomogeneityNumWithin = reactive({
+  data = doGetHomogeneityNumWithin(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
+
+getDataHomogeneityMeansWithin = reactive({
+  data = doGetHomogeneityMeansWithin(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
+
+getDataHomogeneityCalcs = reactive({
+  data = doGetHomogeneityCalcs(getDataHomogeneity())
+  return(data)
+})
+
+getDataHomogeneitySumOfSquaredDeviation = reactive({
+  data = doGetHomogeneitySumOfSquaredDeviation(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
+
+getHomogeneitySumOfSquaresWithin = reactive({
+  data = doGetHomogeneitySumOfSquaresWithin(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour5)
+  return(data)
+})
+
+getHomogeneityMeanSumOfSquaresWithin = reactive({
+  data = doGetHomogeneityMeanSumOfSquaresWithin(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour6)
+  return(data)
+})
+
+getHomogeneitySumOfAllValues = reactive({
+  data = doGetHomogeneitySumOfAllValues(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour4)
+  return(data)
+})
+
+#Returns the number of values within the datafame (excluding NAs)
+getHomogeneityNumOfValues = reactive({
+  data = doGetHomogeneityNumOfValues(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour1)
+  return(data)
+})
+
+getHomogeneityGrandMean = reactive({
+  data = doGetHomogeneityGrandMean(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour3)
+  return(data)
+})
+
+
+getDataHomogeneityNumeratorBetween = reactive({
+  data = doGetDataHomogeneityNumeratorBetween(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
 
 getHomogeneity_degreesOfFreedom = reactive({
   if(myReactives$uploadedHomogeneity == FALSE)
