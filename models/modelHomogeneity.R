@@ -55,6 +55,7 @@ output$display_homogeneity_calcsTable3 = DT::renderDataTable(
   sapply(getDataHomogeneity(), function(x) formatNumberForDisplay(x, input)),
   container = htmltools::withTags(table(
     tableHeader(colnames(getDataHomogeneity())),
+    tableFooter(NULL),
     tfoot(
       tr(
         lapply(paste("\\(n_{",rep(1:getHomogeneityNumCols_value()),"}=\\)",getHomogeneityNumWithin()), th)
@@ -63,19 +64,34 @@ output$display_homogeneity_calcsTable3 = DT::renderDataTable(
         lapply(paste("\\(\\overline{X}_{",rep(1:getHomogeneityNumCols_value()),"}=\\)",getDataHomogeneityMeansWithin()), th)
       ),
       tr(
-        th(colspan = getHomogeneityNumCols_value(), class="tableFormula", paste("\\( n_j(\\overline{X}_{j}-\\overline{X}_T)^2 \\)"))
+        th(colspan = getHomogeneityNumCols_value(), class="tableFormula", paste("\\( n_j(\\overline{X}_{j}-\\overline{X}_T)^2 = \\)"))
       ),
       tr(
-        lapply(paste("\\(= \\)",getDataHomogeneityNumeratorBetween()), th)
+        lapply(paste(getDataHomogeneityNumeratorBetween()), th, class="noBorderAbove")
       ),
       tr(
-        th(colspan = getHomogeneityNumCols_value(), class="tableFormula", paste("\\( \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 = ", 999 , "\\)"))
+        th(colspan = getHomogeneityNumCols_value(), class="tableFormula", paste("\\( \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 = ", getHomogeneitySumOfSquaresBetween() , "\\)"))
       )
     )
   )),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:getHomogeneityNumCols_value()-1)))
 )
+
+output$display_homogeneity_meanSumOfSquaresBetween = renderUI({
+  
+  top = getHomogeneitySumOfSquaresBetween()
+  k = getHomogeneityNumCols()
+  answer = getHomogeneityMeanSumOfSquaresBetween()
+  
+  formulas = c(paste0("MSS_B &= \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 }"))
+  formulas = c(formulas, paste0("&= \\frac{",top,"}{",k," - 1}"))
+  formulas = c(formulas, paste0("&= ", answer))
+  
+  output = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(output)))
+  
+})
 
 #Display homogeneity calcs
 output$display_homogeneity_calcsTable = DT::renderDataTable(
@@ -138,13 +154,20 @@ output$display_homogeneity_meanSumOfSquaresWithin = renderUI({
   
 })
 
-
-
-
-
-
-
-
+output$display_homogeneity_fValue = renderUI({
+  
+  mssb = getHomogeneityMeanSumOfSquaresBetween()
+  mssw = getHomogeneityMeanSumOfSquaresWithin()
+  answer = getHomogeneityFValue()
+  
+  formulas = c(paste0("F &= \\frac{MSS_B}{MSS_w}"))
+  formulas = c(formulas, paste0("&= \\frac{",mssb,"}{",mssw,"}"))
+  formulas = c(formulas, paste0("&= ", answer))
+  
+  output = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(output)))
+  
+})
 
 
 
@@ -152,35 +175,58 @@ output$display_homogeneity_meanSumOfSquaresWithin = renderUI({
 
 #Display calculations
 output$display_homogeneity_standardUncertainty = renderUI({
-  data = getDataHomogeneity()
-  if(is.null(data)) return(NA)
+  
+  mssb = getHomogeneityMeanSumOfSquaresBetween()
+  mssw = getHomogeneityMeanSumOfSquaresWithin()
+  njMax = getHomogeneityNumWithinMax()
+  k = getHomogeneityNumCols()
+  answer = getHomogeneity_standardUncertainty()
+  
+  if(isMssbGreaterOrEqualMssw())
+  {
+    formulas = c(paste0("u &= \\sqrt{\\frac{ MSS_B - MSS_w }{ max(n_j) }}"))
+    formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",njMax," }}"))
+    formulas = c(formulas, paste0("&= ", answer))
+    output = mathJaxAligned(formulas, 10)
+  }
+  else
+  {
+    formulas = c(paste0("u &= \\sqrt{ \\frac{ MSS_w }{ max(n_j) } } \\times \\sqrt{ \\frac{ 2 }{ k(max(n_j)-1) } }"))
+    formulas = c(formulas, paste0("u &= \\sqrt{ \\frac{ ",mssw," }{ ",njMax," } } \\times \\sqrt{ \\frac{ 2 }{ ",k,"(",njMax,"-1) } }"))
+    formulas = c(formulas, paste0("&= ", answer))
+    output = mathJaxAligned(formulas, 10)
+  }
+  
+  return(withMathJax(HTML(output)))
 })
 
 output$display_homogeneity_relativeStandardUncertainty = renderUI({
-  data = getDataHomogeneity()
-  if(is.null(data)) return(NA)
+  
+  standardUncerainty = getHomogeneity_standardUncertainty()
+  xt = getHomogeneityGrandMean()
+  answer = getHomogeneity_relativeStandardUncertainty()
+  
+  formulas = c(paste0("u_r(\\text{Homogeneity}) &= \\frac{ \\text{Uncertatiny of Homogeneity} }{ \\text{Grand Mean} }"))
+  formulas = c(formulas, paste0("&= \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T }"))
+  formulas = c(formulas, paste0("&= \\frac{ ",standardUncerainty," }{ ",xt," }"))
+  formulas = c(formulas, paste0("&= ", answer))
+  output = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(output)))
 })
 
 #Display final answers
 output$display_homogeneity_finalAnswer_top = renderUI({
-  #return(paste("\\(u_r\\text{(Homogeneity)}=\\)",formatNumberForDisplay(getResultSamplePreparation(),input)))
-})
-
-output$display_Homogeneity_finalAnswer_bottom = renderUI({
-  data = getDataHomogeneity()
-  if(is.null(data)) return(NA)
-  
-  
+  return(paste("\\(u_r\\text{(Homogeneity)}=\\)",getHomogeneity_relativeStandardUncertainty()))
 })
 
 output$display_homogeneity_finalAnswer_dashboard = renderUI({
-  #return(paste("\\(u_r\\text{(Homogeneity)}=\\)",formatNumberForDisplay(1,input)))
+  return(paste("\\(u_r\\text{(Homogeneity)}=\\)",getHomogeneity_relativeStandardUncertainty()))
 })
 
 output$display_homogeneity_finalAnswer_combinedUncertainty = renderUI({
-  #return(paste(formatNumberForDisplay(getResultSamplePreparation(),input)))
+  return(getHomogeneity_relativeStandardUncerainty())
 })
 
 output$display_homogeneity_finalAnswer_coverageFactor = renderUI({
-  #return(paste(formatNumberForDisplay(getResultSamplePreparation(),input)))
+  return(getHomogeneity_relativeStandardUncerainty())
 })

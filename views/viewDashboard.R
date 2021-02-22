@@ -30,6 +30,7 @@ tabDashboard = tabItem(tabName = "dashboard",
                          infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_dashboard_confidenceInterval"))), width=3, icon=icon("percentage"), color="yellow")
                        ),
                        fluidRow(
+                         valueBox("Uncertainty of Homogeneity", uiOutput("display_homogeneity_finalAnswer_dashboard"), width = 6, color = "navy", icon = icon("mortar-pestle")),
                          valueBox("Uncertainty of Calibration Curve", uiOutput("display_calibrationCurve_finalAnswer_dashboard"), width = 6, color = "blue", icon = icon("chart-line")),
                          valueBox("Uncertainty of Method Precision", uiOutput("display_methodPrecision_finalAnswer_dashboard"), width = 6, color = "red", icon = icon("bullseye")),
                          valueBox("Uncertainty of Standard Solution", uiOutput("display_standardSolution_finalAnswer_dashboard"), width = 6, color = "green", icon = icon("flask")),

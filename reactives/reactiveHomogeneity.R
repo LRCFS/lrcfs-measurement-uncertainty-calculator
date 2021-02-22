@@ -54,6 +54,12 @@ getHomogeneityNumWithin = reactive({
   return(data)
 })
 
+getHomogeneityNumWithinMax = reactive({
+  data = doGetHomogeneityNumWithinMax(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
+
 getDataHomogeneityMeansWithin = reactive({
   data = doGetHomogeneityMeansWithin(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
@@ -114,6 +120,27 @@ getDataHomogeneityNumeratorBetween = reactive({
   return(data)
 })
 
+getHomogeneitySumOfSquaresBetween = reactive({
+  data = doGetHomogeneitySumOfSquaresBetween(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour7)
+  return(data)
+})
+
+getHomogeneityMeanSumOfSquaresBetween = reactive({
+  data = doGetHomogeneityMeanSumOfSquaresBetween(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour8)
+  return(data)
+})
+
+getHomogeneityFValue = reactive({
+  data = doGetHomogeneityFValue(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  data = colourNumber(data, input$useColours, input$colour9)
+  return(data)
+})
+
 getHomogeneity_degreesOfFreedom = reactive({
   if(myReactives$uploadedHomogeneity == FALSE)
   {
@@ -125,14 +152,21 @@ getHomogeneity_degreesOfFreedom = reactive({
   }
 })
 
-getHomogeneity_standardUncerainty = reactive({
+isMssbGreaterOrEqualMssw = reactive({
   data = getDataHomogeneity()
-  return(doGetHomogeneity_standardUncerainty(data))
+  return(doGetHomogeneityMeanSumOfSquaresBetween(data) >= doGetHomogeneityMeanSumOfSquaresWithin(data))
+})
+
+getHomogeneity_standardUncertainty = reactive({
+  data = doGetHomogeneity_standardUncertainty(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
 })
 
 getHomogeneity_relativeStandardUncertainty = reactive({
-  data = getDataHomogeneity()
-  return(doGetHomogeneity_relativeStandardUncertainty(data))
+  data = doGetHomogeneity_relativeStandardUncertainty(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
 })
 
 

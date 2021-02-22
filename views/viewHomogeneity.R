@@ -23,7 +23,7 @@
 
 tabHomogeneity = tabItem(tabName = "homogeneity",
                  fluidRow(
-                   valueBox("Uncertainty of Homogeneity", h2(uiOutput("display_Homogeneity_finalAnswer_top")), width = 12, color = "maroon", icon = icon("vial"))
+                   valueBox("Uncertainty of Homogeneity", h2(uiOutput("display_Homogeneity_finalAnswer_top")), width = 12, color = "navy", icon = icon("mortar-pestle"))
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,
@@ -59,32 +59,50 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                       title = "Means \\(\\overline{X}_j\\)",
-                       p("These are the means."),
+                       title = "Mean Sum of Squares Between Calculations",
+                       p("These are the means (\\(\\overline{X}_j\\))"),
                        DT::dataTableOutput("display_homogeneity_calcsTable3")
                    )
                  ),
                  fluidRow(
-                   box(width=6, side="right",
-                       title = "Values Needed",
-                       uiOutput("display_homogeneity_valuedNeeded")
-                   ),
-                   box(width=6, side="right",
+                   box(width=4, side="right",
                        title = "Grand Mean",
                        uiOutput("display_homogeneity_grandMean")
+                   ),
+                   box(width=4, side="right",
+                       title = "Mean Sum of Squares Between (\\(MSS_B\\))",
+                       uiOutput("display_homogeneity_meanSumOfSquaresBetween")
                    )
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                          title = "Calculations \\((X_{ij}-\\overline{X}_j)^2\\)",
+                          title = "Mean Sum of Squares Within Calculations",
                           p("These are the \\((X_{ij}-\\overline{X}_j)^2\\) caculations for each vial."),
                           DT::dataTableOutput("display_homogeneity_calcsTable")
                    )
                  ),
                  fluidRow(
-                   box(width=6, side="right",
+                   box(width=4, side="right",
+                       title = "Values Needed",
+                       uiOutput("display_homogeneity_valuedNeeded")
+                   ),
+                   box(width=4, side="right",
                        title = "Mean Sum of Squares Within (\\(MSS_W\\))",
                        uiOutput("display_homogeneity_meanSumOfSquaresWithin")
+                   ),
+                   box(width=4, side="right",
+                       title = "\\(F\\) Value",
+                       uiOutput("display_homogeneity_fValue")
+                   )
+                 ),
+                 fluidRow(
+                   box(width=4, side="right",
+                       title = "Standard Uncertainty (\\(u\\))",
+                       uiOutput("display_homogeneity_standardUncertainty")
+                   ),
+                   box(width=4, side="right",
+                       title = "Relative Standard Uncertainty (\\(u_r\\))",
+                       uiOutput("display_homogeneity_relativeStandardUncertainty")
                    )
                  ),
                  

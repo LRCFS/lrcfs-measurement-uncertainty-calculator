@@ -38,3 +38,8 @@ homogeneityReadCSV = function(filePath = NULL, validate = FALSE) {
 # 
 # test = data.frame(calcs)
 # typeof(test)
+
+
+# data = read.csv("D:\\GitHub\\LRCFS\\lrcfs-measurement-uncertainty-calculator\\www\\exampleData\\exampleData-homogeneity-rotated.csv", header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE); data
+# result = aov(y ~ x, data); result
+# summary(result)

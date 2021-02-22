@@ -32,6 +32,11 @@ doGetHomogeneityNumWithin = function(data)
   return(colSums(!is.na(data)))
 }
 
+doGetHomogeneityNumWithinMax = function(data)
+{
+  return(max(doGetHomogeneityNumWithin(data)))
+}
+
 doGetHomogeneityMeansWithin = function(data)
 {
   return(apply(data, 2, mean, na.rm = TRUE ))
@@ -93,13 +98,52 @@ doGetDataHomogeneityNumeratorBetween = function(data)
   return(answer)
 }
 
-doGetHomogeneity_standardUncerainty = function(data){
+doGetHomogeneitySumOfSquaresBetween = function(data)
+{
+  answer = sum(doGetDataHomogeneityNumeratorBetween(data))
+  return(answer)
+}
+
+doGetHomogeneityMeanSumOfSquaresBetween = function(data)
+{
+  k = doGetHomogeneityNumCols(data)
+  answer = doGetHomogeneitySumOfSquaresBetween(data) / (k -1)
+  return(answer)
+}
+
+doGetHomogeneityFValue = function(data)
+{
+  mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
+  mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
+  answer = mssb / mssw
+  return(answer)
+}
+
+doGetHomogeneity_standardUncertainty = function(data){
+  mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
+  mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
+  njMax = getHomogeneityNumWithinMax()
+  k = getHomogeneityNumCols()
   
+  answer = 0;
+  if(mssb >= mssw)
+  {
+    answer = sqrt((mssb - mssw) / njMax)
+  }
+  else
+  {
+    answer = sqrt(mssw / njMax) * (2 / (k(njMax-1)) )^(1/4)
+  }
+  
+  return(answer)
 }
 
 doGetHomogeneity_relativeStandardUncertainty = function(data)
 {
-  
+  u = doGetHomogeneity_standardUncertainty(data)
+  xt = doGetHomogeneityGrandMean(data)
+  answer = u/xt
+  return(answer)
 }
 
 
