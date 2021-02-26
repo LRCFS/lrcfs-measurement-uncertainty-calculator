@@ -23,7 +23,7 @@
 
 tabHomogeneity = tabItem(tabName = "homogeneity",
                  fluidRow(
-                   valueBox("Uncertainty of Homogeneity", h2(uiOutput("display_Homogeneity_finalAnswer_top")), width = 12, color = "navy", icon = icon("mortar-pestle"))
+                   valueBox("Uncertainty of Homogeneity", h2(uiOutput("display_homogeneity_finalAnswer_top")), width = 12, color = "navy", icon = icon("mortar-pestle"))
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,
@@ -100,16 +100,9 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        title = "Standard Uncertainty (\\(u\\))",
                        uiOutput("display_homogeneity_standardUncertainty")
                    ),
-                   box(width=4, side="right",
+                   box(width=8, side="right", background = "navy", solidHeader = TRUE,
                        title = "Relative Standard Uncertainty (\\(u_r\\))",
                        uiOutput("display_homogeneity_relativeStandardUncertainty")
                    )
-                 ),
-                 
-                 # fluidRow(
-                 #   box(width=12, side="right",
-                 #       title = "Overall Relative Standard Uncertainty", background = "maroon", solidHeader = TRUE,
-                 #       uiOutput("display_homogeneity_finalAnswer_bottom")
-                 #   )
-                 # )
+                 )
 )

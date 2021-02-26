@@ -55,10 +55,11 @@ caseSampleWeightColour =            "#DD4B39" #shiny "red"
 CombinedUncertaintyColor =          '#605CA8' #shiny "purple"
 CoverageFactorColor =               '#39CCCC' #shiny "teal"
 CoverageFactorTableHighligthColor = '#D8F5F5'
+HomogeneityColor =                  '#001f3f' #shiny "navy"
 CalibrationCurveColor =             '#0073B7' #shiny "blue"
 MethodPrecisionColor =              '#DD4B39' #shiny "red"
 StandardSolutionColor =             '#00A65A' #shiny "green"
 SamplePreparationColor =            '#D81B60' #shiny "maroon"
-HomogeneityColor =                  '#FF0000' 
+
 
 coverageFactorEffectiveDofTable = coverageFactorEffectiveDofReadCSV()

@@ -23,44 +23,60 @@
 
 doGetHomogeneityNumCols = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   return(ncol(data))
 }
 
 # Returns the number of values in each column excluding NA
 doGetHomogeneityNumWithin = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   return(colSums(!is.na(data)))
 }
 
 doGetHomogeneityNumWithinMax = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   return(max(doGetHomogeneityNumWithin(data)))
 }
 
 doGetHomogeneityMeansWithin = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   return(apply(data, 2, mean, na.rm = TRUE ))
 }
 
 doGetHomogeneityCalcs = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   return(data.frame(apply(data, 2, calcHomogeneitySquares)))
 }
 
 doGetHomogeneitySumOfSquaredDeviation = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   data = doGetHomogeneityCalcs(data)
   return(apply(data, 2, sum, na.rm = TRUE))
 }
 
 doGetHomogeneitySumOfSquaresWithin = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   data = doGetHomogeneitySumOfSquaredDeviation(data)
   return(sum(data, na.rm = TRUE))
 }
 
 doGetHomogeneityMeanSumOfSquaresWithin = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   sumOfSquaresWithin = doGetHomogeneitySumOfSquaresWithin(data)
   numOfValues = doGetHomogeneityNumOfValues(data)
   numCols = doGetHomogeneityNumCols(data)
@@ -71,11 +87,15 @@ doGetHomogeneityMeanSumOfSquaresWithin = function(data)
 
 doGetHomogeneitySumOfAllValues = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   return(sum(data, na.rm = TRUE))
 }
 
 doGetHomogeneityNumOfValues = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   dataAsVactor = unlist(data);
   countWithoutNas = length(which(!is.na(dataAsVactor)))
   return(countWithoutNas)
@@ -83,12 +103,16 @@ doGetHomogeneityNumOfValues = function(data)
 
 doGetHomogeneityGrandMean = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   answer = doGetHomogeneitySumOfAllValues(data) / doGetHomogeneityNumOfValues(data)
   return(answer)
 }
 
 doGetDataHomogeneityNumeratorBetween = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   nj = doGetHomogeneityNumWithin(data)
   xBar = doGetHomogeneityMeansWithin(data)
   grandMean = doGetHomogeneityGrandMean(data)
@@ -100,12 +124,16 @@ doGetDataHomogeneityNumeratorBetween = function(data)
 
 doGetHomogeneitySumOfSquaresBetween = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   answer = sum(doGetDataHomogeneityNumeratorBetween(data))
   return(answer)
 }
 
 doGetHomogeneityMeanSumOfSquaresBetween = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   k = doGetHomogeneityNumCols(data)
   answer = doGetHomogeneitySumOfSquaresBetween(data) / (k -1)
   return(answer)
@@ -113,13 +141,18 @@ doGetHomogeneityMeanSumOfSquaresBetween = function(data)
 
 doGetHomogeneityFValue = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
   answer = mssb / mssw
   return(answer)
 }
 
-doGetHomogeneity_standardUncertainty = function(data){
+doGetHomogeneity_standardUncertainty = function(data)
+{
+  if(is.null(data)) return(NA)
+  
   mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
   njMax = getHomogeneityNumWithinMax()
@@ -140,43 +173,25 @@ doGetHomogeneity_standardUncertainty = function(data){
 
 doGetHomogeneity_relativeStandardUncertainty = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   u = doGetHomogeneity_standardUncertainty(data)
   xt = doGetHomogeneityGrandMean(data)
   answer = u/xt
   return(answer)
 }
 
-
-
 calcHomogeneitySquares = function(x)
 {
+  if(is.null(x)) return(NA)
+  
   answer = (x - mean(x, na.rm = TRUE))^2
   return(answer)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+doGetHomogeneity_degreesOfFreedom = function(data)
+{
+  return(doGetHomogeneityNumOfValues(data) - 1)
+}
 
 

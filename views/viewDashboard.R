@@ -36,7 +36,9 @@ tabDashboard = tabItem(tabName = "dashboard",
                          valueBox("Uncertainty of Standard Solution", uiOutput("display_standardSolution_finalAnswer_dashboard"), width = 6, color = "green", icon = icon("flask")),
                          valueBox("Uncertainty of Sample Preparation", uiOutput("display_samplePreparation_finalAnswer_dashboard"), width = 6, color = "maroon", icon = icon("vial")),
                          valueBox("Combined Uncertainty", uiOutput("display_combinedUncertainty_finalAnswer_dashboard"), width = 6, color = "purple", icon = icon("arrows-alt-v")),
-                         valueBox("Coverage Factor", uiOutput("display_coverageFactor_finalAnswer_dashboard"), width = 6, color = "teal", icon = icon("table")),
+                         valueBox("Coverage Factor", uiOutput("display_coverageFactor_finalAnswer_dashboard"), width = 6, color = "teal", icon = icon("table"))
+                       ),
+                       fluidRow(
                          valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_dashboard"), width = 6, color = "orange", icon = icon("arrows-alt")),
                          valueBox("% Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswerPercentage_dashboard"), width = 6, color = "orange", icon = icon("arrows-alt"))
                        )

@@ -40,6 +40,7 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                    )
                  ),
                  fluidRow(
+                   valueBox(uiOutput("display_homogeneity_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(Homogeneity)}\\)", width = 4, color = "navy", icon = icon("mortar-pestle")),
                    valueBox(uiOutput("display_calibrationCurve_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(CalCurve)}\\)", width = 4, color = "blue", icon = icon("chart-line")),
                    valueBox(uiOutput("display_methodPrecision_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye")),
                    valueBox(uiOutput("display_standardSolution_finalAnswer_combinedUncertainty"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial")),

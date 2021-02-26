@@ -42,11 +42,12 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    )
                  ),
                  fluidRow(
+                   valueBox(uiOutput("display_homogeneity_finalAnswer_coverageFactor"),"\\(u_r\\text{(Homogeneity)}\\)", width = 4, color = "navy", icon = icon("mortar-pestle")),
                    valueBox(uiOutput("display_calibrationCurve_finalAnswer_coverageFactor"),"\\(u_r\\text{(CalCurve)}\\)", width = 4, color = "blue", icon = icon("chart-line")),
-                   valueBox(uiOutput("display_methodPrecision_finalAnswer_coverageFactor"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye")),
-                   valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial"))
+                   valueBox(uiOutput("display_methodPrecision_finalAnswer_coverageFactor"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye"))
                  ),
                  fluidRow(
+                   valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial")),
                    valueBox(uiOutput("display_samplePreparation_finalAnswer_coverageFactor"),"\\(u_r\\text{(SamplePreparation)}\\)", width = 4, color = "maroon", icon = icon("flask")),
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v"))
                  ),
@@ -55,6 +56,10 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=6, icon=icon("percentage"), color="yellow")
                  ),
                  fluidRow(
+                   box(width=3, side="right",
+                       title = "Degrees of Freedom of Homogeneity",
+                       uiOutput("display_coverageFactor_dofHomogeneity")
+                   ),
                    box(width=3, side="right",
                        title = "Degrees of Freedom of Calibration Curve",
                        uiOutput("display_coverageFactor_dofCalibrationCurve")
@@ -70,7 +75,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    box(width=3, side="right",
                        title = "Degrees of Freedom of Sample Preparation",
                        uiOutput("display_coverageFactor_dofSamplePreparation")
-                   )
+                   ),
                  ),
                  fluidRow(
                    box(width=12, side="right",

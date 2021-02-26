@@ -78,6 +78,30 @@ output$display_coverageFactor_confidenceInterval = renderUI({
   return(as.character(input$inputConfidenceInterval))
 })
 
+output$display_coverageFactor_dofHomogeneity = renderUI({
+  data = getDataHomogeneity()
+  
+  formulas = character()
+  
+  if(!is.null(data))
+  {
+    n = getHomogeneityNumOfValues()
+    dof = getHomogeneity_degreesOfFreedom()
+    
+    formulas = c("{\\LARGE\\nu}_{\\text{Homogeneity}} &= n-1 CONFIRM THIS!!!")
+    formulas = c(formulas,paste0("&=",n,"-1"))
+    formulas = c(formulas,paste0("&= ",colourNumber(dof, input$useColours, input$colour5)))
+  }
+  else
+  {
+    formulas = c("{\\LARGE\\nu}_{\\text{Homogeneity}} &= NA")
+  }
+  output = mathJaxAligned(formulas, 5)
+  
+  return(withMathJax(output))
+})
+
+
 output$display_coverageFactor_dofCalibrationCurve = renderUI({
   data = getDataCalibrationCurveReformatted()
   

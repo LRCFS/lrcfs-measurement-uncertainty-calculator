@@ -142,14 +142,7 @@ getHomogeneityFValue = reactive({
 })
 
 getHomogeneity_degreesOfFreedom = reactive({
-  if(myReactives$uploadedHomogeneity == FALSE)
-  {
-    return(NA)
-  }
-  else
-  {
-    return("\\infty")
-  }
+  return(doGetHomogeneity_degreesOfFreedom(getDataHomogeneity()))
 })
 
 isMssbGreaterOrEqualMssw = reactive({
@@ -164,9 +157,12 @@ getHomogeneity_standardUncertainty = reactive({
 })
 
 getHomogeneity_relativeStandardUncertainty = reactive({
-  data = doGetHomogeneity_relativeStandardUncertainty(getDataHomogeneity())
-  data = formatNumberForDisplay(data, input)
+  data = formatNumberForDisplay(getHomogeneity_relativeStandardUncertainty_value(), input)
   return(data)
+})
+
+getHomogeneity_relativeStandardUncertainty_value = reactive({
+  return(doGetHomogeneity_relativeStandardUncertainty(getDataHomogeneity()))
 })
 
 

@@ -224,9 +224,9 @@ output$display_homogeneity_finalAnswer_dashboard = renderUI({
 })
 
 output$display_homogeneity_finalAnswer_combinedUncertainty = renderUI({
-  return(getHomogeneity_relativeStandardUncerainty())
+  return(paste(getHomogeneity_relativeStandardUncertainty()))
 })
 
 output$display_homogeneity_finalAnswer_coverageFactor = renderUI({
-  return(getHomogeneity_relativeStandardUncerainty())
+  return(paste(getHomogeneity_relativeStandardUncertainty()))
 })
