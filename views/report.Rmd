@@ -16,6 +16,7 @@ params:
   standardSolutionData: NA
   standardSolutionEquipmentData: NA
   samplePreparationData: NA
+  homogeneityData: NA
   inputWeightLeastSquared: NA
   customWls: NA
   customWlsPooled: NA
@@ -29,6 +30,7 @@ params:
   uncMethodPrecision: NA
   uncStandardSolution: NA
   uncSamplePreparation: NA
+  uncHomogeneity: NA
   combinedUncertaintyResult: NA
   coverageFactorResult: NA
   expandedUncertaintyResult: NA

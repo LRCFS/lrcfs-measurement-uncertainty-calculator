@@ -63,11 +63,12 @@ source("models/modelStaticProperties.R")
 
 source("views/viewStart.R")
 source("views/viewRightSidebar.R")
+source("views/viewHomogeneity.R")
+source("views/viewHomogeneityTest.R")
 source("views/viewCalibrationCurve.R")
 source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
 source("views/viewSamplePreparation.R")
-source("views/viewHomogeneity.R")
 source("views/viewCombinedUncertainty.R")
 source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
@@ -77,14 +78,17 @@ source("views/viewDashboard.R")
 
 ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
                         dashboardHeaderPlus(title = tagList(img(class = "logo-lg", src = "images/logo-large.png"), 
-                                                            img(class = "logo-mini", src = "images/logo-small.png")),
+                                                            img(class = "logo-mini", src= "images/logo-small.png")),
                                             enable_rightsidebar = TRUE,
                                             rightSidebarIcon = "gears"
                         ),
                         dashboardSidebar(
                           sidebarMenu(
                             menuItem("Start", tabName = "start", icon = icon("play")),
-                            menuItem("Homogeneity", tabName = "homogeneity", icon = icon("mortar-pestle")),
+                            menuItem("Homogeneity", icon = icon("mortar-pestle"), startExpanded = TRUE,
+                                     menuItem("Homogeneity Uncertainty", tabName = "homogeneity", icon = icon("mortar-pestle")),
+                                     menuItem("Homogeneity Test", tabName = "homogeneityTest", icon = icon("chart-area"))
+                            ),
                             menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
                             menuItem("Method Precision", tabName = "methodPrecision", icon = icon("bullseye")),
                             menuItem("Standard Solution", tabName = "standardSolution", icon = icon("flask")),
@@ -107,11 +111,12 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                           #Load tabs from view files (Properties can be found in /views/view...R)
                           tabItems(
                             tabStart,
+                            tabHomogeneity,
+                            tabHomogeneityTest,
                             tabCalibrationCurve,
                             tabMethodPrecision,
                             tabStandardSolution,
                             tabSamplePreparation,
-                            tabHomogeneity,
                             tabCombinedUncertainty,
                             tabCoverageFactor,
                             tabExpandedUncertainty,

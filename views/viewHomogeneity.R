@@ -91,16 +91,12 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        uiOutput("display_homogeneity_meanSumOfSquaresWithin")
                    ),
                    box(width=4, side="right",
-                       title = "\\(F\\) Value",
-                       uiOutput("display_homogeneity_fValue")
+                       title = "Standard Uncertainty (\\(u\\))",
+                       uiOutput("display_homogeneity_standardUncertainty")
                    )
                  ),
                  fluidRow(
-                   box(width=4, side="right",
-                       title = "Standard Uncertainty (\\(u\\))",
-                       uiOutput("display_homogeneity_standardUncertainty")
-                   ),
-                   box(width=8, side="right", background = "navy", solidHeader = TRUE,
+                   box(width=12, side="right", background = "navy", solidHeader = TRUE,
                        title = "Relative Standard Uncertainty (\\(u_r\\))",
                        uiOutput("display_homogeneity_relativeStandardUncertainty")
                    )
