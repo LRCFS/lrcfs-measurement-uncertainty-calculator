@@ -22,4 +22,4 @@
 ###########################################################################
 
 #Load some global defaults
-source("../models/modelApplication.R")
+library(stringr)

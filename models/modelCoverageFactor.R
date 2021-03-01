@@ -23,6 +23,7 @@
 
 effectiveDofResult = reactive({
   
+  uncHomogeneity = getHomogeneity_relativeStandardUncertainty()
   uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()
@@ -31,19 +32,13 @@ effectiveDofResult = reactive({
   meanCaseSampleConcentration = input$inputCaseSampleMeanConcentration
   
   #Degress of Freedom
-  #dof cal curve
+  dofHomogeneity = getHomogeneity_degreesOfFreedom()
   dofCalibrationCurve = getCalibrationCurve_degreesOfFreedom()
-  
-  #dof method precision
   dofMethodPrecision = methodPrecisionDof()
-  
-  #dof Standard Solution
   dofStandardSolution = Inf
-  
-  #dof Sample Preparation
   dofSamplePreparation = Inf
   
-  result = getEffectiveDegreesOfFreedom(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSamplePreparation,dofSamplePreparation,combinedUncertainty,meanCaseSampleConcentration)
+  result = getEffectiveDegreesOfFreedom(uncHomogeneity,dofHomogeneity,uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSamplePreparation,dofSamplePreparation,combinedUncertainty,meanCaseSampleConcentration)
   return(result)
 })
 
@@ -90,11 +85,11 @@ output$display_coverageFactor_dofHomogeneity = renderUI({
     
     formulas = c("{\\LARGE\\nu}_{\\text{Homogeneity}} &= n-1 CONFIRM THIS!!!")
     formulas = c(formulas,paste0("&=",n,"-1"))
-    formulas = c(formulas,paste0("&= ",colourNumber(dof, input$useColours, input$colour5)))
+    formulas = c(formulas,paste0("&= ",colourNumber(dof, input$useColours, HomogeneityColor)))
   }
   else
   {
-    formulas = c("{\\LARGE\\nu}_{\\text{Homogeneity}} &= NA")
+    formulas = c(paste0("{\\LARGE\\nu}_{\\text{Homogeneity}} &= ", colourNumber(NA, input$useColours, HomogeneityColor)))
   }
   output = mathJaxAligned(formulas, 5)
   
@@ -112,11 +107,11 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
     n = getCalibrationCurve_n()
     formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
     formulas = c(formulas,paste0("&=",n,"-2"))
-    formulas = c(formulas,paste0("&= ",colourNumber(n-2, input$useColours, input$colour1)))
+    formulas = c(formulas,paste0("&= ",colourNumber(n-2, input$useColours, CalibrationCurveColor)))
   }
   else
   {
-    formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= NA")
+    formulas = c(paste0("{\\LARGE\\nu}_{\\text{CalCurve}} &= ", colourNumber(NA, input$useColours, CalibrationCurveColor)))
   }
   output = mathJaxAligned(formulas, 5)
   
@@ -130,11 +125,11 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
   if(!is.na(n))
   {
     formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= \\sum{{\\LARGE\\nu}_{\\text{(NV)}}}")
-    formulas = c(formulas,paste0("&= ",colourNumber(n, input$useColours, input$colour2)))
+    formulas = c(formulas,paste0("&= ",colourNumber(n, input$useColours, MethodPrecisionColor)))
   }
   else
   {
-    formulas = c("{\\LARGE\\nu}_{\\text{MethodPrec}} &= NA")
+    formulas = c(paste0("{\\LARGE\\nu}_{\\text{MethodPrec}} &= ", colourNumber(NA, input$useColours, MethodPrecisionColor)))
   }
   output = mathJaxAligned(formulas, 5)
   
@@ -142,14 +137,14 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
 })
 
 output$display_coverageFactor_dofStandardSolution = renderUI({
-  formulas = c(paste("{\\LARGE\\nu}_{\\text{StdSolution}} &= ",colourNumber(standardSolutionDof(), input$useColours, input$colour3)))
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{StdSolution}} &= ",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor)))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
 })
 
 output$display_coverageFactor_dofSamplePreparation = renderUI({
-  formulas = c(paste("{\\LARGE\\nu}_{\\text{SamplePreparation}} &= ",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, input$colour4)))
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{SamplePreparation}} &= ",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, SamplePreparationColor)))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
@@ -157,6 +152,7 @@ output$display_coverageFactor_dofSamplePreparation = renderUI({
 
 output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   
+  uncHomogeneity = getHomogeneity_relativeStandardUncertainty()
   uncCalibrationCurve = formatNumberForDisplay(getResultCalibrationCurve(),input)
   uncMethodPrecision = formatNumberForDisplay(methodPrecisionResult(),input)
   uncStandardSolution = formatNumberForDisplay(standardSolutionResult(),input)
@@ -165,15 +161,13 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   
   #Degrees of Freedom
-  #dof cal curve
+  dofHomogeneity = getHomogeneity_degreesOfFreedom()
   dofCalibrationCurve = getCalibrationCurve_degreesOfFreedom()
-
-  #dof method precision
   dofMethodPrecision = methodPrecisionDof()
   
   formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")       
-  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SamplePreparation})^4}{{\\LARGE\\nu}_{\\text{SamplePreparation}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF"),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"})^4}{\\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF"),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, input$colour1),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF"),"^4}{",colourNumber(dofMethodPrecision, input$useColours, input$colour2),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF"),"^4}{",colourNumber(standardSolutionDof(), input$useColours, input$colour3),"} + \\frac{",colourNumberBackground(uncSamplePreparation, SamplePreparationColor, "#FFF"),"^4}{",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, input$colour4),"}}"))
+  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{Homogeneity})^4}{{\\LARGE\\nu}_{\\text{Homogeneity}}} + \\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SamplePreparation})^4}{{\\LARGE\\nu}_{\\text{SamplePreparation}}}}")
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF"),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"})^4}{\\frac{",colourNumberBackground(uncHomogeneity, HomogeneityColor, "#FFF"),"^4}{",colourNumber(dofHomogeneity, input$useColours, HomogeneityColor),"} + \\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF"),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, CalibrationCurveColor),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF"),"^4}{",colourNumber(dofMethodPrecision, input$useColours, MethodPrecisionColor),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF"),"^4}{",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor),"} + \\frac{",colourNumberBackground(uncSamplePreparation, SamplePreparationColor, "#FFF"),"^4}{",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, SamplePreparationColor),"}}"))
   
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)
@@ -238,76 +232,3 @@ output$display_coverageFactor_finalAnswer_dashboard = renderUI({
 output$display_coverageFactor_finalAnswer_expandedUncertainty = renderUI({
   return(as.character(coverageFactorResult()))
 })
-
-###################################################################################
-# Helper Methods
-###################################################################################
-getEffectiveDegreesOfFreedom = function(uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSamplePreparation,dofSamplePreparation,combinedUncertainty, meanCaseSampleConcentration)
-{
-  dofCu = (combinedUncertainty / meanCaseSampleConcentration)^4
-  
-  dofCc = uncCalibrationCurve^4 / dofCalibrationCurve
-  dofMp = uncMethodPrecision^4 / dofMethodPrecision
-  dofSs = uncStandardSolution^4 / dofStandardSolution
-  dofSv = uncSamplePreparation^4 / dofSamplePreparation
-  dofSum = sum(dofCc, dofMp, dofSs, dofSv, na.rm = TRUE)
-  
-  calc = dofCu / dofSum
-  
-  return(calc)
-}
-
-
-getHighestPossibleDofInCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof)
-{
-  possibleDofs = coverageFactorEffectiveDof$EffectiveDoF
-  maxPossibleDof = sort(possibleDofs, decreasing = TRUE)[2] #Sort the numbers then take the second highest value (as the highest is going to be the infinite value)
-  return(maxPossibleDof)
-}
-
-getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effectiveDof){
-  
-  highestPossibleDof = getHighestPossibleDofInCoverageFactorEffectiveDof(coverageFactorEffectiveDof)
-  
-  closestDof = 0
-  if(is.na(effectiveDof))
-  {
-    closestDof = NA
-  }
-  else if(effectiveDof < 1)
-  {
-    closestDof = 1
-  }
-  else if(effectiveDof > highestPossibleDof)
-  {
-    closestDof = Inf
-  }
-  else
-  {
-    for(dof in rownames(coverageFactorEffectiveDof))
-    {
-      if(abs(as.numeric(dof) - effectiveDof) < abs(closestDof - effectiveDof))
-      {
-        closestDof = as.numeric(dof)
-      }
-    }
-  }
-  
-  return(as.character(closestDof))
-}
-
-getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval, manualCoverageFactor){
-  if(usingManualCoverageFactor()) return(manualCoverageFactor)
-  
-  closestDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof)
-  
-  if(is.na(closestDof))
-  {
-    return(NA)
-  }
-  else
-  {
-    result = coverageFactorEffectiveDof[as.character(closestDof),confidenceInterval]
-    return(result)
-  }
-}

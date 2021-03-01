@@ -57,6 +57,14 @@ doGetHomogeneityCalcs = function(data)
   return(data.frame(apply(data, 2, calcHomogeneitySquares)))
 }
 
+calcHomogeneitySquares = function(x)
+{
+  if(is.null(x)) return(NA)
+  
+  answer = (x - mean(x, na.rm = TRUE))^2
+  return(answer)
+}
+
 doGetHomogeneitySumOfSquaredDeviation = function(data)
 {
   if(is.null(data)) return(NA)
@@ -155,8 +163,8 @@ doGetHomogeneity_standardUncertainty = function(data)
   
   mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
-  njMax = getHomogeneityNumWithinMax()
-  k = getHomogeneityNumCols()
+  njMax = doGetHomogeneityNumWithinMax(data)
+  k = doGetHomogeneityNumCols(data)
   
   answer = 0;
   if(mssb >= mssw)
@@ -178,14 +186,6 @@ doGetHomogeneity_relativeStandardUncertainty = function(data)
   u = doGetHomogeneity_standardUncertainty(data)
   xt = doGetHomogeneityGrandMean(data)
   answer = u/xt
-  return(answer)
-}
-
-calcHomogeneitySquares = function(x)
-{
-  if(is.null(x)) return(NA)
-  
-  answer = (x - mean(x, na.rm = TRUE))^2
   return(answer)
 }
 
