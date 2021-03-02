@@ -153,6 +153,10 @@ server <- function(input, output, session) {
   source("models/modelHomogeneity.R", local = TRUE)
   source("reactives/reactiveHomogeneity.R", local = TRUE)
   
+  source("controllers/controllerHomogeneityTest.R", local = TRUE)
+  source("models/modelHomogeneityTest.R", local = TRUE)
+  source("reactives/reactiveHomogeneityTest.R", local = TRUE)
+  
   source("models/modelCombinedUncertainty.R", local = TRUE)
   
   source("controllers/controllerCoverageFactor.R", local = TRUE)

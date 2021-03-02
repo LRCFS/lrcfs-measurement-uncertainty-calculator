@@ -135,10 +135,14 @@ getHomogeneityMeanSumOfSquaresBetween = reactive({
 })
 
 getHomogeneityFValue = reactive({
-  data = doGetHomogeneityFValue(getDataHomogeneity())
+  data = getHomogeneityFValue_value()
   data = formatNumberForDisplay(data, input)
   data = colourNumber(data, input$useColours, input$colour9)
   return(data)
+})
+
+getHomogeneityFValue_value = reactive({
+  return(doGetHomogeneityFValue(getDataHomogeneity()))
 })
 
 getHomogeneity_degreesOfFreedom = reactive({

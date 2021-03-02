@@ -33,9 +33,9 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                                p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of variance (ANOVA)"), "test is carried out where the Mean Sum of Squares Between (\\(MSS_B\\)) is defined as:"),
                                p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 }$$"),
                                p("and the Mean Sum of Squares Within the groups (\\(MSS_W\\)) is defined as:"),
-                               p("$$MSS_w = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^n (X_{ij}-\\overline{X}_j)^2 } { n-k }$$"),
+                               p("$$MSS_W = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { n-k }$$"),
                                p("and the \\(F\\) value is given by:"),
-                               p("$$F = \\frac{MSS_B}{MSS_w}$$"),
+                               p("$$F = \\frac{MSS_B}{MSS_W}$$"),
                                tags$ul(
                                  tags$li("\\(k\\) is the number of groups/vials."),
                                  tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
@@ -47,9 +47,28 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                            )
                          ),
                          fluidRow(
-                           box(width=4, side="right",
-                               title = "\\(F\\) Value",
-                               uiOutput("display_homogeneity_fValue")
+                           box(width=3, side="right",
+                               title = "Parameters",
+                               uiOutput("display_homogeneityTest_parameters")
+                           ),
+                           box(width=3, side="right",
+                               title = "Degrees of Freedom",
+                               uiOutput("display_homogeneityTest_dof")
+                           ),
+                           box(width=3, side="right",
+                               title = "F Value (\\(F_v\\))",
+                               uiOutput("display_homogeneityTest_fValue")
+                           ),
+                           box(width=3, side="right",
+                               title = "F Critical (\\(F_c\\))",
+                               p("The F Critical value is caclualted using blah blah"),
+                               uiOutput("display_homogeneity_fCritical")
+                           )
+                         ),
+                         fluidRow(
+                           box(width=12,
+                               title = "F Distribution",
+                              plotlyOutput("display_homogeneityTest_fDistribution")
                            )
                          )
 )

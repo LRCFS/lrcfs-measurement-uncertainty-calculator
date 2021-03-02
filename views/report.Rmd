@@ -111,6 +111,7 @@ The calculated results for each individual component are shown below.
 
 | Uncertainty Component | Relative Standard Uncertainty |
 |-----------------------|-------------------------------|
+|Homogeneity            |`r params$uncHomogeneity`     |
 |Calibration Curve      |`r params$uncCalibrationCurve` |
 |Method Precision       |`r params$uncMethodPrecision`  |
 |Standard Solution      |`r params$uncStandardSolution` |
@@ -129,9 +130,18 @@ With the information supplied above the following result has been concentration 
 # Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`
 ***
 
-\newpage 
+\newpage
 
 # Appendix 1 - Calculations
+
+## Homogeneity
+
+### Overview
+
+### Method
+
+***
+\newpage 
 
 ## Calibration Curve
 
@@ -363,6 +373,13 @@ where:
 ***
 \newpage 
 # Appendix 2 - Raw Data
+## Homogeneity
+### Homogeneity (CSV)
+```{r echo=FALSE}
+params$homogeneityData
+```
+
+\newpage
 ## Calibration Curve
 ### Calibration Curve (CSV)
 ```{r echo=FALSE}
