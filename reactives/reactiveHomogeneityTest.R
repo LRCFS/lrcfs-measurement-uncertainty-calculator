@@ -21,6 +21,14 @@
 #
 ###########################################################################
 
+getHomogeneityTestAlphaValue = reactive({
+  value = input$inputHomogeneityTest_alphaValue
+  if(is.na(as.numeric(value))) return(0.05)
+  if(value > 0.999) return(0.999)
+  if(value < 0.001) return(0.001)
+  return(formatNumberForDisplay(value,input))
+})
+
 getHomogeneityTestWithinDof = reactive({
   return(doGetHomogeneityTestWithinDof(getDataHomogeneity()))
 })
@@ -36,6 +44,19 @@ getHomogeneityTestFCritical = reactive({
 })
 
 getHomogeneityTestFCritical_value = reactive({
-  answer = doGetHomogeneityTestFCritical(getDataHomogeneity())
+  alpha = getHomogeneityTestAlphaValue()
+  answer = doGetHomogeneityTestFCritical(getDataHomogeneity(), alpha)
   return(answer)
+})
+
+getHomogeneityTestPass = reactive({
+  alpha = getHomogeneityTestAlphaValue()
+  answer = doGetHomogeneityTestPass(getDataHomogeneity(), alpha)
+  return(answer)
+})
+
+getHomogeneityTestPass_text = reactive({
+  if(getHomogeneityTestPass())
+     return("Homogeneous")
+  return("Not Homogeneous")
 })

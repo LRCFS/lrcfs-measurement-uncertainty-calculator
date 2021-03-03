@@ -23,27 +23,43 @@
 
 tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                          fluidRow(
-                           valueBox("Homogeneity Test", "value", width = 12, color = "navy", icon = icon("chart-area"))
+                           valueBox("Homogeneity Test", h2(uiOutput("display_homogeneityTest_answerTop")), width = 12, color = "navy", icon = icon("chart-area"))
                          ),
                          fluidRow(
-                           box(title = "Overview", width=5,
-                               p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
+                           column(width=6,
+                             box(title = "Overview", width=12,
+                                 p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
+                             ),
+                             box(title = "Alpha Value", width = 12,
+                                 p("Specify the Alpha value (\\(\\alpha\\)) for the calculation."),
+                                 numericInput("inputHomogeneityTest_alphaValue",
+                                              "Alpha Value (\\(\\alpha\\))",
+                                              value = 0.05,
+                                              min = 0.001,
+                                              max = 0.999,
+                                              step = 0.001),
+                             ),
+                             infoBox(HTML("Alpha Value \\((\\alpha)\\)"),HTML(paste(uiOutput("display_homogeneityTest_alphaValue"))), width=6, icon=icon("font"), color="red"),
+                             infoBox(HTML("Confidence Level \\((CL\\%)\\)"),HTML(paste(uiOutput("display_homogeneityTest_confidenceInterval"))), width=6, icon=icon("percentage"), color="yellow"),
+                             uiOutput("display_homogeneityTest_answerMiddle")
                            ),
-                           box(title = "Method", width=7,
-                               p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of variance (ANOVA)"), "test is carried out where the Mean Sum of Squares Between (\\(MSS_B\\)) is defined as:"),
-                               p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 }$$"),
-                               p("and the Mean Sum of Squares Within the groups (\\(MSS_W\\)) is defined as:"),
-                               p("$$MSS_W = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { n-k }$$"),
-                               p("and the \\(F\\) value is given by:"),
-                               p("$$F = \\frac{MSS_B}{MSS_W}$$"),
-                               tags$ul(
-                                 tags$li("\\(k\\) is the number of groups/vials."),
-                                 tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
-                                 tags$li("\\(n\\) total number of measurements."),
-                                 tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
-                                 tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
-                                 tags$li("\\(\\overline{X}_T\\) is the grand mean of all measurements.")
-                               )
+                           column(width=6,
+                             box(title = "Method", width=12,
+                                 p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of variance (ANOVA)"), "test is carried out where the Mean Sum of Squares Between (\\(MSS_B\\)) is defined as:"),
+                                 p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 }$$"),
+                                 p("and the Mean Sum of Squares Within the groups (\\(MSS_W\\)) is defined as:"),
+                                 p("$$MSS_W = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { n-k }$$"),
+                                 p("and the \\(F_{\\large s}\\) Statistic (or F Value)  is given by:"),
+                                 p("$$F_{\\large s} = \\frac{MSS_B}{MSS_W}$$"),
+                                 tags$ul(
+                                   tags$li("\\(k\\) is the number of groups/vials."),
+                                   tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
+                                   tags$li("\\(n\\) total number of measurements."),
+                                   tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
+                                   tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
+                                   tags$li("\\(\\overline{X}_T\\) is the grand mean of all measurements.")
+                                 )
+                             )
                            )
                          ),
                          fluidRow(
@@ -56,7 +72,7 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                                uiOutput("display_homogeneityTest_dof")
                            ),
                            box(width=3, side="right",
-                               title = "F Value (\\(F_v\\))",
+                               title = "F Statistic (\\(F_{\\large s}\\))",
                                uiOutput("display_homogeneityTest_fValue")
                            ),
                            box(width=3, side="right",
@@ -70,5 +86,9 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                                title = "F Distribution",
                               plotlyOutput("display_homogeneityTest_fDistribution")
                            )
+                         )
+                         ,
+                         fluidRow(
+                           uiOutput("display_homogeneityTest_answerBottom")
                          )
 )

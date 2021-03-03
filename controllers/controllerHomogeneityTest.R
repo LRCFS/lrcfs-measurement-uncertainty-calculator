@@ -34,10 +34,23 @@ doGetHomogeneityTestBetweenDof = function(data)
   return(k-1)
 }
 
-doGetHomogeneityTestFCritical = function(data)
+doGetHomogeneityTestFCritical = function(data, alphaValue)
 {
   bDof = doGetHomogeneityTestBetweenDof(data)
   wDof = doGetHomogeneityTestWithinDof(data)
   
-  return(qf(0.99, bDof, wDof))
+  #Alpha value of 0.05 requires 0.95 to be entered into QF function
+  return(qf(1-alphaValue, bDof, wDof))
+}
+
+doGetHomogeneityTestPass = function(data, alphaValue)
+{
+  fCrit = doGetHomogeneityTestFCritical(data, alphaValue)
+  fValue = doGetHomogeneityFValue(data)
+  
+  if(fValue >= fCrit)
+  {
+    return(FALSE)
+  }
+  return(TRUE)
 }
