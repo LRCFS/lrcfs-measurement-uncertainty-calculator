@@ -37,7 +37,7 @@ getDataHomogeneity = reactive({
 getHomogeneityNumCols = reactive({
   data = getHomogeneityNumCols_value()
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour2)
+  data = colourNumber(data, input$useColours, input$colour5)
   return(data)
 })
 
@@ -80,21 +80,21 @@ getDataHomogeneitySumOfSquaredDeviation = reactive({
 getHomogeneitySumOfSquaresWithin = reactive({
   data = doGetHomogeneitySumOfSquaresWithin(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour5)
+  data = colourNumber(data, input$useColours, input$colour7)
   return(data)
 })
 
 getHomogeneityMeanSumOfSquaresWithin = reactive({
   data = doGetHomogeneityMeanSumOfSquaresWithin(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour6)
+  data = colourNumber(data, input$useColours, input$colour8)
   return(data)
 })
 
 getHomogeneitySumOfAllValues = reactive({
   data = doGetHomogeneitySumOfAllValues(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour4)
+  data = colourNumber(data, input$useColours, input$colour2)
   return(data)
 })
 
@@ -102,14 +102,14 @@ getHomogeneitySumOfAllValues = reactive({
 getHomogeneityNumOfValues = reactive({
   data = doGetHomogeneityNumOfValues(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour1)
+  data = colourNumber(data, input$useColours, input$colour3)
   return(data)
 })
 
 getHomogeneityGrandMean = reactive({
   data = doGetHomogeneityGrandMean(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour3)
+  data = colourNumberBackground(data, "#FFF", input$colour4, input$useColours)
   return(data)
 })
 
@@ -123,21 +123,21 @@ getDataHomogeneityNumeratorBetween = reactive({
 getHomogeneitySumOfSquaresBetween = reactive({
   data = doGetHomogeneitySumOfSquaresBetween(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour7)
+  data = colourNumber(data, input$useColours, input$colour1)
   return(data)
 })
 
 getHomogeneityMeanSumOfSquaresBetween = reactive({
   data = doGetHomogeneityMeanSumOfSquaresBetween(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour8)
+  data = colourNumber(data, input$useColours, input$colour6)
   return(data)
 })
 
 getHomogeneityFValue = reactive({
   data = getHomogeneityFValue_value()
   data = formatNumberForDisplay(data, input)
-  data = colourNumber(data, input$useColours, input$colour9)
+  data = colourNumberBackground(data, "#FFF", input$colour9, input$useColours)
   return(data)
 })
 
@@ -157,6 +157,7 @@ isMssbGreaterOrEqualMssw = reactive({
 getHomogeneity_standardUncertainty = reactive({
   data = doGetHomogeneity_standardUncertainty(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
+  data = colourNumberBackground(data, "#FFF", input$colour10, input$useColours)
   return(data)
 })
 

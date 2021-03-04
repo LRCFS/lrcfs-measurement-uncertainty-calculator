@@ -22,12 +22,15 @@
 ###########################################################################
 
 getHomogeneityTestAlphaValue = reactive({
-  value = input$inputHomogeneityTest_alphaValue
-  if(is.na(as.numeric(value))) return(0.05)
-  if(value > 0.999) return(0.999)
-  if(value < 0.001) return(0.001)
+  value = doGetHomogeneityTestAlphaValue(input$inputHomogeneityTest_alphaValue)
   return(formatNumberForDisplay(value,input))
 })
+
+getHomogeneityTestConfidenceLevel = reactive({
+  value = doGetHomogeneityTestConfidenceLevel(input$inputHomogeneityTest_alphaValue)
+  return(paste0(formatNumberForDisplay(value,input),"%"))
+})
+
 
 getHomogeneityTestWithinDof = reactive({
   return(doGetHomogeneityTestWithinDof(getDataHomogeneity()))
@@ -40,6 +43,7 @@ getHomogeneityTestBetweenDof = reactive({
 getHomogeneityTestFCritical = reactive({
   answer = getHomogeneityTestFCritical_value()
   answer = formatNumberForDisplay(answer, input)
+  answer = colourNumberBackground(answer, "#FFF", input$colour2, input$useColours)
   return(answer)
 })
 

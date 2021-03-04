@@ -307,7 +307,7 @@ output$outputStandardUncertainty <- renderUI({
     psd = formatNumberForDisplay(getPooledStandardDeviation(data, conc),input)
     csr = input$inputCaseSampleReplicates
     answer = formatNumberForDisplay(getStandardUncertainty(data, conc),input)
-    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(psd, input$useColours, input$colour3),"}{\\sqrt{",colourCaseSampleReplicates(csr),"}} = ", colourNumber(answer, input$useColours, input$colour4)))
+    formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(psd, input$useColours, input$colour3),"}{\\sqrt{",ColourCaseSampleReplicates(csr,input$useColours),"}} = ", colourNumber(answer, input$useColours, input$colour4)))
   }
   
   results = mathJaxAligned(formula, 10, 20)
@@ -350,7 +350,7 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
     concs = paste0(concs,i,",")
   }
   
-  output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s)\\) of \\(",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration),"\\) is ",closetConcentration,"<br /><br />")
+  output = paste("Of concentrations ", concs, " the closet to Case Sample Mean \\((x_s)\\) of \\(",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours),"\\) is ",closetConcentration,"<br /><br />")
   
   if(is.na(closetConcentration))
   {

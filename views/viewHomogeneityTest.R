@@ -28,10 +28,8 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                          fluidRow(
                            column(width=6,
                              box(title = "Overview", width=12,
-                                 p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
-                             ),
-                             box(title = "Alpha Value", width = 12,
-                                 p("Specify the Alpha value (\\(\\alpha\\)) for the calculation."),
+                                 p("This homogeneity test will determine if the sample data provided can be considered homogeneous. This is done by carrying out an ANOVA test of the data before comparing the calclated F statistic with the F critical value."),
+                                 p("An assumption is made that the alpha value used for calculating is 0.05 (relating to a confidence level of 95%), however, this can be changed below."),
                                  numericInput("inputHomogeneityTest_alphaValue",
                                               "Alpha Value (\\(\\alpha\\))",
                                               value = 0.05,

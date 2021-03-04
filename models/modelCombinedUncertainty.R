@@ -143,7 +143,7 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   
   formula = c("\\text{CombUncertainty} &= x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}} [[break]]")
   formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{Homogeneity})^2 + u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SamplePreparation})^2}")
-  formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration),"\\sqrt{",colourNumberBackground(ho, HomogeneityColor, "#FFF"),"^2+",colourNumberBackground(cc, CalibrationCurveColor, "#FFF"),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF"),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF"),"^2+",colourNumberBackground(sv, SamplePreparationColor, "#FFF"),"^2}"))
+  formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours),"\\sqrt{",colourNumberBackground(ho, HomogeneityColor, "#FFF",input$useColours),"^2+",colourNumberBackground(cc, CalibrationCurveColor, "#FFF",input$useColours),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(sv, SamplePreparationColor, "#FFF",input$useColours),"^2}"))
   formula = c(formula, paste("&= ",formatNumberForDisplay(combinedUncertaintyResult(),input)))
   output = mathJaxAligned(formula, 5, 20)
   

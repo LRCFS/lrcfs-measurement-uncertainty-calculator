@@ -27,9 +27,8 @@ output$display_homogeneityTest_alphaValue = renderUI({
 })
 
 output$display_homogeneityTest_confidenceInterval = renderUI({
-  return(paste((1-getHomogeneityTestAlphaValue())*100,"%"))
+  return(paste(getHomogeneityTestConfidenceLevel()))
 })
-
 
 #Display values needed for calculations
 output$display_homogeneityTest_parameters = renderUI({
@@ -203,10 +202,10 @@ renderAnswer = function()
   
   if(getHomogeneityTestPass())
   {
-    return(valueBox("Result", HTML(paste0("<p>The F statistic is less than F critical, therefore we fail to reject the null hypothosis of equality and conclude that samples are homogeneous.</p>\\(F_{\\large s} (",fValue,") < F_c (",fCritical,")  \\implies \\) ", getHomogeneityTestPass_text())), width = 12, color = "green", icon = icon("check-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>\\(F_{\\large s} (",fValue,") < F_c (",fCritical,")  \\implies \\) ", getHomogeneityTestPass_text())), width = 12, color = "green", icon = icon("check-circle")))
   }
   else
   {
-    return(valueBox("Result", HTML(paste0("<p>The F statistic is equal to or greater than F critical, therefore we reject the null hypothosis of equality and conclude that samples are not homogeneous.</p>\\(F_{\\large s} (",fValue,")  \\geq F_c (",fCritical,")  \\implies \\) ", getHomogeneityTestPass_text())), width = 12, color = "red", icon = icon("times-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is equal to or greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>\\(F_{\\large s} (",fValue,")  \\geq F_c (",fCritical,")  \\implies \\) ", getHomogeneityTestPass_text())), width = 12, color = "red", icon = icon("times-circle")))
   }
 }

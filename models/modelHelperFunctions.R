@@ -110,29 +110,37 @@ colourNumber = function(value, useColour, colour)
 
 
 
-colourCaseSampleReplicates = function(value)
+ColourCaseSampleReplicates = function(value,useColours)
 {
-  return(colourNumberBackground(value,caseSampleReplicatesColour,"#FFF"))
+  return(colourNumberBackground(value,caseSampleReplicatesColour,"#FFF", useColours))
 }
 
-ColourCaseSampleMeanConcentration = function(value)
+ColourCaseSampleMeanConcentration = function(value,useColours)
 {
-  return(colourNumberBackground(value,caseSampleMeanConcentrationColour,"#FFF"))
+  return(colourNumberBackground(value,caseSampleMeanConcentrationColour,"#FFF",useColours))
 }
 
-ColourCaseSampleMeanPeakAreaRatio = function(value)
+ColourCaseSampleMeanPeakAreaRatio = function(value,useColours)
 {
-  return(colourNumberBackground(value,caseSampleMeanParColour,"#FFF"))
+  return(colourNumberBackground(value,caseSampleMeanParColour,"#FFF",useColours))
 }
 
-ColourCaseSampleWeight = function(value)
+ColourCaseSampleWeight = function(value,useColours)
 {
-  return(colourNumberBackground(value,caseSampleWeightColour,"#FFF"))
+  return(colourNumberBackground(value,caseSampleWeightColour,"#FFF",useColours))
 }
 
-colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex)
+colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex,useColours)
 {
-  return(paste0("\\bbox[",colourBackgroundHex,",2pt]{\\color{",colourForegroundHex,"}{",value,"}}"))
+  if(useColours)
+  {
+    return(paste0("\\bbox[",colourBackgroundHex,",2pt]{\\color{",colourForegroundHex,"}{",value,"}}"))
+  }
+  else
+  {
+    return(paste0(value))
+  }
+  
 }
 
 # library(latex2exp)

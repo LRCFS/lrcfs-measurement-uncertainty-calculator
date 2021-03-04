@@ -174,23 +174,23 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   }
   else if(wlsSelectedOption == 2)
   {
-    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanConcentration(caseSampleMeanConc),"}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanConcentration(caseSampleMeanConc,input$useColours),"}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   else if(wlsSelectedOption == 3)
   {
-    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanConcentration(caseSampleMeanConc),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanConcentration(caseSampleMeanConc,input$useColours),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   else if (wlsSelectedOption == 4)
   {
-    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample),"}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample,input$useColours),"}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   else if (wlsSelectedOption == 5)
   {
-    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+    formulas = c(formulas, paste("&= \\frac{1}{",ColourCaseSampleMeanPeakAreaRatio(peakAreaRatioOfCaseSample,input$useColours),"^2}(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   else if (wlsSelectedOption == 999)
   {
-    formulas = c(formulas, paste("&= ",ColourCaseSampleWeight(caseSampleWeight),"(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
+    formulas = c(formulas, paste("&= ",ColourCaseSampleWeight(caseSampleWeight,input$useColours),"(\\frac{",colourNumber(n, input$useColours, input$colour5),"}{",sumOfWeights,"})"))
   }
   
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour9)))
@@ -249,7 +249,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
     sw="S_{w_{p}}"
   }
   formulas = c(paste0("u\\text{(CalCurve)} &= \\frac{",sw,"}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]"))
-  formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",colourCaseSampleReplicates(caseSampleReps)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc)," - ",meanX,")^2}{",sumWeightedSqDeviationX,"}}"))
+  formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",ColourCaseSampleReplicates(caseSampleReps,input$useColours)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc,input$useColours)," - ",meanX,")^2}{",sumWeightedSqDeviationX,"}}"))
 
   
   formulas = c(formulas, paste("&=",answer))
@@ -432,7 +432,7 @@ output$display_calibrationCurve_finalAnswer_bottom = renderUI({
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
   formulas = c(formulas, "u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}")
-  formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration),"}"))
+  formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration,input$useColours),"}"))
   formulas = c(formulas, paste("&=",answer))
   
   output = mathJaxAligned(formulas, 5, 20)

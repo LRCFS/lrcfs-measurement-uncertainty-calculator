@@ -21,6 +21,21 @@
 #
 ###########################################################################
 
+doGetHomogeneityTestAlphaValue = function(inputAlphaValue)
+{
+  if(is.na(as.numeric(inputAlphaValue))) return(0.05)
+  if(inputAlphaValue > 0.999) return(0.999)
+  if(inputAlphaValue < 0.001) return(0.001)
+  return(inputAlphaValue)
+}
+
+doGetHomogeneityTestConfidenceLevel = function(inputAlphaValue)
+{
+  alphaValue = doGetHomogeneityTestAlphaValue(inputAlphaValue)
+  answer = (1-alphaValue)*100
+  return(answer)
+}
+
 doGetHomogeneityTestWithinDof = function(data)
 {
   n = doGetHomogeneityNumOfValues(data)
