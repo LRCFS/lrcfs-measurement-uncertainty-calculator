@@ -27,7 +27,7 @@ tabDashboard = tabItem(tabName = "dashboard",
                          infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_dashboard_meanConcentration"))), width=3, icon=icon("map-marker"), color="fuchsia"),
                          uiOutput("display_dashboard_caseSampleMeanPar"),
                          uiOutput("display_dashboard_caseSampleWeight"),
-                         infoBox("Confidence Interval\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_dashboard_confidenceInterval"))), width=3, icon=icon("percentage"), color="yellow")
+                         infoBox("Confidence Level\\(({\\small CI\\%})\\)",HTML(paste(uiOutput("display_dashboard_confidenceInterval"))), width=3, icon=icon("percentage"), color="yellow")
                        ),
                        fluidRow(
                          valueBox("Uncertainty of Homogeneity", uiOutput("display_homogeneity_finalAnswer_dashboard"), width = 6, color = "navy", icon = icon("mortar-pestle")),

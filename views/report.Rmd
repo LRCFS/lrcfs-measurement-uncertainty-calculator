@@ -103,7 +103,7 @@ The results of this report are made using the follow supplied information.
 |Case Sample Mean Concentration     |`r params$inputCaseSampleMeanConcentration` |
 |Case Sample Mean Peak Area Ratio   |`r params$inputCaseSampleMeanPeakAreaRatio` |
 |Case Sample Weight                 |`r params$inputCaseSampleWeight`            |
-|Confidence Interval                |`r params$inputConfidenceInterval`          |
+|Confidence Level                   |`r params$inputConfidenceInterval`          |
 |Manually Specified Coverage Factor |`r params$inputManualCoverageFactor`        |
 
 ### Results

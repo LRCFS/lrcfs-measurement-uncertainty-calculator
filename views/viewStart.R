@@ -153,8 +153,8 @@ tabStart = tabItem(tabName = "start",
                             fluidRow(
                               box(title = "Coverage Factor \\((k)\\)",width = 12,
                                   actionButton("help_start_confidenceInterval", "", icon=icon("question"), class="smallRightHelpInHeader"),
-                                  p("A coverage factor can be manually specified below, or automatically calculated by specifying a Confidence Interval."),
-                                  p("The specified Confidence Interval percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table, whereas a manually specified Coverage Factor will take precedence over the specified Confidence Interval."),
+                                  p("A coverage factor can be manually specified below, or automatically calculated by specifying a Confidence Level"),
+                                  p("The specified Confidence Level percentage probability will be used to read the appropriate Coverage Factor from a t-distribution table, whereas a manually specified Coverage Factor will take precedence over the specified Confidence Level"),
                                   column(width=6,
                                          uiOutput("display_start_chooseConfidenceInterval")
                                   ),
@@ -165,7 +165,7 @@ tabStart = tabItem(tabName = "start",
                                   ),
                               ),
                               column(width=6,
-                                infoBox("Confidence Interval \\( ( {\\small CI} \\% ) \\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
+                                infoBox("Confidence Level \\(({\\small CI}\\% )\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                               ),
                               column(width=6,
                                 infoBox("Coverage Factor \\((k)\\)",HTML(paste(uiOutput("display_start_coverageFactor"))), width=12, icon=icon("table"), color="teal")
