@@ -222,7 +222,7 @@ checkIfShowResults = function(){
   showHideMenuItem(".sidebar-menu li a[data-value=methodPrecision]", myReactives$uploadedMethodPrecision)
   showHideMenuItem(".sidebar-menu li a[data-value=standardSolution]", myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment)
   showHideMenuItem(".sidebar-menu li a[data-value=samplePreparation]", myReactives$uploadedSamplePreparation)
-  showHideMenuItem(".sidebar-menu li a[data-value=homogeneity]", myReactives$uploadedHomogeneity)
+  showHideMenuItem(".sidebar-menu li.treeview", myReactives$uploadedHomogeneity)
   
   
   #Determine if we should show the results tabs

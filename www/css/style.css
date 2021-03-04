@@ -67,7 +67,7 @@ a[data-value="calibrationCurve"],
 a[data-value="methodPrecision"],
 a[data-value="standardSolution"],
 a[data-value="samplePreparation"],
-a[data-value="homogeneity"],
+.treeview, /* This is for the homogeneity nested menu */
 a[data-value="combinedUncertainty"],
 a[data-value="coverageFactor"],
 a[data-value="expandedUncertainty"],
@@ -99,6 +99,7 @@ a[data-value="dashboard"],
   }
 
 .visible,
+li.visible,
 a.visible,
 div#percentageExpandedUncertaintyStartPage.visible{
 	display: block !important;
