@@ -363,7 +363,7 @@ $\text{%ExpUncertainty} = \frac{\text{ExpUncertainty}}{x_s} \times 100$
 
 where:
 
-- \(k_{{\large\nu}_{\text{eff}}, {\small CI\%}}\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage.
+- \(k_{{\large\nu}_{\text{eff}}, {\small CI\%}}\) is the coverage factor based on effective degrees of freedom and specified confidence level percentage.
 
 - \({\small\text{CombUncertainty}}\) is the combined uncertainty.
 

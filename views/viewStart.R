@@ -165,7 +165,7 @@ tabStart = tabItem(tabName = "start",
                                   ),
                               ),
                               column(width=6,
-                                infoBox("Confidence Level \\(({\\small CI}\\% )\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
+                                infoBox("Confidence Level \\(({\\small CL}\\% )\\)",HTML(paste(uiOutput("display_start_confidenceInterval"))), width=12, icon=icon("percentage"), color="yellow")
                               ),
                               column(width=6,
                                 infoBox("Coverage Factor \\((k)\\)",HTML(paste(uiOutput("display_start_coverageFactor"))), width=12, icon=icon("table"), color="teal")

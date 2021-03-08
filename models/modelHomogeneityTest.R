@@ -26,7 +26,7 @@ output$display_homogeneityTest_alphaValue = renderUI({
   return(paste(getHomogeneityTestAlphaValue()))
 })
 
-output$display_homogeneityTest_confidenceInterval = renderUI({
+output$display_homogeneityTest_confidenceLevel = renderUI({
   return(paste(getHomogeneityTestConfidenceLevel()))
 })
 
@@ -188,11 +188,11 @@ output$display_homogeneityTest_answerTop = renderUI({
 })
 
 output$display_homogeneityTest_answerMiddle = renderUI({
-  renderAnswer()
+  return(renderAnswer())
 })
 
 output$display_homogeneityTest_answerBottom = renderUI({
-  renderAnswer()
+  return(renderAnswer())
 })
 
 renderAnswer = function()

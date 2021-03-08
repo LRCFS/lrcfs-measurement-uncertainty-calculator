@@ -207,7 +207,7 @@ output$display_coverageFactor_finalAnswer_top = renderUI({
 
 output$display_coverageFactor_finalAnswer_bottom = renderUI({
   confidenceInterval = input$inputConfidenceInterval
-  formulas = c(paste0("k_{{\\large\\nu_{\\text{eff}}},{\\small CI\\%}} = k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult()))
+  formulas = c(paste0("k_{{\\large\\nu_{\\text{eff}}},{\\small CL\\%}} = k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult()))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(HTML(output)))
