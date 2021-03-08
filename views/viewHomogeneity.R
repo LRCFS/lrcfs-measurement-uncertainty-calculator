@@ -43,7 +43,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        tags$ul(
                          tags$li("\\(k\\) is the number of groups/vials."),
                          tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
-                         tags$li(HTML("\\(n_0 = n_j\\) if all \\(n_j\\) are the same (i.e. \\(n_1 = n_2 = \\ldots = n_k\\)).<br />Else, \\(\\displaystyle n_0 = \\frac{1}{k-1} \\times \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\)")),
+                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\times \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n1=n2=\\ldots=nk=n\\)) then this simplifies to \\(n_0 = n\\).")),
                          tags$li("\\(N\\) total number of measurements (i.e. \\(N = \\sum\\limits_{j=1}^k n_j\\))"),
                          tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
                          tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
