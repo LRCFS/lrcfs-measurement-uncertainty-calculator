@@ -29,7 +29,7 @@ source("../dal/loadHelperMethods.R")
 source("../dal/loadHomogeneityCSV.R")
 source("../controllers/controllerHomogeneity.R")
 
-exampleData = homogeneityReadCSV("../www/exampleData/exampleData-homogeneity.csv")
+exampleData = homogeneityReadCSV("../www/exampleData/exampleData-homogeneity-addedRow.csv")
 
 test_that("doGetHomogeneityNumCols", {
   expect_equal(doGetHomogeneityNumCols(exampleData), 11)
@@ -39,10 +39,6 @@ test_that("doGetHomogeneityNumWithin", {
   expectedResults = c(3,3,3,3,3,3,3,3,3,2,3)
   names(expectedResults) = colnames(exampleData)
   expect_equal(doGetHomogeneityNumWithin(exampleData), expectedResults)
-})
-
-test_that("doGetHomogeneityNumWithinMax", {
-  expect_equal(doGetHomogeneityNumWithinMax(exampleData), 3)
 })
 
 test_that("doGetHomogeneityMeansWithin", {
@@ -85,6 +81,14 @@ test_that("doGetHomogeneityMeanSumOfSquaresWithin", {
 
 test_that("doGetHomogeneitySumOfAllValues", {
   expect_equal(doGetHomogeneitySumOfAllValues(exampleData), 62.155)
+})
+
+test_that("doGetHomogeneityNumOfValues", {
+  expect_equal(doGetHomogeneityNumOfValues(exampleData), 32)
+})
+
+test_that("doGetHomogeneitySumOfNjSquared", {
+  expect_equal(doGetHomogeneitySumOfNjSquared(exampleData), 94)
 })
 
 test_that("doGetHomogeneityGrandMean", {

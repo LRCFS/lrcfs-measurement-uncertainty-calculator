@@ -54,8 +54,8 @@ getHomogeneityNumWithin = reactive({
   return(data)
 })
 
-getHomogeneityNumWithinMax = reactive({
-  data = doGetHomogeneityNumWithinMax(getDataHomogeneity())
+getHomogeneityNZero = reactive({
+  data = doGetHomogeneityNZero(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
   return(data)
 })
@@ -103,6 +103,12 @@ getHomogeneityNumOfValues = reactive({
   data = doGetHomogeneityNumOfValues(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)
   data = colourNumber(data, input$useColours, input$colour3)
+  return(data)
+})
+
+getHomogeneitySumOfNjSquared = reactive({
+  data = doGetHomogeneitySumOfNjSquared(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
   return(data)
 })
 

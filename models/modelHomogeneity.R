@@ -40,7 +40,7 @@ output$display_homogeneity_rawDataGraph <- renderPlotly({
   replicateNames = colnames(data);
   
   plotlyPlot = plot_ly(data, name='Peak Area Ratios', type = 'box') %>%
-    layout(xaxis = list(title="Vial"), yaxis = list(title="Peak Area Ratio"))
+    layout(xaxis = list(title="Group"), yaxis = list(title="Value"))
   
   for(replicateName in replicateNames)
   {
@@ -103,7 +103,6 @@ output$display_homogeneity_calcsTable = DT::renderDataTable(
         th(colspan = getHomogeneityNumCols_value(), class="result", paste("\\(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 = ",getHomogeneitySumOfSquaresWithin(),"\\)"))
       )
     ),
-    #tableFooter(paste("\\(\\sum_{",rep(1:getHomogeneityNumCols_value()),"}=\\)",getDataHomogeneitySumOfSquaredDeviation()))
     tableFooter(paste("\\(\\sum\\limits^{n_j}_1 =\\)",getDataHomogeneitySumOfSquaredDeviation()))
   )),
   rownames = FALSE,
@@ -114,10 +113,13 @@ output$display_homogeneity_calcsTable = DT::renderDataTable(
 output$display_homogeneity_valuedNeeded = renderUI({
   
   n = getHomogeneityNumOfValues()
+  n2 = getHomogeneitySumOfNjSquared()
   k = getHomogeneityNumCols()
+  nZero = getHomogeneityNZero()
   
-  formulas = c(paste0("\\text{n} &=", n))
+  formulas = c(paste0("\\text{N} &=", n))
   formulas = c(formulas, paste0("\\text{k} &=", k))
+  formulas = c(formulas, paste0("n_0 &= \\frac{1}{",k,"-1} \\times \\left[",n," - \\frac{ ",n2," } { ",n," }\\right] = ", nZero))
   output = mathJaxAligned(formulas, 10)
   
   return(withMathJax(HTML(output)))
@@ -130,7 +132,7 @@ output$display_homogeneity_grandMean = renderUI({
   n = getHomogeneityNumOfValues()
   answer = getHomogeneityGrandMean()
   
-  formulas = c(paste0("\\overline{X}_T &= \\frac{\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} X_{ij}}{n}"))
+  formulas = c(paste0("\\overline{X}_T &= \\frac{\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} X_{ij}}{N}"))
   formulas = c(formulas, paste0("&= \\frac{",top,"}{",n,"}"))
   formulas = c(formulas, paste0("&= ", answer))
   
@@ -146,7 +148,7 @@ output$display_homogeneity_meanSumOfSquaresWithin = renderUI({
   k = getHomogeneityNumCols()
   answer = getHomogeneityMeanSumOfSquaresWithin()
   
-  formulas = c(paste0("MSS_W &= \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { n-k }"))
+  formulas = c(paste0("MSS_W &= \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { N-k }"))
   formulas = c(formulas, paste0("&= \\frac{",top,"}{",n," - ", k, "}"))
   formulas = c(formulas, paste0("&= ", answer))
   
@@ -160,21 +162,21 @@ output$display_homogeneity_standardUncertainty = renderUI({
   
   mssb = getHomogeneityMeanSumOfSquaresBetween()
   mssw = getHomogeneityMeanSumOfSquaresWithin()
-  njMax = getHomogeneityNumWithinMax()
+  nZero = getHomogeneityNZero()
   k = getHomogeneityNumCols()
   answer = getHomogeneity_standardUncertainty()
   
   if(isMssbGreaterOrEqualMssw())
   {
-    formulas = c(paste0("u(\\text{Homogeneity}) &= \\sqrt{\\frac{ MSS_B - MSS_W }{ max(n_j) }}"))
-    formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",njMax," }}"))
+    formulas = c(paste0("u(\\text{Homogeneity}) &= \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}"))
+    formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",nZero," }}"))
     formulas = c(formulas, paste0("&= ", answer))
     output = mathJaxAligned(formulas, 10)
   }
   else
   {
-    formulas = c(paste0("u(\\text{Homogeneity}) &= \\sqrt{ \\frac{ MSS_W }{ max(n_j) } } \\times \\sqrt{ \\frac{ 2 }{ k(max(n_j)-1) } }"))
-    formulas = c(formulas, paste0("u &= \\sqrt{ \\frac{ ",mssw," }{ ",njMax," } } \\times \\sqrt{ \\frac{ 2 }{ ",k,"(",njMax,"-1) } }"))
+    formulas = c(paste0("u(\\text{Homogeneity}) &= \\sqrt{ \\frac{ MSS_W }{ max(n_j) } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }"))
+    formulas = c(formulas, paste0("u &= \\sqrt{ \\frac{ ",mssw," }{ ",nZero," } } \\times \\sqrt{ \\frac{ 2 }{ ",k,"(",nZero,"-1) } }"))
     formulas = c(formulas, paste0("&= ", answer))
     output = mathJaxAligned(formulas, 10)
   }

@@ -36,11 +36,16 @@ doGetHomogeneityNumWithin = function(data)
   return(colSums(!is.na(data)))
 }
 
-doGetHomogeneityNumWithinMax = function(data)
+doGetHomogeneityNZero = function(data)
 {
   if(is.null(data)) return(NA)
   
-  return(max(doGetHomogeneityNumWithin(data)))
+  numReps = doGetHomogeneityNumWithin(data)
+  numCols = doGetHomogeneityNumCols(data)
+  
+  answer = (1/(numCols-1))*(sum(numReps)-((sum(numReps^2))/(sum(numReps))))
+  
+  return(answer)
 }
 
 doGetHomogeneityMeansWithin = function(data)
@@ -109,6 +114,13 @@ doGetHomogeneityNumOfValues = function(data)
   return(countWithoutNas)
 }
 
+doGetHomogeneitySumOfNjSquared = function(data)
+{
+  if(is.null(data)) return(NA)
+  
+  return(sum(doGetHomogeneityNumWithin(data)^2))
+}
+
 doGetHomogeneityGrandMean = function(data)
 {
   if(is.null(data)) return(NA)
@@ -163,17 +175,17 @@ doGetHomogeneity_standardUncertainty = function(data)
   
   mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
-  njMax = doGetHomogeneityNumWithinMax(data)
+  nZero = doGetHomogeneityNZero(data)
   k = doGetHomogeneityNumCols(data)
   
   answer = 0;
   if(mssb >= mssw)
   {
-    answer = sqrt((mssb - mssw) / njMax)
+    answer = sqrt((mssb - mssw) / nZero)
   }
   else
   {
-    answer = sqrt(mssw / njMax) * (2 / (k(njMax-1)) )^(1/4)
+    answer = sqrt(mssw / nZero) * (2 / (k(nZero-1)) )^(1/4)
   }
   
   return(answer)

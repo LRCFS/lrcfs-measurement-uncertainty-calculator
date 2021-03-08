@@ -36,8 +36,8 @@ output$display_homogeneityTest_parameters = renderUI({
   n = getHomogeneityNumOfValues()
   k = getHomogeneityNumCols()
   
-  formulas = c(paste0("\\text{n} &=", n))
-  formulas = c(formulas, paste0("\\text{k} &=", k))
+  formulas = c(paste0("N &=", n))
+  formulas = c(formulas, paste0("k &=", k))
   output = mathJaxAligned(formulas, 10)
   
   return(withMathJax(HTML(output)))
@@ -53,7 +53,7 @@ output$display_homogeneityTest_dof = renderUI({
   
   formulas = c(paste0("{\\LARGE\\nu}_B &= k - 1"))
   formulas = c(formulas, paste0("&= ",k," - 1 = ", bdof))
-  formulas = c(formulas, paste0("{\\LARGE\\nu}_W &= n - k"))
+  formulas = c(formulas, paste0("{\\LARGE\\nu}_W &= N - k"))
   formulas = c(formulas, paste0("&= ",n," - ",k," = ", wdof))
   output = mathJaxAligned(formulas, 10)
   

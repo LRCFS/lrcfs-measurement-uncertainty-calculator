@@ -24,7 +24,7 @@
 homogeneityReadCSV = function(filePath = NULL, validate = FALSE) {
   
   #The columns that the data should have
-  columnsToCheck = list("vial1" = "Your data must contain...")
+  columnsToCheck = list("group1" = "Your data must contain...")
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
