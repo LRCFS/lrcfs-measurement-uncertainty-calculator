@@ -169,24 +169,34 @@ doGetHomogeneityFValue = function(data)
   return(answer)
 }
 
-doGetHomogeneity_standardUncertainty = function(data)
+doGetHomogeneity_standardUncertaintyA = function(data)
 {
-  if(is.null(data)) return(NA)
-  
   mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
+  mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
+  nZero = doGetHomogeneityNZero(data)
+  
+  if(mssb < mssw) return(NA) #Protect against doing the square route of a negative number
+  
+  answer = sqrt((mssb - mssw) / nZero)
+  return(answer)
+}
+
+doGetHomogeneity_standardUncertaintyB = function(data)
+{
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
   nZero = doGetHomogeneityNZero(data)
   k = doGetHomogeneityNumCols(data)
   
-  answer = 0;
-  if(mssb >= mssw)
-  {
-    answer = sqrt((mssb - mssw) / nZero)
-  }
-  else
-  {
-    answer = sqrt(mssw / nZero) * (2 / (k(nZero-1)) )^(1/4)
-  }
+  answer = sqrt(mssw / nZero) * (2 / (k*(nZero-1)) )^(1/4)
+  return(answer)
+}
+
+# Standard Uncertainty is the maximum value of the standardUncertaintyA and standardUncertaintyB functions
+doGetHomogeneity_standardUncertainty = function(data)
+{
+  if(is.null(data)) return(NA)
+  
+  answer = max(doGetHomogeneity_standardUncertaintyA(data), doGetHomogeneity_standardUncertaintyB(data), na.rm = TRUE)
   
   return(answer)
 }
@@ -203,7 +213,7 @@ doGetHomogeneity_relativeStandardUncertainty = function(data)
 
 doGetHomogeneity_degreesOfFreedom = function(data)
 {
-  return(doGetHomogeneityNumOfValues(data) - 1)
+  return(doGetHomogeneityNumCols(data) - 1)
 }
 
 

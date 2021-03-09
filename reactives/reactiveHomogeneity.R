@@ -160,6 +160,18 @@ isMssbGreaterOrEqualMssw = reactive({
   return(doGetHomogeneityMeanSumOfSquaresBetween(data) >= doGetHomogeneityMeanSumOfSquaresWithin(data))
 })
 
+getHomogeneity_standardUncertaintyA = reactive({
+  data = doGetHomogeneity_standardUncertaintyA(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
+
+getHomogeneity_standardUncertaintyB = reactive({
+  data = doGetHomogeneity_standardUncertaintyB(getDataHomogeneity())
+  data = formatNumberForDisplay(data, input)
+  return(data)
+})
+
 getHomogeneity_standardUncertainty = reactive({
   data = doGetHomogeneity_standardUncertainty(getDataHomogeneity())
   data = formatNumberForDisplay(data, input)

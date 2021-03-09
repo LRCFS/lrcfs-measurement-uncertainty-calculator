@@ -80,11 +80,11 @@ output$display_coverageFactor_dofHomogeneity = renderUI({
   
   if(!is.null(data))
   {
-    n = getHomogeneityNumOfValues()
+    k = getHomogeneityNumCols()
     dof = getHomogeneity_degreesOfFreedom()
     
-    formulas = c("{\\LARGE\\nu}_{\\text{Homogeneity}} &= n-1 CONFIRM THIS!!!")
-    formulas = c(formulas,paste0("&=",n,"-1"))
+    formulas = c("{\\LARGE\\nu}_{\\text{Homogeneity}} &= k-1")
+    formulas = c(formulas,paste0("&=",k,"-1"))
     formulas = c(formulas,paste0("&= ",colourNumber(dof, input$useColours, HomogeneityColor)))
   }
   else

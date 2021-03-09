@@ -157,6 +157,10 @@ table .noBorderAbove{
     right: 10px;
 }
 
+.textSpacer{
+  padding: 0 2.5em 0 2.5em;
+}
+
 .smallRightHelp{
 	padding: 3px 8px 2px 8px;
 	font-size: 0.9em;

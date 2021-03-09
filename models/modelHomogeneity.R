@@ -164,24 +164,40 @@ output$display_homogeneity_standardUncertainty = renderUI({
   mssw = getHomogeneityMeanSumOfSquaresWithin()
   nZero = getHomogeneityNZero()
   k = getHomogeneityNumCols()
-  answer = getHomogeneity_standardUncertainty()
+  suA = getHomogeneity_standardUncertaintyA()
+  suB = getHomogeneity_standardUncertaintyB()
+  su = getHomogeneity_standardUncertainty()
   
-  if(isMssbGreaterOrEqualMssw())
-  {
-    formulas = c(paste0("u(\\text{Homogeneity}) &= \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}"))
-    formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",nZero," }}"))
-    formulas = c(formulas, paste0("&= ", answer))
-    output = mathJaxAligned(formulas, 10)
-  }
-  else
-  {
-    formulas = c(paste0("u(\\text{Homogeneity}) &= \\sqrt{ \\frac{ MSS_W }{ max(n_j) } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }"))
-    formulas = c(formulas, paste0("u &= \\sqrt{ \\frac{ ",mssw," }{ ",nZero," } } \\times \\sqrt{ \\frac{ 2 }{ ",k,"(",nZero,"-1) } }"))
-    formulas = c(formulas, paste0("&= ", answer))
-    output = mathJaxAligned(formulas, 10)
-  }
+  #if(isMssbGreaterOrEqualMssw())
+
+  formulas = c(paste0("\\displaystyle u_a(\\text{Homogeneity}) &= \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}"))
+  formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",nZero," }}"))
+  formulas = c(formulas, paste0("&= ", suA))
+  leftFormula = mathJaxAligned(formulas, 10)
+
+  formulas = c(paste0("\\displaystyle u_b(\\text{Homogeneity}) &= \\sqrt{ \\frac{ MSS_W }{ max(n_j) } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }"))
+  formulas = c(formulas, paste0("&= \\sqrt{ \\frac{ ",mssw," }{ ",nZero," } } \\times \\sqrt{ \\frac{ 2 }{ ",k,"(",nZero,"-1) } }"))
+  formulas = c(formulas, paste0("&= ", suB))
+  rightFormula = mathJaxAligned(formulas, 10)
   
-  return(withMathJax(HTML(output)))
+  formulas = c(paste0("\\displaystyle u(\\text{Homogeneity}) &= \\text{max}\\{u_a,u_b\\}"))
+  formulas = c(formulas, paste0("&= \\text{max}\\{",suA,",",suB,"\\}"))
+  formulas = c(formulas, paste0("&= ", su))
+  answerFormula = mathJaxAligned(formulas, 10)
+  
+  display = fluidRow(
+              fluidRow(
+                column(6, withMathJax(HTML(leftFormula))),
+                column(6, withMathJax(HTML(rightFormula)))
+              ),
+              fluidRow(
+                column(4, ""),
+                column(4, withMathJax(HTML(answerFormula))),
+                column(4, "")
+              )
+            )
+  
+  return(display)
 })
 
 output$display_homogeneity_relativeStandardUncertainty = renderUI({

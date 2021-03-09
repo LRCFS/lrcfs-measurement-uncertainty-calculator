@@ -31,23 +31,21 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                    ),
                    box(title = "Method", width=7,
                        p("The relative standard uncertainty is given by the following calculation:"),
-                       p("$$u_r(\\text{Homogeneity}) = \\frac{ \\text{Uncertatiny of Homogeneity} }{ \\text{Grand Mean} } = \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T } $$"),
-                       p("For \\(MSS_B\\) greater or equal to \\(MSS_W\\), \\(u(\\text{Homogeneity})\\) is given by:"),
-                       p("$$ u(\\text{Homogeneity}) = \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}$$"),
-                       p("When \\(MSS_B\\) is less than \\(MSS_W\\), \\(u(\\text{Homogeneity})\\) is calculated as:"),
-                       p("$$ u(\\text{Homogeneity}) = \\sqrt{ \\frac{ MSS_W }{ n_0 } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }$$"),
+                       p("$$u_r(\\text{Homogeneity}) = \\frac{ \\text{Standard Uncertainty} }{ \\text{Grand Mean} } = \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T } $$"),
+                       p("where \\(\\displaystyle u(\\text{Homogeneity}) = \\text{max}\\{u_a,u_b\\}\\),"),
+                       p(HTML("\\(\\displaystyle u_a(\\text{Homogeneity}) = \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}\\)<span class='textSpacer'>and</span>\\(\\displaystyle u_b(\\text{Homogeneity}) = \\sqrt{ \\frac{ MSS_W }{ n_0 } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }\\)")),
+                       p(HTML("&nbsp;")),
                        p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of Variance (ANOVA)"), "test is carried out to calculate the Mean Sum of Squares Between groups (\\(MSS_B\\)) and the Mean Sum of Squares Within groups (\\(MSS_W\\)) given by:"),
-                       p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 }$$"),
-                       p("and"),
-                       p("$$MSS_W = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { N-k }$$"),
+                       p(HTML("\\(\\displaystyle MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 } \\) <span class='textSpacer'>and</span> \\(\\displaystyle MSS_W = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { N-k }\\)")),
+                       p(HTML("&nbsp;")),
                        tags$ul(
                          tags$li("\\(k\\) is the number of groups/vials."),
                          tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
-                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\times \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n1=n2=\\ldots=nk=n\\)) then this simplifies to \\(n_0 = n\\).")),
+                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n1=n2=\\ldots=nk=n\\)) then this simplifies to \\(n_0 = n\\).")),
                          tags$li("\\(N\\) total number of measurements (i.e. \\(N = \\sum\\limits_{j=1}^k n_j\\))"),
                          tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
                          tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
-                         tags$li("\\(\\overline{X}_T\\) is the grand mean of all measurements.")
+                         tags$li("\\(\\overline{X}_T\\) is the grand mean, calculated as the sum of all measurements \\(\\left(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} X_{ij}\\right)\\) divided by the number of measurements \\((N)\\) ")
                        )
                    )
                  ),
@@ -71,6 +69,10 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(width=4, side="right",
+                       title = "Parameters",
+                       uiOutput("display_homogeneity_valuedNeeded")
+                   ),
+                   box(width=4, side="right",
                        title = "Grand Mean",
                        uiOutput("display_homogeneity_grandMean")
                    ),
@@ -88,14 +90,10 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(width=4, side="right",
-                       title = "Parameters",
-                       uiOutput("display_homogeneity_valuedNeeded")
-                   ),
-                   box(width=4, side="right",
                        title = "Mean Sum of Squares Within (\\(MSS_W\\))",
                        uiOutput("display_homogeneity_meanSumOfSquaresWithin")
                    ),
-                   box(width=4, side="right",
+                   box(width=8, side="right",
                        title = "Standard Uncertainty (\\(u\\))",
                        uiOutput("display_homogeneity_standardUncertainty")
                    )
