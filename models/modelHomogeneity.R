@@ -54,7 +54,8 @@ output$display_homogeneity_rawDataGraph <- renderPlotly({
 output$display_homogeneity_calcsTable3 = DT::renderDataTable(
   sapply(getDataHomogeneity(), function(x) formatNumberForDisplay(x, input)),
   container = htmltools::withTags(table(
-    tableHeader(colnames(getDataHomogeneity())),
+    #tableHeader(colnames(getDataHomogeneity())),
+    tableHeader(paste0(colnames(getDataHomogeneity()),"\\((X_{i",rep(1:getHomogeneityNumCols_value()),"})\\)")),
     tableFooter(NULL),
     tfoot(
       tr(
@@ -97,7 +98,8 @@ output$display_homogeneity_meanSumOfSquaresBetween = renderUI({
 output$display_homogeneity_calcsTable = DT::renderDataTable(
   sapply(getDataHomogeneityCalcs(), function(x) formatNumberForDisplay(x, input)),
   container = htmltools::withTags(table(
-    tableHeader(colnames(getDataHomogeneityCalcs())),
+    #tableHeader(colnames(getDataHomogeneityCalcs())),
+    tableHeader(paste0("\\((X_{i",rep(1:getHomogeneityNumCols_value()),"} - \\overline{X}_{",rep(1:getHomogeneityNumCols_value()),"})^2\\)")),
     tfoot(
       tr(
         th(colspan = getHomogeneityNumCols_value(), class="result", paste("\\(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 = ",getHomogeneitySumOfSquaresWithin(),"\\)"))

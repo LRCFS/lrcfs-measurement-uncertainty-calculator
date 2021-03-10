@@ -30,7 +30,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
                    ),
                    box(title = "Method", width=7,
-                       p("The relative standard uncertainty is given by the following calculation:"),
+                       p("The relative standard uncertainty of homogeneity is given by the following calculation:"),
                        p("$$u_r(\\text{Homogeneity}) = \\frac{ \\text{Standard Uncertainty} }{ \\text{Grand Mean} } = \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T } $$"),
                        p("where \\(\\displaystyle u(\\text{Homogeneity}) = \\text{max}\\{u_a,u_b\\}\\),"),
                        p(HTML("\\(\\displaystyle u_a(\\text{Homogeneity}) = \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}\\)<span class='textSpacer'>and</span>\\(\\displaystyle u_b(\\text{Homogeneity}) = \\sqrt{ \\frac{ MSS_W }{ n_0 } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }\\)")),
@@ -41,8 +41,8 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        tags$ul(
                          tags$li("\\(k\\) is the number of groups/vials."),
                          tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
-                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n1=n2=\\ldots=nk=n\\)) then this simplifies to \\(n_0 = n\\).")),
-                         tags$li("\\(N\\) total number of measurements (i.e. \\(N = \\sum\\limits_{j=1}^k n_j\\))"),
+                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n_1=n_2=\\ldots=n_k=n\\)) then this simplifies to \\(n_0 = n\\).")),
+                         tags$li("\\(N\\) is the total number of measurements (i.e. \\(N = \\sum\\limits_{j=1}^k n_j\\))"),
                          tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
                          tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
                          tags$li("\\(\\overline{X}_T\\) is the grand mean, calculated as the sum of all measurements \\(\\left(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} X_{ij}\\right)\\) divided by the number of measurements \\((N)\\) ")
@@ -62,8 +62,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                       title = "Mean Sum of Squares Between Calculations",
-                       p("These are the means (\\(\\overline{X}_j\\))"),
+                       title = "Calculations for Sum of Squares Between",
                        DT::dataTableOutput("display_homogeneity_calcsTable3")
                    )
                  ),
@@ -83,8 +82,8 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                          title = "Mean Sum of Squares Within Calculations",
-                          p("These are the \\((X_{ij}-\\overline{X}_j)^2\\) caculations for each vial."),
+                          title = "Calculations for Sum of Squares Within",
+                          p("The values in the table below are calculated using \\((X_{ij}-\\overline{X}_j)^2\\), which are summed to give the Sum of Squares Within."),
                           DT::dataTableOutput("display_homogeneity_calcsTable")
                    )
                  ),
