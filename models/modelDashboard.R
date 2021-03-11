@@ -53,3 +53,5 @@ output$display_dashboard_confidenceInterval <- renderUI({
   string = paste(input$inputConfidenceInterval)
   return(string)
 })
+
+output$actionButton_dashboard_downloadReport = downloadReportHandler #defined in modelApplication.R

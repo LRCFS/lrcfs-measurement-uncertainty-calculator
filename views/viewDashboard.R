@@ -31,15 +31,25 @@ tabDashboard = tabItem(tabName = "dashboard",
                        ),
                        fluidRow(
                          valueBox("Uncertainty of Homogeneity", uiOutput("display_homogeneity_finalAnswer_dashboard"), width = 6, color = "navy", icon = icon("mortar-pestle")),
+                         valueBox("Homogeneity Test Result", uiOutput("display_homogeneityTest_answerDashboard"), width = 6, color = "navy", icon = icon("chart-area")),
                          valueBox("Uncertainty of Calibration Curve", uiOutput("display_calibrationCurve_finalAnswer_dashboard"), width = 6, color = "blue", icon = icon("chart-line")),
                          valueBox("Uncertainty of Method Precision", uiOutput("display_methodPrecision_finalAnswer_dashboard"), width = 6, color = "red", icon = icon("bullseye")),
                          valueBox("Uncertainty of Standard Solution", uiOutput("display_standardSolution_finalAnswer_dashboard"), width = 6, color = "green", icon = icon("flask")),
-                         valueBox("Uncertainty of Sample Preparation", uiOutput("display_samplePreparation_finalAnswer_dashboard"), width = 6, color = "maroon", icon = icon("vial")),
+                         valueBox("Uncertainty of Sample Preparation", uiOutput("display_samplePreparation_finalAnswer_dashboard"), width = 6, color = "maroon", icon = icon("vial"))
+                       ),
+                       fluidRow(                        
                          valueBox("Combined Uncertainty", uiOutput("display_combinedUncertainty_finalAnswer_dashboard"), width = 6, color = "purple", icon = icon("arrows-alt-v")),
                          valueBox("Coverage Factor", uiOutput("display_coverageFactor_finalAnswer_dashboard"), width = 6, color = "teal", icon = icon("table"))
                        ),
                        fluidRow(
                          valueBox("Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswer_dashboard"), width = 6, color = "orange", icon = icon("arrows-alt")),
                          valueBox("% Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswerPercentage_dashboard"), width = 6, color = "orange", icon = icon("arrows-alt"))
+                       ),
+                       fluidRow(
+                         valueBox("Results", uiOutput("display_expandedUncertainty_result_dashboard"), width = 7, color = "green", icon = icon("equals")),
+                         box(title="Download Report", width = 5,
+                             p("For reporting purposes and report can be downloaded and stored for all the results uploaded."),
+                             downloadButton("actionButton_dashboard_downloadReport", "Download Report", icon=icon("download"))
+                         )
                        )
 )

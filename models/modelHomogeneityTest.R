@@ -184,28 +184,61 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
 
 
 output$display_homogeneityTest_answerTop = renderUI({
-  return(paste("Sample is",getHomogeneityTestPass_text()))
+  return(renderHomogeneityTestResult())
 })
 
 output$display_homogeneityTest_answerMiddle = renderUI({
-  return(renderAnswer())
+  return(renderHomogeneityTestAnswer())
 })
 
 output$display_homogeneityTest_answerBottom = renderUI({
-  return(renderAnswer())
+  return(renderHomogeneityTestAnswer())
 })
 
-renderAnswer = function()
+output$display_homogeneityTest_answerDashboard = renderUI({
+  return(renderHomogeneityTestResult())
+})
+
+renderHomogeneityTestAnswer = function()
 {
   fValue = getHomogeneityFValue()
   fCritical = getHomogeneityTestFCritical()
   
   if(getHomogeneityTestPass())
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>\\(F_{\\large s} (",fValue,") < F_c (",fCritical,")  \\implies \\) ", getHomogeneityTestPass_text())), width = 12, color = "green", icon = icon("check-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "green", icon = icon("check-circle")))
   }
   else
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is equal to or greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>\\(F_{\\large s} (",fValue,")  \\geq F_c (",fCritical,")  \\implies \\) ", getHomogeneityTestPass_text())), width = 12, color = "red", icon = icon("times-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is equal to or greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "red", icon = icon("times-circle")))
   }
+}
+
+renderHomogeneityTestResult = function(displayWithColours = FALSE)
+{
+  alpha = getHomogeneityTestAlphaValue()
+  bDof = getHomogeneityTestBetweenDof()
+  wDof = getHomogeneityTestWithinDof()
+  
+  fValue = ""
+  fCritical = ""
+  if(displayWithColours)
+  {
+    fValue = getHomogeneityFValue()
+    fCritical = getHomogeneityTestFCritical()
+  } else {
+    fValue = formatNumberForDisplay(getHomogeneityFValue_value(), input)
+    fCritical = formatNumberForDisplay(getHomogeneityTestFCritical_value(), input)
+  }
+  result = getHomogeneityTestPass_text()
+  
+  equalitySign = ""
+  if(getHomogeneityTestPass())
+    equalitySign = "<"
+  else
+    equalitySign = "\\geq"
+    
+  formula = paste0("\\(F_{\\large s} (",fValue,")",equalitySign," F_{",bDof,",",wDof,",",alpha,"} (",fCritical,")  \\implies \\) ", result)
+
+  return(formula)
 }
