@@ -30,7 +30,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
                    ),
                    box(title = "Method", width=7,
-                       p("The relative standard uncertainty of homogeneity is given by the following calculation:"),
+                       p("The Relative Standard Uncertainty of homogeneity is given by the following calculation:"),
                        p("$$u_r(\\text{Homogeneity}) = \\frac{ \\text{Standard Uncertainty} }{ \\text{Grand Mean} } = \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T } $$"),
                        p("where \\(\\displaystyle u(\\text{Homogeneity}) = \\text{max}\\{u_a,u_b\\}\\),"),
                        p(HTML("\\(\\displaystyle u_a(\\text{Homogeneity}) = \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}\\)<span class='textSpacer'>and</span>\\(\\displaystyle u_b(\\text{Homogeneity}) = \\sqrt{ \\frac{ MSS_W }{ n_0 } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }\\)")),

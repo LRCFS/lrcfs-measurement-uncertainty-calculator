@@ -30,7 +30,7 @@ tabSamplePreparation = tabItem(tabName = "samplePreparation",
                        p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
                    ),
                    box(title = "Method", width=7,
-                       "The RSU of each equipment is computed using:",
+                       "The Relative Standard Uncertainty (RSU) of each equipment is computed using:",
                        "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Capacity}}$$",
                        "The RSU of sample preparation is given by:",
                        "$$u_r\\text{(SamplePreparation)} = \\sqrt{\\sum{[u_r(\\text{Equipment})_{\\text{(Cap,Tol)}}^2 \\times N(\\text{Equipment})_{\\text{(Cap,Tol)}}}]}$$",

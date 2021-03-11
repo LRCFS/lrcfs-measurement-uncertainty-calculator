@@ -31,7 +31,7 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                                   p("Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.")
                               ),
                               box(title = "Method", width=6,
-                                  "The relative standard uncertainty of method precision is given by:",
+                                  "The Relative Standard Uncertainty of method precision is given by:",
                                   "$$u_r(\\text{MethodPrec})_{\\text{(NV)}} = \\frac{S_{p\\text{(NV)}}}{\\overline{x}_{\\text{(NV)}}\\sqrt{r_s}} = \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\overline{x}_{\\text{(NV)}}},$$",
                                   "where",
                                   "$$u(\\text{MethodPrec})_{\\text{(NV)}} = \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}},$$",

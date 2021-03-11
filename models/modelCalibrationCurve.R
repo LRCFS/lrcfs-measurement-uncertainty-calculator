@@ -430,8 +430,7 @@ output$display_calibrationCurve_finalAnswer_bottom = renderUI({
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
   
-  formulas = c("u_r\\text{(CalCurve)} &= \\frac{\\text{Uncertatiny of Calibration}}{\\text{Case Sample Mean Concentration}} [[break]]")
-  formulas = c(formulas, "u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}")
+  formulas = c("u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}")
   formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration,input$useColours),"}"))
   formulas = c(formulas, paste("&=",answer))
   

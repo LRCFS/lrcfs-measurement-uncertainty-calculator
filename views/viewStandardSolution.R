@@ -32,7 +32,7 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                     p("If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.")
                                 ),
                                 box(title = "Method", width=7,
-                                    "The RSU of each equipment is computed using:",
+                                    "The Relative Standard Uncertainty (RSU) of each equipment is computed using:",
                                     "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
                                     "The RSU of reference compound is calculated using:",
                                     "$$u_r(\\text{Reference Compound}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Purity}}$$",

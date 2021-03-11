@@ -208,8 +208,7 @@ output$display_homogeneity_relativeStandardUncertainty = renderUI({
   xt = getHomogeneityGrandMean()
   answer = getHomogeneity_relativeStandardUncertainty()
   
-  formulas = c(paste0("u_r(\\text{Homogeneity}) &= \\frac{ \\text{Uncertatiny of Homogeneity} }{ \\text{Grand Mean} }"))
-  formulas = c(formulas, paste0("&= \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T }"))
+  formulas = c(paste0("u_r(\\text{Homogeneity}) &= \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T }"))
   formulas = c(formulas, paste0("&= \\frac{ ",standardUncerainty," }{ ",xt," }"))
   formulas = c(formulas, paste0("&= ", answer))
   output = mathJaxAligned(formulas, 10)
