@@ -112,16 +112,17 @@ output$display_homogeneity_calcsTable = DT::renderDataTable(
 )
 
 #Display values needed for calculations
-output$display_homogeneity_valuedNeeded = renderUI({
+output$display_homogeneity_parameters = renderUI({
   
   n = getHomogeneityNumOfValues()
-  n2 = getHomogeneitySumOfNjSquared()
   k = getHomogeneityNumCols()
+  a = getHomogeneitySumOfNjSquared()
   nZero = getHomogeneityNZero()
   
-  formulas = c(paste0("\\text{N} &=", n))
-  formulas = c(formulas, paste0("\\text{k} &=", k))
-  formulas = c(formulas, paste0("n_0 &= \\frac{1}{",k,"-1} \\times \\left[",n," - \\frac{ ",n2," } { ",n," }\\right] = ", nZero))
+  formulas = c(paste0("N &=", n))
+  formulas = c(formulas, paste0("k &=", k))
+  formulas = c(formulas, paste0("A &= n_1^2 + \\ldots + n_k^2 = ", a))
+  formulas = c(formulas, paste0("n_0 &= \\frac{1}{",k,"-1} \\times \\left[",n," - \\frac{ ",a," } { ",n," }\\right] = ", nZero))
   output = mathJaxAligned(formulas, 10)
   
   return(withMathJax(HTML(output)))
@@ -170,8 +171,6 @@ output$display_homogeneity_standardUncertainty = renderUI({
   suB = getHomogeneity_standardUncertaintyB()
   su = getHomogeneity_standardUncertainty()
   
-  #if(isMssbGreaterOrEqualMssw())
-
   formulas = c(paste0("\\displaystyle u_a(\\text{Homogeneity}) &= \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}"))
   formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",nZero," }}"))
   formulas = c(formulas, paste0("&= ", suA))

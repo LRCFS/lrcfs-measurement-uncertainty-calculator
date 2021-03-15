@@ -27,7 +27,15 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,
-                       p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
+                       p(HTML("Homogeneity/heterogeneity as defend in <a href='https://eurachem.org/images/stories/Guides/pdf/UfS_2019_EN_P2.pdf' target='_blank'>EURACHEM/CITAC guide</a> and <a href='http://publications.iupac.org/pac/1990/pdf/6206x1193.pdf' target='_blank'>IUPAC</a> is:")),
+                       p("\"The degree to which a property or constituent is uniformly distributed throughout a quantity of material."),
+                       p("Note:"),
+                       tags$ol(
+                         tags$li("A material may be homogeneous with respect to one analyte or property but heterogeneous with respect to another."),
+                         tags$li("The degree of heterogeneity (the opposite of homogeneity) is the determining factor of sampling error.\""),
+                       ),
+                       p(HTML("The <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank'>uncertainty of homogeneity</a> quantifies the uncertainty associated with the between-group homogeneity where differences among sample groups are of interest.  Detailed step-by-step calculations are displayed here with the main formulas used to compute the uncertainty of homogeneity shown in the Method tab.")),
+                       p(HTML("To find out whether your samples are homogenous or heterogenous, the Homogeneity Test tab displays a detailed calculation for testing whether there is a statistically significant difference between group means of samples using a one-way analysis of variance (ANOVA). For more information see <a href='https://link.springer.com/article/10.1007/s007690000237' target='_blank'>Veen et al: Principles of analysis of variance (2000)</a> and <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank'>Veen et al: Homogeneity study (2001)</a>")),
                    ),
                    box(title = "Method", width=7,
                        p("The Relative Standard Uncertainty of homogeneity is given by the following calculation:"),
@@ -35,17 +43,18 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        p("where \\(\\displaystyle u(\\text{Homogeneity}) = \\text{max}\\{u_a,u_b\\}\\),"),
                        p(HTML("\\(\\displaystyle u_a(\\text{Homogeneity}) = \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}\\)<span class='textSpacer'>and</span>\\(\\displaystyle u_b(\\text{Homogeneity}) = \\sqrt{ \\frac{ MSS_W }{ n_0 } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }\\)")),
                        p(HTML("&nbsp;")),
-                       p("An", a(href = "https://en.wikipedia.org/wiki/Analysis_of_variance", "Analysis of Variance (ANOVA)"), "test is carried out to calculate the Mean Sum of Squares Between groups (\\(MSS_B\\)) and the Mean Sum of Squares Within groups (\\(MSS_W\\)) given by:"),
+                       p(HTML("A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank'>one-way analysis of variance (ANOVA)</a> test is carried out to calculate the Mean Sum of Squares Between groups (\\(MSS_B\\)) and the Mean Sum of Squares Within groups (\\(MSS_W\\)) given by:")),
                        p(HTML("\\(\\displaystyle MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 } \\) <span class='textSpacer'>and</span> \\(\\displaystyle MSS_W = \\frac{ \\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} (X_{ij}-\\overline{X}_j)^2 } { N-k }\\)")),
                        p(HTML("&nbsp;")),
                        tags$ul(
-                         tags$li("\\(k\\) is the number of groups/vials."),
-                         tags$li("\\(n_j\\) is the number of measurements/replicates in the group/vial \\(j\\) where \\(j=1\\ldots k\\)."),
-                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n_1=n_2=\\ldots=n_k=n\\)) then this simplifies to \\(n_0 = n\\).")),
-                         tags$li("\\(N\\) is the total number of measurements (i.e. \\(N = \\sum\\limits_{j=1}^k n_j\\))"),
+                         tags$li("\\(k\\) is the number of groups."),
+                         tags$li("\\(n_j\\) is the number of measurements/replicates in the group \\(j\\) where \\(j=1\\ldots k\\)."),
+                         tags$li(HTML("\\(\\displaystyle n_0 = \\frac{1}{k-1} \\left[\\sum\\limits_{j=1}^k n_j - \\frac{ \\sum\\limits_{j=1}^k n_j^2 } { \\sum\\limits_{j=1}^k n_j }\\right] = \\frac{1}{k-1} \\left[ N - \\frac{A}{N} \\right] \\) <br />Where all \\(n_j\\)'s are the same (i.e. \\(n_1=n_2=\\ldots=n_k=n\\)) then this simplifies to \\(n_0 = n\\).")),
+                         tags$li("\\(N\\) is the total number of measurements, i.e. \\(N = \\sum\\limits_{j=1}^k n_j\\)."),
+                         tags$li("\\(A\\) is the sum of sqaured number of measurements/replicates in the group, i.e. \\(A = \\sum\\limits_{j=1}^k n^2_j\\)"),
                          tags$li("\\(X_{ij}\\) is the \\(i^{th}\\) measurement of the \\(j^{th}\\) group."),
-                         tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group/vial \\(j\\)."),
-                         tags$li("\\(\\overline{X}_T\\) is the grand mean, calculated as the sum of all measurements \\(\\left(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} X_{ij}\\right)\\) divided by the number of measurements \\((N)\\) ")
+                         tags$li("\\(\\overline{X}_j\\) is the mean of measurement in group \\(j\\)."),
+                         tags$li("\\(\\overline{X}_T\\) is the grand mean, calculated as the sum of all measurements \\(\\left(\\sum\\limits_{j=1}^k\\sum\\limits_{i=1}^{n_j} X_{ij}\\right)\\) divided by the number of measurements \\((N)\\).")
                        )
                    )
                  ),
@@ -69,7 +78,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                  fluidRow(
                    box(width=4, side="right",
                        title = "Parameters",
-                       uiOutput("display_homogeneity_valuedNeeded")
+                       uiOutput("display_homogeneity_parameters")
                    ),
                    box(width=4, side="right",
                        title = "Grand Mean",

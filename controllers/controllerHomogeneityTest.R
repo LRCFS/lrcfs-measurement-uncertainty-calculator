@@ -23,6 +23,7 @@
 
 doGetHomogeneityTestAlphaValue = function(inputAlphaValue)
 {
+  if(!is.numeric(inputAlphaValue)) return(0.05)
   if(is.na(as.numeric(inputAlphaValue))) return(0.05)
   if(inputAlphaValue > 0.999) return(0.999)
   if(inputAlphaValue < 0.001) return(0.001)
@@ -63,7 +64,7 @@ doGetHomogeneityTestPass = function(data, alphaValue)
   fCrit = doGetHomogeneityTestFCritical(data, alphaValue)
   fValue = doGetHomogeneityFValue(data)
   
-  if(fValue >= fCrit)
+  if(fValue > fCrit)
   {
     return(FALSE)
   }

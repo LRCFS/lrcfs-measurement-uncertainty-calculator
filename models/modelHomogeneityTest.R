@@ -76,7 +76,6 @@ output$display_homogeneityTest_fValue = renderUI({
   
 })
 
-
 output$display_homogeneity_fCritical = renderUI({
   
   alpha = getHomogeneityTestAlphaValue()
@@ -84,15 +83,14 @@ output$display_homogeneity_fCritical = renderUI({
   wdof = getHomogeneityTestWithinDof()
   fCrit = getHomogeneityTestFCritical()
   
-  formulas = c(paste0("\\text{F}_{c} &= \\text{F}_{{\\LARGE\\nu}_B,{\\LARGE\\nu}_W,\\alpha}"))
-  formulas = c(formulas, paste0("&= \\text{F}_{",bdof,",",wdof,",",alpha,"}"))
+  formulas = c(paste0("F_{c} &= F_{{\\LARGE\\nu}_B,{\\LARGE\\nu}_W,\\alpha}"))
+  formulas = c(formulas, paste0("&= F_{",bdof,",",wdof,",",alpha,"}"))
   formulas = c(formulas, paste0("&= ", fCrit))
   output = mathJaxAligned(formulas, 10)
   
   return(withMathJax(HTML(output)))
   
 })
-
 
 output$display_homogeneityTest_fDistribution = renderPlotly({
 
@@ -158,8 +156,8 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
                yaxis = list(title = "Probability Density"))
   #Add the shaded Critical Region to the graph
   fig %>%
-    add_trace(x=~dataAccept$x, y=~dataAccept$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', line = list(color = "rgba(31, 119, 180,1)"), fillcolor='rgba(0, 0, 255,0.1)', name="Failed to Reject Region\n(< \U03B1)") %>% 
-    add_trace(x=~dataCrit$x, y=~dataCrit$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', line = list(color = "rgba(255, 0, 0,0.7)"), fillcolor='rgba(255, 0, 0,0.6)', name="Rejection Region\n(\U2265 \U03B1)") %>% 
+    add_trace(x=~dataAccept$x, y=~dataAccept$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', line = list(color = "rgba(31, 119, 180,1)"), fillcolor='rgba(0, 0, 255,0.1)', name="Failed to Reject Region\n(\U2264 \U03B1)") %>% 
+    add_trace(x=~dataCrit$x, y=~dataCrit$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', line = list(color = "rgba(255, 0, 0,0.7)"), fillcolor='rgba(255, 0, 0,0.6)', name="Rejection Region\n(> \U03B1)") %>% 
     add_annotations(
       x= fCritical,
       y= fCritHeight-0.05,
@@ -181,7 +179,6 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
       ay = -30
     )
 })
-
 
 output$display_homogeneityTest_answerTop = renderUI({
   return(renderHomogeneityTestResult())
@@ -206,11 +203,11 @@ renderHomogeneityTestAnswer = function()
   
   if(getHomogeneityTestPass())
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "green", icon = icon("check-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than or equal to the F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "green", icon = icon("check-circle")))
   }
   else
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is equal to or greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "red", icon = icon("times-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "red", icon = icon("times-circle")))
   }
 }
 
@@ -234,9 +231,9 @@ renderHomogeneityTestResult = function(displayWithColours = FALSE)
   
   equalitySign = ""
   if(getHomogeneityTestPass())
-    equalitySign = "<"
+    equalitySign = "\\leq"
   else
-    equalitySign = "\\geq"
+    equalitySign = ">"
     
   formula = paste0("\\(F_{\\large s} (",fValue,")",equalitySign," F_{",bDof,",",wDof,",",alpha,"} (",fCritical,")  \\implies \\) ", result)
 
