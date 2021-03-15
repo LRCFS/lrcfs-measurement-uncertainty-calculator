@@ -230,10 +230,14 @@ renderHomogeneityTestResult = function(displayWithColours = FALSE)
   result = getHomogeneityTestPass_text()
   
   equalitySign = ""
-  if(getHomogeneityTestPass())
+  hTestPass = getHomogeneityTestPass()
+  if(is.na(hTestPass)){
+    return(paste(NA))
+  }else if(hTestPass) {
     equalitySign = "\\leq"
-  else
+  } else {
     equalitySign = ">"
+  }
     
   formula = paste0("\\(F_{\\large s} (",fValue,")",equalitySign," F_{",bDof,",",wDof,",",alpha,"} (",fCritical,")  \\implies \\) ", result)
 

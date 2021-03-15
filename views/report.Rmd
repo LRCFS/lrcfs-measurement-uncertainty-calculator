@@ -137,7 +137,7 @@ The calculated results for each individual component are shown below.
 |Homogeneity            |`r params$uncHomogeneity`      |
 |Calibration Curve      |`r params$uncCalibrationCurve` |
 |Method Precision       |`r params$uncMethodPrecision`  |
-|Standard Solution      |`r params$uncStandardSolution` |
+|Calibration Standard   |`r params$uncStandardSolution` |
 |Sample Preparation     |`r params$uncSamplePreparation`|
 
 | Attribute             | Value                                        |
@@ -269,7 +269,7 @@ $S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\s
 
 ***
 \newpage 
-## Standard Solution
+## Calibration Standard
 
 ### Overview
 
@@ -277,7 +277,7 @@ Information provided on the structure of solution preparation and details of use
 
 The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve.
 
-If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.
+If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with the Calibration Standard is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.
 
 ### Method
 
@@ -330,7 +330,7 @@ $u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,T
 
 The combined uncertainty is obtained by combining all the individual uncertainty components.
 
-If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Standard Solution and Sample Preparation, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
+If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Calibration Standard and Sample Preparation, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
 
 If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.
 
@@ -434,13 +434,13 @@ params$methodPrecisionData
 ```
 
 \newpage
-## Standard Solution
-### Standard Solution Structure (CSV)
+## Calibration Standard
+### Calibration Standard Structure (CSV)
 ```{r echo=FALSE}
 params$standardSolutionData
 ```
 
-### Standard Solution Equipment (CSV)
+### Calibration Standard Equipment (CSV)
 ```{r echo=FALSE}
 params$standardSolutionEquipmentData
 ```

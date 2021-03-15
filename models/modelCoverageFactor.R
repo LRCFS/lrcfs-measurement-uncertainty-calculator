@@ -137,7 +137,7 @@ output$display_coverageFactor_dofMethodPrecision = renderUI({
 })
 
 output$display_coverageFactor_dofStandardSolution = renderUI({
-  formulas = c(paste("{\\LARGE\\nu}_{\\text{StdSolution}} &= ",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor)))
+  formulas = c(paste("{\\LARGE\\nu}_{\\text{CalStandard}} &= ",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor)))
   output = mathJaxAligned(formulas)
   
   return(withMathJax(output))
@@ -166,7 +166,7 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   dofMethodPrecision = methodPrecisionDof()
   
   formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")       
-  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{Homogeneity})^4}{{\\LARGE\\nu}_{\\text{Homogeneity}}} + \\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{StdSolution})^4}{{\\LARGE\\nu}_{\\text{StdSolution}}} + \\frac{u_r(\\text{SamplePreparation})^4}{{\\LARGE\\nu}_{\\text{SamplePreparation}}}}")
+  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{Homogeneity})^4}{{\\LARGE\\nu}_{\\text{Homogeneity}}} + \\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{CalStandard})^4}{{\\LARGE\\nu}_{\\text{CalStandard}}} + \\frac{u_r(\\text{SamplePreparation})^4}{{\\LARGE\\nu}_{\\text{SamplePreparation}}}}")
   formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF",input$useColours),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration,input$useColours),"})^4}{\\frac{",colourNumberBackground(uncHomogeneity, HomogeneityColor, "#FFF",input$useColours),"^4}{",colourNumber(dofHomogeneity, input$useColours, HomogeneityColor),"} + \\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF",input$useColours),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, CalibrationCurveColor),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF",input$useColours),"^4}{",colourNumber(dofMethodPrecision, input$useColours, MethodPrecisionColor),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF",input$useColours),"^4}{",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor),"} + \\frac{",colourNumberBackground(uncSamplePreparation, SamplePreparationColor, "#FFF",input$useColours),"^4}{",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, SamplePreparationColor),"}}"))
   
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))

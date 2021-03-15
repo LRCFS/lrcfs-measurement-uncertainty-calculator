@@ -27,12 +27,13 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,
-                       p("Coverage factor \\((k)\\) is a number usually greater than one from which an expanded uncertainty is obtained when \\(k\\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.  "),
-                       p("An effective degrees of freedom is computed using the Welch-Satterthwaite equation with details given in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the t-distribution table.")                   ),
+                       p("Coverage factor \\((k)\\) is a number usually greater than one from which an expanded uncertainty is obtained when \\(k\\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components."),
+                       p(HTML("An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank'>Welch-Satterthwaite equation</a> with details given in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the T-Distribution Table."))
+                   ),
                    box(title = "Method", width=6,
                        HTML("<p>The effective degrees of freedom \\(({\\LARGE\\nu}_{\\text{eff}})\\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:</p>"),
                        p("$${\\LARGE\\nu}_{\\text{eff}} =\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}}$$"),
-                       p("The coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}})\\) is read from the t-distribution table using the calculated \\({\\Large\\nu}_{\\text{eff}}\\) and specified \\({\\small CI\\%}\\)."),
+                       p("The coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}})\\) is read from the T-Distribution Table using the calculated \\({\\Large\\nu}_{\\text{eff}}\\) and specified \\({\\small CI\\%}\\)."),
                        p(" "),
                        tags$ul(
                          tags$li("\\(x_s\\) is the Case Sample Mean Concentration."),
@@ -47,8 +48,8 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    valueBox(uiOutput("display_methodPrecision_finalAnswer_coverageFactor"),"\\(u_r\\text{(MethodPrec)}\\)", width = 4, color = "red", icon = icon("bullseye"))
                  ),
                  fluidRow(
-                   valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(StdSolution)}\\)", width = 4, color = "green", icon = icon("vial")),
-                   valueBox(uiOutput("display_samplePreparation_finalAnswer_coverageFactor"),"\\(u_r\\text{(SamplePreparation)}\\)", width = 4, color = "maroon", icon = icon("flask")),
+                   valueBox(uiOutput("display_standardSolution_finalAnswer_coverageFactor"),"\\(u_r\\text{(CalStandard)}\\)", width = 4, color = "green", icon = icon("flask")),
+                   valueBox(uiOutput("display_samplePreparation_finalAnswer_coverageFactor"),"\\(u_r\\text{(SamplePreparation)}\\)", width = 4, color = "maroon", icon = icon("vial")),
                    valueBox(uiOutput("display_combinedUncertainty_finalAnswer_coverageFactor"),"\\(\\text{CombUncertainty}\\)", width = 4, color = "purple", icon = icon("arrows-alt-v"))
                  ),
                  fluidRow(
@@ -69,7 +70,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                        uiOutput("display_coverageFactor_dofMethodPrecision")
                    ),
                    box(width=3, side="right",
-                       title = "Degrees of Freedom of Standard Solution",
+                       title = "Degrees of Freedom of Calibration Standard",
                        uiOutput("display_coverageFactor_dofStandardSolution")
                    ),
                    box(width=3, side="right",
@@ -85,7 +86,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  ),
                  fluidRow(
                    box(width=12, side="right",
-                       title = "Lookup Coverage Factor \\((k)\\)",
+                       title = "T-Distribution Table",
                        DT::dataTableOutput('display_coverageFactor_table')
                    )
                  ),

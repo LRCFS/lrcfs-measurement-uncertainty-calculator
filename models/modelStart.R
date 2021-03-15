@@ -128,7 +128,7 @@ output$display_start_methodPrecisionFileUpload <- renderUI({
 output$display_start_standardSolutionStructureFileUpload <- renderUI({
   input$reset_inputStandardSolutionFileUpload #This line is here to attach the event to update when the button is clicked
   
-  fileInput = fileInput("inputStandardSolutionStructureFileUpload", "Standard Solution Structure (CSV)",
+  fileInput = fileInput("inputStandardSolutionStructureFileUpload", "Calibration Standard Structure (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   
@@ -138,7 +138,7 @@ output$display_start_standardSolutionStructureFileUpload <- renderUI({
 output$display_start_standardSolutionEquipmentFileUpload <- renderUI({
   input$reset_inputStandardSolutionFileUpload #This line is here to attach the event to update when the button is clicked
   
-  fileInput = fileInput("inputStandardSolutionEquipmentFileUpload", "Standard Solution Equipment (CSV)",
+  fileInput = fileInput("inputStandardSolutionEquipmentFileUpload", "Calibration Standard Equipment (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   

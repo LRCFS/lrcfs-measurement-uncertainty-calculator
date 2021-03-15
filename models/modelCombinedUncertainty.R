@@ -38,7 +38,7 @@ combinedUncertaintyResult = reactive({
 ###################################################################################
 
 output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
-  data = data.frame("Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
+  data = data.frame("Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "CalibrationStandard" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
   data = removeEmptyData(data)
   
   percentages = data/sum(data) * 100
@@ -142,7 +142,7 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   sv = formatNumberForDisplay(getResultSamplePreparation(),input)
   
   formula = c("\\text{CombUncertainty} &= x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}} [[break]]")
-  formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{Homogeneity})^2 + u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{StdSolution})^2 + u_r(\\text{SamplePreparation})^2}")
+  formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{Homogeneity})^2 + u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{CalStandard})^2 + u_r(\\text{SamplePreparation})^2}")
   formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours),"\\sqrt{",colourNumberBackground(ho, HomogeneityColor, "#FFF",input$useColours),"^2+",colourNumberBackground(cc, CalibrationCurveColor, "#FFF",input$useColours),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(sv, SamplePreparationColor, "#FFF",input$useColours),"^2}"))
   formula = c(formula, paste("&= ",formatNumberForDisplay(combinedUncertaintyResult(),input)))
   output = mathJaxAligned(formula, 5, 20)

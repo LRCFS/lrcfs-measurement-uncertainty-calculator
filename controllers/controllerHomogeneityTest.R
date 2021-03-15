@@ -64,9 +64,11 @@ doGetHomogeneityTestPass = function(data, alphaValue)
   fCrit = doGetHomogeneityTestFCritical(data, alphaValue)
   fValue = doGetHomogeneityFValue(data)
   
-  if(fValue > fCrit)
-  {
+  if(is.na(fCrit) || is.na(fValue)){
+    return (NA)
+  }else if(fValue > fCrit){
     return(FALSE)
+  } else {
+    return(TRUE)
   }
-  return(TRUE)
 }

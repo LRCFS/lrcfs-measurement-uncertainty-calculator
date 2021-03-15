@@ -91,7 +91,7 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                             ),
                             menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
                             menuItem("Method Precision", tabName = "methodPrecision", icon = icon("bullseye")),
-                            menuItem("Standard Solution", tabName = "standardSolution", icon = icon("flask")),
+                            menuItem("Calibration Standard", tabName = "standardSolution", icon = icon("flask")),
                             menuItem("Sample Preparation", tabName = "samplePreparation", icon = icon("vial")),
                             menuItem("Combined Uncertainty", tabName = "combinedUncertainty", icon = icon("arrows-alt-v")),
                             menuItem("Coverage Factor", tabName = "coverageFactor", icon = icon("table")),

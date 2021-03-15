@@ -23,13 +23,13 @@
 
 tabStandardSolution = tabItem(tabName = "standardSolution",
                               fluidRow(
-                                valueBox("Uncertainty of Standard Solution", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("flask"))
+                                valueBox("Uncertainty of Calibration Standard", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("flask"))
                               ),
                               fluidRow(
                                 box(title = "Overview", width=5,
                                     p("Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of the uncertainty associated with spiking the calibration standards."),
                                     p("The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve."),
-                                    p("If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with standard solution is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.")
+                                    p("If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with the calibration standard is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.")
                                 ),
                                 box(title = "Method", width=7,
                                     "The Relative Standard Uncertainty (RSU) of each equipment is computed using:",
@@ -37,9 +37,9 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                     "The RSU of reference compound is calculated using:",
                                     "$$u_r(\\text{Reference Compound}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Purity}}$$",
                                     "The RSU of each solution is computed using:",
-                                    "$$u_r\\text{(Solution)} = \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}}$$",
+                                    "$$u_r\\text{(WorkingSolution)} = \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}}$$",
                                     "The RSU of standard (spiking) solution is obtained by pooling the RSU's of the calibration curve spiking range.",
-                                    "$$u_r(\\text{StdSolution}) = \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}$$",
+                                    "$$u_r(\\text{CalStandard}) = \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}$$",
                                     tags$ul(
                                       tags$li("\\(\\text{Parent Solution}\\) is the solution from which a given solution is made."),
                                       tags$li("\\(N\\text{(Equipment)}\\) is the number of times a piece of equipment is used in the preparation of a given solution.")
@@ -77,7 +77,7 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                 )
                               ),
                               fluidRow(
-                                box(title="Overall Relative Standard Uncertainty of Standard Solution", width = 12, background = "green", solidHeader = TRUE,
+                                box(title="Overall Relative Standard Uncertainty of Calibration Standard", width = 12, background = "green", solidHeader = TRUE,
                                     uiOutput("display_standardSolution_finalAnswer_bottom")
                                 )
                               )

@@ -218,7 +218,7 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
   formulas = c(paste0("u_r\\text{(",baseSolution$solution,")} &= \\frac{u\\text{(",baseSolution$solution,")}}{\\text{Purity}} = \\frac{\\frac{Tolerance}{Coverage}}{\\text{Purity}} = \\frac{\\frac{",baseSolution$compoundTolerance,"}{",baseSolution$compoundCoverage,"}}{",baseSolution$compoundPurity,"} = ",colourNumber(formatNumberForDisplay(baseSolution$relativeStandardUncertainty,input), input$useColours, input$colour3)," [[break]]"))
   
   #Show base formula for relative standard uncertainty of solution calculations
-  formulas = c(formulas, "u_r\\text{(Solution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}} [[break]]")
+  formulas = c(formulas, "u_r\\text{(WorkingSolution)} &= \\sqrt{u_r\\text{(Parent Solution)}^2 + \\sum{[u_r\\text{(Equipment)}^2_{\\text{(Vol,Tol)}} \\times N\\text{(Equipment)}_{\\text{(Vol,Tol)}}]}} [[break]]")
   
   for(i in rownames(solutionData))
   {
@@ -266,7 +266,7 @@ output$display_standardSolution_measurementDataWithCalculations <- DT::renderDat
 
 #Display final answers
 output$display_standardSolution_finalAnswer_top <- renderUI({
-  return(paste("\\(u_r\\text{(StdSolution)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
+  return(paste("\\(u_r\\text{(CalStandard)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
 output$display_standardSolution_finalAnswer_bottom <- renderUI({
@@ -287,9 +287,9 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
     equationNames = paste0(equationNames, plus, "u_r\\text{(",solution$solution,")}^2")
     equationValues = paste0(equationValues, plus, formatNumberForDisplay(solution$relativeStandardUncertainty,input),"^2")
   }
-  formulas = c("u_r(\\text{StdSolution}) &= \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}[[break]]")
-  formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationNames,"}[[break]]"))
-  formulas = c(formulas, paste0("u_r(\\text{StdSolution})&=\\sqrt{",equationValues,"}"))
+  formulas = c("u_r(\\text{CalStandard}) &= \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}[[break]]")
+  formulas = c(formulas, paste0("u_r(\\text{CalStandard})&=\\sqrt{",equationNames,"}[[break]]"))
+  formulas = c(formulas, paste0("u_r(\\text{CalStandard})&=\\sqrt{",equationValues,"}"))
   formulas = c(formulas, paste0("&=",formatNumberForDisplay(standardSolutionResult(),input)))
   
   output = mathJaxAligned(formulas, 5, 20)
@@ -297,7 +297,7 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
 })
 
 output$display_standardSolution_finalAnswer_dashboard <- renderUI({
-  return(paste("\\(u_r\\text{(StdSolution)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
+  return(paste("\\(u_r\\text{(CalStandard)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
 output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({

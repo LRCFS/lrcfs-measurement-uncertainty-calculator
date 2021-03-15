@@ -60,7 +60,13 @@ getHomogeneityTestPass = reactive({
 })
 
 getHomogeneityTestPass_text = reactive({
-  if(getHomogeneityTestPass())
+  result = getHomogeneityTestPass()
+  
+  if(is.na(result)){
+    return (NA)
+  }else if(getHomogeneityTestPass()) {
      return("Homogeneous")
-  return("Not Homogeneous")
+  } else {
+    return("Not Homogeneous")
+  }
 })
