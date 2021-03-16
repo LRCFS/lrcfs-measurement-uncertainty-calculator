@@ -294,14 +294,41 @@ output$display_calibrationCurve_externalStandardErrorUploadedData = renderUI({
   
   tabBox(width=12, side="right",
          title = boxTitle,
-         tabPanel("Raw Data",
+         tabPanel("Pooled Standard Error Raw Data",
                   DT::renderDataTable(
                     getDataExternalStandardError(),
                     rownames = FALSE,
                     options = list(scrollX = TRUE, dom = 'tip')
                   )
+         ),
+         tabPanel("Pooled Standard Error Custom Weights",
+                  DT::renderDataTable(
+                    getDataCustomWlsPooled(),
+                    rownames = FALSE,
+                    options = list(scrollX = TRUE, dom = 'tip')
+                  )
+         ) 
+  )
+})
+
+output$display_calibrationCurve_externalStandardErrorCalculations = renderUI({
+  exStdErrorData = getDataExternalStandardError()
+  if(is.null(exStdErrorData))
+    return(NULL)
+  
+  data = getDataCalibrationCurveExternalStandardErrorRearranged()
+  
+  tabBox(width=12, side="right",
+         title = "Step by Step Calculations for Pooled Standard Error",
+         tabPanel("Calculations",
+                  DT::renderDataTable(
+                    sapply(data, function(x) formatNumberForDisplay(x, input)),
+                    rownames = FALSE,
+                    options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:ncol(data)-1)))
+                  )
          )
   )
+  
 })
 
 output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({

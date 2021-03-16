@@ -159,6 +159,59 @@ getDataCalibrationCurveRearranged = reactive({
   return(rearrangedCalibrationDataFrame)
 })
 
+getDataCalibrationCurveExternalStandardErrorReformatted = reactive({
+  data = getDataExternalStandardError();
+  if(is.null(data))
+  {
+    return(NULL)
+  }
+  numConc = nrow(data)
+  numRuns = ncol(data)-1
+  
+  ## Set x = concentration and y = peack area ratios
+  runNames = rep(colnames(data)[-1], each=numConc)
+  calibrationDataConcentration = rep(data$conc,numRuns)
+  
+  data = data[,-1]
+  calibrationDataPeakArea = unlist(c(data), use.names = FALSE)
+  
+  allData = data.frame(runNames, calibrationDataConcentration, calibrationDataPeakArea)
+  colnames(allData) = c("runNames","conc","peakArea")
+  
+  #Remove any data with NA enteries
+  allDataNaRemoved = allData[!is.na(allData$peakArea),]
+  
+  return(allDataNaRemoved)
+})
+
+getDataCalibrationCurveExternalStandardErrorRearranged = reactive({
+  data = getDataCalibrationCurveExternalStandardErrorReformatted()
+  if(is.null(data))return(NULL)
+  
+  runNames = data$runNames
+  x = data$conc
+  y = data$peakArea
+  customWlsPooled = data.frame(unlist(getDataCustomWlsPooled()))
+
+  #Calcs
+  weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,input$inputWeightLeastSquared,customWlsPooled)
+  
+  #n = doGetCalibrationCurve_n(x)
+  #standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+  
+  ### Predicted Y value is the regression cofficient of Y compared to X
+  # predictedY = doGetCalibrationCurve_predicetedY(x,y, standardisedWeight);
+  # 
+  # errorSqDevationY = doGetCalibrationCurve_errorSqDeviationY(x,y,standardisedWeight);
+  # weightedErrorSqDevationY = doGetCalibrationCurve_weightedErrorSqDeviationY(standardisedWeight,errorSqDevationY)
+  #End Calcs
+  
+  rearrangedExternalStandardErrorDf = data.frame(runNames,x,y,weightedLeastSquared)
+  colnames(rearrangedExternalStandardErrorDf) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"))
+  return(rearrangedExternalStandardErrorDf)
+})
+
+
 
 
 ##############################################

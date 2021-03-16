@@ -111,6 +111,9 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        uiOutput("display_calibrationCurve_externalStandardErrorUploadedData")
                      ),
                      fluidRow(
+                       uiOutput("display_calibrationCurve_externalStandardErrorCalculations")
+                     ),
+                     fluidRow(
                        uiOutput("display_calibrationCurve_externalStandardErrorOfRuns"),
                        uiOutput("display_calibrationCurve_externalStandardErrorOfRunsPooled")
                      ),
