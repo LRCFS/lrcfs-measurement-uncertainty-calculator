@@ -23,7 +23,8 @@
 
 tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                          fluidRow(
-                           valueBox("Homogeneity Test", h2(uiOutput("display_homogeneityTest_answerTop")), width = 12, color = "navy", icon = icon("chart-area"))
+                           valueBox("Homogeneity Test", h2(uiOutput("display_homogeneityTest_answerTop")), width = 12, color = "navy", icon = icon("chart-area")),
+                           actionButton("helpHomogeneityTest", "Help", icon=icon("question"), class="pageHelpTop")
                          ),
                          fluidRow(
                            column(width=6,

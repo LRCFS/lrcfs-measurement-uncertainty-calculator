@@ -23,7 +23,8 @@
 
 tabStandardSolution = tabItem(tabName = "standardSolution",
                               fluidRow(
-                                valueBox("Uncertainty of Calibration Standard", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("flask"))
+                                valueBox("Uncertainty of Calibration Standard", h2(uiOutput("display_standardSolution_finalAnswer_top")), width = 12, color = "green", icon = icon("flask")),
+                                actionButton("helpCalibrationStandard", "Help", icon=icon("question"), class="pageHelpTop")
                               ),
                               fluidRow(
                                 box(title = "Overview", width=5,

@@ -28,6 +28,10 @@ $(document).ready(function() {
   
 });
 
+function embedVideoLink(url){
+  return("<p><iframe width='100%' height='350px' src='https://www.youtube.com/embed/"+url+"' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></p>");
+}
+
 function showHelp(steps, startingStep)
 {
 	var intro = introJs();
@@ -68,7 +72,13 @@ function(startingStep) {
 			intro: '<h4>' + APP_NAME + ' Help</h4>\
 					<p>Welcome to the ' + APP_NAME_SHORT + ' help. These help windows are specific to each section so make sure to explore the help on each page as you use the application.</p>\
 					<p>To use the help, move between each section by using the <strong>Previous</strong> and <strong>Next</strong> buttons at the bottom of each help window. You can exit the help at any time by clicking the <strong>Close</strong> button or just outside a help window.</p>\
-					<p>To get started click <strong>Next</strong> to continue through the help or <strong>Close</strong> to exit.</p>'
+					<p>To get started please view the quick overview video below, click <strong>Next</strong> to continue through the help, or <strong>Close</strong> to exit.</p>' + embedVideoLink('q6ZrRuG3ilA')
+		},
+		{
+			element: '#shiny-tab-start #homogeneity',
+			intro: '<h4>Homogeneity</h4>\
+					<p>The Homogeneity data specified here can be used for both Measurement Uncertainty and a Homogeneity Test. Both caculations are capable of handling data without a identical number of replicates per group.</p>',
+			position: 'right'
 		},
 		{
 			element: '#shiny-tab-start #calcurve',
@@ -87,8 +97,8 @@ function(startingStep) {
 		},
 		{
 			element: '#shiny-tab-start #stdsol',
-			intro: '<h4>Standard Solution</h4>\
-					<p>Two data files are required for standard solution; Structure and Equipment data. Equipment data requires information on all pipettes and flask used in each solution preparation including information on manufacturer\'s tolerance and coverage factor, volume and number of times used for pipetting</p>\
+			intro: '<h4>Calibration Standard</h4>\
+					<p>Two data files are required for the calibration standard; Structure and Equipment data. Equipment data requires information on all pipettes and flasks used in each solution preparation including information on manufacturer\'s tolerance and coverage factor, volume and number of times used for pipetting</p>\
 					<p>Structure data requires information on reference compound, its purity, tolerance and coverage factor and the structure of how the reference compound was diluted to form other solutions in generating the calibration curve.</p>',
 			position: 'right'
 		},
@@ -103,7 +113,8 @@ function(startingStep) {
 			intro: '<h4>Weighted Least Square (WLS) Regression</h4>\
 					<p>WLS is recommend if the standard deviation of data correlates with the magnitude of the concentration being estimated, such that plot of residuals shows a non-constant error (termed heteroscedasticity).</p>\
 					<p><img src="images/wls-help.png" alt="Example plot showing the presence of heteroscedasticity" style="width: 100%"/></p>\
-					<p>Figure from <a href="https://pdfs.semanticscholar.org/5814/151283d2b44412edfb8ae5a9d3e53616fa32.pdf" target="_blank">Regression and Calibration</a> shows an example of where the standard deviation of data is proportional to the magnitude concentration (a) such that the plot of residuals have high variability for high predicted values. For more information on choosing the appropriate weight see the paper by <a href="https://pubs.acs.org/doi/pdf/10.1021/ac5018265" target="_blank">Huidong Gu et al.</a></p>',
+					<p>Figure from <a href="https://pdfs.semanticscholar.org/5814/151283d2b44412edfb8ae5a9d3e53616fa32.pdf" target="_blank">Regression and Calibration</a> shows an example of where the standard deviation of data is proportional to the magnitude concentration (a) such that the plot of residuals have high variability for high predicted values. For more information on choosing the appropriate weight see the paper by <a href="https://pubs.acs.org/doi/pdf/10.1021/ac5018265" target="_blank">Huidong Gu et al.</a></p>\
+					<p>Alternatively, if "Specify custom Weights" is chosen, a file containing specific weights can be specified for both Calibartion Curve and Pooled Standard Error.',
 			position: 'left'
 		},
 		{
@@ -111,7 +122,7 @@ function(startingStep) {
 			intro: '<h4>Case Sample Data</h4>\
 					<p>Case sample replicates \\((r_s)\\) is the number of repeated measurements taken on a sample to estimate the mean concentration of the sample.</p>\
 					<p>Case sample mean concentration \\((x_s)\\) is the mean amount of compound substance estimated to be contained in a given sample.</p>\
-					<p>If a Weighted Least Square Regression has been choosen then the case sample mean peak area ratio \\((y_s)\\) is the mean peak area (ratio) or instrument response used to estimate the concentration of a given sample.</p>',
+					<p>If a Weighted Least Square Regression has been chosen then the case sample mean peak area ratio \\((y_s)\\) is the mean peak area (ratio) or instrument response used to estimate the concentration of a given sample.</p>',
 			position: 'left'
 		},
 		{
@@ -127,60 +138,48 @@ function(startingStep) {
 	showHelp(steps, startingStep);
 });
 
-Shiny.addCustomMessageHandler('runjs_help_calibrationCurve',
-function(startingStep) {
-	var steps = [
-		{
-			intro: '<h4>Uncertainty of Calibration Curve</h4>\
-			<p>The help on this page is not completed. It will likely have a demo video showing you the overall functionality followed by more information for each section.</p>\
-			<p><iframe width=\'100%\' height=\'350px\' src=\'https://www.youtube.com/embed/tVWiK4zL_yQ?start=103\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe></p>\
-			<p>Click <strong>Next</strong> to continue through the help or <strong>Close</strong> to exit.</p>'
-		},
-		{
-			element: '#uploadedCalibrationDataStats',
-			intro: 'Example help text 1'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve [data-value="Graph"]',
-			intro: 'Example help text 2'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve [data-value="Raw Data"]',
-			intro: 'Example help text 3'
-		},
-		{
-			element: '#rearrangedCalibrationData',
-			intro: 'Example help text 4'
-		},
-		{
-			element: '#rearrangedCalibrationData thead tr th:nth-of-type(4)',
-			intro: 'Example help text 5'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve .row .col-sm-6:first-of-type .info-box',
-			intro: 'Example help text 6'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve .row .col-sm-6:last-of-type .info-box',
-			intro: 'Example help text 7'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve .box-body .row:nth-of-type(3)',
-			intro: 'Example help text 8'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve .box-body .row:nth-of-type(4) .col-sm-6:first-of-type .box',
-			intro: 'Example help text 9'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve .box-body .row:nth-of-type(4) .col-sm-6:last-of-type .box',
-			intro: 'Example help text 10'
-		},
-		{
-			element: '#shiny-tab-calibrationCurve .box-body .row:nth-of-type(5) .box',
-			intro: 'Example help text 11'
-		}
-	];
-	
+Shiny.addCustomMessageHandler('runjs_help_homogeneity', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Homogeneity</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
 	showHelp(steps, startingStep);
 });
+
+Shiny.addCustomMessageHandler('runjs_help_homogeneityTest', function(startingStep) {
+	var steps = [{intro: '<h4>Homogeneity Test</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_calibrationCurve', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Calibration Curve</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_methodPrecision', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Method Precision</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_calibrationStandard', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Calibration Standard</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_samplePreparation', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Sample Preparation</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_combinedUncertainty', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Combined Uncertainty</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_coverageFactor', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Coverage Factor</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+
+Shiny.addCustomMessageHandler('runjs_help_expandedUncertainty', function(startingStep) {
+	var steps = [{intro: '<h4>Uncertainty of Expanded Uncertainty</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	showHelp(steps, startingStep);
+});
+

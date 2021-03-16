@@ -23,7 +23,8 @@
 
 tabSamplePreparation = tabItem(tabName = "samplePreparation",
                  fluidRow(
-                   valueBox("Uncertainty of Sample Preparation", h2(uiOutput("display_samplePreparation_finalAnswer_top")), width = 12, color = "maroon", icon = icon("vial"))
+                   valueBox("Uncertainty of Sample Preparation", h2(uiOutput("display_samplePreparation_finalAnswer_top")), width = 12, color = "maroon", icon = icon("vial")),
+                   actionButton("helpSamplePreparation", "Help", icon=icon("question"), class="pageHelpTop")
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,

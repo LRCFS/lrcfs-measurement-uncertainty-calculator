@@ -28,38 +28,75 @@ observeEvent(input$help_start_start, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 1)
 })
 
-observeEvent(input$help_start_calcurve, {
+observeEvent(input$help_start_homogeneity, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 2)
 })
 
-observeEvent(input$help_start_methodprec, {
+observeEvent(input$help_start_calcurve, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 3)
 })
 
-observeEvent(input$help_start_stdsol, {
+observeEvent(input$help_start_methodprec, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 4)
 })
 
-observeEvent(input$help_start_sampleprep, {
+observeEvent(input$help_start_stdsol, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 5)
 })
 
-observeEvent(input$help_start_weightedLeastSquare, {
+observeEvent(input$help_start_sampleprep, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 6)
 })
 
-observeEvent(input$help_start_caseSampleData, {
+observeEvent(input$help_start_weightedLeastSquare, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 7)
 })
 
-observeEvent(input$help_start_confidenceInterval, {
+observeEvent(input$help_start_caseSampleData, {
   session$sendCustomMessage(type = 'runjs_help_start', message = 8)
+})
+
+observeEvent(input$help_start_confidenceInterval, {
+  session$sendCustomMessage(type = 'runjs_help_start', message = 9)
 })
 
 
 ########################################
-######### Calibration Curve ############
+######### Pages#########################
 ########################################
+
+observeEvent(input$helpHomogeneity, {
+  session$sendCustomMessage(type = 'runjs_help_homogeneity', message = 1)
+})
+
+observeEvent(input$helpHomogeneityTest, {
+  session$sendCustomMessage(type = 'runjs_help_homogeneityTest', message = 1)
+})
+
 observeEvent(input$helpCalibrationCurve, {
   session$sendCustomMessage(type = 'runjs_help_calibrationCurve', message = 1)
+})
+
+observeEvent(input$helpMethodPrecision, {
+  session$sendCustomMessage(type = 'runjs_help_methodPrecision', message = 1)
+})
+
+observeEvent(input$helpCalibrationStandard, {
+  session$sendCustomMessage(type = 'runjs_help_calibrationStandard', message = 1)
+})
+
+observeEvent(input$helpSamplePreparation, {
+  session$sendCustomMessage(type = 'runjs_help_samplePreparation', message = 1)
+})
+
+observeEvent(input$helpCombinedUncertainty, {
+  session$sendCustomMessage(type = 'runjs_help_combinedUncertainty', message = 1)
+})
+
+observeEvent(input$helpCoverageFactor, {
+  session$sendCustomMessage(type = 'runjs_help_coverageFactor', message = 1)
+})
+
+observeEvent(input$helpExpandedUncertainty, {
+  session$sendCustomMessage(type = 'runjs_help_expandedUncertainty', message = 1)
 })

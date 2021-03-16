@@ -171,7 +171,7 @@ output$display_start_customWlsFileUploadExampleDownloadLink <- renderUI({
   
   if(checkUsingCustomWls())
   {
-    return(a("Download Example Calibration Curve Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-customWeights.csv"))
+    return(a("Download Example Calibration Curve Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-customWeights.csv", target="_blank"))
   }
   return(NULL)
 })
@@ -215,7 +215,7 @@ output$display_start_customWlsPooledFileUploadExampleDownloadLink <- renderUI({
   
   if(checkUsingCustomWls())
   {
-    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledStandardError-customWeights.csv"))
+    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledStandardError-customWeights.csv", target="_blank"))
   }
   return(NULL)
 })

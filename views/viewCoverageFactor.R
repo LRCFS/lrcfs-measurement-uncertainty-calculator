@@ -23,7 +23,8 @@
 
 tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  fluidRow(
-                   valueBox("Coverage Factor", h2(uiOutput("display_coverageFactor_finalAnswer_top")), width = 12, color = "teal", icon = icon("table"))
+                   valueBox("Coverage Factor", h2(uiOutput("display_coverageFactor_finalAnswer_top")), width = 12, color = "teal", icon = icon("table")),
+                   actionButton("helpCoverageFactor", "Help", icon=icon("question"), class="pageHelpTop")
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,

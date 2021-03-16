@@ -23,7 +23,8 @@
 
 tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                  fluidRow(
-                   valueBox("Combined Uncertainty", h2(textOutput("display_combinedUncertainty_finalAnswer_top")), width = 12, color = "purple", icon = icon("arrows-alt-v"))
+                   valueBox("Combined Uncertainty", h2(textOutput("display_combinedUncertainty_finalAnswer_top")), width = 12, color = "purple", icon = icon("arrows-alt-v")),
+                   actionButton("helpCombinedUncertainty", "Help", icon=icon("question"), class="pageHelpTop")
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,

@@ -23,7 +23,8 @@
 
 tabHomogeneity = tabItem(tabName = "homogeneity",
                  fluidRow(
-                   valueBox("Uncertainty of Homogeneity", h2(uiOutput("display_homogeneity_finalAnswer_top")), width = 12, color = "navy", icon = icon("mortar-pestle"))
+                   valueBox("Uncertainty of Homogeneity", h2(uiOutput("display_homogeneity_finalAnswer_top")), width = 12, color = "navy", icon = icon("mortar-pestle")),
+                   actionButton("helpHomogeneity", "Help", icon=icon("question"), class="pageHelpTop")
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,

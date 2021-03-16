@@ -23,7 +23,8 @@
 
 tabMethodPrecision = tabItem(tabName = "methodPrecision",
                             fluidRow(
-                              valueBox("Uncertainty of Method Precision", h2(textOutput("display_methodPrecision_finalAnswer_top")), width = 12, color = "red", icon = icon("bullseye"))
+                              valueBox("Uncertainty of Method Precision", h2(textOutput("display_methodPrecision_finalAnswer_top")), width = 12, color = "red", icon = icon("bullseye")),
+                              actionButton("helpMethodPrecision", "Help", icon=icon("question"), class="pageHelpTop")
                             ),
                             fluidRow(
                               box(title = "Overview", width=6,

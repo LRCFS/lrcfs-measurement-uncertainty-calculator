@@ -23,7 +23,8 @@
 
 tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                  fluidRow(
-                   valueBox("Expanded Uncertainty", h2(uiOutput("display_expandedUncertainty_finalAnswer_top")), width = 12, color = "orange", icon = icon("arrows-alt"))
+                   valueBox("Expanded Uncertainty", h2(uiOutput("display_expandedUncertainty_finalAnswer_top")), width = 12, color = "orange", icon = icon("arrows-alt")),
+                   actionButton("helpExpandedUncertainty", "Help", icon=icon("question"), class="pageHelpTop")
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,
