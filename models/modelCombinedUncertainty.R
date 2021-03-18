@@ -62,7 +62,7 @@ output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
     {
       colors = c(colors, MethodPrecisionColor)
     }
-    else if(colname == "StandardSolution")
+    else if(colname == "CalibrationStandard")
     {
       colors = c(colors, StandardSolutionColor)
     }
