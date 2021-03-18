@@ -161,6 +161,8 @@ getDataCalibrationCurveRearranged = reactive({
 
 getDataCalibrationCurveExternalStandardErrorReformatted = reactive({
   data = getDataExternalStandardError();
+  dataWeights = getDataCustomWlsPooled();
+  
   if(is.null(data))
   {
     return(NULL)
@@ -181,7 +183,29 @@ getDataCalibrationCurveExternalStandardErrorReformatted = reactive({
   #Remove any data with NA enteries
   allDataNaRemoved = allData[!is.na(allData$peakArea),]
   
-  return(allDataNaRemoved)
+  dataWithSums = data.frame()
+  for(runName in unique(allDataNaRemoved$runNames))
+  {
+    runData = allDataNaRemoved[allDataNaRemoved$runNames == runName,]
+    x = runData$conc
+    y = runData$peakArea
+    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,input$inputWeightLeastSquared,data.frame(dataWeights[,runName]))
+    
+    n = doGetCalibrationCurve_n(runData$conc)
+    standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
+    
+    ### Predicted Y value is the regression cofficient of Y compared to X
+    predictedY = doGetCalibrationCurve_predicetedY(x,y, standardisedWeight);
+    
+    errorSqDevationY = doGetCalibrationCurve_errorSqDeviationY(x,y,standardisedWeight);
+    weightedErrorSqDevationY = doGetCalibrationCurve_weightedErrorSqDeviationY(standardisedWeight,errorSqDevationY)
+    
+    runData = cbind(runData, weightedLeastSquared, standardisedWeight, predictedY, weightedErrorSqDevationY)
+    
+    dataWithSums = rbind(dataWithSums, runData)
+  }
+  
+  return(dataWithSums)
 })
 
 getDataCalibrationCurveExternalStandardErrorRearranged = reactive({
@@ -189,25 +213,15 @@ getDataCalibrationCurveExternalStandardErrorRearranged = reactive({
   if(is.null(data))return(NULL)
   
   runNames = data$runNames
-  x = data$conc
-  y = data$peakArea
-  customWlsPooled = data.frame(unlist(getDataCustomWlsPooled()))
-
-  #Calcs
-  weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,input$inputWeightLeastSquared,customWlsPooled)
+  x = dataWithSums$conc
+  x = data$peakArea
+  weightedLeastSquared = data$weightedLeastSquared
+  standardisedWeight = data$standardisedWeight
+  predictedY = data$predictedY
+  weightedErrorSqDevationY = data$weightedErrorSqDevationY
   
-  #n = doGetCalibrationCurve_n(x)
-  #standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
-  
-  ### Predicted Y value is the regression cofficient of Y compared to X
-  # predictedY = doGetCalibrationCurve_predicetedY(x,y, standardisedWeight);
-  # 
-  # errorSqDevationY = doGetCalibrationCurve_errorSqDeviationY(x,y,standardisedWeight);
-  # weightedErrorSqDevationY = doGetCalibrationCurve_weightedErrorSqDeviationY(standardisedWeight,errorSqDevationY)
-  #End Calcs
-  
-  rearrangedExternalStandardErrorDf = data.frame(runNames,x,y,weightedLeastSquared)
-  colnames(rearrangedExternalStandardErrorDf) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"))
+  rearrangedExternalStandardErrorDf = data.frame(runNames,x,y,weightedLeastSquared,standardisedWeight,predictedY,weightedErrorSqDevationY)
+  colnames(rearrangedExternalStandardErrorDf) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$",paste("$$\\text{Weight}(",doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),")$$"),"$$w(x-\\overline{x})^2$$","$$\\hat{y} = b_0 + b_1x$$","$$w(y - \\hat{y})^2$$")
   return(rearrangedExternalStandardErrorDf)
 })
 

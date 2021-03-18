@@ -29,7 +29,7 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                          fluidRow(
                            column(width=6,
                              box(title = "Overview", width=12,
-                                 p("A one-way analysis of variance (ANOVA) is used to test the null hypotheses \\((H_0)\\) of equality of means among sample groups against the alternative hypothesis \\((H_1)\\) that at least two of the group means differ. For \\(k\\) independent groups with means \\(m_1 \\ldots m_k\\), the hypothesis of interest is given by:"),
+                                 p("A one-way analysis of variance (ANOVA) is used to test the null hypotheses \\((H_0)\\) of equality of means among sample groups against the alternative hypothesis \\((H_1)\\) that at least two of the group means differ, on the assumption that samples are normally distributed, have equal variance and are independent. For \\(k\\) independent groups with means \\(m_1 \\ldots m_k\\), the hypothesis of interest is given by:"),
                                  p("\\(H_0\\): \\(m_1 = m_2 = m_3= \\ldots = m_k\\)"),
                                  p("\\(H_1\\): \\(m_l \\neq m_j\\) for some \\(l,j\\)"),
                                  p("The F statistic \\((F_{\\large s})\\) under \\(H_0\\) follows an F-distribution given by the ratio of mean sum of squares between \\((MSS_B)\\) and mean sum of squares within \\((MSS_W)\\), as shown in the Method tab."),

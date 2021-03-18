@@ -344,24 +344,22 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   results = c()
 
   customWlsPooled = getDataCustomWlsPooled()
-  for(i in runNames)
+  
+  formulas = c(paste("S_{{w}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
+  
+  i = 1
+  for(runName in runNames)
   {
-    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,i],input$inputWeightLeastSquared,data.frame(customWlsPooled[,i]))
-    n = doGetCalibrationCurve_n(exStdErrorRunData[,i])
+    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(exStdErrorData$conc,exStdErrorRunData[,runName],input$inputWeightLeastSquared,data.frame(customWlsPooled[,runName]))
+    n = doGetCalibrationCurve_n(exStdErrorRunData[,runName])
     standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
-    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,i],standardisedWeights)
+    seor = doGetCalibrationCurve_standardErrorOfRegression(exStdErrorData$conc,exStdErrorRunData[,runName],standardisedWeights)
     seorFromatted = formatNumberForDisplay(seor, input)
     seorColoured = colourNumber(seorFromatted, input$useColours, input$colour7)
-    results = c(results, seorColoured)
-  }
 
-  formulas = c(paste("S_{{w}_{(j)}} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n w_i(y_i-\\hat{y}_i)^2}{n_{(j)}-2}} [[break]]"))
-
-  for(i in 1:length(results))
-  {
-    n = colourNumber(lengths[i], input$useColours, input$colour5)
-    
-    formulas = c(formulas, paste0("S_{{w}_{(\\text{",runNames[i],"})}}&=", results[i], " \\hspace{15pt} n_{(\\text{",runNames[i],"})} = ", n))
+    nColoured = colourNumber(lengths[i], input$useColours, input$colour5)
+    formulas = c(formulas, paste0("S_{{w}_{(\\text{",runName,"})}}&=",seorColoured, " \\hspace{15pt} n_{(\\text{",runName,"})} = ", nColoured))
+    i = i + 1
   }
   
   output = mathJaxAligned(formulas, 5, 20)
