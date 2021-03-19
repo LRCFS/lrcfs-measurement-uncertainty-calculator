@@ -22,7 +22,7 @@
 ###########################################################################
 
 #Set context for tests for reporting purposes
-context('Testing Homogeneity Controller')
+context('Homogeneity Controller')
 
 #Load in model that test are written against
 source("../dal/loadHelperMethods.R")

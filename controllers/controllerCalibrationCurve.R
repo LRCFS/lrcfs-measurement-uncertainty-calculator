@@ -21,6 +21,44 @@
 #
 ###########################################################################
 
+doGetDataCalibrationCurve = function(filePath)
+{
+  if(myReactives$uploadedCalibrationCurve == TRUE)
+  {
+    data = calibrationCurveReadCSV(filePath)
+    return(data)
+  }
+  else
+  {
+    return(NULL)
+  }
+}
+
+doGetDataCalibrationCurveReformatted = function(data)
+{
+  if(is.null(data))
+  {
+    return(NULL)
+  }
+  numConc = nrow(data)
+  numRuns = ncol(data)-1
+  
+  ## Set x = concentration and y = peack area ratios
+  runNames = rep(colnames(data)[-1], each=numConc)
+  calibrationDataConcentration = rep(data$conc,numRuns)
+  
+  data = data[,-1]
+  calibrationDataPeakArea = unlist(c(data), use.names = FALSE)
+  
+  allData = data.frame(runNames, calibrationDataConcentration, calibrationDataPeakArea)
+  colnames(allData) = c("runNames","calibrationDataConcentration","calibrationDataPeakArea")
+  
+  #Remove any data with NA enteries
+  allDataNaRemoved = allData[!is.na(allData$calibrationDataPeakArea),]
+  
+  return(allDataNaRemoved)
+}
+
 doCheckUsingWls = function(wlsSelectedOption)
 {
   if(wlsSelectedOption == 1)
@@ -129,25 +167,25 @@ doGetCalibrationCurve_meanOfY = function(x,y,wlsSelectedOption,customWls){
   return(meanOfY)
 }
 
+doGetCalibrationCurve_sqDeviation = function(values){
+  sqDevation = (values - mean(values))^2
+  return(sqDevation)
+}
+
 doGetCalibrationCurve_sumSqDeviationX = function(x)
 {
   answer = sum(doGetCalibrationCurve_sqDeviation(x))
   return(answer)
 }
 
-doGetCalibrationCurve_sqDeviation = function(values){
-  sqDevation = (values - mean(values))^2
-  return(sqDevation)
+doGetCalibrationCurve_weightedSqDeviation = function(weights, values){
+  weightedSqDeviation = weights * (values - mean(values))^2
+  return(weightedSqDeviation)
 }
 
 doGetCalibrationCurve_sumWeightedSqDeviation = function(weights, values){
   answer = sum(doGetCalibrationCurve_weightedSqDeviation(weights, values))
   return(answer)
-}
-
-doGetCalibrationCurve_weightedSqDeviation = function(weights, values){
-  weightedSqDeviation = weights * (values - mean(values))^2
-  return(weightedSqDeviation)
 }
 
 # doGetCalibrationCurve_sumOfWeightedXSquared = function(x,y,wlsSelectedOption){
@@ -162,11 +200,6 @@ doGetCalibrationCurve_weightedSqDeviation = function(weights, values){
 #   return(answer)
 # }
 
-doGetCalibrationCurve_errorSqDeviationY = function(x,y,wlsValues){
-  errorSqDeviationY = (na.omit(y) - doGetCalibrationCurve_predicetedY(x,y,wlsValues))^2
-  return (errorSqDeviationY)
-}
-
 doGetCalibrationCurve_predicetedY = function(x,y,wlsValues){
   calCurve = doGetCalibrationCurve_linearRegression(x,y,wlsValues) # Regression Cofficients
   predictedY = fitted(calCurve)
@@ -175,15 +208,20 @@ doGetCalibrationCurve_predicetedY = function(x,y,wlsValues){
   return(predictedY)
 }
 
+doGetCalibrationCurve_errorSqDeviationY = function(x,y,wlsValues){
+  errorSqDeviationY = (na.omit(y) - doGetCalibrationCurve_predicetedY(x,y,wlsValues))^2
+  return (errorSqDeviationY)
+}
+
 doGetCalibrationCurve_weightedErrorSqDeviationY = function(wlsValues,errorSqDeviationY)
 {
   return(wlsValues * errorSqDeviationY)
 }
 
-doGetCalibrationCurve_weightedXSquared = function(wlsValues,x)
-{
-  return(wlsValues * x^2)
-}
+# doGetCalibrationCurve_weightedXSquared = function(wlsValues,x)
+# {
+#   return(wlsValues * x^2)
+# }
 
 doGetCalibrationCurve_standardErrorOfRegression = function(x,y,wlsValues){
   if(is.null(x) || is.null(y) || is.null(wlsValues) || length(wlsValues) == 0) return(NULL)

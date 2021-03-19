@@ -54,15 +54,7 @@ checkUsingCustomWls = reactive({
 # Get data
 ##############################################
 getDataCalibrationCurve = reactive({
-  if(myReactives$uploadedCalibrationCurve == TRUE)
-  {
-    data = calibrationCurveReadCSV(input$inputCalibrationCurveFileUpload$datapath)
-    return(data)
-  }
-  else
-  {
-    return(NULL)
-  }
+  return(doGetDataCalibrationCurve(input$inputCalibrationCurveFileUpload$datapath))
 })
 
 getDataExternalStandardError = reactive({
@@ -102,28 +94,7 @@ getDataCustomWlsPooled = reactive({
 })
 
 getDataCalibrationCurveReformatted = reactive({
-  data = getDataCalibrationCurve();
-  if(is.null(data))
-  {
-    return(NULL)
-  }
-  numConc = nrow(data)
-  numRuns = ncol(data)-1
-  
-  ## Set x = concentration and y = peack area ratios
-  runNames = rep(colnames(data)[-1], each=numConc)
-  calibrationDataConcentration = rep(data$conc,numRuns)
-  
-  data = data[,-1]
-  calibrationDataPeakArea = unlist(c(data), use.names = FALSE)
-  
-  allData = data.frame(runNames, calibrationDataConcentration, calibrationDataPeakArea)
-  colnames(allData) = c("runNames","calibrationDataConcentration","calibrationDataPeakArea")
-  
-  #Remove any data with NA enteries
-  allDataNaRemoved = allData[!is.na(allData$calibrationDataPeakArea),]
-  
-  return(allDataNaRemoved)
+  return(doGetDataCalibrationCurveReformatted(getDataCalibrationCurve()))
 })
 
 getDataCalibrationCurveRearranged = reactive({

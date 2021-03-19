@@ -22,34 +22,23 @@
 ###########################################################################
 
 #Set context for tests for reporting purposes
-context('Testing modelMethodPrecision.R functions')
+context('Sample Preparation Controller')
 
 #Load in model that test are written against
-# source("../models/modelApplication.R")
-# source("../models/modelMethodPrecision.R")
+source("../dal/loadHelperMethods.R")
+source("../dal/loadSamplePreparationCSV.R")
+source("../controllers/controllerSamplePreparation.R")
 
+exampleData = samplePreparationReadCSV("../www/exampleData/exampleData-samplePreparation.csv")
 
+test_that("doGetSamplePreparation_standardUncerainty", {
+  expect_equal(doGetSamplePreparation_standardUncerainty(exampleData), 2.5)
+})
 
-# test_that('getPooledStandardDeviation', {
-#   
-# })
-# 
-# test_that('getStandardUncertainty', {
-#   
-# })
-# 
-# test_that('getRealtiveStandardUncertainty', {
-#   
-# })
-# 
-# test_that('getConcentrations', {
-#   
-# })
-# 
-# test_that('getNumberOfConcentrations', {
-#   
-# })
-# 
-# test_that('getNumberOfRuns', {
-#   
-# })
+test_that("doGetSamplePreparation_relativeStandardUncertainty", {
+  expect_equal(doGetSamplePreparation_relativeStandardUncertainty(exampleData), 0.0025)
+})
+
+test_that("doGetSamplePreparation_result", {
+  expect_equal(doGetSamplePreparation_result(exampleData), 0.0025)
+})

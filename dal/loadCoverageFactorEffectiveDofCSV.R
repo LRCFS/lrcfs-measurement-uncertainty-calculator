@@ -21,10 +21,8 @@
 #
 ###########################################################################
 
-coverageFactorEffectiveDofReadCSV = function() {
-  filePath = "resources/coverageFactorEffectiveDofTable.csv"
-  
-  data = read.csv(filePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE, check.names=FALSE)
+coverageFactorEffectiveDofReadCSV = function(effectiveDofTableFilePath = "resources/coverageFactorEffectiveDofTable.csv") {
+  data = read.csv(effectiveDofTableFilePath, header = TRUE, sep=",", fill = TRUE, stringsAsFactors = FALSE, check.names=FALSE)
   rownames(data) = data[,1]
   data = removeEmptyData(data)
 

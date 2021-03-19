@@ -43,11 +43,7 @@ effectiveDofResult = reactive({
 })
 
 usingManualCoverageFactor = reactive({
-  if(!is.null(input$inputManualCoverageFactor) && !is.na(input$inputManualCoverageFactor))
-  {
-    return(TRUE)
-  }
-  return(FALSE)
+  return(doUsingManualCoverageFactor(input$inputManualCoverageFactor))
 })
 
 coverageFactorResult = reactive({

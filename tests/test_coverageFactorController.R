@@ -22,10 +22,14 @@
 ###########################################################################
 
 #Set context for tests for reporting purposes
-context('Testing Coverage Factor')
+context('Coverage Factor')
 
 #Load in model that test are written against
+source("../dal/loadHelperMethods.R")
+source("../dal/loadCoverageFactorEffectiveDofCSV.R")
 source("../controllers/controllerCoverageFactor.R")
+
+coverageFactorEffectiveDof = coverageFactorEffectiveDofReadCSV("../resources/coverageFactorEffectiveDofTable.csv")
 
 test_that("getEffectiveDegreesOfFreedom", {
   #expect_equal(getEffectiveDegreesOfFreedom(uncHomogeneity,dofHomogeneity,uncCalibrationCurve,dofCalibrationCurve,uncMethodPrecision,dofMethodPrecision,uncStandardSolution,dofStandardSolution,uncSamplePreparation,dofSamplePreparation,combinedUncertainty,meanCaseSampleConcentration), 11)
@@ -34,4 +38,32 @@ test_that("getEffectiveDegreesOfFreedom", {
   expect_equal(getEffectiveDegreesOfFreedom(0,0,0,0,0,0,0,0,0,0,1,0), Inf)
   expect_equal(getEffectiveDegreesOfFreedom(1,2,3,4,5,6,7,8,9,10,3,2), 0.00468255)
   expect_equal(getEffectiveDegreesOfFreedom(NA,NA,NA,NA,NA,NA,NA,NA,1,Inf,3,2), Inf)
+})
+
+
+test_that("getHighestPossibleDofInCoverageFactorEffectiveDof", {
+  expect_equal(getHighestPossibleDofInCoverageFactorEffectiveDof(coverageFactorEffectiveDof), 500)
+})
+
+test_that("getClosestCoverageFactorEffectiveDof", {
+  expect_equal(getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof,1), "1")
+  expect_equal(is.na(getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof,NA)), TRUE)
+  expect_equal(getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof,0.5), "1")
+  expect_equal(getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof,99999), "Inf")
+})
+
+test_that("getCoverageFactor", {
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,1,"99.99%",1), 1)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,1,"99.99%",NA), 6366.2)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,20,"99.99%",1), 1)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,20,"99.99%",NA), 4.84)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,Inf,"99.99%",1), 1)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,Inf,"99.99%",NA), 3.91)
+  
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,1,"99%",1), 1)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,1,"99%",NA), 63.66)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,20,"99%",1), 1)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,20,"99%",NA), 2.85)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,Inf,"99%",1), 1)
+  expect_equal(getCoverageFactor(coverageFactorEffectiveDof,Inf,"99%",NA), 2.58)
 })

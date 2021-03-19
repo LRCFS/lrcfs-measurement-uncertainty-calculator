@@ -77,7 +77,7 @@ getClosestCoverageFactorEffectiveDof = function(coverageFactorEffectiveDof, effe
 }
 
 getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenceInterval, manualCoverageFactor){
-  if(usingManualCoverageFactor()) return(manualCoverageFactor)
+  if(doUsingManualCoverageFactor(manualCoverageFactor)) return(manualCoverageFactor)
   
   closestDof = getClosestCoverageFactorEffectiveDof(coverageFactorEffectiveDof, effectiveDof)
   
@@ -90,4 +90,12 @@ getCoverageFactor = function(coverageFactorEffectiveDof, effectiveDof, confidenc
     result = coverageFactorEffectiveDof[as.character(closestDof),confidenceInterval]
     return(result)
   }
+}
+
+doUsingManualCoverageFactor = function(inputManualCoverageFactor){
+  if(!is.null(inputManualCoverageFactor) && !is.na(inputManualCoverageFactor))
+  {
+    return(TRUE)
+  }
+  return(FALSE)
 }
