@@ -143,6 +143,8 @@ server <- function(input, output, session) {
   source("reactives/reactiveCalibrationCurve.R", local = TRUE)
   
   source("models/modelMethodPrecision.R", local = TRUE)
+  
+  source("controllers/controllerStandardSolution.R", local = TRUE)
   source("models/modelStandardSolution.R", local = TRUE)
   
   source("controllers/controllerSamplePreparation.R", local = TRUE)
@@ -157,11 +159,13 @@ server <- function(input, output, session) {
   source("models/modelHomogeneityTest.R", local = TRUE)
   source("reactives/reactiveHomogeneityTest.R", local = TRUE)
   
+  source("controllers/controllerCombinedUncertainty.R", local = TRUE)
   source("models/modelCombinedUncertainty.R", local = TRUE)
   
   source("controllers/controllerCoverageFactor.R", local = TRUE)
   source("models/modelCoverageFactor.R", local = TRUE)
   
+  source("controllers/controllerExpandedUncertainty.R", local = TRUE)
   source("models/modelExpandedUncertainty.R", local = TRUE)
   
   source("models/modelDashboard.R", local = TRUE)

@@ -22,16 +22,13 @@
 ###########################################################################
 
 expandedUncertaintyResult = reactive({
-  result = coverageFactorResult() * combinedUncertaintyResult()
+  result = doGetExpandedUncertaintyResult(coverageFactorResult(),combinedUncertaintyResult())
   return(result)
 })
 
 expandedUncertaintyResultPercentage = reactive({
-  expandedUncertainty = expandedUncertaintyResult()
-  concentration = input$inputCaseSampleMeanConcentration
-  answer = (expandedUncertainty / concentration) * 100
-
-  return(answer)
+  result = doGetExpandedUncertaintyResultPercentage(input$inputCaseSampleMeanConcentration,coverageFactorResult(),combinedUncertaintyResult())
+  return(result)
 })
 
 ###################################################################################

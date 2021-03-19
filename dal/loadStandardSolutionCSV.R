@@ -32,7 +32,6 @@ standardSolutionReadCSV = function(filePath = NULL, validate = FALSE) {
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
-#data = standardSolutionReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\standardSolution\\standardSolutionSampleData-compoundAndSolutions.csv", TRUE);data
 
 standardSolutionMeasurementsReadCSV = function(filePath = NULL, validate = FALSE) {
   
@@ -46,17 +45,10 @@ standardSolutionMeasurementsReadCSV = function(filePath = NULL, validate = FALSE
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
-#data = standardSolutionMeasurementsReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\standardSolution\\standardSolutionSampleData-measurementInformation.csv");data
-
-
-
-
-
 
 standardSolutionMergeData = function(compoundAndSolutionData, measurementData) {
   
   mergedData = merge(x = compoundAndSolutionData, y = measurementData, by = "solution", all = TRUE, stringAsFactors = FALSE)
-  #mergedData = mergedData[order(mergedData$sId),]
 
   return(mergedData)
 }

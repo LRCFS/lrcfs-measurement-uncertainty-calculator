@@ -29,7 +29,7 @@ combinedUncertaintyResult = reactive({
   uncStandardSolution = standardSolutionResult()
   uncSamplePreparation = getResultSamplePreparation()
   
-  result = get_combinedUncertainty_finalAnswer(meanConcentration, uncHomogeneity, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSamplePreparation)
+  result = doGetCombinedUncertaintyResult(meanConcentration, uncHomogeneity, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSamplePreparation)
   return(result)
 })
 
@@ -83,45 +83,6 @@ output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
           marker = list(color = colors)) %>%
     layout(xaxis = list(title = "Percentage of Total Uncertainty", rangemode = "tozero"),
            yaxis = list(title = "", autorange="reversed"))
-  
-  
-  # data = data.frame("CombinedUncertainty" = combinedUncertaintyResult(), "Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "StandardSolution" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
-  # data = removeEmptyData(data)
-  # 
-  # percentages = data/sum(data) * 100
-  # percentagesMelt = melt(percentages)
-  # 
-  # dataMelt = melt(data)
-  # dataGraphReady = data.frame(uncertaintyComponent = dataMelt$variable, rsu = formatNumberForDisplay(dataMelt$value,input), percent = paste(round(percentagesMelt$value),"%"))
-  # 
-  # colors = c(CombinedUncertaintyColor)
-  # for(colname in colnames(data))
-  # {
-  #   if(colname == "Homogeneity")
-  #   {
-  #     colors = c(colors, HomogeneityColor)
-  #   }
-  #   else if(colname == "CalibrationCurve")
-  #   {
-  #     colors = c(colors, CalibrationCurveColor)
-  #   }
-  #   else if(colname == "MethodPrecision")
-  #   {
-  #     colors = c(colors, MethodPrecisionColor)
-  #   }
-  #   else if(colname == "StandardSolution")
-  #   {
-  #     colors = c(colors, StandardSolutionColor)
-  #   }
-  #   else if(colname == "SamplePreparation")
-  #   {
-  #     colors = c(colors, SamplePreparationColor)
-  #   }
-  # }
-  # 
-  # plot_ly(dataGraphReady, x = ~rsu, y = ~uncertaintyComponent, text = ~rsu, textposition="auto", name='Uncertainty Budget', type = 'bar', orientation = 'h',
-  #         marker = list(color = colors)) %>%
-  #   layout(xaxis = list(title = "RSU"), yaxis = list(title = "", autorange="reversed"))
 })
 
 output$display_combinedUncertainty_meanConcentration <- renderUI({
@@ -161,13 +122,3 @@ output$display_combinedUncertainty_finalAnswer_coverageFactor = renderUI({
 output$display_combinedUncertainty_finalAnswer_expandedUncertainty = renderUI({
   return(paste(formatNumberForDisplay(combinedUncertaintyResult(),input)))
 })
-
-###################################################################################
-# Helper Methods
-###################################################################################
-get_combinedUncertainty_finalAnswer = function(meanConcentration, uncHomogeneity, uncCalibrationCurve, uncMethodPrecision, uncStandardSolution, uncSamplePreparation)
-{
-  sumUncertainties = sum(uncHomogeneity^2, uncCalibrationCurve^2,uncMethodPrecision^2,uncStandardSolution^2,uncSamplePreparation^2, na.rm = TRUE)
-  answer = meanConcentration * sqrt(sumUncertainties)
-  return(answer)
-}
