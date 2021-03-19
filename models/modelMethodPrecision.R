@@ -22,7 +22,7 @@
 ###########################################################################
 
 #Load raw data from CSV file
-methodPrecisionData <- reactive({
+methodPrecisionData = reactive({
   if(myReactives$uploadedMethodPrecision == TRUE)
   {
     data = methodPrecisionReadCSV(input$inputMethodPrecisionFileUpload$datapath)
@@ -38,79 +38,9 @@ methodPrecisionData <- reactive({
 methodPrecisionDataWithCalculations = reactive({
   #Get all the data and unique concentraions
   allData = methodPrecisionData();
-  
-  if(is.null(allData))
-  {
-    return(NULL)
-  }
-  
-  uniqeConcentrations = getConcentrations(allData);
-  
-  #Get the inputs for use in calculations
   caseSampleReplicate = input$inputCaseSampleReplicates
   caseSampleMean = input$inputCaseSampleMeanConcentration
-
-  #Create empty dataframe to return results
-  calculationsData = data.frame(conc= numeric(0), run=character(0), mean=numeric(0), concMean=numeric(0), stdDev = numeric(0), dof = numeric(0), pooledVariance = numeric(0), pooledStdDeviation = numeric(0), stdUncertainty = numeric(0), relativeStdUncertainty = numeric(0))
-  
-  #For each concentration in the unique concentrations loaded from our data
-  for(concentration in uniqeConcentrations)
-  {
-    ################################
-    # Load the runs and get some basic info
-    ################################
-    
-    #Get the data for just the one concentration
-    dataForConcentration = allData[allData$conc == concentration,]
-    
-    #Remove "conc" (concentration column) for making calculations easier
-    dataForConcentration$conc = NULL
-    
-    #Get the names of the runs (e.g. run1, run2, run3 etc)
-    dataRuns = colnames(dataForConcentration)
-    
-    ################################
-    # Do the calculations
-    ################################
-    
-    #Calculate the means for each run
-    dataMeans = colMeans(dataForConcentration, na.rm = TRUE)
-    
-    #Calculate the mean concentration for the nominal value (using the whole table for the conc to avoid issues with empty feilds)
-    meanConcForNv = mean(as.matrix(allData[allData$conc==concentration,-1]),na.rm = TRUE)
-    
-    #Calculate the standard deveation for each concentration (using SD function and removing NA values)
-    dataStdDev = apply(dataForConcentration, 2, function(x) sd(x, na.rm = TRUE))
-    
-    #Calculate the Degrees of Freedom for each concentration (using length function but removing NA values then removing 1 (this is how you get DOF))
-    dataDof = apply(dataForConcentration, 2, calcMethodPrecisionDof)
-    
-    #pooledStandardDeviationNumerator
-    dataPooledStandardDeviationNumerator = dataStdDev^2 * dataDof
-    
-    #Calculate the Pooled Variance
-    dataPooledVariance = sum(dataStdDev^2 * dataDof, na.rm = TRUE)/sum(dataDof, na.rm = TRUE)
-    
-    #Calculate the Pooled Standard Deviation
-    dataPooledStdDeviation = sqrt(dataPooledVariance)
-    
-    #Calculate the Standard Uncertainty
-    dataStdUncertainty = dataPooledStdDeviation/sqrt(caseSampleReplicate)
-    
-    #Calculate the relative Standard Uncertainty
-    dataRelativeStdUncertainty = dataStdUncertainty / meanConcForNv
-    
-    ################################
-    # Append the data for return
-    ################################
-    
-    #Full all the data in a dataframe
-    calculationResults = data.frame("conc"= concentration, "run" = dataRuns, "mean" = dataMeans, "concMean" = meanConcForNv, "stdDev" = dataStdDev, "dof" = dataDof, "pooledStandardDeviationNumerator" = dataPooledStandardDeviationNumerator, "pooledVariance" = dataPooledVariance, "pooledStdDeviation" = dataPooledStdDeviation, "stdUncertainty" = dataStdUncertainty, "relativeStdUncertainty" =dataRelativeStdUncertainty)
-    #Appened the result dataframe with the results from this concentrations calculations
-    calculationsData = rbind(calculationsData, calculationResults)
-  }
-  
-  return(calculationsData)
+  return(doGetMethodPrecisionDataWithCalculations(allData,caseSampleReplicate,caseSampleMean))
 })
 
 methodPrecisionDataWithCalculationsNeatHeaders = reactive({
@@ -155,14 +85,14 @@ methodPrecisionDof = reactive({
 ###################################################################################
 
 #Output the title while showing the number of runs and number of concentrations in the data
-output$uploadedMethodPrecisionDataStats <- renderUI({
+output$uploadedMethodPrecisionDataStats = renderUI({
   data = methodPrecisionData()
   string = sprintf("Uploaded Quality Control Data | Runs: %d | No. Concentrations: %d", getNumberOfRuns(data), getNumberOfConcentrations(data))
   return(string)
 })
 
 #Show a datatable with the RAW data loaded (hides searching with dom attribute)
-output$methodPrecisionRawData <- DT::renderDataTable(
+output$methodPrecisionRawData = DT::renderDataTable(
   sapply(methodPrecisionData(), function(x) formatNumberForDisplay(x, input)),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
@@ -180,14 +110,14 @@ output$display_methodPrecision_meanConcentration = renderUI({
 
 #Show a datatable with all the calculations in it
 #Get the number of runs and use that as the page size to make navigation a little more straight forward
-output$methodPrecisionCalculations <- DT::renderDataTable(
+output$methodPrecisionCalculations = DT::renderDataTable(
   sapply(methodPrecisionDataWithCalculationsNeatHeaders(), function(x) formatNumberForDisplay(x, input)),
   rownames = FALSE,
   options = list(pageLength = getNumberOfRuns(methodPrecisionData()), scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:5)))
 )
 
 #Display a graph of the raw data as a box plot
-output$methodPrecisionRawDataGraph <- renderPlotly({
+output$methodPrecisionRawDataGraph = renderPlotly({
   data = methodPrecisionData()
   runNames = colnames(data)[-1]
   concentrations = getConcentrations(data)
@@ -199,7 +129,7 @@ output$methodPrecisionRawDataGraph <- renderPlotly({
   # rowConcRun = 1
   # oldRowConc = 0
   # for(i in 1:nrow(data)) {
-  #   row <- data[i,]
+  #   row = data[i,]
   #   rowConc = row$conc
   # 
   #   if(rowConc != oldRowConc)
@@ -228,7 +158,7 @@ output$methodPrecisionRawDataGraph <- renderPlotly({
   return(plotlyPlot)
 })
 
-output$outputSumOfDof <- renderUI({
+output$outputSumOfDof = renderUI({
 
   data = methodPrecisionDataWithCalculations()
 
@@ -242,7 +172,7 @@ output$outputSumOfDof <- renderUI({
   return(withMathJax(results))
 })
 
-output$outputMeanConcForNv <- renderUI({
+output$outputMeanConcForNv = renderUI({
   data = methodPrecisionDataWithCalculations()
   
   formula = character()
@@ -256,7 +186,7 @@ output$outputMeanConcForNv <- renderUI({
   return(withMathJax(results))
 })
 
-output$outputSumOfS2d <- renderUI({
+output$outputSumOfS2d = renderUI({
   
   data = methodPrecisionDataWithCalculations()
   
@@ -276,7 +206,7 @@ output$outputSumOfS2d <- renderUI({
 
 
 #Display the Pooled Standard Deviation for each concentration in the data
-output$outputPooledStandardDeviation <- renderUI({
+output$outputPooledStandardDeviation = renderUI({
   
   data =  methodPrecisionDataWithCalculations()
   
@@ -297,7 +227,7 @@ output$outputPooledStandardDeviation <- renderUI({
 }) 
 
 #Display the Standard Uncertainty for each concentration in the data
-output$outputStandardUncertainty <- renderUI({
+output$outputStandardUncertainty = renderUI({
   data =  methodPrecisionDataWithCalculations()
   
   formula = c("u(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}} [[break]]")
@@ -316,7 +246,7 @@ output$outputStandardUncertainty <- renderUI({
 }) 
 
 #Display the Realtive Standard Uncertainties for each concentration in the data
-output$outputRealtiveStandardUncertainties <- renderUI({
+output$outputRealtiveStandardUncertainties = renderUI({
   data = methodPrecisionDataWithCalculations()
   
   formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\overline{x}_{\\text{(NV)}}} [[break]]")
@@ -334,7 +264,7 @@ output$outputRealtiveStandardUncertainties <- renderUI({
   return(withMathJax(HTML(results)))
 })
 
-output$display_methodPrecision_finalAnswer_top <- renderText({
+output$display_methodPrecision_finalAnswer_top = renderText({
   answer = formatNumberForDisplay(methodPrecisionResult(), input)
   return(paste("\\(u_r\\text{(MethodPrec)}=\\)",answer))
 })
@@ -362,109 +292,15 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
   return(withMathJax(HTML(output)))
 })
 
-output$display_methodPrecision_finalAnswer_dashboard <- renderUI({
+output$display_methodPrecision_finalAnswer_dashboard = renderUI({
   return(paste("\\(u_r\\text{(MethodPrec)}=\\)",formatNumberForDisplay(methodPrecisionResult(),input)))
 })
 
-output$display_methodPrecision_finalAnswer_combinedUncertainty <- renderUI({
+output$display_methodPrecision_finalAnswer_combinedUncertainty = renderUI({
   return(paste(formatNumberForDisplay(methodPrecisionResult(),input)))
 })
 
-output$display_methodPrecision_finalAnswer_coverageFactor <- renderUI({
+output$display_methodPrecision_finalAnswer_coverageFactor = renderUI({
   return(paste(formatNumberForDisplay(methodPrecisionResult(),input)))
 })
   
-
-###################################################################################
-# Helper Methods
-###################################################################################
-
-calcMethodPrecisionDof = function(value)
-{
-  result = length(which(!is.na(value)))
-  if(result == 0)
-  {
-    return(NA)
-  }
-  else
-  {
-    return(result - 1)
-  }
-}
-
-getMethodPrecisionFinalAnswerClosestConcentration = function(data, caseSampleMeanConcentration)
-{
-  if(is.na(caseSampleMeanConcentration))
-  {
-    return(NA)
-  }
-  
-  closestConcentration = 0
-  
-  for(conc in getConcentrations(data))
-  {
-    if(abs(conc - caseSampleMeanConcentration) < abs(closestConcentration - caseSampleMeanConcentration))
-    {
-      closestConcentration = conc
-    }
-  }
-  
-  return(closestConcentration)
-}
-
-getMethodPrecisionFinalAnswer = function(data, closestConcentration)
-{
-  getRealtiveStandardUncertainty(data,closestConcentration)
-}
-
-getMethodPrecisionDof = function(data, closestConcentration)
-{
-  answer = sum(data[data$conc==closestConcentration,]$dof)
-  return(answer)
-}
-
-getPooledStandardDeviation = function(data, concentration){
-  answer = data[data$conc==concentration,]$pooledStdDeviation[1]
-  return(answer)
-}
-
-getStandardUncertainty = function(data, concentration){
-  answer = data[data$conc==concentration,]$stdUncertainty[1]
-  return(answer)
-}
-
-getRealtiveStandardUncertainty = function(data, concentration){
-  answer = data[data$conc==concentration,]$relativeStdUncertainty[1]
-  return(answer)
-}
-
-getConcentrations = function(data){
-  return(unique(data$conc))
-}
-
-getNumberOfConcentrations = function(data){
-  return(length(unique(data$conc)))
-}
-
-getNumberOfRuns = function(data){
-  return(dim(data)[2]-1)
-}
-
-getSumDofForConcentration = function(data, concentration)
-{
-  answer = sum(data[data$conc==concentration,]$dof)
-  return(answer)
-}
-
-#expects raw data rather than datacalc data.frame
-getMeanConcForNv = function(data, concentration)
-{
-  answer = data[data$conc==concentration,-1]$concMean[1]
-  return(answer)
-}
-
-getSumPooledStandardDeviationNumeratorForConcentration = function(data, concentration)
-{
-  answer = sum(data[data$conc==concentration,]$pooledStandardDeviationNumerator)
-  return(answer)
-}

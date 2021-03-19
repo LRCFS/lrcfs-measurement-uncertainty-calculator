@@ -95,4 +95,3 @@ loadCsv = function(filePath, validate, columnsToCheck)
     return(data)
   }
 }
-

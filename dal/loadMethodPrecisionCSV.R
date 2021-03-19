@@ -29,5 +29,3 @@ methodPrecisionReadCSV = function(filePath = NULL, validate = FALSE) {
 
   return(loadCsv(filePath, validate, columnsToCheck))
 }
-
-#data = methodPrecisionReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\methodPrecision\\methodPrecisionSampleData.csv");data

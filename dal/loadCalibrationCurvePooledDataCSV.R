@@ -28,5 +28,3 @@ calibrationCurvePooledDataReadCSV = function(filePath = NULL, validate = FALSE) 
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
-
-#data = calibrationCurvePooledDataReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\calibrationCurve\\calibrationCurveSampleData - One Run - External Error 2.csv", TRUE);data

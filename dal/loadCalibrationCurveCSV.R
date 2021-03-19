@@ -29,7 +29,3 @@ calibrationCurveReadCSV = function(filePath = NULL, validate = FALSE) {
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
-
-#data = calibrationCurveReadCSV("D:\\Git\\lrcfs-measurement-of-uncertainty\\data\\calibrationCurve\\calibrationCurveSampleData - One Run - 1rep.csv", TRUE);data
-
-

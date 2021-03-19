@@ -142,6 +142,7 @@ server <- function(input, output, session) {
   source("models/modelCalibrationCurve.R", local = TRUE)
   source("reactives/reactiveCalibrationCurve.R", local = TRUE)
   
+  source("controllers/controllerMethodPrecision.R", local = TRUE)
   source("models/modelMethodPrecision.R", local = TRUE)
   
   source("controllers/controllerStandardSolution.R", local = TRUE)

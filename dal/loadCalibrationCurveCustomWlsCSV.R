@@ -36,5 +36,3 @@ calibrationCurveCustomWlsPooledReadCSV = function(filePath = NULL, validate = FA
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
-
-
