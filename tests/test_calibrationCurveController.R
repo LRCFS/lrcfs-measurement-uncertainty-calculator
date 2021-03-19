@@ -109,11 +109,6 @@ test_that('doGetCalibrationCurve_meanOfX', {
   expect_equal(doGetCalibrationCurve_meanOfX(ccX,ccY,1,exampleDataCcW), 4.3)
 })
 
-#Not used
-# test_that('doGetCalibrationCurve_meanOfY', {
-#   expect_equal(doGetCalibrationCurve_meanOfY(ccX,ccY,1,exampleDataCcW), 2.01555)
-# })
-
 test_that('doGetCalibrationCurve_sqDeviation', {
   x = exampleDataCc$conc
   expect_equal(doGetCalibrationCurve_sqDeviation(x), c(10.89,10.89,10.89,7.84,7.84,7.84,5.29,5.29,5.29,3.24,3.24,3.24,1.69,1.69,1.69,0.0899999999999999,0.0899999999999999,0.0899999999999999,0.49,0.49,0.49,2.89,2.89,2.89,13.69,13.69,13.69,32.49,32.49,32.49))
@@ -148,16 +143,6 @@ test_that('doGetCalibrationCurve_weightedErrorSqDeviationY', {
 test_that('doGetCalibrationCurve_standardErrorOfRegression', {
   expect_equal(doGetCalibrationCurve_standardErrorOfRegression(ccX,ccY,ccWlsStdValues), 0.0904474420274015)
 })
-
-#Not used
-# test_that('doGetCalibrationCurve_weightedCaseSampleDenominator', {
-#   expect_equal(doGetCalibrationCurve_weightedCaseSampleDenominator(NA,NA,1,1,2), 1)
-#   expect_equal(doGetCalibrationCurve_weightedCaseSampleDenominator(NA,NA,2,1,2), 1)
-#   expect_equal(doGetCalibrationCurve_weightedCaseSampleDenominator(NA,NA,3,1,2), 1)
-#   expect_equal(doGetCalibrationCurve_weightedCaseSampleDenominator(NA,NA,4,1,2), 1)
-#   expect_equal(doGetCalibrationCurve_weightedCaseSampleDenominator(NA,NA,5,1,2), 1)
-#   expect_equal(doGetCalibrationCurve_weightedCaseSampleDenominator(NA,NA,999,1,2), 1)
-# })
 
 test_that('doGetCalibrationCurve_weightedCaseSample', {
   wlsSelectedOption = 1

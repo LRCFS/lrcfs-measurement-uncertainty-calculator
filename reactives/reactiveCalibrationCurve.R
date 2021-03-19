@@ -184,8 +184,8 @@ getDataCalibrationCurveExternalStandardErrorRearranged = reactive({
   if(is.null(data))return(NULL)
   
   runNames = data$runNames
-  x = dataWithSums$conc
-  x = data$peakArea
+  x = data$conc
+  y = data$peakArea
   weightedLeastSquared = data$weightedLeastSquared
   standardisedWeight = data$standardisedWeight
   predictedY = data$predictedY
@@ -443,19 +443,6 @@ getCalibrationCurve_sumOfWeightedY = reactive({
   return(answer)
 })
 
-getCalibrationCurve_meanOfY = reactive({
-  data = getDataCalibrationCurveReformatted()
-  if(is.null(data)) return(NULL)
-  
-  x = data$calibrationDataConcentration
-  y = data$calibrationDataPeakArea
-  wlsSelectedOption = input$inputWeightLeastSquared
-  customWls = getDataCustomWls()
-  
-  answer = doGetCalibrationCurve_meanOfY(x,y,wlsSelectedOption,customWls)
-  return(answer)
-})
-
 getCalibrationCurve_sumSqDeviationX = reactive({
   data = getDataCalibrationCurveReformatted()
   if(is.null(data)) return(NULL)
@@ -465,18 +452,6 @@ getCalibrationCurve_sumSqDeviationX = reactive({
   
   return(answer)
 })
-
-# getCalibrationCurve_sumOfWeightedXSquared = reactive({
-#   data = getDataCalibrationCurveReformatted()
-#   if(is.null(data)) return(NULL)
-#   
-#   x = data$calibrationDataConcentration
-#   y = data$calibrationDataPeakArea
-#   wlsSelectedOption = input$inputWeightLeastSquared
-#   
-#   answer = doGetCalibrationCurve_sumOfWeightedXSquared(x,y,wlsSelectedOption)
-#   return(answer)
-# })
 
 getCalibrationCurve_errorSqDeviationY = reactive({
   data = getDataCalibrationCurveReformatted()
@@ -525,35 +500,6 @@ getCalibrationCurve_pooledStdErrorOfRegression = reactive(
   
   standardisedWeights = getCalibrationCurve_standardisedWeight()
   answer = doGetCalibrationCurve_pooledStdErrorOfRegression(x,y,wlsSelectedOption,standardisedWeights,customWlsPooled,exStdErrorData)
-})
-
-# getCalibrationCurve_peakAreaRatioOfCaseSample = reactive({
-#   data = getDataCalibrationCurveReformatted()
-#   if(is.null(data))return(NULL)
-#   
-#   x = data$calibrationDataConcentration
-#   y = data$calibrationDataPeakArea
-#   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-#   wlsSelectedOption = input$inputWeightLeastSquared
-#   specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
-#   
-#   answer = doGetCalibrationCurve_peakAreaRatioOfCaseSample(x,y,caseSampleMeanConcentration,wlsSelectedOption,specifiedPeakAreaRatio)
-#   return(answer)
-# })
-
-getCalibrationCurve_weightedCaseSampleDenominator = reactive({
-  data = getDataCalibrationCurveReformatted()
-  if(is.null(data)) return(NULL)
-  
-  x = data$calibrationDataConcentration
-  y = data$calibrationDataPeakArea
-  
-  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  wlsSelectedOption = input$inputWeightLeastSquared
-  specifiedPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
-  
-  answer = doGetCalibrationCurve_weightedCaseSampleDenominator(x,y,wlsSelectedOption,caseSampleMeanConcentration,specifiedPeakAreaRatio)
-  return(answer)
 })
 
 getCalibrationCurve_weightedCaseSample = reactive({

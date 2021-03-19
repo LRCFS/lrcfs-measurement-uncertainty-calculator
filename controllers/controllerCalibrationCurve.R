@@ -147,26 +147,6 @@ doGetCalibrationCurve_meanOfX = function(x,y,wlsSelectedOption,customWls){
   return(meanOfX)
 }
 
-doGetCalibrationCurve_meanOfY = function(x,y,wlsSelectedOption,customWls){
-  if(is.null(x) | is.null(y)) return(NA)
-  
-  meanOfY = 0
-  if(doCheckUsingWls(wlsSelectedOption))
-  {
-    weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption,customWls)
-    n = doGetCalibrationCurve_n(y)
-    standardisedWeights = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
-    wy = standardisedWeights * y
-    meanOfY = mean(wy)
-  }
-  else
-  {
-    meanOfY = mean(y)
-  }
-  
-  return(meanOfY)
-}
-
 doGetCalibrationCurve_sqDeviation = function(values){
   sqDevation = (values - mean(values))^2
   return(sqDevation)
@@ -188,18 +168,6 @@ doGetCalibrationCurve_sumWeightedSqDeviation = function(weights, values){
   return(answer)
 }
 
-# doGetCalibrationCurve_sumOfWeightedXSquared = function(x,y,wlsSelectedOption){
-#   if(is.null(x) | is.null(y)) return(NA)
-#   
-#   n = doGetCalibrationCurve_n(y)
-#   weightedLeastSquared = doGetCalibrationCurve_weightedLeastSquared(x,y,wlsSelectedOption)
-#   standardisedWeight = doGetCalibrationCurve_standardisedWeight(weightedLeastSquared, n)
-#   weightedXSquared = doGetCalibrationCurve_weightedXSquared(standardisedWeight,x)
-#   
-#   answer = sum(weightedXSquared)
-#   return(answer)
-# }
-
 doGetCalibrationCurve_predicetedY = function(x,y,wlsValues){
   calCurve = doGetCalibrationCurve_linearRegression(x,y,wlsValues) # Regression Cofficients
   predictedY = fitted(calCurve)
@@ -218,33 +186,12 @@ doGetCalibrationCurve_weightedErrorSqDeviationY = function(wlsValues,errorSqDevi
   return(wlsValues * errorSqDeviationY)
 }
 
-# doGetCalibrationCurve_weightedXSquared = function(wlsValues,x)
-# {
-#   return(wlsValues * x^2)
-# }
-
 doGetCalibrationCurve_standardErrorOfRegression = function(x,y,wlsValues){
   if(is.null(x) || is.null(y) || is.null(wlsValues) || length(wlsValues) == 0) return(NULL)
   
   linearRegression = doGetCalibrationCurve_linearRegression(x,y,wlsValues)
   standardErrorOfRegression = summary.lm(linearRegression)$sigma
   return(standardErrorOfRegression)
-}
-
-doGetCalibrationCurve_weightedCaseSampleDenominator = function(x,y,wlsSelectedOption,caseSampleMeanConcentration,caseSampleMeanPar)
-{
-  if(wlsSelectedOption == 1)
-  {
-    return(1)
-  }
-  else if(wlsSelectedOption == 2 | wlsSelectedOption == 3)
-  {
-    return(caseSampleMeanConcentration)
-  }
-  else(wlsSelectedOption == 4 | wlsSelectedOption == 5)
-  {
-    return(caseSampleMeanPar)
-  }
 }
 
 doGetCalibrationCurve_weightedCaseSample = function(caseSampleMeanConcentration,caseSampleMeanPar,n,sumofwieghts,wlsSelectedOption,customWls,caseSampleWeight){
@@ -312,14 +259,14 @@ doGetCalibrationCurve_weightedLeastSquaredFunction = function(wlsSelectedOption)
     }
     return(wlsFunc)
   }
-  else if(wlsSelectedOption == 2 | wlsSelectedOption == 4 | wlsSelectedOption == 6)
+  else if(wlsSelectedOption == 2 | wlsSelectedOption == 4)
   {
     wlsFunc = function(value){
       return(1/(value))
     }
     return(wlsFunc)
   }
-  else if(wlsSelectedOption == 3 | wlsSelectedOption == 5 | wlsSelectedOption == 7)
+  else if(wlsSelectedOption == 3 | wlsSelectedOption == 5)
   {
     wlsFunc = function(value){
       return(1/value^2)
@@ -372,7 +319,6 @@ doGetCalibrationCurve_uncertaintyOfCalibration = function(x,y,wlsSelectedOption,
   
   weightedCaseSample = doGetCalibrationCurve_weightedCaseSample(caseSampleMeanConcentration,caseSampleMeanPar,n,sumOfWeights,wlsSelectedOption,customWls,caseSampleWeight)
   peakAreaRatioOfCaseSample = caseSampleMeanPar
-  calCurveMeanOfY = doGetCalibrationCurve_meanOfY(x,y,wlsSelectedOption,customWls)
   sumWeightedSqDeviationX = doGetCalibrationCurve_sumWeightedSqDeviation(standardisedWeight, x)
   meanOfX = doGetCalibrationCurve_meanOfX(x,y,wlsSelectedOption,customWls)
   sumSqDeviationX = doGetCalibrationCurve_sumSqDeviationX(x)

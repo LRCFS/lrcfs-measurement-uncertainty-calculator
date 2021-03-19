@@ -236,8 +236,6 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   
   weightedCaseSample = formatNumberForDisplay(getCalibrationCurve_weightedCaseSample(), input)
   peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
-  calCurveMeanOfY = formatNumberForDisplay(getCalibrationCurve_meanOfY(), input)
-  calCurveMeanOfY = colourNumber(calCurveMeanOfY, input$useColours, input$colour1)
   sumWeightedSqDeviationX = formatNumberForDisplay(getCalibrationCurve_sumWeightedSqDeviationX(), input)
   sumWeightedSqDeviationX = colourNumber(sumWeightedSqDeviationX, input$useColours, input$colour2)
 
