@@ -270,7 +270,7 @@ output$peakAreaRatios = renderPlotly({
   plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
     add_lines(x = x, y = fitted(linearRegression), name="Calibration Curve") %>%
     layout(xaxis = list(title="Concentration"), yaxis = list(title="Peak Area Ratio")) %>%
-    add_annotations(x= 0.5,y= 0.8,xref="paper",yref="paper",text=paste0("$y = ",intercept,"+",slope,"x$"),showarrow = F)    
+    add_annotations(x= 0.5,y= 0.8,xref="paper",yref="paper",text=paste0("y = ",intercept,"+",slope,"x"),showarrow = F)    
 })
 
 output$display_calibrationCurve_externalStandardErrorUploadedData = renderUI({
