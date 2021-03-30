@@ -77,7 +77,7 @@ function(startingStep) {
 		{
 			element: '#shiny-tab-start #homogeneity',
 			intro: '<h4>Homogeneity</h4>\
-					<p>The Homogeneity data specified here can be used for both Measurement Uncertainty and a Homogeneity Test. Both caculations are capable of handling data without a identical number of replicates per group.</p>',
+					<p>The Homogeneity data specified here can be used for both Measurement Uncertainty and a Homogeneity Test. Both calculations are capable of handling data without an identical number of replicates per group.</p>',
 			position: 'right'
 		},
 		{
