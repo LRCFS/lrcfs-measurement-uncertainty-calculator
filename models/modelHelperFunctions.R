@@ -83,7 +83,7 @@ formatNumberForDisplay = function(number, input = NULL)
     formattedNumber = 0;
   }
   #If it's less than some value (e.g. 0.0001) then use scientific notation
-  else if(number < useScientificNotationIfLessThan)
+  else if(abs(number) < useScientificNotationIfLessThan)
   {
     formattedNumber = formatC(number, format = "e", digits = numberOfScientificNotationDigits)
   }
