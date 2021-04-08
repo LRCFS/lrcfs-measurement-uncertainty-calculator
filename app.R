@@ -74,9 +74,17 @@ source("views/viewCoverageFactor.R")
 source("views/viewExpandedUncertainty.R")
 source("views/viewDashboard.R")
 
-`%ni%` = Negate(`%in%`)
+source("controllers/controllerCoverageFactor.R", local = TRUE)
+source("controllers/controllerCombinedUncertainty.R", local = TRUE)
+source("controllers/controllerSamplePreparation.R", local = TRUE)
+source("controllers/controllerHomogeneity.R", local = TRUE)
+source("controllers/controllerHomogeneityTest.R", local = TRUE)
+source("controllers/controllerCalibrationCurve.R", local = TRUE)
+source("controllers/controllerMethodPrecision.R", local = TRUE)
+source("controllers/controllerStandardSolution.R", local = TRUE)
+source("controllers/controllerExpandedUncertainty.R", local = TRUE)
 
-ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
+ui = dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
                         dashboardHeaderPlus(title = tagList(img(class = "logo-lg", src = "images/logo-large.png"), 
                                                             img(class = "logo-mini", src= "images/logo-small.png")),
                                             enable_rightsidebar = TRUE,
@@ -134,42 +142,36 @@ ui <- dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",A
                        )
 )
 
-server <- function(input, output, session) {
+
+server = function(input, output, session) {
   source("models/modelApplication.R", local = TRUE)
+  
   source("models/modelStart.R", local = TRUE)
   
-  source("controllers/controllerCalibrationCurve.R", local = TRUE)
-  source("models/modelCalibrationCurve.R", local = TRUE)
-  source("reactives/reactiveCalibrationCurve.R", local = TRUE)
-  
-  source("controllers/controllerMethodPrecision.R", local = TRUE)
-  source("models/modelMethodPrecision.R", local = TRUE)
-  
-  source("controllers/controllerStandardSolution.R", local = TRUE)
-  source("models/modelStandardSolution.R", local = TRUE)
-  
-  source("controllers/controllerSamplePreparation.R", local = TRUE)
-  source("models/modelSamplePreparation.R", local = TRUE)
-  source("reactives/reactiveSamplePreparation.R", local = TRUE)
-  
-  source("controllers/controllerHomogeneity.R", local = TRUE)
   source("models/modelHomogeneity.R", local = TRUE)
   source("reactives/reactiveHomogeneity.R", local = TRUE)
   
-  source("controllers/controllerHomogeneityTest.R", local = TRUE)
   source("models/modelHomogeneityTest.R", local = TRUE)
   source("reactives/reactiveHomogeneityTest.R", local = TRUE)
   
-  source("controllers/controllerCombinedUncertainty.R", local = TRUE)
+  source("models/modelCalibrationCurve.R", local = TRUE)
+  source("reactives/reactiveCalibrationCurve.R", local = TRUE)
+  
+  source("models/modelMethodPrecision.R", local = TRUE)
+  
+  source("models/modelStandardSolution.R", local = TRUE)
+  
+  source("models/modelSamplePreparation.R", local = TRUE)
+  source("reactives/reactiveSamplePreparation.R", local = TRUE)
+  
   source("models/modelCombinedUncertainty.R", local = TRUE)
   
-  source("controllers/controllerCoverageFactor.R", local = TRUE)
   source("models/modelCoverageFactor.R", local = TRUE)
   
-  source("controllers/controllerExpandedUncertainty.R", local = TRUE)
   source("models/modelExpandedUncertainty.R", local = TRUE)
   
   source("models/modelDashboard.R", local = TRUE)
+  
   source("models/modelHelpButtons.R", local = TRUE)
 }
 

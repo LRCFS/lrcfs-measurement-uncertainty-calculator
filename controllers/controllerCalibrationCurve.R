@@ -23,15 +23,13 @@
 
 doGetDataCalibrationCurve = function(filePath)
 {
-  if(myReactives$uploadedCalibrationCurve == TRUE)
-  {
-    data = calibrationCurveReadCSV(filePath)
-    return(data)
-  }
-  else
+  if(is.null(filePath))
   {
     return(NULL)
   }
+  
+  data = calibrationCurveReadCSV(filePath)
+  return(data)
 }
 
 doGetDataCalibrationCurveReformatted = function(data)
@@ -43,7 +41,7 @@ doGetDataCalibrationCurveReformatted = function(data)
   numConc = nrow(data)
   numRuns = ncol(data)-1
   
-  ## Set x = concentration and y = peack area ratios
+  ## Set x = concentration and y = peak area ratios
   runNames = rep(colnames(data)[-1], each=numConc)
   calibrationDataConcentration = rep(data$conc,numRuns)
   
@@ -53,7 +51,7 @@ doGetDataCalibrationCurveReformatted = function(data)
   allData = data.frame(runNames, calibrationDataConcentration, calibrationDataPeakArea)
   colnames(allData) = c("runNames","calibrationDataConcentration","calibrationDataPeakArea")
   
-  #Remove any data with NA enteries
+  #Remove any data with NA entries
   allDataNaRemoved = allData[!is.na(allData$calibrationDataPeakArea),]
   
   return(allDataNaRemoved)

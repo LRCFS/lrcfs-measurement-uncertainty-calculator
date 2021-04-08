@@ -21,6 +21,9 @@
 #
 ###########################################################################
 
+#Handy function for negating the IN method
+`%ni%` = Negate(`%in%`)
+
 #Allows building of mathJax formulas that are aligned by creatign a vector of formulas
 mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
 {

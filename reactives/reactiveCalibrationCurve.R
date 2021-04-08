@@ -54,7 +54,14 @@ checkUsingCustomWls = reactive({
 # Get data
 ##############################################
 getDataCalibrationCurve = reactive({
-  return(doGetDataCalibrationCurve(input$inputCalibrationCurveFileUpload$datapath))
+  if(myReactives$uploadedCalibrationCurve == TRUE)
+  {
+    return(doGetDataCalibrationCurve(input$inputCalibrationCurveFileUpload$datapath))
+  }
+  else
+  {
+    return(NULL)
+  }
 })
 
 getDataExternalStandardError = reactive({
