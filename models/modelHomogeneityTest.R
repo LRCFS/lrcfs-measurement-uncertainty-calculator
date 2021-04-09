@@ -23,7 +23,7 @@
 
 
 output$display_homogeneityTest_alphaValue = renderUI({
-  return(paste(getHomogeneityTestAlphaValue()))
+  return(paste(getHomogeneityTestAlphaValue_display()))
 })
 
 output$display_homogeneityTest_confidenceLevel = renderUI({
@@ -78,7 +78,7 @@ output$display_homogeneityTest_fValue = renderUI({
 
 output$display_homogeneity_fCritical = renderUI({
   
-  alpha = getHomogeneityTestAlphaValue()
+  alpha = getHomogeneityTestAlphaValue_display()
   bdof = getHomogeneityTestBetweenDof()
   wdof = getHomogeneityTestWithinDof()
   fCrit = getHomogeneityTestFCritical()
@@ -95,7 +95,7 @@ output$display_homogeneity_fCritical = renderUI({
 output$display_homogeneityTest_fDistribution = renderPlotly({
 
   #Get alpha value
-  alpha = getHomogeneityTestAlphaValue()
+  alpha = getHomogeneityTestAlphaValue_display()
   
   # Get degrees of freedom
   bDof = getHomogeneityTestBetweenDof()
@@ -213,7 +213,7 @@ renderHomogeneityTestAnswer = function()
 
 renderHomogeneityTestResult = function(displayWithColours = FALSE)
 {
-  alpha = getHomogeneityTestAlphaValue()
+  alpha = getHomogeneityTestAlphaValue_display()
   bDof = getHomogeneityTestBetweenDof()
   wDof = getHomogeneityTestWithinDof()
   

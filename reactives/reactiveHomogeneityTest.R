@@ -22,15 +22,17 @@
 ###########################################################################
 
 getHomogeneityTestAlphaValue = reactive({
-  value = doGetHomogeneityTestAlphaValue(input$inputHomogeneityTest_alphaValue)
-  return(formatNumberForDisplay(value,input))
+  return(doGetHomogeneityTestAlphaValue(input$inputHomogeneityTest_alphaValue))
+})
+
+getHomogeneityTestAlphaValue_display = reactive({
+  return(formatNumberForDisplay(getHomogeneityTestAlphaValue(),input))
 })
 
 getHomogeneityTestConfidenceLevel = reactive({
   value = doGetHomogeneityTestConfidenceLevel(input$inputHomogeneityTest_alphaValue)
   return(paste0(formatNumberForDisplay(value,input),"%"))
 })
-
 
 getHomogeneityTestWithinDof = reactive({
   return(doGetHomogeneityTestWithinDof(getDataHomogeneity()))

@@ -23,7 +23,7 @@
 
 effectiveDofResult = reactive({
   
-  uncHomogeneity = getHomogeneity_relativeStandardUncertainty()
+  uncHomogeneity = getHomogeneity_relativeStandardUncertainty_value()
   uncCalibrationCurve = getResultCalibrationCurve()
   uncMethodPrecision = methodPrecisionResult()
   uncStandardSolution = standardSolutionResult()

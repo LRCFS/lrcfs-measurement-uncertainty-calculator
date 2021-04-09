@@ -39,7 +39,6 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
     {
       formulasOutput = paste("\\",formulasOutput, element,"\\\\[",lineSpacing,"pt]")
     }
-    
   }
   
   output = paste("$$\\begin{align}", formulasOutput, "\\end{align}$$")
@@ -59,17 +58,18 @@ formatNumberForDisplay = function(number, input = NULL)
   }
   
   numberOfDecimalPlaces = 6
-  useScientificNotationIfLessThan = 0.001
+  useScientificNotationIfMoreThan = 10000000
+  useScientificNotationIfLessThan = 0.0000001
   numberOfScientificNotationDigits = 2
   
   if(!is.null(input))
   {
     numberOfDecimalPlaces = input$inputNumberOfDecimalPlaces
+    useScientificNotationIfMoreThan = input$inputUseScientificNotationIfMoreThan
     useScientificNotationIfLessThan = input$inputUseScientificNotationIfLessThan
     numberOfScientificNotationDigits = input$intputNumberOfScientificNotationDigits
   }
     
-  
   #Check if number is a factor (possibly a string) and just return as character
   if(is.factor(number))
     return(as.character(number))
@@ -90,10 +90,16 @@ formatNumberForDisplay = function(number, input = NULL)
   {
     formattedNumber = formatC(number, format = "e", digits = numberOfScientificNotationDigits)
   }
+  #If it's more than some value (e.g. 1,000,000) then use scientific notation
+  else if(abs(number) > useScientificNotationIfMoreThan)
+  {
+    formattedNumber = formatC(number, format = "e", digits = numberOfScientificNotationDigits)
+  }
   #Else, lets round the number
   else
   {
-    formattedNumber = round(number, numberOfDecimalPlaces)
+    num = round(number, numberOfDecimalPlaces)
+    formattedNumber = formatC(num, format = "fg", digits=str_length(num)-1)
   }
   
   return(formattedNumber)
@@ -110,8 +116,6 @@ colourNumber = function(value, useColour, colour)
     return(value)
   }
 }
-
-
 
 ColourCaseSampleReplicates = function(value,useColours)
 {
@@ -145,44 +149,3 @@ colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex,
   }
   
 }
-
-# library(latex2exp)
-# library(stringr)
-# printLatexFormula = function(latex, calc, variables){
-#   
-#   # latex = "z = $$x$$ * $$y$$"
-#   # calc = "$$x$$ * $$y$$";
-#   # variables = data.frame("\\sum\\limits_{i=1}^n(y_i-\\hat{y}_i)^2" = 5, "$$n-2$$" = 3)
-#   
-#   latexOutput = latex
-#   for(colName in names(variables))
-#   {
-#     regexString = paste0("(\\$\\$",colName,"\\$\\$)");
-#     latexOutput = str_replace_all(latexOutput, regexString, colName)
-#   }
-#   latexOutput = paste0("$$",latexOutput,"$$")
-#   
-#   latexWithSubs = latex
-#   for(colName in names(variables))
-#   {
-#     regexString = paste0("(\\$\\$",colName,"\\$\\$)");
-#     latexWithSubs = str_replace_all(latexWithSubs, regexString, as.character(variables[,colName]))
-#     print(colName)
-#   }
-#   latexWithSubs = paste0("$$",latexWithSubs,"$$")
-#   
-#   calcSubs = calc
-#   for(colName in names(variables))
-#   {
-#     regexString = paste0("(\\$\\$",colName,"\\$\\$)");
-#     calcSubs = str_replace_all(calcSubs, regexString, as.character(variables[,colName]))
-#   }
-#   calcSubs
-# 
-#   answer = eval(parse(text=calcSubs))
-#   answer
-#   
-#   output = data.frame("latex" = latexOutput, "latexWithSubs" = latexWithSubs, "answer" = answer)
-#     
-#   return(output)
-# }
