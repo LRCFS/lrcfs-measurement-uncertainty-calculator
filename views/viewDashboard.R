@@ -46,8 +46,10 @@ tabDashboard = tabItem(tabName = "dashboard",
                          valueBox("% Expanded Uncertainty", uiOutput("display_expandedUncertainty_finalAnswerPercentage_dashboard"), width = 6, color = "orange", icon = icon("arrows-alt"))
                        ),
                        fluidRow(
-                         valueBox("Results", uiOutput("display_expandedUncertainty_result_dashboard"), width = 7, color = "green", icon = icon("equals")),
-                         box(title="Download Report", width = 5,
+                         valueBox("Results", uiOutput("display_expandedUncertainty_result_dashboard"), width = 12, color = "green", icon = icon("equals"))
+                       ),
+                       fluidRow(
+                         box(title="Download Report", width = 12,
                              p("For reporting purposes and report can be downloaded and stored for all the results uploaded."),
                              downloadButton("actionButton_dashboard_downloadReport", "Download Report", icon=icon("download"))
                          )

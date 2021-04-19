@@ -33,7 +33,7 @@ output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
   if(checkNeedPeakAreaRatio())
   {
     numericInput("inputCaseSampleMeanPeakAreaRatio",
-                 withMathJax("Mean Peak Area Ratio\\((y_s)\\)"),
+                 withMathJax(HTML("Mean Peak Area Ratio\\((y_s)\\) <small>(This feild is required because you have selected a WLS for a Calibration Curve)</small>")),
                  value = NULL)
   }
 })
@@ -44,7 +44,7 @@ output$display_start_caseSampleCustomWeight <- renderUI({
   if(checkUsingCustomWls())
   {
     numericInput("inputCaseSampleCustomWeight",
-                 withMathJax("Weight \\((W_s)\\)"),
+                 withMathJax(HTML("Weight \\((W_s)\\) <small>(This feild is required because you have selected a WLS for a Calibration Curve)</small>")),
                  value = NULL)
   }
 })
@@ -171,7 +171,7 @@ output$display_start_customWlsFileUploadExampleDownloadLink <- renderUI({
   
   if(checkUsingCustomWls())
   {
-    return(a("Download Example Calibration Curve Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-customWeights.csv", target="_blank"))
+    return(a("Download Example Calibration Curve Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-customWeights.csv", target="_blank", class="exampleDownloadLink"))
   }
   return(NULL)
 })
@@ -215,7 +215,7 @@ output$display_start_customWlsPooledFileUploadExampleDownloadLink <- renderUI({
   
   if(checkUsingCustomWls())
   {
-    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledStandardError-customWeights.csv", target="_blank"))
+    return(a("Download Example Pooled Custom Weights CSV", href="exampleData/exampleData-calibrationCurve-pooledStandardError-customWeights.csv", target="_blank", class="exampleDownloadLink"))
   }
   return(NULL)
 })

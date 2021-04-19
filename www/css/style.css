@@ -97,6 +97,11 @@ a[data-value="dashboard"],
       background-color: #424140;
       color: #f6f6f6;
   }
+  
+.nav-tabs-custom > .nav-tabs > li {
+    border-top: 3px solid #BDD9EA;
+    background-color: #F4F4F4;
+}
 
 .visible,
 li.visible,
@@ -138,12 +143,31 @@ table .noBorderAbove{
 	border-top: 0px;
 }
 
-#fileUploadBox a,
+#fileUploadBox .exampleDownloadLink,
 #fileUploadBox button,
 #reset_inputCustomWlsFileUpload,
 #display_start_customWlsFileUploadExampleDownloadLink,
 #display_start_customWlsPooledFileUploadExampleDownloadLink{
 	float: right;
+}
+
+#fileUploadBox .shiny-input-container{
+  width: 100% !important;
+}
+
+#fileUploadBox .nav-tabs a{
+  font-size: 1.3em;
+}
+
+.wlsHelpImage{
+  width: 500px;
+  margin: 0 0 20px 20px;
+  border: 1px solid #000;
+  float: right;
+}
+
+#caseSampleDataStart small{
+  font-weight: normal !important;
 }
 
 #customPooledWlsInfo{

@@ -75,58 +75,15 @@ function(startingStep) {
 					<p>To get started please view the quick overview video below, click <strong>Next</strong> to continue through the help, or <strong>Close</strong> to exit.</p>' + embedVideoLink('q6ZrRuG3ilA')
 		},
 		{
-			element: '#shiny-tab-start #homogeneity',
-			intro: '<h4>Homogeneity</h4>\
-					<p>The Homogeneity data specified here can be used for both Measurement Uncertainty and a Homogeneity Test. Both calculations are capable of handling data without an identical number of replicates per group.</p>',
-			position: 'right'
-		},
-		{
-			element: '#shiny-tab-start #calcurve',
-			intro: '<h4>Calibration Curve</h4>\
-					<p>Calibration curve data is data on concentration levels and peak area (ratios) used to generate the calibration for estimating the level of concentration in a given new sample.</p>\
-					<h4>Pooled Standard Error</h4>\
-					<p>In place of the standard error of regression, standard error from previous calibration curve data can be pooled together with current calibration data to obtain a more reliable estimate. This is recommended if calibration curve data uploaded above have only one replicate or is based on single point calibration system.</p>',
-			position: 'right'
-		},
-		{
-			element: '#shiny-tab-start #methodprec',
-			intro: '<h4>Method Precision</h4>\
-					<p>Method precision quantifies the closeness of agreement between measured values obtained through replicate measurements on the same or similar objects under specified conditions. The replicate measurements could be carried out over different concentration range of Low, Medium and High.</p>',
-			position: 'right'
-			
-		},
-		{
-			element: '#shiny-tab-start #stdsol',
-			intro: '<h4>Calibration Standard</h4>\
-					<p>Two data files are required for the calibration standard; Structure and Equipment data. Equipment data requires information on all pipettes and flasks used in each solution preparation including information on manufacturer\'s tolerance and coverage factor, volume and number of times used for pipetting</p>\
-					<p>Structure data requires information on reference compound, its purity, tolerance and coverage factor and the structure of how the reference compound was diluted to form other solutions in generating the calibration curve.</p>',
-			position: 'right'
-		},
-		{
-			element: '#shiny-tab-start #sampleprep',
-			intro: '<h4>Sample Preparation</h4>\
-					<p>Sample Preparation requires information on pipettes/flask/scales used to measure sample volume, weight, its tolerance, and coverage factor.</p>',
-			position: 'right'
-		},
-		{
-			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div > div',
-			intro: '<h4>Weighted Least Square (WLS) Regression</h4>\
-					<p>WLS is recommend if the standard deviation of data correlates with the magnitude of the concentration being estimated, such that plot of residuals shows a non-constant error (termed heteroscedasticity).</p>\
-					<p><img src="images/wls-help.png" alt="Example plot showing the presence of heteroscedasticity" style="width: 100%"/></p>\
-					<p>Figure from <a href="https://pdfs.semanticscholar.org/5814/151283d2b44412edfb8ae5a9d3e53616fa32.pdf" target="_blank">Regression and Calibration</a> shows an example of where the standard deviation of data is proportional to the magnitude concentration (a) such that the plot of residuals have high variability for high predicted values. For more information on choosing the appropriate weight see the paper by <a href="https://pubs.acs.org/doi/pdf/10.1021/ac5018265" target="_blank">Huidong Gu et al.</a></p>\
-					<p>Alternatively, if "Specify custom Weights" is chosen, a file containing specific weights can be specified for both Calibartion Curve and Pooled Standard Error.',
-			position: 'left'
-		},
-		{
-			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)',
+			element: '#shiny-tab-start > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)',
 			intro: '<h4>Case Sample Data</h4>\
 					<p>Case sample replicates \\((r_s)\\) is the number of repeated measurements taken on a sample to estimate the mean concentration of the sample.</p>\
 					<p>Case sample mean concentration \\((x_s)\\) is the mean amount of compound substance estimated to be contained in a given sample.</p>\
 					<p>If a Weighted Least Square Regression has been chosen then the case sample mean peak area ratio \\((y_s)\\) is the mean peak area (ratio) or instrument response used to estimate the concentration of a given sample.</p>',
-			position: 'left'
+			position: 'right'
 		},
 		{
-			element: '#shiny-tab-start > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)',
+			element: '#shiny-tab-start > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)',
 			intro: '<h4>Coverage Factor</h4>\
 					<p>Coverage Factor can be calculated automatically or manually specified.</p>\
 					<p><strong>Automatic:</strong> By specifying a Confidence Interval the Coverage Factor is automatically obtained by using the appropriate Coverage Factor from a t-distribution table.</p>\
