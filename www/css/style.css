@@ -23,6 +23,10 @@
 ###########################################################################
 */
 
+body{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
 .main-header .logo {
   height: 70px;
   padding: 10px 0 0 15px;
@@ -101,6 +105,11 @@ a[data-value="dashboard"],
 .nav-tabs-custom > .nav-tabs > li {
     border-top: 3px solid #BDD9EA;
     background-color: #F4F4F4;
+}
+
+.nav-tabs-custom > .nav-tabs > .header{
+  background-color: #FFF;
+  border-top: 3px solid transparent;
 }
 
 .visible,

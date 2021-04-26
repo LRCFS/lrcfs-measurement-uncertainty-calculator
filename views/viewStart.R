@@ -110,7 +110,7 @@ tabStart = tabItem(tabName = "start",
                                                             h4("About Weighted Least Square (WLS) Regression"),
                                                             img(src="images/wls-help.png", width="100%", class="wlsHelpImage", title="Example plot showing the presence of heteroscedasticity"),
                                                             p(HTML("WLS is recommend if the standard deviation of data correlates with the magnitude of the concentration being estimated, such that plot of residuals shows a non-constant error (termed heteroscedasticity).")),
-                                                            p(HTML("Figure from <a href='https://pdfs.semanticscholar.org/5814/151283d2b44412edfb8ae5a9d3e53616fa32.pdf'>Regression and Calibration</a> shows an example of where the standard deviation of data is proportional to the magnitude concentration (a) such that the plot of residuals have high variability for high predicted values. For more information on choosing the appropriate weight see the paper by <a href='https://pubs.acs.org/doi/pdf/10.1021/ac5018265'>Huidong Gu et al</a>.")),
+                                                            p(HTML("Figure from <a href='https://pdfs.semanticscholar.org/5814/151283d2b44412edfb8ae5a9d3e53616fa32.pdf' target='_blank'>Regression and Calibration (2001)</a> shows an example of where the standard deviation of data is proportional to the magnitude concentration (a) such that the plot of residuals have high variability for high predicted values. For more information on choosing the appropriate weight see the paper by <a href='https://pubs.acs.org/doi/pdf/10.1021/ac5018265'>Huidong Gu et al (2014)</a>.")),
                                                             p(HTML("Alternatively, if 'Specify custom Weights' is chosen, a file containing specific weights can be specified for both Calibartion Curve and Pooled Standard Error.")),
                                                             
                                                      )
@@ -127,7 +127,7 @@ tabStart = tabItem(tabName = "start",
                                                      ),
                                                      column(width=6,
                                                             h4("About Method Precision"),
-                                                            p("Method precision quantifies the closeness of agreement between measured values obtained through replicate measurements on the same or similar objects under specified conditions. The replicate measurements could be carried out over different concentration range of Low, Medium and High.")
+                                                            p("Method precision quantifies the closeness of agreement between measured values obtained through replicate measurements on the same or similar objects under specified conditions. The replicate measurements could be carried out over different concentration range of Low, Medium and High."),
                                                      )
                                                    )
                                           ),
@@ -161,7 +161,7 @@ tabStart = tabItem(tabName = "start",
                                                      ),
                                                      column(width=6,
                                                             h4("About Sample Preparation"),
-                                                            p("Sample Preparation requires information on pipettes/flask/scales used to measure sample volume, weight, its tolerance, and coverage factor.")
+                                                            p("Uncertainty of sample preparation combines uncertainty sources from the use of different equipment in preparing the sample, such as weighing balance, pipette and volumetric flask.")
                                                      )
                                                    )
                                           )

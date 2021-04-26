@@ -28,7 +28,7 @@ tabSamplePreparation = tabItem(tabName = "samplePreparation",
                  ),
                  fluidRow(
                    box(title = "Overview", width=5,
-                       p("The uncertainty of sample preparation quantifies the uncertainty associated with quantifying the preparation of case sample through the use of for example pipette.")
+                       p("Uncertainty of sample preparation combines uncertainty sources from the use of different equipment in preparing the sample, such as weighing balance, pipette and volumetric flask.")
                    ),
                    box(title = "Method", width=7,
                        "The Relative Standard Uncertainty (RSU) of each equipment is computed using:",

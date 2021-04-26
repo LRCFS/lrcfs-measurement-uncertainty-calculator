@@ -29,7 +29,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                  fluidRow(
                    box(title = "Overview", width=6,
                        p("Coverage factor \\((k)\\) is a number usually greater than one from which an expanded uncertainty is obtained when \\(k\\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components."),
-                       p(HTML("An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank'>Welch-Satterthwaite equation</a> with details given in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the T-Distribution Table."))
+                       p(HTML("An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank' title='Annex G: Degrees of freedom and levels of confidence'>Welch-Satterthwaite equation (JCGM 100:2008)</a> with details given in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the T-Distribution Table."))
                    ),
                    box(title = "Method", width=6,
                        HTML("<p>The effective degrees of freedom \\(({\\LARGE\\nu}_{\\text{eff}})\\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:</p>"),

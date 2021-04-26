@@ -28,7 +28,8 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,
-                       p("The expanded uncertainty  is the final step of measurement uncertainty computation. It is computed by multiplying the combined uncertainty with the coverage factor.")
+                       p("The expanded uncertainty  is the final step of measurement uncertainty computation. This is done in order to derive a confidence interval believed to contain the true unknown value."),
+                       p("It is computed by multiplying the Combined Uncertainty \\((\\text{CombUncertainty})\\) with the coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}})\\).")
                    ),
                    box(title = "Method", width=6,
                        p("The expanded uncertainty \\(\\text{(ExpUncertainty)}\\) is given by:"),

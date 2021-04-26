@@ -29,7 +29,8 @@ tabMethodPrecision = tabItem(tabName = "methodPrecision",
                             fluidRow(
                               box(title = "Overview", width=6,
                                   p("A step-by-step approach for estimating the uncertainty of method precision is outlined here. The main methodology used is the pooled standard deviation approach."),
-                                  p("Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.")
+                                  p("Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value."),
+                                  p(HTML("To derive the relative standard uncertainty, the standard uncertainty is divided by the number of case sample replicate as recommended by <a href='https://www.sciencedirect.com/science/article/abs/pii/S0021967317304909' target='_blank' title='Evaluation of the measurement uncertainty: Some common mistakes with a focus on the uncertainty from linear calibration'>Kadis (2017)</a>."))
                               ),
                               box(title = "Method", width=6,
                                   "The Relative Standard Uncertainty of method precision is given by:",
