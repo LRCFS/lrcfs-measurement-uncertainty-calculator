@@ -86,20 +86,41 @@ This report was automatically generated on `r params$TIME` using the using the `
 | Name | Signature | Job Title / Position | Date |
 |------|-----------|----------------------|------|
 |&nbsp;|           |                      |      |
-|      |           |                      |      |
+|&nbsp;|           |                      |      |
+|&nbsp;|           |                      |      |
 
 ### Approval 
 | Name | Signature | Job Title / Position | Date |
 |------|-----------|----------------------|------|
 |&nbsp;|           |                      |      |
-|      |           |                      |      |
+|&nbsp;|           |                      |      |
+|&nbsp;|           |                      |      |
 
 \newpage
 
 ## Summary
 The following is a summary of the supplied data and results calculated.
 
-### Inputs
+### Results
+### Homogeniety Test
+Where data has been provided for a Homogeneity test the following results were recorded:
+
+|Property                   |Value                                |
+|---------------------------|-------------------------------------|
+|Alpha Value                |`r params$homogeneityTestAlphaValue` |
+|Degrees of Freedom Within  |`r params$homogeneityTestDofW`       |
+|Degrees of Freedom Between |`r params$homogeneityTestDofB`       |
+|F Statistic                |`r params$homogeneityTestFStat`      |
+|F Critical                 |`r params$homogeneityTestFCrit`      |
+
+#### **Result: `r params$homogeneityTestResult`**
+***
+\newpage
+
+### Results
+### Measurement Uncertainty
+
+#### Inputs
 The results of this report are made using the follow supplied information.
 
 | Input                             | Value Specified                            |
@@ -113,23 +134,10 @@ The results of this report are made using the follow supplied information.
 |Manually Specified Coverage Factor |`r params$inputManualCoverageFactor`        |
 |Homogeneity Test Alpha value       |`r params$homogeneityTestAlphaValue`        |
 
-### Results
-#### Homogeniety Test
-Where data has been provided for a Homogeneity test the following results were recorded:
-
-|Property                   |Value                                |
-|---------------------------|-------------------------------------|
-|Alpha Value                |`r params$homogeneityTestAlphaValue` |
-|Degrees of Freedom Within  |`r params$homogeneityTestDofW`       |
-|Degrees of Freedom Between |`r params$homogeneityTestDofB`       |
-|F Statistic                |`r params$homogeneityTestFStat`      |
-|F Critical                 |`r params$homogeneityTestFCrit`      |
-
-#### Result: `r params$homogeneityTestResult`
 ***
 
+#### Individual Uncertainty Components
 
-#### Uncertainty
 The calculated results for each individual component are shown below.
 
 | Uncertainty Component | Relative Standard Uncertainty |
@@ -140,6 +148,7 @@ The calculated results for each individual component are shown below.
 |Calibration Standard   |`r params$uncStandardSolution` |
 |Sample Preparation     |`r params$uncSamplePreparation`|
 
+#### Overall Uncertainty
 | Attribute             | Value                                        |
 |-----------------------|----------------------------------------------|
 |Combined Uncertainty   |`r params$combinedUncertaintyResult`          |
@@ -149,18 +158,98 @@ The calculated results for each individual component are shown below.
 
 With the information supplied above the following result has been concentration result has been calculated.
 
-#### Result: Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`
+#### **Result: Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`**
 ***
 
 \newpage
 
 # Appendix 1 - Calculations
 
-## Homogeneity
+## Homogeneity Test
 
 ### Overview
 
+A one-way analysis of variance (ANOVA) is used to test the null hypotheses \((H_0)\) of equality of means among sample groups against the alternative hypothesis \((H_1)\) that at least two of the group means differ, on the assumption that samples are normally distributed, have equal variance and are independent. For \(k\) independent groups with means \(m_1 \ldots m_k\), the hypothesis of interest is given by:
+
+\(H_0\): \(m_1 = m_2 = m_3= \ldots = m_k\)
+
+\(H_1\): \(m_l \neq m_j\) for some \(l,j\)
+
+The F statistic \((F_{\large s})\) under \(H_0\) follows an F-distribution given by the ratio of mean sum of squares between \((MSS_B)\) and mean sum of squares within \((MSS_W)\), as shown in the Method tab.
+
+The \(H_0\) is rejected if the F statistic \((F_{\large s})\) is greater than the F critical (\(F_c\)) value for a given alpha level and conclude that at least two group means differ. For more information see <a href='https://www.researchgate.net/publication/226708564_Uncertainty_calculations_in_the_certification_of_reference_materials_1_Principles_of_analysis_of_variance' target='_blank'>Veen et al: Principles of analysis of variance (2000)</a> and <a href='https://www.researchgate.net/publication/226313972_Uncertainty_calculations_in_the_certification_of_reference_materials_2_Homogeneity_study' target='_blank'>Veen et al: Homogeneity study (2001)</a>.
+
+
 ### Method
+
+A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank'>one-way analysis of variance (ANOVA)</a> test is carried out where the Mean Sum of Squares Between (\(MSS_B\)) is defined as:
+
+$MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 },$ the Mean Sum of Squares Within (\(MSS_W\)) is defined as: $MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }$
+
+and the F statistic (or F value)  is given by: $F_{\large s} = \frac{MSS_B}{MSS_W}$
+
+Finally, \(H_0\) is rejected if \(F_{\large s} > F_c\)
+
+- \(H_0\) is the null hypotheses of equal group means.
+
+- \(k\) is the number of groups.
+
+- \(n_j\) is the number of measurements/replicates in the group \(j\) where \(j=1\ldots k\).
+
+- \(N\) total number of measurements, i.e. \(N = \sum\limits_{j=1}^k n_j\)
+
+- \(F_{\large s}\) is the F statistic calculated from the supplied data.
+
+- \(F_c\) is the critical value from <a href='https://www.statisticshowto.com/tables/f-table/' target='_blank'>F-Distribution Table</a> at a given alpha level, i.e. \(F_{{\LARGE\nu}_B,{\LARGE\nu}_W,\alpha}\)),
+
+- \({\LARGE\nu}_B\) is the degrees of freedom for the between-group, calculated as \(k-1\).
+
+- \({\LARGE\nu}_W\) is the degrees of freedom for the within-group, calculated as \(N-k\).
+
+- \(X_{ij}\) is the \(i^{th}\) measurement of the \(j^{th}\) group.
+
+- \(\overline{X}_j\) is the mean of measurement in group \(j\).
+
+- \(\overline{X}_T\) is the grand mean of all measurements.
+
+***
+\newpage
+
+## Homogeneity
+
+### Overview
+Homogeneity/heterogeneity as defend in <a href='https://eurachem.org/images/stories/Guides/pdf/UfS_2019_EN_P2.pdf' target='_blank' title='Measurement uncertainty arising from sampling: A guide to methods and approaches'>EURACHEM/CITAC guide (2019)</a> and <a href='http://publications.iupac.org/pac/1990/pdf/6206x1193.pdf' title='INTERNATIONAL UNION OF PURE AND APPLIED CHEMISTRY' target='_blank'>IUPAC (1990)</a> is:
+
+"The degree to which a property or constituent is uniformly distributed throughout a quantity of material.
+Note:
+
+- A material may be homogeneous with respect to one analyte or property but heterogeneous with respect to another.
+
+- The degree of heterogeneity (the opposite of homogeneity) is the determining factor of sampling error."
+
+The <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank' title='Uncertainty calculations in the certification of reference materials. 2. Homogeneity study'>uncertainty of homogeneity (2001)</a> quantifies the uncertainty associated with the between-group homogeneity where differences among sample groups are of interest.  Detailed step-by-step calculations are displayed here with the main formulas used to compute the uncertainty of homogeneity shown in the Method tab.
+To find out whether your samples are homogenous or heterogenous, the Homogeneity Test tab displays a detailed calculation for testing whether there is a statistically significant difference between group means of samples using a one-way analysis of variance (ANOVA) on the assumption that samples are normally distributed, have equal variance and are independent.
+
+### Method
+The Relative Standard Uncertainty of homogeneity is given by the following calculation:
+\(u_r(\text{Homogeneity}) = \frac{ \text{Standard Uncertainty} }{ \text{Grand Mean} } = \frac{ u(\text{Homogeneity}) }{ \overline{X}_T } \)
+
+where \(\displaystyle u(\text{Homogeneity}) = \text{max}\{u_a,u_b\},\)
+
+\(\displaystyle u_a(\text{Homogeneity}) = \sqrt{\frac{ MSS_B - MSS_W }{ n_0 }}\) and \(\displaystyle u_b(\text{Homogeneity}) = \sqrt{ \frac{ MSS_W }{ n_0 } } \times \sqrt{ \frac{ 2 }{ k(n_0-1) } }\)
+
+A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank' title='Analysis of variance'>one-way analysis of variance (ANOVA)</a> test is carried out to calculate the Mean Sum of Squares Between groups (\(MSS_B\)) and the Mean Sum of Squares Within groups (\(MSS_W\)) given by:
+\(\displaystyle MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 } \) and \(\displaystyle MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }\)
+
+- \(k\) is the number of groups.
+- \(n_j\) is the number of measurements/replicates in the group \(j\) where \(j=1\ldots k\).
+- \(\displaystyle n_0 = \frac{1}{k-1} \left[\sum\limits_{j=1}^k n_j - \frac{ \sum\limits_{j=1}^k n_j^2 } { \sum\limits_{j=1}^k n_j }\right] = \frac{1}{k-1} \left[ N - \frac{A}{N} \right] \) <br />Where all \(n_j\)'s are the same (i.e. \(n_1=n_2=\ldots=n_k=n\)) then this simplifies to \(n_0 = n\).
+- \(N\) is the total number of measurements, i.e. \(N = \sum\limits_{j=1}^k n_j\).
+- \(A\) is the sum of squared number of measurements/replicates in the group, i.e. \(A = \sum\limits_{j=1}^k n^2_j\)
+- \(X_{ij}\) is the \(i^{th}\) measurement of the \(j^{th}\) group.
+- \(\overline{X}_j\) is the mean of measurement in group \(j\).
+- \(\overline{X}_T\) is the grand mean, calculated as the sum of all measurements \(\left(\sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} X_{ij}\right)\) divided by the number of measurements \((N)\).
+
 
 ***
 \newpage 
@@ -168,73 +257,44 @@ With the information supplied above the following result has been concentration 
 ## Calibration Curve
 
 ### Overview
-All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least square regression is required.
-The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and unweighted least square regression.
+All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required.
+The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
 
 ### Method
-#### Non Weighted
-The uncertainty of calibration curve is given by:
-
-$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$
-
-where $S_{y/x}$ is the standard error of regression given by
-
-$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$
-
-- $x_i$ concentration at level $i$.
-
-- $y_i$ observed peak area ratio for a given concentration $x_i$.
-
-- $\hat{y}_i$ predicted value of $y$ for a given value $x_i$.
-
-- $b_1$ is the Slope of the of regression line.
-
-- $x_s$ is the mean concentration of the Case Sample.
-
-- $r_s$ is the number of replicates made on test sample to determine $x_s$.
-
-- $n$ is the number of measurements used to generate the Calibration Curve.
-
-- $\overline{x}$ is the mean values of the different calibration standards.
-
-- $S_{xx}$ is the sum of squares deviation of $x$ given by $\sum\limits_{i=1}^n (x_i - \overline{x})^2$.
-
-
 #### Weighted
-Where weight is specified the uncertainty of calibration curve is given by:
-
-$u\text{(CalCurve)} = \frac{S_{w}}{b_1} \sqrt{\frac{1}{w_{s}(r_s)} + \frac{1}{n} + \frac{(y_s - \overline{y}_w)^2}{b_1^2[\sum{wx^2-n(\overline{x}_w)^2}]} }$
-
-where $S_w$ is the standard error of regression given by
-
+Where a weight \(W \neq 1\) is specified the uncertainty of calibration curve is given by:
+$u\text{(CalCurve)} = \frac{S_{w}}{b_1} \sqrt{\frac{1}{w_{s}(r_s)} + \frac{1}{n} + \frac{(x_s - \overline{x}_w)^2}{S_{{xx}_w}} }$
+where \(S_w\) is the standard error of regression given by
 $S_w = \sqrt{\frac{\sum\limits_{i=1}^n w_i(y_i-\hat{y}_i)^2}{n-2}}$
+The Relative Standard Uncertainty is then calculated as:
+$u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mean Concentration}} = \frac{u\text{(CalCurve)}}{x_s}$
 
-- $x_i$ concentration at level $i$.
+ - \(x_i\) concentration at level \(i\).
+ - \(x_s\) is the mean concentration of the Case Sample.
+ - \(r_s\) is the number of replicates made on test sample to determine \(x_s\).
+ - \(y_i\) observed peak area ratio for a given concentration \(x_i\).
+ - \(\hat{y}_i\) predicted value of \(y\) for a given value \(x_i\).
+ - \(b_1\) is the Slope of the of the weighted regression line.
+ - \(y_s\) is the mean of Peak Area Ratio of the Case Sample.
+ - \(n\) is the number of measurements used to generate the Calibration Curve.
+ - \(\overline{x}_w\) is the mean values of the different calibration standards.
+ - \(W\) is the specified Weight.
+ - \(w\) is the standardised weight given by \(W(\frac{n}{\sum{W}})\)
+ - \(w_s\) is the Weight of Case Sample.
+ - \(S_{{xx}_w}\) is the sum of squares deviation of \(x\) given by \(\sum\limits_{i=1}^n w_i(x_i - \overline{x})^2\).
 
-- $x_s$ is the mean concentration of the Case Sample.
+#### Non Weighted
+When a weight of \(W = 1\) is specified the uncertainty is simplified to the following:
+$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$
+where \(S_{y/x}\) is the standard error of regression given by
+$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$
+The Relative Standard Uncertainty is then calculated as:
+$u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mean Concentration}} = \frac{u\text{(CalCurve)}}{x_s}$
 
-- $r_s$ is the number of replicates made on test sample to determine $x_s$.
-
-- $y_i$ observed peak area ratio for a given concentration $x_i$.
-
-- $\hat{y}_i$ predicted value of $y$ for a given value $x_i$.
-
-- $b_1$ is the Slope of the of the weighted regression line.
-
-- $y_s$ is the mean of Peak Area Ratio of the Case Sample.
-
-- $\overline{y}_w$ is the weighted mean of peak area ratios.
-
-- $n$ is the number of measurements used to generate the Calibration Curve.
-
-- $\overline{x}_w$ is the mean values of the different calibration standards.
-
-- $W$ is the specified Weight.
-
-- $w$ is the standardised weight given by $W(\frac{n}{\sum{W}})$
-
-- $w_s$ is the Weight of Case Sample.
-
+ - \(b_1\) is the Slope of the of regression line.
+ - \(\overline{x}\) is the mean values of the different calibration standards.
+ - \(S_{xx}\) is the sum of squares deviation of \(x\) given by \(\sum\limits_{i=1}^n (x_i - \overline{x})^2\).
+ 
 ***
 \newpage 
 ## Method Precision
@@ -245,11 +305,12 @@ A step-by-step approach for estimating the uncertainty of method precision is ou
 
 Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.
 
+To derive the relative standard uncertainty, the standard uncertainty is divided by the number of case sample replicate as recommended by <a href='https://www.sciencedirect.com/science/article/abs/pii/S0021967317304909' target='_blank' title='Evaluation of the measurement uncertainty: Some common mistakes with a focus on the uncertainty from linear calibration'>Kadis (2017)</a>.)
+
 ### Method
 
-The relative standard uncertainty of method precision is given by:
-
-$u_r(\text{MethodPrec})_{\text{(NV)}} = \frac{u(\text{MethodPrec})_{\text{(NV)}}}{\text{NV}},$
+The Relative Standard Uncertainty of method precision is given by:
+$u_r(\text{MethodPrec})_{\text{(NV)}} = \frac{S_{p\text{(NV)}}}{\overline{x}_{\text{(NV)}}\sqrt{r_s}} = \frac{u(\text{MethodPrec})_{\text{(NV)}}}{\overline{x}_{\text{(NV)}}},$
 
 where
 
@@ -267,6 +328,8 @@ $S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\s
 
 - \(NV\) is the nominal value of concentration.
 
+- \(\overline{x}_{\text{(NV)}}\) is the mean concentration for the nominal value \(\text{NV}\).
+
 ***
 \newpage 
 ## Calibration Standard
@@ -277,11 +340,11 @@ Information provided on the structure of solution preparation and details of use
 
 The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve.
 
-If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with the Calibration Standard is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.
+If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with the calibration standard is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.
 
 ### Method
 
-The RSU of each equipment is computed using:
+The Relative Standard Uncertainty (RSU) of each equipment is computed using:
 
 $u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Volume}}$
 
@@ -291,11 +354,11 @@ $u_r(\text{Reference Compound}) = \frac{\frac{\text{Tolerance}}{\text{Coverage F
 
 The RSU of each solution is computed using:
 
-$u_r\text{(Solution)} = \sqrt{u_r\text{(Parent Solution)}^2 + \sum{[u_r\text{(Equipment)}^2_{\text{(Vol,Tol)}} \times N\text{(Equipment)}_{\text{(Vol,Tol)}}]}}$
+$u_r\text{(WorkingSolution)} = \sqrt{u_r\text{(Parent Solution)}^2 + \sum{[u_r\text{(Equipment)}^2_{\text{(Vol,Tol)}} \times N\text{(Equipment)}_{\text{(Vol,Tol)}}]}}$
 
 The RSU of standard (spiking) solution is obtained by pooling the RSU's of the calibration curve spiking range.
 
-$u_r(\text{StdSolution}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)}^2}}$
+$u_r(\text{CalStandard}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)}^2}}$
 
 - \(\text{Parent Solution}\) is the solution from which a given solution is made.
 
@@ -307,20 +370,19 @@ $u_r(\text{StdSolution}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)
 
 ### Overview
 
-The uncertainty of sample volume quantifies the uncertainty associated with quantifying the volume of case sample through the use of for example pipette.
+Uncertainty of sample preparation combines uncertainty sources from the use of different equipment in preparing the sample, such as weighing balance, pipette and volumetric flask.
 
 ### Method
 
-The RSU of each equipment is computed using:
+The Relative Standard Uncertainty (RSU) of each equipment is computed using:
 
 $u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Capacity}}$
 
-The RSU of sample volume is given by:
+The RSU of sample preparation is given by:
 
-$u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,Tol)}}^2 \times N(\text{Equipment})_{\text{(Cap,Tol)}}}]}$
+$u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Cap,Tol)}}^2 \times N(\text{Equipment})_{\text{(Cap,Tol)}}}]}$
 
-
-- \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in taking the volume of a given sample.
+- \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in taking the preparation of a given sample.
 
 ***
 \newpage 
@@ -330,7 +392,7 @@ $u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Vol,T
 
 The combined uncertainty is obtained by combining all the individual uncertainty components.
 
-If data is uploaded for all the uncertainty components; Calibration Curve, Method Precision, Calibration Standard and Sample Preparation, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
+If data is uploaded for all the uncertainty components; Homogeneity, Calibration Curve, Method Precision, Calibration Standard and Sample Preparation, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process.
 
 If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.
 
@@ -349,7 +411,7 @@ $\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Compon
 
 Coverage factor \((k)\) is a number usually greater than one from which an expanded uncertainty is obtained when \(k\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.
 
-An effective degrees of freedom is computed using the Welch-Satterthwaite equation with details given in the Method tab. The derived effective degrees of freedom along with the specified \({\small CI\%}\) is used to read a value (termed coverage factor) from the t-distribution table.
+An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank' title='Annex G: Degrees of freedom and levels of confidence'>Welch-Satterthwaite equation (JCGM 100:2008)</a> with details given in the Method tab. The derived effective degrees of freedom along with the specified \({\small CI\%}\) is used to read a value (termed coverage factor) from the T-Distribution Table.)
 
 ### Method
 
@@ -357,7 +419,7 @@ The effective degrees of freedom \(({\LARGE\nu}_{\text{eff}})\) using Welch-Satt
 
 ${\LARGE\nu}_{\text{eff}} =\frac{(\frac{\text{CombUncertainty}}{x_s})^4}{\sum{\frac{u_r\text{(Individual Uncertainty Component)}^4}{{\LARGE\nu}_{\text{(Individual Uncertainty Component)}}}}}$
 
-The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read from the t-distribution table using the calculated \({\Large\nu}_{\text{eff}}\) and specified \({\small CI\%}\).
+The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read from the T-Distribution Table using the calculated \({\Large\nu}_{\text{eff}}\) and specified \({\small CI\%}\).
 
 - \(x_s\) is the Case Sample Mean Concentration.
 
@@ -366,18 +428,21 @@ The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read fr
 - \({\small\text{CombUncertainty}}\) is the Combined Uncertainty of the individual uncertainty components.
 
 ***
-\newpage 
+\newpage
+
 ## Expanded Uncertainty
 
 ### Overview
 
-The expanded uncertainty  is the final step of measurement uncertainty computation. It is computed by multiplying the combined uncertainty with the coverage factor.
+The expanded uncertainty  is the final step of measurement uncertainty computation. This is done in order to derive a confidence interval believed to contain the true unknown value.
+
+It is computed by multiplying the Combined Uncertainty \((\text{CombUncertainty})\) with the coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CL\%}})\).
 
 ### Method
 
 The expanded uncertainty \(\text{(ExpUncertainty)}\) is given by:
 
-$\text{ExpUncertainty} = k_{{\large\nu}_{\text{eff}}, {\small CI\%}} \times \text{CombUncertainty}$
+$\text{ExpUncertainty} = k_{{\large\nu}_{\text{eff}}, {\small CL\%}} \times \text{CombUncertainty}$
 
 with percentage expanded uncertainty given by:
 
@@ -385,12 +450,11 @@ $\text{%ExpUncertainty} = \frac{\text{ExpUncertainty}}{x_s} \times 100$
 
 where:
 
-- \(k_{{\large\nu}_{\text{eff}}, {\small CI\%}}\) is the coverage factor based on effective degrees of freedom and specified confidence level percentage.
+- \(k_{{\large\nu}_{\text{eff}}, {\small CL\%}}\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage.
 
 - \({\small\text{CombUncertainty}}\) is the combined uncertainty.
 
 - \(x_s\) case sample mean concentration.
-
 
 ***
 \newpage 
