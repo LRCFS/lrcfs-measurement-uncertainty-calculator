@@ -163,7 +163,7 @@ With the information supplied above the following result has been concentration 
 
 \newpage
 
-# Appendix 1 - Calculations
+# Appendix 1 - Methodology
 
 ## Homogeneity Test
 
