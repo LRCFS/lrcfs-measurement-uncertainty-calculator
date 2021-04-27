@@ -52,6 +52,8 @@ doGetHomogeneityTestBetweenDof = function(data)
 
 doGetHomogeneityTestFCritical = function(data, alphaValue)
 {
+  if(is.null(data)) return(NA)
+  
   bDof = doGetHomogeneityTestBetweenDof(data)
   wDof = doGetHomogeneityTestWithinDof(data)
   

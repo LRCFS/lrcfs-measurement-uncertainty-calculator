@@ -42,6 +42,8 @@ params:
   expandedUncertaintyResult: NA
   expandedUncertaintyResultPercentage: NA
   
+  calibrationCurve_finalAnswer_bottom_renderer: NA
+  
   homogeneity_standardUncertainty_left_renderer: NA
   homogeneity_standardUncertainty_right_renderer: NA
   homogeneity_standardUncertainty_max_renderer: NA
@@ -519,6 +521,8 @@ where:
 \newpage 
 
 ## Calibration Curve
+`r params$calibrationCurve_finalAnswer_bottom_renderer`
+
 ***
 \newpage
 

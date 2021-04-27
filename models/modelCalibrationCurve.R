@@ -448,18 +448,25 @@ output$display_calibrationCurve_finalAnswer_top = renderText({
   return(paste("\\(u_r\\text{(CalCurve)}=\\)",answer))
 })
 
-output$display_calibrationCurve_finalAnswer_bottom = renderUI({
+calibrationCurve_finalAnswer_bottom_renderer = function(removeColours = FALSE)
+{
+  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  if(is.na(answer)) return(NA)
+  
   uncertaintyOfCalibration = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
   
   formulas = c("u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}")
   formulas = c(formulas, paste("&=\\frac{",uncertaintyOfCalibration,"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration,input$useColours),"}"))
   formulas = c(formulas, paste("&=",answer))
   
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationCurve_finalAnswer_bottom = renderUI({
+  return(calibrationCurve_finalAnswer_bottom_renderer())
 })
 
 output$display_calibrationCurve_finalAnswer_dashboard = renderUI({

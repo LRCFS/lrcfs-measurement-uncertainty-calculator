@@ -63,6 +63,8 @@ output$display_homogeneityTest_dof = renderUI({
 
 homogeneityTest_fValue_renderer = function(removeColours = FALSE)
 {
+  if(is.na(getHomogeneityFValue_value())) return(NA)
+  
   mssb = getHomogeneityMeanSumOfSquaresBetween()
   mssw = getHomogeneityMeanSumOfSquaresWithin()
   fValue = getHomogeneityFValue()
@@ -81,11 +83,13 @@ output$display_homogeneityTest_fValue = renderUI({
 
 homogeneity_fCritical_renderer = function(removeColours = FALSE)
 {
+  if(is.na(getHomogeneityTestFCritical_value())) return(NA)
+  
   alpha = getHomogeneityTestAlphaValue_display()
   bdof = getHomogeneityTestBetweenDof()
   wdof = getHomogeneityTestWithinDof()
   fCrit = getHomogeneityTestFCritical()
-  
+
   formulas = c(paste0("F_{c} &= F_{{\\LARGE\\nu}_B,{\\LARGE\\nu}_W,\\alpha}"))
   formulas = c(formulas, paste0("&= F_{",bdof,",",wdof,",",alpha,"}"))
   formulas = c(formulas, paste0("&= ", fCrit))
@@ -111,6 +115,8 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
   fValue = getHomogeneityFValue_value()
   fCritical = getHomogeneityTestFCritical_value()
   maxNumber = max(fValue,fCritical)
+  
+  if(is.na(fValue) || is.na(fCritical)) return(NULL)
   
   #Create the F Distribution curve from 0 to maxNumber length (+1/3 to look pretty)
   x = seq(0,maxNumber*1.33,length=200)
@@ -205,9 +211,15 @@ output$display_homogeneityTest_answerDashboard = renderUI({
 renderHomogeneityTestAnswer = function(displayWithColours = TRUE)
 {
   fValue = getHomogeneityFValue()
-  fCritical = getHomogeneityTestFCritical()
+  if(is.na(fValue)) return(NA)
   
-  if(getHomogeneityTestPass())
+  fCritical = getHomogeneityTestFCritical()
+  if(is.na(fCritical)) return(NA)
+  
+  homogeneityTestPass = getHomogeneityTestPass()
+  if(is.na(homogeneityTestPass)) return(NA)
+  
+  if(homogeneityTestPass)
   {
     return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than or equal to the F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(displayWithColours))), width = 12, color = "green", icon = icon("check-circle")))
   }
