@@ -175,7 +175,7 @@ doGetHomogeneity_standardUncertaintyA = function(data)
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
   nZero = doGetHomogeneityNZero(data)
   
-  if(mssb < mssw) return(NA) #Protect against doing the square route of a negative number
+  if(is.na(mssb) || is.na(mssw) || mssb < mssw) return(NA) #Protect against doing the square route of a negative number
   
   answer = sqrt((mssb - mssw) / nZero)
   return(answer)
