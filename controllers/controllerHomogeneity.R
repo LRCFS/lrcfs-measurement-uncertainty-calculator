@@ -171,6 +171,8 @@ doGetHomogeneityFValue = function(data)
 
 doGetHomogeneity_standardUncertaintyA = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   mssb = doGetHomogeneityMeanSumOfSquaresBetween(data)
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
   nZero = doGetHomogeneityNZero(data)
@@ -183,6 +185,8 @@ doGetHomogeneity_standardUncertaintyA = function(data)
 
 doGetHomogeneity_standardUncertaintyB = function(data)
 {
+  if(is.null(data)) return(NA)
+  
   mssw = doGetHomogeneityMeanSumOfSquaresWithin(data)
   nZero = doGetHomogeneityNZero(data)
   k = doGetHomogeneityNumCols(data)
