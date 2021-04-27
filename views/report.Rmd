@@ -528,10 +528,13 @@ where:
 
 data = params$calibrationCurveDataReformatted
 
-ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
-  geom_point() + 
-  labs(x = "Concentration", y = "Peak Area Ratio") +
-  geom_smooth(method='lm', formula= y~x)
+if(!is.null(data))
+{
+  ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
+    geom_point() + 
+    labs(x = "Concentration", y = "Peak Area Ratio") +
+    geom_smooth(method='lm', formula= y~x)
+}
 
 ```
 

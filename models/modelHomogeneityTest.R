@@ -130,9 +130,9 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
   fValueHeight = maxHeight
   
   # initiate a line shape object
-  lineObj <- list( type = "line", line = list(color = "red"), xref = "x", yref = "y")
-  lineVal <- list( type = "line", line = list(color = "green"), xref = "x", yref = "y")
-  lines <- list()
+  lineObj = list( type = "line", line = list(color = "red"), xref = "x", yref = "y")
+  lineVal = list( type = "line", line = list(color = "green"), xref = "x", yref = "y")
+  lines = list()
   
   #Create the F Critical value vertical line
   lineObj[["x0"]] = fCritical
@@ -147,18 +147,18 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
   lines = c(lines, list(lineVal))
   
   #Create a dataframe for the shaded regions in the graph
-  #Speically add the F Critical value to the data frame so the garphs line up correctly
+  #Specifically add the F Critical value to the data frame so the graphs line up correctly
   critVal = c(fCritical, df(fCritical, df1 = bDof, df2 = wDof))
   
-  #only add values that are less thant the F Critical value for the acception regeion
+  #only add values that are less than the F Critical value for the accept region
   dataAccept = critVal
   dataAccept = rbind(data[x<fCritical,] , dataAccept)
   
-  #only add values that are greater than the F Critical value for the requestion region
+  #only add values that are greater than the F Critical value for the rejection region
   dataCrit = data[x>fCritical,] 
   dataCrit = rbind(critVal, dataCrit)
   
-  #Plot the F Distorbution
+  #Plot the F Distribution
   fig = plot_ly(data)
   #Format the layout
   fig = layout(fig,
@@ -166,6 +166,7 @@ output$display_homogeneityTest_fDistribution = renderPlotly({
                shapes = lines,
                xaxis = list(title = "F Value"),
                yaxis = list(title = "Probability Density"))
+  
   #Add the shaded Critical Region to the graph
   fig %>%
     add_trace(x=~dataAccept$x, y=~dataAccept$y, type = 'scatter', mode = 'lines', fill = 'tozeroy', line = list(color = "rgba(31, 119, 180,1)"), fillcolor='rgba(0, 0, 255,0.1)', name="Failed to Reject Region\n(\U2264 \U03B1)") %>% 
