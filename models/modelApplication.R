@@ -445,6 +445,10 @@ downloadReportHandler = downloadHandler(
                      homogeneity_standardUncertainty_max_renderer = homogeneity_standardUncertainty_max_renderer(removeColours = TRUE),
                      homogeneity_relativeStandardUncertainty_renderer = homogeneity_relativeStandardUncertainty_renderer(removeColours = TRUE),
                      
+                     homogeneityTest_fValue_renderer = homogeneityTest_fValue_renderer(removeColours = TRUE),
+                     homogeneity_fCritical_renderer = homogeneity_fCritical_renderer(removeColours = TRUE),
+                     renderHomogeneityTestAnswer = renderHomogeneityTestAnswer(displayWithColours = FALSE),
+                     
                      outputPooledStandardDeviation_renderer = outputPooledStandardDeviation_renderer(removeColours = TRUE),
                      outputStandardUncertainty_renderer = outputStandardUncertainty_renderer(removeColours = TRUE),
                      outputRealtiveStandardUncertainties_renderer = outputRealtiveStandardUncertainties_renderer(removeColours = TRUE),

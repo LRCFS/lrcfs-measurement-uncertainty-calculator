@@ -47,6 +47,10 @@ params:
   homogeneity_standardUncertainty_max_renderer: NA
   homogeneity_relativeStandardUncertainty_renderer: NA
   
+  homogeneityTest_fValue_renderer: NA
+  homogeneity_fCritical_renderer: NA
+  renderHomogeneityTestAnswer: NA
+  
   outputPooledStandardDeviation_renderer: NA
   outputStandardUncertainty_renderer: NA
   outputRealtiveStandardUncertainties_renderer: NA
@@ -90,6 +94,12 @@ title: "`r params$APP_NAME` Report"
 #
 ###########################################################################
 -->
+
+```{css, echo=FALSE}
+.icon-large{
+  display: none;
+}
+```
 
 ## `r params$APP_DEV`
 
@@ -481,6 +491,18 @@ where:
 \newpage 
 
 # Appendix 2 - Calculations
+## Homogeneity Test
+`r params$homogeneityTest_fValue_renderer`
+
+***
+`r params$homogeneity_fCritical_renderer`
+
+***
+`r params$renderHomogeneityTestAnswer`
+
+***
+\newpage 
+
 ## Homogeneity
 `r params$homogeneity_standardUncertainty_left_renderer`
 

@@ -61,8 +61,8 @@ output$display_homogeneityTest_dof = renderUI({
   
 })
 
-output$display_homogeneityTest_fValue = renderUI({
-  
+homogeneityTest_fValue_renderer = function(removeColours = FALSE)
+{
   mssb = getHomogeneityMeanSumOfSquaresBetween()
   mssw = getHomogeneityMeanSumOfSquaresWithin()
   fValue = getHomogeneityFValue()
@@ -71,13 +71,16 @@ output$display_homogeneityTest_fValue = renderUI({
   formulas = c(formulas, paste0("&= \\frac{",mssb,"}{",mssw,"}"))
   formulas = c(formulas, paste0("&= ", fValue))
   
-  output = mathJaxAligned(formulas, 10)
+  output = mathJaxAligned(formulas, 10, 50, removeColours)
   return(withMathJax(HTML(output)))
-  
+}
+
+output$display_homogeneityTest_fValue = renderUI({
+  return(homogeneityTest_fValue_renderer())
 })
 
-output$display_homogeneity_fCritical = renderUI({
-  
+homogeneity_fCritical_renderer = function(removeColours = FALSE)
+{
   alpha = getHomogeneityTestAlphaValue_display()
   bdof = getHomogeneityTestBetweenDof()
   wdof = getHomogeneityTestWithinDof()
@@ -86,10 +89,13 @@ output$display_homogeneity_fCritical = renderUI({
   formulas = c(paste0("F_{c} &= F_{{\\LARGE\\nu}_B,{\\LARGE\\nu}_W,\\alpha}"))
   formulas = c(formulas, paste0("&= F_{",bdof,",",wdof,",",alpha,"}"))
   formulas = c(formulas, paste0("&= ", fCrit))
-  output = mathJaxAligned(formulas, 10)
+  output = mathJaxAligned(formulas, 10, 50, removeColours)
   
   return(withMathJax(HTML(output)))
-  
+}
+
+output$display_homogeneity_fCritical = renderUI({
+  return(homogeneity_fCritical_renderer())
 })
 
 output$display_homogeneityTest_fDistribution = renderPlotly({
@@ -196,18 +202,18 @@ output$display_homogeneityTest_answerDashboard = renderUI({
   return(renderHomogeneityTestResult())
 })
 
-renderHomogeneityTestAnswer = function()
+renderHomogeneityTestAnswer = function(displayWithColours = TRUE)
 {
   fValue = getHomogeneityFValue()
   fCritical = getHomogeneityTestFCritical()
   
   if(getHomogeneityTestPass())
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than or equal to the F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "green", icon = icon("check-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than or equal to the F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(displayWithColours))), width = 12, color = "green", icon = icon("check-circle")))
   }
   else
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(TRUE))), width = 12, color = "red", icon = icon("times-circle")))
+    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(displayWithColours))), width = 12, color = "red", icon = icon("times-circle")))
   }
 }
 
