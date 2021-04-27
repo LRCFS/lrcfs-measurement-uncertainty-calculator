@@ -24,8 +24,8 @@
 #Handy function for negating the IN method
 `%ni%` = Negate(`%in%`)
 
-#Allows building of mathJax formulas that are aligned by creatign a vector of formulas
-mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
+#Allows building of mathJax formulas that are aligned by creating a vector of formulas
+mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50, removeColours = FALSE)
 {
   formulasOutput = ""
   for(element in formulas)
@@ -42,8 +42,27 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50)
   }
   
   output = paste("$$\\begin{align}", formulasOutput, "\\end{align}$$")
+  
+  if(removeColours){
+    output = removeMathJaxColours(output)
+  }
+  
   return(output)
 }
+
+#Takes output but removes all colouring without having to change input variables at runtime
+removeMathJaxColours = function(text)
+{
+  
+  #Remove any font colour surrounding any element with regex "\\color\{.*?}\{(.*?)}" and replace with first match (contents of the bbox)
+  text = str_replace_all(text, "\\\\color\\{.*?\\}\\{(.*?)\\}", "\\1")
+  
+  #Remove any background colour surrounding any element with regex "\\\\bbox\[.*?]{(.*?)}" and replace with first match (contents of the bbox)
+  text = str_replace_all(text, "\\\\bbox\\[.*?]\\{(.*?)\\}", "\\1")
+  
+  return(text)
+}
+
 
 #Takes any number and formats it in either scientific notation or rounded to a specified number of decimal places
 #Can also handle a vector
