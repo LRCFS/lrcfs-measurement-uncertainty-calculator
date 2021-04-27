@@ -69,7 +69,7 @@ output$uploadedCalibrationDataStats = renderUI({
   return(HTML(sprintf("Uploaded Calibration Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d",numberOfRuns, numberOfReplicates, numberOfConcentrations, numberOfPeakAreaRatios)))
 })
 
-output$display_calibrationCurve_linearRegression = renderUI({
+calibrationCurve_linearRegression_renderer = function(removeColours = FALSE){
   intercept = formatNumberForDisplay(getCalibrationCurve_intercept(), input)
   slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
   rSquare = formatNumberForDisplay(getCalibrationCurve_rSquared(), input)
@@ -79,9 +79,13 @@ output$display_calibrationCurve_linearRegression = renderUI({
   formulas = c(formulas, paste0("\\text{Slope}(b_1) &= ", colourNumber(slope, input$useColours, input$colour6)))
   formulas = c(formulas, paste0("R^2_{\\text{adj}} &=",rSquare))
   formulas = c(formulas, paste0("n &= ",colourNumber(n, input$useColours, input$colour5)))
-  output = mathJaxAligned(formulas, 10)
+  output = mathJaxAligned(formulas, 10, 50, removeColours)
   
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationCurve_linearRegression = renderUI({
+  return(calibrationCurve_linearRegression_renderer())
 })
 
 output$display_calibrationCurve_weightedMeanOfX = renderUI({

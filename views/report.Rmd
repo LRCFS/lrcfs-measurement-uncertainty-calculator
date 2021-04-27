@@ -42,6 +42,7 @@ params:
   expandedUncertaintyResult: NA
   expandedUncertaintyResultPercentage: NA
   
+  calibrationCurve_linearRegression_renderer: NA
   calibrationCurve_uncertaintyOfCalibration_renderer: NA
   calibrationCurve_finalAnswer_bottom_renderer: NA
   
@@ -522,6 +523,9 @@ where:
 \newpage 
 
 ## Calibration Curve
+`r params$calibrationCurve_linearRegression_renderer`
+
+***
 `r params$calibrationCurve_uncertaintyOfCalibration_renderer`
 
 ***

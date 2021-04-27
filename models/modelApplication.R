@@ -445,6 +445,7 @@ downloadReportHandler = downloadHandler(
                      homogeneity_standardUncertainty_max_renderer = homogeneity_standardUncertainty_max_renderer(removeColours = TRUE),
                      homogeneity_relativeStandardUncertainty_renderer = homogeneity_relativeStandardUncertainty_renderer(removeColours = TRUE),
                      
+                     calibrationCurve_linearRegression_renderer = calibrationCurve_linearRegression_renderer(removeColours = TRUE),
                      calibrationCurve_uncertaintyOfCalibration_renderer = calibrationCurve_uncertaintyOfCalibration_renderer(removeColours = TRUE),
                      calibrationCurve_finalAnswer_bottom_renderer = calibrationCurve_finalAnswer_bottom_renderer(removeColours = TRUE),
                      
