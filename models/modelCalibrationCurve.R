@@ -70,6 +70,8 @@ output$uploadedCalibrationDataStats = renderUI({
 })
 
 calibrationCurve_linearRegression_renderer = function(removeColours = FALSE){
+  if(is.null(getDataCalibrationCurve())) return(NA)
+  
   intercept = formatNumberForDisplay(getCalibrationCurve_intercept(), input)
   slope = formatNumberForDisplay(getCalibrationCurve_slope(), input)
   rSquare = formatNumberForDisplay(getCalibrationCurve_rSquared(), input)

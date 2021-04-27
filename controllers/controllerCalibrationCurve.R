@@ -115,6 +115,8 @@ doGetCalibrationCurve_linearRegression = function(x,y,wlsValues)
 
 doGetCalibrationCurve_rSquared = function(linearRegression)
 {
+  if(is.null(linearRegression) || is.na(linearRegression)) return(NA)
+  
   rSquare = summary.lm(linearRegression)$r.squared
 }
 

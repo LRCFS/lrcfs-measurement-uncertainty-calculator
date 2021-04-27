@@ -496,75 +496,59 @@ where:
 
 # Appendix 2 - Calculations
 ## Homogeneity Test
-`r params$homogeneityTest_fValue_renderer`
+`r if(!is.na(params$homogeneityTest_fValue_renderer)) paste(params$homogeneityTest_fValue_renderer, "***")`
 
-***
-`r params$homogeneity_fCritical_renderer`
+`r if(!is.na(params$homogeneity_fCritical_renderer)) paste(params$homogeneity_fCritical_renderer, "***")`
 
-***
 `r params$renderHomogeneityTestAnswer`
 
 ***
 \newpage 
 
 ## Homogeneity
-`r params$homogeneity_standardUncertainty_left_renderer`
+`r if(!is.na(params$homogeneity_standardUncertainty_left_renderer)) paste(params$homogeneity_standardUncertainty_left_renderer, "***")`
 
-***
-`r params$homogeneity_standardUncertainty_right_renderer`
+`r if(!is.na(params$homogeneity_standardUncertainty_right_renderer)) paste(params$homogeneity_standardUncertainty_right_renderer, "***")`
 
-***
-`r params$homogeneity_standardUncertainty_max_renderer`
+`r if(!is.na(params$homogeneity_standardUncertainty_max_renderer)) paste(params$homogeneity_standardUncertainty_max_renderer, "***")`
 
-***
 `r params$homogeneity_relativeStandardUncertainty_renderer`
 
-***
 \newpage 
 
 ## Calibration Curve
-`r params$calibrationCurve_linearRegression_renderer`
+`r if(!is.na(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
 
-***
-`r params$calibrationCurve_uncertaintyOfCalibration_renderer`
-
-***
 `r params$calibrationCurve_finalAnswer_bottom_renderer`
 
 ***
 \newpage
 
 ## Method Precision
-`r params$outputPooledStandardDeviation_renderer`
+`r if(!is.na(params$outputPooledStandardDeviation_renderer)) paste(params$outputPooledStandardDeviation_renderer, "***")`
 
-***
-`r params$outputStandardUncertainty_renderer`
+`r if(!is.na(params$outputStandardUncertainty_renderer)) paste(params$outputStandardUncertainty_renderer, "***")`
 
-***
-`r params$outputRealtiveStandardUncertainties_renderer`
+`r if(!is.na(params$outputRealtiveStandardUncertainties_renderer)) paste(params$outputRealtiveStandardUncertainties_renderer, "***")`
 
-***
 `r params$methodPrecision_finalAnswer_bottom_renderer`
 
 ***
 \newpage 
 
 ## Calibration Standard
-`r params$standardSolution_solutionRelativeStandardUncertainty_renderer`
+`r if(!is.na(params$standardSolution_solutionRelativeStandardUncertainty_renderer)) paste(params$standardSolution_solutionRelativeStandardUncertainty_renderer, "***")`
 
-***
 `r params$standardSolution_finalAnswer_renderer`
 
 ***
 \newpage 
 
 ## Sample Preparation
-`r params$samplePreparation_standardUncertainty_renderer`
+`r if(!is.na(params$samplePreparation_standardUncertainty_renderer)) paste(params$samplePreparation_standardUncertainty_renderer, "***")`
 
-***
-`r params$samplePreparation_relativeStandardUncertainty_renderer`
+`r if(!is.na(params$samplePreparation_relativeStandardUncertainty_renderer)) paste(params$samplePreparation_relativeStandardUncertainty_renderer, "***")`
 
-***
 `r params$samplePreparation_finalAnswer_bottom_renderer`
 
 ***
