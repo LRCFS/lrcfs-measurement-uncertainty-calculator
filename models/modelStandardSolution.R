@@ -93,19 +93,19 @@ standardSolutionDof = reactive({
 ###################################################################################
 
 #Display input data
-output$display_standardSolution_solutionRawData <- DT::renderDataTable(
+output$display_standardSolution_solutionRawData = DT::renderDataTable(
   standardSolutionData(),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
 )
 
-output$display_standardSolution_measurementsRawData <- DT::renderDataTable(
+output$display_standardSolution_measurementsRawData = DT::renderDataTable(
   standardSolutionMeasurementData(),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
 )
 
-output$display_standardSolution_solutionsNetwork <- renderGrViz({
+output$display_standardSolution_solutionsNetwork = renderGrViz({
   # solutionData = standardSolutionData()
   # measurementData = standardSolutionMeasurementData()
   # solutionAndMeasurementData = standardSolutionMergeData(solutionData, measurementData)
@@ -115,7 +115,7 @@ output$display_standardSolution_solutionsNetwork <- renderGrViz({
 
 
 #Display calculations
-output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
+output$display_standardSolution_equipmentStandardUncertainty = renderUI({
 
   #Get the distinct insturments based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(equipment, equipmentVolume, equipmentTolerance, .keep_all = TRUE)
@@ -145,7 +145,7 @@ output$display_standardSolution_equipmentStandardUncertainty <- renderUI({
 
 })
 
-output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI({
+output$display_standardSolution_equipmentRelativeStandardUncertainty = renderUI({
 
   #Get the distinct Equipment based on the name, volume and tolerance
   data = standardSolutionInstrumentDataWithCalculations() %>% distinct(equipment, equipmentVolume, equipmentTolerance, .keep_all = TRUE)
@@ -171,10 +171,12 @@ output$display_standardSolution_equipmentRelativeStandardUncertainty <- renderUI
   
 })
 
-output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI({
-  
+standardSolution_solutionRelativeStandardUncertainty_renderer = function(removeColours = FALSE)
+{
   solutionData = standardSolutionDataWithCalculations()
   instrumentsData = standardSolutionInstrumentDataWithCalculations()
+  
+  if(is.null(solutionData) && is.null(instrumentsData)) return (NA)
   
   #Display base solution relative standard uncertainty
   baseSolution = doGetBaseSolution(solutionData)
@@ -211,17 +213,21 @@ output$display_standardSolution_solutionRelativeStandardUncertainty <- renderUI(
     }
   }
   
-  output = mathJaxAligned(formulas, 5, 30)
+  output = mathJaxAligned(formulas, 5, 30, removeColours)
   return(withMathJax(output))
+}
+
+output$display_standardSolution_solutionRelativeStandardUncertainty = renderUI({
+  return(standardSolution_solutionRelativeStandardUncertainty_renderer())
 })
 
-output$display_standardSolution_solutionsDataWithCalculations <- DT::renderDataTable(
+output$display_standardSolution_solutionsDataWithCalculations = DT::renderDataTable(
   standardSolutionDataWithCalculations(),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
 )
 
-output$display_standardSolution_measurementDataWithCalculations <- DT::renderDataTable(
+output$display_standardSolution_measurementDataWithCalculations = DT::renderDataTable(
   standardSolutionInstrumentDataWithCalculations(),
   rownames = FALSE,
   options = list(scrollX = TRUE, dom = 'tip')
@@ -229,11 +235,15 @@ output$display_standardSolution_measurementDataWithCalculations <- DT::renderDat
 
 
 #Display final answers
-output$display_standardSolution_finalAnswer_top <- renderUI({
+output$display_standardSolution_finalAnswer_top = renderUI({
   return(paste("\\(u_r\\text{(CalStandard)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
-output$display_standardSolution_finalAnswer_bottom <- renderUI({
+standardSolution_finalAnswer_renderer = function(removeColours = FALSE)
+{
+  result = standardSolutionResult()
+  if(is.na(result)) return(NA)
+  
   finalSolutionsData = doGetFinalSolutions(standardSolutionDataWithCalculations())
   equationNames = ""
   equationValues = ""
@@ -250,22 +260,26 @@ output$display_standardSolution_finalAnswer_bottom <- renderUI({
     equationValues = paste0(equationValues, plus, formatNumberForDisplay(solution$relativeStandardUncertainty,input),"^2")
   }
   formulas = c("u_r(\\text{CalStandard}) &= \\sqrt{\\sum{u_r\\text{(Calibration Curve Spiking Range)}^2}}[[break]]")
-  formulas = c(formulas, paste0("u_r(\\text{CalStandard})&=\\sqrt{",equationNames,"}[[break]]"))
-  formulas = c(formulas, paste0("u_r(\\text{CalStandard})&=\\sqrt{",equationValues,"}"))
-  formulas = c(formulas, paste0("&=",formatNumberForDisplay(standardSolutionResult(),input)))
+  formulas = c(formulas, paste0("u_r(\\text{CalStandard}) &=\\sqrt{",equationNames,"}[[break]]"))
+  formulas = c(formulas, paste0("&=\\sqrt{",equationValues,"}"))
+  formulas = c(formulas, paste0("&=",formatNumberForDisplay(result,input)))
   
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(output))
+}
+
+output$display_standardSolution_finalAnswer_bottom = renderUI({
+  return(standardSolution_finalAnswer_renderer())
 })
 
-output$display_standardSolution_finalAnswer_dashboard <- renderUI({
+output$display_standardSolution_finalAnswer_dashboard = renderUI({
   return(paste("\\(u_r\\text{(CalStandard)}=\\)",formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
-output$display_standardSolution_finalAnswer_combinedUncertainty <- renderUI({
+output$display_standardSolution_finalAnswer_combinedUncertainty = renderUI({
   return(paste(formatNumberForDisplay(standardSolutionResult(),input)))
 })
 
-output$display_standardSolution_finalAnswer_coverageFactor <- renderUI({
+output$display_standardSolution_finalAnswer_coverageFactor = renderUI({
   return(paste(formatNumberForDisplay(standardSolutionResult(),input)))
 })

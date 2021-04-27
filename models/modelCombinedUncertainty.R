@@ -94,8 +94,9 @@ output$display_combinedUncertainty_finalAnswer_top = renderText({
   answer = formatNumberForDisplay(combinedUncertaintyResult(), input)
   return(paste("\\(\\text{CombUncertainty}=\\)",answer))
 })
-  
-output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
+
+combinedUncertainty_finalAnswer_renderer = function(removeColours = FALSE)
+{
   ho = getHomogeneity_relativeStandardUncertainty()
   cc = formatNumberForDisplay(getResultCalibrationCurve(),input)
   mp = formatNumberForDisplay(methodPrecisionResult(),input)
@@ -106,9 +107,13 @@ output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
   formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{Homogeneity})^2 + u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{CalStandard})^2 + u_r(\\text{SamplePreparation})^2}")
   formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours),"\\sqrt{",colourNumberBackground(ho, HomogeneityColor, "#FFF",input$useColours),"^2+",colourNumberBackground(cc, CalibrationCurveColor, "#FFF",input$useColours),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(sv, SamplePreparationColor, "#FFF",input$useColours),"^2}"))
   formula = c(formula, paste("&= ",formatNumberForDisplay(combinedUncertaintyResult(),input)))
-  output = mathJaxAligned(formula, 5, 20)
+  output = mathJaxAligned(formula, 5, 20, removeColours)
   
   return(withMathJax(HTML(output)))
+}
+  
+output$display_combinedUncertainty_finalAnswer_bottom = renderUI({
+  return(combinedUncertainty_finalAnswer_renderer())
 })
 
 output$display_combinedUncertainty_finalAnswer_dashboard = renderUI({

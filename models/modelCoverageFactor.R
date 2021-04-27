@@ -146,8 +146,8 @@ output$display_coverageFactor_dofSamplePreparation = renderUI({
   return(withMathJax(output))
 })
 
-output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
-  
+coverageFactor_effectiveDegreesOfFreedom_renderer = function(removeColours = FALSE)
+{
   uncHomogeneity = getHomogeneity_relativeStandardUncertainty()
   uncCalibrationCurve = formatNumberForDisplay(getResultCalibrationCurve(),input)
   uncMethodPrecision = formatNumberForDisplay(methodPrecisionResult(),input)
@@ -168,8 +168,12 @@ output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)
   
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
+}
+
+output$display_coverageFactor_effectiveDegreesOfFreedom = renderUI({
+  return(coverageFactor_effectiveDegreesOfFreedom_renderer())
 })
 
 output$display_coverageFactor_table <- DT::renderDataTable({

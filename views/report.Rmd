@@ -42,6 +42,27 @@ params:
   expandedUncertaintyResult: NA
   expandedUncertaintyResultPercentage: NA
   
+  homogeneity_standardUncertainty_left_renderer: NA
+  homogeneity_standardUncertainty_right_renderer: NA
+  homogeneity_standardUncertainty_max_renderer: NA
+  homogeneity_relativeStandardUncertainty_renderer: NA
+  
+  outputPooledStandardDeviation_renderer: NA
+  outputStandardUncertainty_renderer: NA
+  outputRealtiveStandardUncertainties_renderer: NA
+  methodPrecision_finalAnswer_bottom_renderer: NA
+  
+  standardSolution_solutionRelativeStandardUncertainty_renderer: NA
+  standardSolution_finalAnswer_renderer: NA
+  
+  samplePreparation_standardUncertainty_renderer: NA
+  samplePreparation_relativeStandardUncertainty_renderer: NA
+  samplePreparation_finalAnswer_bottom_renderer: NA
+  
+  combinedUncertainty_finalAnswer_renderer: NA
+  coverageFactor_effectiveDegreesOfFreedom_renderer: NA
+  expandedUncertainty_finalAnswer_renderer: NA
+  
 title: "`r params$APP_NAME` Report"
 ---
 
@@ -458,7 +479,76 @@ where:
 
 ***
 \newpage 
-# Appendix 2 - Raw Data
+
+# Appendix 2 - Calculations
+## Homogeneity
+`r params$homogeneity_standardUncertainty_left_renderer`
+
+***
+`r params$homogeneity_standardUncertainty_right_renderer`
+
+***
+`r params$homogeneity_standardUncertainty_max_renderer`
+
+***
+`r params$homogeneity_relativeStandardUncertainty_renderer`
+
+***
+\newpage 
+
+## Calibration Curve
+***
+\newpage
+
+## Method Precision
+`r params$outputPooledStandardDeviation_renderer`
+
+***
+`r params$outputStandardUncertainty_renderer`
+
+***
+`r params$outputRealtiveStandardUncertainties_renderer`
+
+***
+`r params$methodPrecision_finalAnswer_bottom_renderer`
+
+***
+\newpage 
+
+## Calibration Standard
+`r params$standardSolution_solutionRelativeStandardUncertainty_renderer`
+
+***
+`r params$standardSolution_finalAnswer_renderer`
+
+***
+\newpage 
+
+## Sample Preparation
+`r params$samplePreparation_standardUncertainty_renderer`
+
+***
+`r params$samplePreparation_relativeStandardUncertainty_renderer`
+
+***
+`r params$samplePreparation_finalAnswer_bottom_renderer`
+
+***
+\newpage 
+
+## Combined Uncertainty
+`r params$combinedUncertainty_finalAnswer_renderer`
+
+## Coverage Factor
+`r params$coverageFactor_effectiveDegreesOfFreedom_renderer`
+
+## Expanded Uncertainty
+`r params$expandedUncertainty_finalAnswer_renderer`
+
+***
+\newpage 
+
+# Appendix 3 - Raw Data
 ## Homogeneity
 ### Homogeneity (CSV)
 ```{r echo=FALSE}

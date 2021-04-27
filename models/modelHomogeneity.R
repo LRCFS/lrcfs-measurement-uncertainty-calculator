@@ -161,57 +161,82 @@ output$display_homogeneity_meanSumOfSquaresWithin = renderUI({
 })
 
 #Display calculations
-output$display_homogeneity_standardUncertainty = renderUI({
+homogeneity_standardUncertainty_left_renderer = function(removeColours = FALSE)
+{
+  suA = getHomogeneity_standardUncertaintyA()
+  if(is.na(suA)) return(NA)
   
   mssb = getHomogeneityMeanSumOfSquaresBetween()
   mssw = getHomogeneityMeanSumOfSquaresWithin()
   nZero = getHomogeneityNZero()
-  k = getHomogeneityNumCols()
-  suA = getHomogeneity_standardUncertaintyA()
-  suB = getHomogeneity_standardUncertaintyB()
-  su = getHomogeneity_standardUncertainty()
   
   formulas = c(paste0("\\displaystyle u_a(\\text{Homogeneity}) &= \\sqrt{\\frac{ MSS_B - MSS_W }{ n_0 }}"))
   formulas = c(formulas, paste0("&= \\sqrt{\\frac{ ",mssb," - ",mssw," }{ ",nZero," }}"))
   formulas = c(formulas, paste0("&= ", suA))
-  leftFormula = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(mathJaxAligned(formulas, 10, 50, removeColours))))
+}
 
+homogeneity_standardUncertainty_right_renderer = function(removeColours = FALSE)
+{
+  suB = getHomogeneity_standardUncertaintyB()
+  if(is.na(suB)) return(NA)
+  
+  mssw = getHomogeneityMeanSumOfSquaresWithin()
+  nZero = getHomogeneityNZero()
+  k = getHomogeneityNumCols()
+  
   formulas = c(paste0("\\displaystyle u_b(\\text{Homogeneity}) &= \\sqrt{ \\frac{ MSS_W }{ max(n_j) } } \\times \\sqrt{ \\frac{ 2 }{ k(n_0-1) } }"))
   formulas = c(formulas, paste0("&= \\sqrt{ \\frac{ ",mssw," }{ ",nZero," } } \\times \\sqrt{ \\frac{ 2 }{ ",k,"(",nZero,"-1) } }"))
   formulas = c(formulas, paste0("&= ", suB))
-  rightFormula = mathJaxAligned(formulas, 10)
+  return(withMathJax(HTML(mathJaxAligned(formulas, 10, 50, removeColours))))
+}
+
+homogeneity_standardUncertainty_max_renderer = function(removeColours = FALSE)
+{
+  suA = getHomogeneity_standardUncertaintyA()
+  suB = getHomogeneity_standardUncertaintyB()
+  su = getHomogeneity_standardUncertainty()
+  
+  if(is.na(suA) && is.na(suB) ) return(NA)
   
   formulas = c(paste0("\\displaystyle u(\\text{Homogeneity}) &= \\text{max}\\{u_a,u_b\\}"))
   formulas = c(formulas, paste0("&= \\text{max}\\{",suA,",",suB,"\\}"))
   formulas = c(formulas, paste0("&= ", su))
-  answerFormula = mathJaxAligned(formulas, 10)
-  
+  return(withMathJax(HTML(mathJaxAligned(formulas, 10, 50, removeColours))))
+}
+
+output$display_homogeneity_standardUncertainty = renderUI({
   display = fluidRow(
               fluidRow(
-                column(6, withMathJax(HTML(leftFormula))),
-                column(6, withMathJax(HTML(rightFormula)))
+                column(6, homogeneity_standardUncertainty_left_renderer()),
+                column(6, homogeneity_standardUncertainty_right_renderer())
               ),
               fluidRow(
                 column(4, ""),
-                column(4, withMathJax(HTML(answerFormula))),
+                column(4, homogeneity_standardUncertainty_max_renderer()),
                 column(4, "")
               )
             )
-  
   return(display)
 })
 
-output$display_homogeneity_relativeStandardUncertainty = renderUI({
+homogeneity_relativeStandardUncertainty_renderer = function(removeColours = FALSE)
+{
+  answer = getHomogeneity_relativeStandardUncertainty()
+  if(is.na(answer)) return(NA)
   
   standardUncerainty = getHomogeneity_standardUncertainty()
   xt = getHomogeneityGrandMean()
-  answer = getHomogeneity_relativeStandardUncertainty()
   
   formulas = c(paste0("u_r(\\text{Homogeneity}) &= \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T }"))
   formulas = c(formulas, paste0("&= \\frac{ ",standardUncerainty," }{ ",xt," }"))
   formulas = c(formulas, paste0("&= ", answer))
-  output = mathJaxAligned(formulas, 10)
+  output = mathJaxAligned(formulas, 10, 50, removeColours)
   return(withMathJax(HTML(output)))
+}
+
+output$display_homogeneity_relativeStandardUncertainty = renderUI({
+  return(homogeneity_relativeStandardUncertainty_renderer())
 })
 
 #Display final answers

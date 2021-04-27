@@ -32,17 +32,22 @@ output$display_samplePreparation_rawDataTable = DT::renderDataTable(
   options = list(scrollX = TRUE, dom = 'tip')
 )
 
+
+
 #Display calculations
-output$display_samplePreparation_standardUncertainty = renderUI({
+
+#Renderer function for both html and pdf report
+samplePreparation_standardUncertainty_renderer = function(removeColours = FALSE)
+{
   data = getDataSamplePreparation()
   if(is.null(data)) return(NA)
-
+  
   formulas = c("u\\text{(Equipment)}_{\\text{(Cap,Tol)}} &= \\frac{\\text{Tolerance}}{\\text{Coverage Factor}} [[break]]")
-
+  
   for(samplePreparationItem in rownames(data))
   {
     samplePreparationItemData = data[samplePreparationItem,]
-
+    
     equipment = samplePreparationItemData$equipment
     equipmentCapacity = samplePreparationItemData$equipmentCapacity
     equipmentCapacityTolerance = samplePreparationItemData$equipmentCapacityTolerance
@@ -51,12 +56,16 @@ output$display_samplePreparation_standardUncertainty = renderUI({
     
     formulas = c(formulas, paste0("u\\text{(",equipment,")}_{\\text{(",equipmentCapacity,",",equipmentCapacityTolerance,")}} &= \\frac{",equipmentCapacityTolerance,"}{",equipmentCoverage,"} = ", colourNumber(answerValue, input$useColours, input$colour1)))
   }
-  output = mathJaxAligned(formulas, 10, 20)
-  
-  return(withMathJax(output))
+  output = withMathJax(mathJaxAligned(formulas, 10, 20, removeColours))
+}
+
+output$display_samplePreparation_standardUncertainty = renderUI({
+  return(samplePreparation_standardUncertainty_renderer())
 })
 
-output$display_samplePreparation_relativeStandardUncertainty = renderUI({
+#Renderer function for both html and pdf report
+samplePreparation_relativeStandardUncertainty_renderer = function(removeColours = FALSE)
+{
   data = getDataSamplePreparation()
   if(is.null(data)) return(NA)
   
@@ -74,9 +83,13 @@ output$display_samplePreparation_relativeStandardUncertainty = renderUI({
     
     formulas = c(formulas, paste0("u_r\\text{(",equipment,")}_{\\text{(",equipmentCapacity,",",equipmentCapacityTolerance,")}} &= \\frac{",colourNumber(stdUnc, input$useColours, input$colour1),"}{",equipmentCapacity,"} = ", answerValue))
   }
-  output = mathJaxAligned(formulas, 10, 20)
+  output = mathJaxAligned(formulas, 10, 20, removeColours)
   
   return(withMathJax(output))
+}
+
+output$display_samplePreparation_relativeStandardUncertainty = renderUI({
+  return(samplePreparation_relativeStandardUncertainty_renderer())
 })
 
 #Display final answers
@@ -84,7 +97,9 @@ output$display_samplePreparation_finalAnswer_top = renderUI({
   return(paste("\\(u_r\\text{(SamplePreparation)}=\\)",formatNumberForDisplay(getResultSamplePreparation(),input)))
 })
 
-output$display_samplePreparation_finalAnswer_bottom = renderUI({
+#Renderer function for both html and pdf report
+samplePreparation_finalAnswer_bottom_renderer = function(removeColours = FALSE)
+{
   data = getDataSamplePreparation()
   if(is.null(data)) return(NA)
   
@@ -104,7 +119,7 @@ output$display_samplePreparation_finalAnswer_bottom = renderUI({
     else{
       string = paste("+ [",relativeStandardUncertainty,"^2")
     }
-
+    
     formula = paste(formula, string, "\\times", samplePreparationItemData$equipmentTimesUsed, "]")
   }
   formula = paste(formula, "}")
@@ -113,10 +128,13 @@ output$display_samplePreparation_finalAnswer_bottom = renderUI({
   
   formulas = c(formulas, paste("&= ", formatNumberForDisplay(getResultSamplePreparation(),input)))
   
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   
   return(withMathJax(output))
-  
+}
+
+output$display_samplePreparation_finalAnswer_bottom = renderUI({
+  return(samplePreparation_finalAnswer_bottom_renderer())
 })
 
 output$display_samplePreparation_finalAnswer_dashboard = renderUI({

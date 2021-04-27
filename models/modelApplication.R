@@ -438,8 +438,30 @@ downloadReportHandler = downloadHandler(
                      combinedUncertaintyResult = combinedUncertaintyResult(),
                      coverageFactorResult = coverageFactorResult(),
                      expandedUncertaintyResult = expandedUncertaintyResult(),
-                     expandedUncertaintyResultPercentage = expandedUncertaintyResultPercentage())
-    
+                     expandedUncertaintyResultPercentage = expandedUncertaintyResultPercentage(),
+                     
+                     homogeneity_standardUncertainty_left_renderer = homogeneity_standardUncertainty_left_renderer(removeColours = TRUE),
+                     homogeneity_standardUncertainty_right_renderer = homogeneity_standardUncertainty_right_renderer(removeColours = TRUE),
+                     homogeneity_standardUncertainty_max_renderer = homogeneity_standardUncertainty_max_renderer(removeColours = TRUE),
+                     homogeneity_relativeStandardUncertainty_renderer = homogeneity_relativeStandardUncertainty_renderer(removeColours = TRUE),
+                     
+                     outputPooledStandardDeviation_renderer = outputPooledStandardDeviation_renderer(removeColours = TRUE),
+                     outputStandardUncertainty_renderer = outputStandardUncertainty_renderer(removeColours = TRUE),
+                     outputRealtiveStandardUncertainties_renderer = outputRealtiveStandardUncertainties_renderer(removeColours = TRUE),
+                     methodPrecision_finalAnswer_bottom_renderer = methodPrecision_finalAnswer_bottom_renderer(removeColours = TRUE),
+                     
+                     standardSolution_solutionRelativeStandardUncertainty_renderer = standardSolution_solutionRelativeStandardUncertainty_renderer(removeColours = TRUE),
+                     standardSolution_finalAnswer_renderer = standardSolution_finalAnswer_renderer(removeColours = TRUE),
+                     
+                     samplePreparation_standardUncertainty_renderer = samplePreparation_standardUncertainty_renderer(removeColours = TRUE),
+                     samplePreparation_relativeStandardUncertainty_renderer = samplePreparation_relativeStandardUncertainty_renderer(removeColours = TRUE),
+                     samplePreparation_finalAnswer_bottom_renderer = samplePreparation_finalAnswer_bottom_renderer(removeColours = TRUE),
+                     
+                     combinedUncertainty_finalAnswer_renderer = combinedUncertainty_finalAnswer_renderer(removeColours = TRUE),
+                     coverageFactor_effectiveDegreesOfFreedom_renderer = coverageFactor_effectiveDegreesOfFreedom_renderer(removeColours = TRUE),
+                     expandedUncertainty_finalAnswer_renderer = expandedUncertainty_finalAnswer_renderer(removeColours = TRUE)
+                     
+    )
     
     # Knit the document, passing in the `params` list, and eval it in a
     # child of the global environment (this isolates the code in the document

@@ -203,15 +203,13 @@ output$outputSumOfS2d = renderUI({
 })
 
 
-
-
-#Display the Pooled Standard Deviation for each concentration in the data
-output$outputPooledStandardDeviation = renderUI({
-  
-  data =  methodPrecisionDataWithCalculations()
+outputPooledStandardDeviation_renderer = function(removeColours = FALSE)
+{
+  data = methodPrecisionDataWithCalculations()
+  if(is.null(data)) return(NA)
   
   formula = c("S_{p(\\text{NV})} &= \\sqrt{\\frac{\\sum{(S^2 \\times {\\large\\nu})_{\\text{(NV)}}}}{\\sum {\\large\\nu}_{\\text{(NV)}}}} [[break]]")
-
+  
   for(conc in getConcentrations(data))
   {
     psdnfc = formatNumberForDisplay(getSumPooledStandardDeviationNumeratorForConcentration(data,conc),input)
@@ -220,15 +218,21 @@ output$outputPooledStandardDeviation = renderUI({
     
     formula = c(formula, paste0("S_{p(",conc,")} &= \\sqrt{\\frac{",colourNumber(psdnfc, input$useColours, input$colour2),"}{",colourNumber(sdoffc, input$useColours, input$colour1),"}} = ",colourNumber(answer, input$useColours, input$colour3)))
   }
-
-  results = mathJaxAligned(formula, 10, 20)
-
+  
+  results = mathJaxAligned(formula, 10, 20, removeColours)
+  
   return(withMathJax(HTML(results)))
-}) 
+}
 
-#Display the Standard Uncertainty for each concentration in the data
-output$outputStandardUncertainty = renderUI({
+#Display the Pooled Standard Deviation for each concentration in the data
+output$outputPooledStandardDeviation = renderUI({
+  return(outputPooledStandardDeviation_renderer())
+})
+
+outputStandardUncertainty_renderer = function(removeColours = FALSE)
+{
   data =  methodPrecisionDataWithCalculations()
+  if(is.null(data)) return(NA)
   
   formula = c("u(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{S_{p\\text{(NV)}}}{\\sqrt{r_s}} [[break]]")
   
@@ -240,14 +244,20 @@ output$outputStandardUncertainty = renderUI({
     formula = c(formula, paste0("u(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(psd, input$useColours, input$colour3),"}{\\sqrt{",ColourCaseSampleReplicates(csr,input$useColours),"}} = ", colourNumber(answer, input$useColours, input$colour4)))
   }
   
-  results = mathJaxAligned(formula, 10, 20)
+  results = mathJaxAligned(formula, 10, 20, removeColours)
   
   return(withMathJax(HTML(results)))
+}
+
+#Display the Standard Uncertainty for each concentration in the data
+output$outputStandardUncertainty = renderUI({
+  return(outputStandardUncertainty_renderer())
 }) 
 
-#Display the Realtive Standard Uncertainties for each concentration in the data
-output$outputRealtiveStandardUncertainties = renderUI({
+outputRealtiveStandardUncertainties_renderer = function(removeColours = FALSE)
+{
   data = methodPrecisionDataWithCalculations()
+  if(is.null(data)) return(NA)
   
   formula = c("u_r(\\text{MethodPrec})_{\\text{(NV)}} &= \\frac{u(\\text{MethodPrec})_{\\text{(NV)}}}{\\overline{x}_{\\text{(NV)}}} [[break]]")
   
@@ -259,9 +269,14 @@ output$outputRealtiveStandardUncertainties = renderUI({
     formula = c(formula, paste0("u_r(\\text{MethodPrec})_{(",conc,")} &= \\frac{",colourNumber(su, input$useColours, input$colour4),"}{",colourNumber(meanConcForNv, input$useColours, input$colour6),"} = ",colourNumber(rsu, input$useColours, input$colour5)))
   }
   
-  results = mathJaxAligned(formula, 10, 20)
+  results = mathJaxAligned(formula, 10, 20, removeColours)
   
   return(withMathJax(HTML(results)))
+}
+
+#Display the Realtive Standard Uncertainties for each concentration in the data
+output$outputRealtiveStandardUncertainties = renderUI({
+  return(outputRealtiveStandardUncertainties_renderer())
 })
 
 output$display_methodPrecision_finalAnswer_top = renderText({
@@ -269,9 +284,10 @@ output$display_methodPrecision_finalAnswer_top = renderText({
   return(paste("\\(u_r\\text{(MethodPrec)}=\\)",answer))
 })
 
-output$display_methodPrecision_finalAnswer_bottom = renderUI({
-
+methodPrecision_finalAnswer_bottom_renderer = function(removeColours = FALSE){
   data =  methodPrecisionDataWithCalculations()
+  if(is.null(data)) return(NA)
+  
   closetConcentration = getMethodPrecisionFinalAnswerClosestConcentration(data, input$inputCaseSampleMeanConcentration)
   
   concs = ""
@@ -289,7 +305,16 @@ output$display_methodPrecision_finalAnswer_bottom = renderUI({
   
   output = paste(output, "\\(u_r(\\text{MethodPrec})_{(", closetConcentration, ")}=", formatNumberForDisplay(methodPrecisionResult(),input), "\\)")
   
+  if(removeColours)
+  {
+    output = removeMathJaxColours(output)
+  }
+  
   return(withMathJax(HTML(output)))
+}
+
+output$display_methodPrecision_finalAnswer_bottom = renderUI({
+  return(methodPrecision_finalAnswer_bottom_renderer())
 })
 
 output$display_methodPrecision_finalAnswer_dashboard = renderUI({

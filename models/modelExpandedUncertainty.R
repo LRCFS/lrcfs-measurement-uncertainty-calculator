@@ -59,18 +59,22 @@ output$display_expandedUncertainty_finalAnswer_top = renderUI({
   return(withMathJax(paste("\\(\\text{ExpUncertainty}=",formatNumberForDisplay(expandedUncertaintyResult(),input),"\\)")))
 })
 
-output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
-  
+expandedUncertainty_finalAnswer_renderer = function(removeColours = FALSE)
+{
   confidenceInterval = input$inputConfidenceInterval
   effectiveDof = effectiveDofResult()
   finalCoverageFactor = coverageFactorResult()
-
+  
   formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",formatNumberForDisplay(effectiveDof,input),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
-  formulas = c(formulas, paste("&= ",colourNumberBackground(formatNumberForDisplay(finalCoverageFactor,input),CoverageFactorColor,"#FFF",input$useColours)," \\times ", colourNumberBackground(formatNumberForDisplay(combinedUncertaintyResult(),input),CombinedUncertaintyColor,"#FFF",input$useColours)))
+  formulas = c(formulas, paste("&=",colourNumberBackground(formatNumberForDisplay(finalCoverageFactor,input),CoverageFactorColor,"#FFF",input$useColours)," \\times ", colourNumberBackground(formatNumberForDisplay(combinedUncertaintyResult(),input),CombinedUncertaintyColor,"#FFF",input$useColours)))
   formulas = c(formulas, paste("&=",formatNumberForDisplay(expandedUncertaintyResult(),input)))
-  output = mathJaxAligned(formulas, 5,20)
+  output = mathJaxAligned(formulas, 5,20, removeColours)
   
   return(withMathJax(output))
+}
+
+output$display_expandedUncertainty_finalAnswer_bottom = renderUI({
+  return(expandedUncertainty_finalAnswer_renderer())
 })
 
 output$display_expandedUncertainty_finalAnswerPercentage_bottom = renderUI({
