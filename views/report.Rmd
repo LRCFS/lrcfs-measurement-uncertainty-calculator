@@ -17,6 +17,9 @@ params:
   standardSolutionEquipmentData: NA
   samplePreparationData: NA
   homogeneityData: NA
+  
+  combinedUncertainty_uncertaintyBudget_graphData: NA
+  
   inputWeightLeastSquared: NA
   customWls: NA
   customWlsPooled: NA
@@ -103,6 +106,10 @@ title: "`r params$APP_NAME` Report"
 .icon-large{
   display: none;
 }
+```
+
+```{r loadPackages, include=FALSE}
+library("ggplot2")
 ```
 
 ## `r params$APP_DEV`
@@ -517,6 +524,19 @@ where:
 \newpage 
 
 ## Calibration Curve
+```{r echo=FALSE,calibrationCurveDataReformatted, echo=FALSE, fig.cap="Concentration vs Peak Area Ratio", out.width = '80%', fig.align = 'center'}
+
+data = params$calibrationCurveDataReformatted
+
+ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
+  geom_point() + 
+  labs(x = "Concentration", y = "Peak Area Ratio") +
+  geom_smooth(method='lm', formula= y~x)
+
+```
+
+***
+
 `r if(!is.na(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
 
 `r params$calibrationCurve_finalAnswer_bottom_renderer`
@@ -555,6 +575,17 @@ where:
 \newpage 
 
 ## Combined Uncertainty
+```{r echo=FALSE,combinedUncertainty_uncertaintyBudget_graphData, echo=FALSE, fig.cap="Uncertainty Budget", out.width = '80%', fig.align = 'center'}
+
+data = params$combinedUncertainty_uncertaintyBudget_graphData
+
+ggplot(data, aes(x = percentage, y = uncertaintyComponent)) +
+  geom_col(width = 0.7) + 
+  labs(x = "Percentage", y = "Uncertainty Component")
+
+```
+***
+
 `r params$combinedUncertainty_finalAnswer_renderer`
 
 ## Coverage Factor

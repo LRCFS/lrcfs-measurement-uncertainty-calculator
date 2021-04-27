@@ -407,6 +407,8 @@ downloadReportHandler = downloadHandler(
                      APP_NAME_SHORT = APP_NAME_SHORT,
                      APP_VER = APP_VER,
                      APP_LINK = APP_LINK,
+                     
+                     #Data
                      calibrationCurveData = getDataCalibrationCurve(),
                      calibrationCurveDataReformatted = getDataCalibrationCurveReformatted(),
                      externalStandardErrorData = getDataExternalStandardError(),
@@ -415,6 +417,10 @@ downloadReportHandler = downloadHandler(
                      standardSolutionEquipmentData = standardSolutionMeasurementData(),
                      samplePreparationData = getDataSamplePreparation(),
                      homogeneityData = getDataHomogeneity(),
+                     
+                     combinedUncertainty_uncertaintyBudget_graphData = combinedUncertainty_uncertaintyBudget_graphData(),
+                     
+                     #Inputs
                      inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
                      customWls = getDataCustomWls(),
                      customWlsPooled = getDataCustomWlsPooled(),
@@ -424,22 +430,29 @@ downloadReportHandler = downloadHandler(
                      inputCaseSampleWeight = input$inputCaseSampleCustomWeight,
                      inputConfidenceInterval = input$inputConfidenceInterval,
                      inputManualCoverageFactor = input$inputManualCoverageFactor,
+                     
+                     #Uncertainties
                      uncCalibrationCurve = getResultCalibrationCurve(),
                      uncMethodPrecision = methodPrecisionResult(),
                      uncStandardSolution = standardSolutionResult(),
                      uncSamplePreparation = getResultSamplePreparation(),
                      uncHomogeneity = getHomogeneity_relativeStandardUncertainty_value(),
+                     
+                     #Homogeneity Test
                      homogeneityTestResult = getHomogeneityTestPass_text(),
                      homogeneityTestAlphaValue = getHomogeneityTestAlphaValue_display(),
                      homogeneityTestDofW = getHomogeneityTestWithinDof(),
                      homogeneityTestDofB = getHomogeneityTestBetweenDof(),
                      homogeneityTestFStat = getHomogeneityFValue_value(),
                      homogeneityTestFCrit = getHomogeneityTestFCritical_value(),
+                     
+                     #Answers
                      combinedUncertaintyResult = combinedUncertaintyResult(),
                      coverageFactorResult = coverageFactorResult(),
                      expandedUncertaintyResult = expandedUncertaintyResult(),
                      expandedUncertaintyResultPercentage = expandedUncertaintyResultPercentage(),
                      
+                     #Display calcs
                      homogeneity_standardUncertainty_left_renderer = homogeneity_standardUncertainty_left_renderer(removeColours = TRUE),
                      homogeneity_standardUncertainty_right_renderer = homogeneity_standardUncertainty_right_renderer(removeColours = TRUE),
                      homogeneity_standardUncertainty_max_renderer = homogeneity_standardUncertainty_max_renderer(removeColours = TRUE),

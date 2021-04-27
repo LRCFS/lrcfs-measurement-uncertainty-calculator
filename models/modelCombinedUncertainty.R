@@ -37,7 +37,7 @@ combinedUncertaintyResult = reactive({
 # Outputs
 ###################################################################################
 
-output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
+combinedUncertainty_uncertaintyBudget_graphData = function(){
   data = data.frame("Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "CalibrationStandard" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
   data = removeEmptyData(data)
   
@@ -46,6 +46,12 @@ output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
   
   dataMelt = melt(data)
   dataGraphReady = data.frame(uncertaintyComponent = dataMelt$variable, rsu = formatNumberForDisplay(dataMelt$value,input), percentage = round(percentagesMelt$value))
+  
+  return(dataGraphReady)
+}
+
+output$display_combinedUncertainty_uncertaintyBudget = renderPlotly({
+  dataGraphReady = combinedUncertainty_uncertaintyBudget_graphData()
   
   colors = vector()
   for(colname in colnames(data))
@@ -85,7 +91,7 @@ output$display_combinedUncertainty_uncertaintyBudget <- renderPlotly({
            yaxis = list(title = "", autorange="reversed"))
 })
 
-output$display_combinedUncertainty_meanConcentration <- renderUI({
+output$display_combinedUncertainty_meanConcentration = renderUI({
   string = paste(input$inputCaseSampleMeanConcentration)
   return(string)
 })

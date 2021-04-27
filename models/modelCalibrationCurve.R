@@ -477,7 +477,7 @@ calibrationCurve_finalAnswer_bottom_renderer = function(removeColours = FALSE)
 }
 
 output$display_calibrationCurve_finalAnswer_bottom = renderUI({
-  return(calibrationCurve_finalAnswer_bottom_renderer())
+  return(paste(calibrationCurve_finalAnswer_bottom_renderer()))
 })
 
 output$display_calibrationCurve_finalAnswer_dashboard = renderUI({
