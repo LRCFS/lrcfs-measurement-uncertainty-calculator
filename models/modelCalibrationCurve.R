@@ -203,14 +203,15 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
   )
 })
 
-output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
+calibrationCurve_uncertaintyOfCalibration_renderer = function(removeColours = FALSE)
+{
   data = getDataCalibrationCurveReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
   standardisedWeights = getCalibrationCurve_standardisedWeight()
   
   exStdErrData = getDataExternalStandardError()
-
+  
   stdErrorOfRegression = 0
   if(is.null(exStdErrData))
   {
@@ -238,7 +239,7 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   peakAreaRatioOfCaseSample = input$inputCaseSampleMeanPeakAreaRatio
   sumWeightedSqDeviationX = formatNumberForDisplay(getCalibrationCurve_sumWeightedSqDeviationX(), input)
   sumWeightedSqDeviationX = colourNumber(sumWeightedSqDeviationX, input$useColours, input$colour2)
-
+  
   answer = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   
   sw="S_{w}"
@@ -248,12 +249,16 @@ output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
   }
   formulas = c(paste0("u\\text{(CalCurve)} &= \\frac{",sw,"}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} } [[break]]"))
   formulas = c(formulas, paste("u\\text{(CalCurve)}&=\\frac{",stdErrorOfRegression,"}{",slope,"} \\sqrt{\\frac{1}{",colourNumber(weightedCaseSample, input$useColours, input$colour9)," \\times ",ColourCaseSampleReplicates(caseSampleReps,input$useColours)," } + \\frac{1}{",n,"} + \\frac{(",ColourCaseSampleMeanConcentration(caseSampleMeanConc,input$useColours)," - ",meanX,")^2}{",sumWeightedSqDeviationX,"}}"))
-
+  
   
   formulas = c(formulas, paste("&=",answer))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationCurve_uncertaintyOfCalibration = renderUI({
+  return(calibrationCurve_uncertaintyOfCalibration_renderer())
 })
 
 
