@@ -37,6 +37,7 @@ combinedUncertaintyResult = reactive({
 # Outputs
 ###################################################################################
 
+#Used for both web display and in the report
 combinedUncertainty_uncertaintyBudget_graphData = function(){
   data = data.frame("Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "CalibrationStandard" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
   data = removeEmptyData(data)
@@ -53,6 +54,9 @@ combinedUncertainty_uncertaintyBudget_graphData = function(){
 output$display_combinedUncertainty_uncertaintyBudget = renderPlotly({
   dataGraphReady = combinedUncertainty_uncertaintyBudget_graphData()
   
+  #Doing this for the colours is messy as we've just got all this data previously, hacky fix.
+  data = data.frame("Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "CalibrationStandard" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
+  data = removeEmptyData(data)
   colors = vector()
   for(colname in colnames(data))
   {
