@@ -110,6 +110,11 @@ title: "`r params$APP_NAME` Report"
 
 ```{r loadPackages, include=FALSE}
 library("ggplot2")
+
+renderData = function(data)
+{
+  if(!is.null(data)) knitr::kable(data, format="markdown") else paste("No data provided.")
+}
 ```
 
 ## `r params$APP_DEV`
@@ -143,7 +148,6 @@ This report was automatically generated on `r params$TIME` using the using the `
 ## Summary
 The following is a summary of the supplied data and results calculated.
 
-### Results
 ### Homogeniety Test
 Where data has been provided for a Homogeneity test the following results were recorded:
 
@@ -159,7 +163,6 @@ Where data has been provided for a Homogeneity test the following results were r
 ***
 \newpage
 
-### Results
 ### Measurement Uncertainty
 
 #### Inputs
@@ -205,7 +208,7 @@ With the information supplied above the following result has been concentration 
 
 \newpage
 
-# Appendix 1 - Methodology
+# Methodology
 
 ## Homogeneity Test
 
@@ -254,7 +257,20 @@ Finally, \(H_0\) is rejected if \(F_{\large s} > F_c\)
 
 - \(\overline{X}_T\) is the grand mean of all measurements.
 
+### Data
+`r renderData(params$homogeneityData)`
+
+### Calculations
+`r if(!is.na(params$homogeneityTest_fValue_renderer)) paste(params$homogeneityTest_fValue_renderer, "***")`
+
+`r if(!is.na(params$homogeneity_fCritical_renderer)) paste(params$homogeneity_fCritical_renderer, "***")`
+
+`r params$renderHomogeneityTestAnswer`
+
+&nbsp;
+
 ***
+
 \newpage
 
 ## Homogeneity
@@ -291,6 +307,19 @@ A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank' t
 - \(X_{ij}\) is the \(i^{th}\) measurement of the \(j^{th}\) group.
 - \(\overline{X}_j\) is the mean of measurement in group \(j\).
 - \(\overline{X}_T\) is the grand mean, calculated as the sum of all measurements \(\left(\sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} X_{ij}\right)\) divided by the number of measurements \((N)\).
+
+### Data
+`r renderData(params$homogeneityData)`
+
+### Calculations
+
+`r if(!is.na(params$homogeneity_standardUncertainty_left_renderer)) paste(params$homogeneity_standardUncertainty_left_renderer, "***")`
+
+`r if(!is.na(params$homogeneity_standardUncertainty_right_renderer)) paste(params$homogeneity_standardUncertainty_right_renderer, "***")`
+
+`r if(!is.na(params$homogeneity_standardUncertainty_max_renderer)) paste(params$homogeneity_standardUncertainty_max_renderer, "***")`
+
+`r params$homogeneity_relativeStandardUncertainty_renderer`
 
 
 ***
@@ -336,8 +365,43 @@ $u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mea
  - \(b_1\) is the Slope of the of regression line.
  - \(\overline{x}\) is the mean values of the different calibration standards.
  - \(S_{xx}\) is the sum of squares deviation of \(x\) given by \(\sum\limits_{i=1}^n (x_i - \overline{x})^2\).
- 
+
+### Data
+#### Calibration Curve
+`r renderData(params$calibrationCurveData)`
+
+#### External Standard Error
+`r renderData(params$externalStandardErrorData)`
+
+#### Specified Custom Weights
+`r renderData(params$customWls)`
+
+#### Specified Custom Weights for Pooled External Standard Error
+`r renderData(params$customWlsPooled)`
+
+### Calculations
+```{r echo=FALSE,calibrationCurveDataReformatted, echo=FALSE, fig.cap="Concentration vs Peak Area Ratio", out.width = '80%', fig.align = 'center'}
+
+data = params$calibrationCurveDataReformatted
+
+if(!is.null(data))
+{
+  ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
+    geom_point() + 
+    labs(x = "Concentration", y = "Peak Area Ratio") +
+    geom_smooth(method='lm', formula= y~x)
+}
+
+```
+
 ***
+
+`r if(!is.na(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
+
+`r params$calibrationCurve_finalAnswer_bottom_renderer`
+
+***
+
 \newpage 
 ## Method Precision
 
@@ -371,6 +435,18 @@ $S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\s
 - \(NV\) is the nominal value of concentration.
 
 - \(\overline{x}_{\text{(NV)}}\) is the mean concentration for the nominal value \(\text{NV}\).
+
+### Data
+`r renderData(params$methodPrecisionData)`
+
+### Calculations
+`r if(!is.na(params$outputPooledStandardDeviation_renderer)) paste(params$outputPooledStandardDeviation_renderer, "***")`
+
+`r if(!is.na(params$outputStandardUncertainty_renderer)) paste(params$outputStandardUncertainty_renderer, "***")`
+
+`r if(!is.na(params$outputRealtiveStandardUncertainties_renderer)) paste(params$outputRealtiveStandardUncertainties_renderer, "***")`
+
+`r params$methodPrecision_finalAnswer_bottom_renderer`
 
 ***
 \newpage 
@@ -406,6 +482,18 @@ $u_r(\text{CalStandard}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)
 
 - \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in the preparation of a given solution.
 
+### Data
+#### Calibration Standard Structure
+`r renderData(params$standardSolutionData)`
+
+#### Calibration Standard Equipment
+`r renderData(params$standardSolutionEquipmentData)`
+
+### Calculations
+`r if(!is.na(params$standardSolution_solutionRelativeStandardUncertainty_renderer)) paste(params$standardSolution_solutionRelativeStandardUncertainty_renderer, "***")`
+
+`r params$standardSolution_finalAnswer_renderer`
+
 ***
 \newpage 
 ## Sample Preparation
@@ -426,6 +514,16 @@ $u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Cap,T
 
 - \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in taking the preparation of a given sample.
 
+### Data
+`r renderData(params$samplePreparationData)`
+
+### Calculations
+`r if(!is.na(params$samplePreparation_standardUncertainty_renderer)) paste(params$samplePreparation_standardUncertainty_renderer, "***")`
+
+`r if(!is.na(params$samplePreparation_relativeStandardUncertainty_renderer)) paste(params$samplePreparation_relativeStandardUncertainty_renderer, "***")`
+
+`r params$samplePreparation_finalAnswer_bottom_renderer`
+
 ***
 \newpage 
 ## Combined Uncertainty
@@ -445,7 +543,23 @@ $\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Compon
 
 - \(x_s\) is the Case Sample Mean Concentration.
 
+### Calculations
+```{r echo=FALSE,combinedUncertainty_uncertaintyBudget_graphData, echo=FALSE, fig.cap="Uncertainty Budget", out.width = '80%', fig.align = 'center'}
+
+data = params$combinedUncertainty_uncertaintyBudget_graphData
+
+ggplot(data, aes(x = percentage, y = reorder(uncertaintyComponent, percentage))) +
+  geom_col(width = 0.7) + 
+  labs(x = "Percentage", y = "Uncertainty Component")
+
+```
+
 ***
+
+`r params$combinedUncertainty_finalAnswer_renderer`
+
+***
+
 \newpage 
 ## Coverage Factor
 
@@ -468,6 +582,9 @@ The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read fr
 - \(\nu\) is the Degrees of Freedom for each uncertainty component.
 
 - \({\small\text{CombUncertainty}}\) is the Combined Uncertainty of the individual uncertainty components.
+
+### Calculations
+`r params$coverageFactor_effectiveDegreesOfFreedom_renderer`
 
 ***
 \newpage
@@ -498,164 +615,9 @@ where:
 
 - \(x_s\) case sample mean concentration.
 
-***
-\newpage 
-
-# Appendix 2 - Calculations
-## Homogeneity Test
-`r if(!is.na(params$homogeneityTest_fValue_renderer)) paste(params$homogeneityTest_fValue_renderer, "***")`
-
-`r if(!is.na(params$homogeneity_fCritical_renderer)) paste(params$homogeneity_fCritical_renderer, "***")`
-
-`r params$renderHomogeneityTestAnswer`
-
-***
-\newpage 
-
-## Homogeneity
-`r if(!is.na(params$homogeneity_standardUncertainty_left_renderer)) paste(params$homogeneity_standardUncertainty_left_renderer, "***")`
-
-`r if(!is.na(params$homogeneity_standardUncertainty_right_renderer)) paste(params$homogeneity_standardUncertainty_right_renderer, "***")`
-
-`r if(!is.na(params$homogeneity_standardUncertainty_max_renderer)) paste(params$homogeneity_standardUncertainty_max_renderer, "***")`
-
-`r params$homogeneity_relativeStandardUncertainty_renderer`
-
-\newpage 
-
-## Calibration Curve
-```{r echo=FALSE,calibrationCurveDataReformatted, echo=FALSE, fig.cap="Concentration vs Peak Area Ratio", out.width = '80%', fig.align = 'center'}
-
-data = params$calibrationCurveDataReformatted
-
-if(!is.null(data))
-{
-  ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
-    geom_point() + 
-    labs(x = "Concentration", y = "Peak Area Ratio") +
-    geom_smooth(method='lm', formula= y~x)
-}
-
-```
-
-***
-
-`r if(!is.na(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
-
-`r params$calibrationCurve_finalAnswer_bottom_renderer`
-
-***
-\newpage
-
-## Method Precision
-`r if(!is.na(params$outputPooledStandardDeviation_renderer)) paste(params$outputPooledStandardDeviation_renderer, "***")`
-
-`r if(!is.na(params$outputStandardUncertainty_renderer)) paste(params$outputStandardUncertainty_renderer, "***")`
-
-`r if(!is.na(params$outputRealtiveStandardUncertainties_renderer)) paste(params$outputRealtiveStandardUncertainties_renderer, "***")`
-
-`r params$methodPrecision_finalAnswer_bottom_renderer`
-
-***
-\newpage 
-
-## Calibration Standard
-`r if(!is.na(params$standardSolution_solutionRelativeStandardUncertainty_renderer)) paste(params$standardSolution_solutionRelativeStandardUncertainty_renderer, "***")`
-
-`r params$standardSolution_finalAnswer_renderer`
-
-***
-\newpage 
-
-## Sample Preparation
-`r if(!is.na(params$samplePreparation_standardUncertainty_renderer)) paste(params$samplePreparation_standardUncertainty_renderer, "***")`
-
-`r if(!is.na(params$samplePreparation_relativeStandardUncertainty_renderer)) paste(params$samplePreparation_relativeStandardUncertainty_renderer, "***")`
-
-`r params$samplePreparation_finalAnswer_bottom_renderer`
-
-***
-\newpage 
-
-## Combined Uncertainty
-```{r echo=FALSE,combinedUncertainty_uncertaintyBudget_graphData, echo=FALSE, fig.cap="Uncertainty Budget", out.width = '80%', fig.align = 'center'}
-
-data = params$combinedUncertainty_uncertaintyBudget_graphData
-
-ggplot(data, aes(x = percentage, y = uncertaintyComponent)) +
-  geom_col(width = 0.7) + 
-  labs(x = "Percentage", y = "Uncertainty Component")
-
-```
-***
-
-`r params$combinedUncertainty_finalAnswer_renderer`
-
-## Coverage Factor
-`r params$coverageFactor_effectiveDegreesOfFreedom_renderer`
-
-## Expanded Uncertainty
+### Calculations
 `r params$expandedUncertainty_finalAnswer_renderer`
 
 ***
-\newpage 
-
-# Appendix 3 - Raw Data
-## Homogeneity
-### Homogeneity (CSV)
-```{r echo=FALSE}
-params$homogeneityData
-```
-
-\newpage
-## Calibration Curve
-### Calibration Curve (CSV)
-```{r echo=FALSE}
-params$calibrationCurveData
-```
-
-\newpage
-### External Standard Error (CSV)
-```{r echo=FALSE}
-params$externalStandardErrorData
-```
-
-\newpage
-### Specified Custom Weights (CSV)
-```{r echo=FALSE}
-params$customWls
-```
-
-\newpage
-### Specified Custom Weights for Pooled External Standard Error (CSV)
-```{r echo=FALSE}
-params$customWlsPooled
-```
-
-\newpage
-## Method Precision
-### Method Precision (CSV)
-```{r echo=FALSE}
-params$methodPrecisionData
-```
-
-\newpage
-## Calibration Standard
-### Calibration Standard Structure (CSV)
-```{r echo=FALSE}
-params$standardSolutionData
-```
-
-### Calibration Standard Equipment (CSV)
-```{r echo=FALSE}
-params$standardSolutionEquipmentData
-```
-
-\newpage
-## Sample Preparation
-### Sample Preparation (CSV)
-```{r echo=FALSE}
-params$samplePreparationData
-```
 
 # END OF REPORT
