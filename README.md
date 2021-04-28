@@ -9,33 +9,29 @@ The software computes uncertainty components for Method Precision, Standard Solu
 Once data is uploaded, a step by step computation and details of all formulas used can be accessed for reviewed.
 
 # Using the LRCFS MUCalc
-You can access a publicaly available version of this application at: https://uod.ac.uk/lrcfsmucalc
+You can access a publicly available version of this application at: https://uod.ac.uk/lrcfsmucalc
 
 # Running the MUCalc from source with RStudio
-MUCalc uses packrat (https://rstudio.github.io/packrat/) to manage dependancies of the various packages it uses.
-This ensures that the versions of the packages you use for this project work correctly and won't interfeare with
+MUCalc uses renv (https://rstudio.github.io/renv/articles/renv.html) to manage dependencies of the various packages it uses.
+This ensures that the versions of the packages you use for this project work correctly and won't interfere with
 other versions of the same packages you might be using on other projects.
 
 ## Running MUCalc source for the first time
-To get started, open this file in RStudio and run the following command, ensuring that your working directory is set to the folder in which this file is stored.
-> getwd()
+To get started, open `lrcfs-measurement-uncertainty-calculator.Rproj` in RStudio.
 
-If your working directory is not set correctly, use the following command to set your working directory - replacing the example path between the quotes.
-> setwd("c:/example/directory/application")
+The renv package management software should automatically install. If not, run:
+> install.packages("renv")
 
-Once your working directly is correctly set, install the "packrat" package with the following command.
-> install.packages("packrat")
-
-Once installed you will be able to run the following packrat command to "restore" the correct versions of packages required.
-This command is checking the .\packrat\packrat.lock file and is loading all the saved version of these packages from .\packrat\src\
-> packrat::restore()
+Once installed you will be able to run the following renv command to "restore" the correct versions of packages required.
+This command is checking the `.\renv.lock` file for specific version of the packages to install.
+> renv::restore()
 
 MUCalc uses a package called "shiny" (https://shiny.rstudio.com/) for rendering the website you see when you start the application.
 RStudio has built in support for Shiny and because we've just installed it (if you haven't used Shiny before) you must restart your RStudio instance and open the app.R file.
 
-> Close R Studio and open app.R
+> Close R Studio then open 'lrcfs-measurement-uncertainty-calculator.Rproj'
 
-Now that we've installed all the required dependancies, and loaded the app.R in RStudio, you will see an option to "Run App" at the top right of the app.R source code. 
+Now that we've installed all the required dependencies, select the `app.R` in RStudio, you will see an option to "Run App" at the top right of the app.R source code. 
 
 # Measurement Uncertainty Calculator - Copyright (C) 2019
 ## Leverhulme Research Centre for Forensic Science
