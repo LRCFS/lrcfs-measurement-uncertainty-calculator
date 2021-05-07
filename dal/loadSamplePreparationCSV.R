@@ -24,11 +24,11 @@
 samplePreparationReadCSV = function(filePath = NULL, validate = FALSE) {
   
   #The columns that the data should have
-  columnsToCheck = list("equipment" = "Your data must contain...",
-                        "equipmentCapacity" = "Your data must contain...",
-                        "equipmentCapacityTolerance" = "Your data must contain...",
-                        "equipmentCoverage" = "Your data must contain...",
-                        "equipmentTimesUsed" = "Your data must contain...")
+  columnsToCheck = list("equipment" = "Your data must contain an 'equipment' column.",
+                        "equipmentCapacity" = "Your data must contain an 'equipmentCapacity' column.",
+                        "equipmentCapacityTolerance" = "Your data must contain an 'equipmentCapacityTolerance' column.",
+                        "equipmentCoverage" = "Your data must contain an 'equipmentCoverage' column.",
+                        "equipmentTimesUsed" = "Your data must contain an 'equipmentTimesUsed' column.")
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }

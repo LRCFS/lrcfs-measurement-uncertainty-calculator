@@ -24,8 +24,8 @@
 calibrationCurveReadCSV = function(filePath = NULL, validate = FALSE) {
   
   #The columns that the data should have
-  columnsToCheck = list("conc" = "Your data must contain information about the concentrations of each run.",
-                        "run1" = "Your data must contain at least one run.")
+  columnsToCheck = list("conc" = "Your data must contain information about the concentrations of each run in a column named 'conc'.",
+                        "run1" = "Your data must contain at least one run in a column named 'run1'.")
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }

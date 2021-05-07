@@ -50,7 +50,14 @@ loadCsv = function(filePath, validate, columnsToCheck)
       return(NULL)
     },
     warning = function(e) {
-      loadError <<- e
+      #Missing a line ending on the last line is a pretty common error so lets clean up the error message
+      if(grepl("incomplete final line found by readTableHeader", e))
+      {
+        loadError <<- "Incomplete final line found. Please ensure that the last line of your CSV file is an empty line. This ensures that MUCalc knows it has correctly loaded your entire file."
+      }
+      else{
+        loadError <<- e
+      }
       return(NULL)
     }
   )

@@ -24,11 +24,11 @@
 standardSolutionReadCSV = function(filePath = NULL, validate = FALSE) {
   
   #The columns that the data should have
-  columnsToCheck = list("solution" = "Your data must contain...",
-                        "madeFrom" = "Your data must contain...",
-                        "compoundPurity" = "Your data must contain...",
-                        "compoundTolerance" = "Your data must contain...",
-                        "compoundCoverage" = "Your data must contain...")
+  columnsToCheck = list("solution" = "Your data must contain a 'solution' column.",
+                        "madeFrom" = "Your data must contain a 'madeFrom' column that is used to specify the 'solution' the row is derived from.",
+                        "compoundPurity" = "Your data must contain a 'compoundPurity' column.",
+                        "compoundTolerance" = "Your data must contain a 'compoundTolerance' column.",
+                        "compoundCoverage" = "Your data must contain a 'compoundCoverage' column.")
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
@@ -36,12 +36,12 @@ standardSolutionReadCSV = function(filePath = NULL, validate = FALSE) {
 standardSolutionMeasurementsReadCSV = function(filePath = NULL, validate = FALSE) {
   
   #The columns that the data should have
-  columnsToCheck = list("solution" = "Your data must contain...",
-                        "equipment" = "Your data must contain...",
-                        "equipmentVolume" = "Your data must contain...",
-                        "equipmentTolerance" = "Your data must contain...",
-                        "equipmentCoverage" = "Your data must contain...",
-                        "equipmentTimesUsed" = "Your data must contain...")
+  columnsToCheck = list("solution" = "Your data must contain a 'solution' column.",
+                        "equipment" = "Your data must contain an 'equipment' column.",
+                        "equipmentVolume" = "Your data must contain an 'equipmentVolume' column.",
+                        "equipmentTolerance" = "Your data must contain an 'equipmentTolerance' column.",
+                        "equipmentCoverage" = "Your data must contain an 'equipmentCoverage' column.",
+                        "equipmentTimesUsed" = "Your data must contain an 'equipmentTimesUsed' column.")
   
   return(loadCsv(filePath, validate, columnsToCheck))
 }
