@@ -154,7 +154,7 @@ tabStart = tabItem(tabName = "start",
                                                    fluidRow(
                                                      column(width=6,
                                                             h4("Upload Sample Preparation Data"),
-                                                            a("Download Example Sample Preparation CSV", href="exampleData/exampleData-samplepreparation.csv", target="_blank", class="exampleDownloadLink"),
+                                                            a("Download Example Sample Preparation CSV", href="exampleData/exampleData-samplePreparation.csv", target="_blank", class="exampleDownloadLink"),
                                                             uiOutput("display_start_samplePreparationFileUpload"),
                                                             div("Error with uploaded file...", class="error", id="display_start_error_samplePreparationFileUpload"),
                                                             actionButton("reset_inputSamplePreparationFileUpload", "Remove Sample Preparation Data", icon=icon("times")),
