@@ -222,11 +222,11 @@ renderHomogeneityTestAnswer = function(displayWithColours = TRUE)
   
   if(homogeneityTestPass)
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is less than or equal to the F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(displayWithColours))), width = 12, color = "green", icon = icon("check-circle")))
+    return(valueBox("Result", withMathJax(HTML(paste0("<p>For the data supplied, the F statistic is less than or equal to the F critical, therefore we <strong>fail to reject the null hypothosis of equality</strong> and conclude that samples are homogeneous.</p>",renderHomogeneityTestResult(displayWithColours)))), width = 12, color = "green", icon = icon("check-circle")))
   }
   else
   {
-    return(valueBox("Result", HTML(paste0("<p>For the data supplied, the F statistic is greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(displayWithColours))), width = 12, color = "red", icon = icon("times-circle")))
+    return(valueBox("Result", withMathJax(HTML(paste0("<p>For the data supplied, the F statistic is greater than F critical, therefore we <strong>reject the null hypothosis of equality</strong> and conclude that samples are not homogeneous.</p>",renderHomogeneityTestResult(displayWithColours)))), width = 12, color = "red", icon = icon("times-circle")))
   }
 }
 

@@ -24,6 +24,8 @@
 #Clear all lists from memory to avoid unintentional errors
 rm(list = ls())
 
+#Note: if debugging isn't working in a certain file you can use "browser()" on any line to usually force a break point
+
 #Load required libraries
 library(shiny)
 library(shinyjs)
