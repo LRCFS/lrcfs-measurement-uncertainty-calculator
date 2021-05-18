@@ -210,6 +210,17 @@ With the information supplied above the following result has been concentration 
 
 # Methodology
 
+## Homogeneity
+
+Homogeneity/heterogeneity as defend in <a href='https://eurachem.org/images/stories/Guides/pdf/UfS_2019_EN_P2.pdf' target='_blank' title='Measurement uncertainty arising from sampling: A guide to methods and approaches'>EURACHEM/CITAC guide (2019)</a> and <a href='http://publications.iupac.org/pac/1990/pdf/6206x1193.pdf' title='INTERNATIONAL UNION OF PURE AND APPLIED CHEMISTRY' target='_blank'>IUPAC (1990)</a> is:
+
+"The degree to which a property or constituent is uniformly distributed throughout a quantity of material.
+Note:
+
+- A material may be homogeneous with respect to one analyte or property but heterogeneous with respect to another.
+
+- The degree of heterogeneity (the opposite of homogeneity) is the determining factor of sampling error."
+
 ## Homogeneity Test
 
 ### Overview
@@ -220,14 +231,14 @@ A one-way analysis of variance (ANOVA) is used to test the null hypotheses \((H_
 
 \(H_1\): \(m_l \neq m_j\) for some \(l,j\)
 
-The F statistic \((F_{\large s})\) under \(H_0\) follows an F-distribution given by the ratio of mean sum of squares between \((MSS_B)\) and mean sum of squares within \((MSS_W)\), as shown in the Method tab.
+The test statistic under \\(H_0\\) follows an F-distribution \\((F_{\\large s})\\) given by the ratio of mean sum of squares between \((MSS_B)\) and mean sum of squares within \((MSS_W)\), as shown in the Method section.
 
 The \(H_0\) is rejected if the F statistic \((F_{\large s})\) is greater than the F critical (\(F_c\)) value for a given alpha level and conclude that at least two group means differ. For more information see <a href='https://www.researchgate.net/publication/226708564_Uncertainty_calculations_in_the_certification_of_reference_materials_1_Principles_of_analysis_of_variance' target='_blank'>Veen et al: Principles of analysis of variance (2000)</a> and <a href='https://www.researchgate.net/publication/226313972_Uncertainty_calculations_in_the_certification_of_reference_materials_2_Homogeneity_study' target='_blank'>Veen et al: Homogeneity study (2001)</a>.
 
 
 ### Method
 
-A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank'>one-way analysis of variance (ANOVA)</a> test is carried out where the Mean Sum of Squares Between (\(MSS_B\)) is defined as:
+A one-way analysis of variance (ANOVA) test is carried out where the Mean Sum of Squares Between (\(MSS_B\)) is defined as:
 
 $MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 },$ the Mean Sum of Squares Within (\(MSS_W\)) is defined as: $MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }$
 
@@ -273,20 +284,11 @@ Finally, \(H_0\) is rejected if \(F_{\large s} > F_c\)
 
 \newpage
 
-## Homogeneity
+## Homogeneity Uncertainty
 
 ### Overview
-Homogeneity/heterogeneity as defend in <a href='https://eurachem.org/images/stories/Guides/pdf/UfS_2019_EN_P2.pdf' target='_blank' title='Measurement uncertainty arising from sampling: A guide to methods and approaches'>EURACHEM/CITAC guide (2019)</a> and <a href='http://publications.iupac.org/pac/1990/pdf/6206x1193.pdf' title='INTERNATIONAL UNION OF PURE AND APPLIED CHEMISTRY' target='_blank'>IUPAC (1990)</a> is:
-
-"The degree to which a property or constituent is uniformly distributed throughout a quantity of material.
-Note:
-
-- A material may be homogeneous with respect to one analyte or property but heterogeneous with respect to another.
-
-- The degree of heterogeneity (the opposite of homogeneity) is the determining factor of sampling error."
-
-The <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank' title='Uncertainty calculations in the certification of reference materials. 2. Homogeneity study'>uncertainty of homogeneity (2001)</a> quantifies the uncertainty associated with the between-group homogeneity where differences among sample groups are of interest.  Detailed step-by-step calculations are displayed here with the main formulas used to compute the uncertainty of homogeneity shown in the Method tab.
-To find out whether your samples are homogenous or heterogenous, the Homogeneity Test tab displays a detailed calculation for testing whether there is a statistically significant difference between group means of samples using a one-way analysis of variance (ANOVA) on the assumption that samples are normally distributed, have equal variance and are independent.
+The <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank' title='Uncertainty calculations in the certification of reference materials. 2. Homogeneity study'>uncertainty of homogeneity (2001)</a> quantifies the uncertainty associated with the between-group homogeneity where differences among sample groups are of interest.  Detailed step-by-step calculations are displayed here with the main formulas used to compute the uncertainty of homogeneity shown in the Method section.
+To find out whether your samples are homogenous or heterogenous, the Homogeneity Test section displays a detailed calculation for testing whether there is a statistically significant difference between group means of samples using a one-way analysis of variance (ANOVA) on the assumption that samples are normally distributed, have equal variance and are independent.
 
 ### Method
 The Relative Standard Uncertainty of homogeneity is given by the following calculation:
@@ -296,7 +298,7 @@ where \(\displaystyle u(\text{Homogeneity}) = \text{max}\{u_a,u_b\},\)
 
 \(\displaystyle u_a(\text{Homogeneity}) = \sqrt{\frac{ MSS_B - MSS_W }{ n_0 }}\) and \(\displaystyle u_b(\text{Homogeneity}) = \sqrt{ \frac{ MSS_W }{ n_0 } } \times \sqrt{ \frac{ 2 }{ k(n_0-1) } }\)
 
-A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank' title='Analysis of variance'>one-way analysis of variance (ANOVA)</a> test is carried out to calculate the Mean Sum of Squares Between groups (\(MSS_B\)) and the Mean Sum of Squares Within groups (\(MSS_W\)) given by:
+A one-way analysis of variance (ANOVA) test is carried out to calculate the Mean Sum of Squares Between groups (\(MSS_B\)) and the Mean Sum of Squares Within groups (\(MSS_W\)) given by:
 \(\displaystyle MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 } \) and \(\displaystyle MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }\)
 
 - \(k\) is the number of groups.
@@ -325,11 +327,11 @@ A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank' t
 ***
 \newpage 
 
-## Calibration Curve
+## Calibration Curve Uncertainty
 
 ### Overview
 All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required.
-The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
+The Method section shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
 
 ### Method
 #### Weighted
@@ -403,7 +405,7 @@ if(!is.null(data))
 ***
 
 \newpage 
-## Method Precision
+## Method Precision Uncertainty
 
 ### Overview
 
@@ -450,7 +452,7 @@ $S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\s
 
 ***
 \newpage 
-## Calibration Standard
+## Calibration Standard Uncertainty
 
 ### Overview
 
@@ -496,7 +498,7 @@ $u_r(\text{CalStandard}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)
 
 ***
 \newpage 
-## Sample Preparation
+## Sample Preparation Uncertainty
 
 ### Overview
 
@@ -567,7 +569,7 @@ ggplot(data, aes(x = percentage, y = reorder(uncertaintyComponent, percentage)))
 
 Coverage factor \((k)\) is a number usually greater than one from which an expanded uncertainty is obtained when \(k\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.
 
-An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank' title='Annex G: Degrees of freedom and levels of confidence'>Welch-Satterthwaite equation (JCGM 100:2008)</a> with details given in the Method tab. The derived effective degrees of freedom along with the specified \({\small CI\%}\) is used to read a value (termed coverage factor) from the T-Distribution Table.)
+An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank' title='Annex G: Degrees of freedom and levels of confidence'>Welch-Satterthwaite equation (JCGM 100:2008)</a> with details given in the Method section. The derived effective degrees of freedom along with the specified \({\small CI\%}\) is used to read a value (termed coverage factor) from the T-Distribution Table.)
 
 ### Method
 
