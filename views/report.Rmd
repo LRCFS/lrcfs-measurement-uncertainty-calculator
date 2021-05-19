@@ -294,16 +294,16 @@ To find out whether your samples are homogenous or heterogenous, the Homogeneity
 The Relative Standard Uncertainty of homogeneity is given by the following calculation:
 \(u_r(\text{Homogeneity}) = \frac{ \text{Standard Uncertainty} }{ \text{Grand Mean} } = \frac{ u(\text{Homogeneity}) }{ \overline{X}_T } \)
 
-where \(\displaystyle u(\text{Homogeneity}) = \text{max}\{u_a,u_b\},\)
+where \(u(\text{Homogeneity}) = \text{max}\{u_a,u_b\},\)
 
-\(\displaystyle u_a(\text{Homogeneity}) = \sqrt{\frac{ MSS_B - MSS_W }{ n_0 }}\) and \(\displaystyle u_b(\text{Homogeneity}) = \sqrt{ \frac{ MSS_W }{ n_0 } } \times \sqrt{ \frac{ 2 }{ k(n_0-1) } }\)
+\(u_a(\text{Homogeneity}) = \sqrt{\frac{ MSS_B - MSS_W }{ n_0 }}\) and \(u_b(\text{Homogeneity}) = \sqrt{ \frac{ MSS_W }{ n_0 } } \times \sqrt{ \frac{ 2 }{ k(n_0-1) } }\)
 
 A one-way analysis of variance (ANOVA) test is carried out to calculate the Mean Sum of Squares Between groups (\(MSS_B\)) and the Mean Sum of Squares Within groups (\(MSS_W\)) given by:
-\(\displaystyle MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 } \) and \(\displaystyle MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }\)
+\(MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 } \) and \(MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }\)
 
 - \(k\) is the number of groups.
 - \(n_j\) is the number of measurements/replicates in the group \(j\) where \(j=1\ldots k\).
-- \(\displaystyle n_0 = \frac{1}{k-1} \left[\sum\limits_{j=1}^k n_j - \frac{ \sum\limits_{j=1}^k n_j^2 } { \sum\limits_{j=1}^k n_j }\right] = \frac{1}{k-1} \left[ N - \frac{A}{N} \right] \) <br />Where all \(n_j\)'s are the same (i.e. \(n_1=n_2=\ldots=n_k=n\)) then this simplifies to \(n_0 = n\).
+- \(n_0 = \frac{1}{k-1} \left[\sum\limits_{j=1}^k n_j - \frac{ \sum\limits_{j=1}^k n_j^2 } { \sum\limits_{j=1}^k n_j }\right] = \frac{1}{k-1} \left[ N - \frac{A}{N} \right] \) <br />Where all \(n_j\)'s are the same (i.e. \(n_1=n_2=\ldots=n_k=n\)) then this simplifies to \(n_0 = n\).
 - \(N\) is the total number of measurements, i.e. \(N = \sum\limits_{j=1}^k n_j\).
 - \(A\) is the sum of squared number of measurements/replicates in the group, i.e. \(A = \sum\limits_{j=1}^k n^2_j\)
 - \(X_{ij}\) is the \(i^{th}\) measurement of the \(j^{th}\) group.
@@ -330,16 +330,21 @@ A one-way analysis of variance (ANOVA) test is carried out to calculate the Mean
 ## Calibration Curve Uncertainty
 
 ### Overview
-All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required.
+This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required.
 The Method section shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
 
 ### Method
 #### Weighted
 Where a weight \(W \neq 1\) is specified the uncertainty of calibration curve is given by:
+
 $u\text{(CalCurve)} = \frac{S_{w}}{b_1} \sqrt{\frac{1}{w_{s}(r_s)} + \frac{1}{n} + \frac{(x_s - \overline{x}_w)^2}{S_{{xx}_w}} }$
-where \(S_w\) is the standard error of regression given by
-$S_w = \sqrt{\frac{\sum\limits_{i=1}^n w_i(y_i-\hat{y}_i)^2}{n-2}}$
+
+where \(S_w\) is the standard error of regression given by:
+
+$S_w = \sqrt{\frac{\sum\limits_{i=1}^n w_i(y_i-\hat{y}_i)^2}{n-2}}$.
+
 The Relative Standard Uncertainty is then calculated as:
+
 $u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mean Concentration}} = \frac{u\text{(CalCurve)}}{x_s}$
 
  - \(x_i\) concentration at level \(i\).
@@ -357,11 +362,16 @@ $u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mea
  - \(S_{{xx}_w}\) is the sum of squares deviation of \(x\) given by \(\sum\limits_{i=1}^n w_i(x_i - \overline{x})^2\).
 
 #### Non Weighted
-When a weight of \(W = 1\) is specified the uncertainty is simplified to the following:
+When a weight of \(W = 1\) is specified the formula above simplifies to the following:
+
 $u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$
-where \(S_{y/x}\) is the standard error of regression given by
-$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$
+
+where \(S_{y/x}\) is the standard error of regression given by:
+
+$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$.
+
 The Relative Standard Uncertainty is then calculated as:
+
 $u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mean Concentration}} = \frac{u\text{(CalCurve)}}{x_s}$
 
  - \(b_1\) is the Slope of the of regression line.
@@ -409,7 +419,7 @@ if(!is.null(data))
 
 ### Overview
 
-A step-by-step approach for estimating the uncertainty of method precision is outlined here. The main methodology used is the pooled standard deviation approach.
+The main methodology used is the pooled standard deviation approach.
 
 Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.
 
@@ -455,8 +465,6 @@ $S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\s
 ## Calibration Standard Uncertainty
 
 ### Overview
-
-Information provided on the structure of solution preparation and details of used equipment is displayed here, along with a step-by-step calculation of the uncertainty associated with spiking the calibration standards.
 
 The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve.
 
@@ -543,7 +551,7 @@ The combined uncertainty is given by:
 
 $\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Component)}^2}}$
 
-- \(x_s\) is the Case Sample Mean Concentration.
+- Where \(x_s\) is the Case Sample Mean Concentration.
 
 ### Calculations
 ```{r echo=FALSE,combinedUncertainty_uncertaintyBudget_graphData, echo=FALSE, fig.cap="Uncertainty Budget", out.width = '80%', fig.align = 'center'}

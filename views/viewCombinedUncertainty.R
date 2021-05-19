@@ -36,7 +36,7 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                        "The combined uncertainty is given by:",
                        "$$\\text{CombUncertainty} = x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}}$$",
                        tags$ul(
-                         tags$li("\\(x_s\\) is the Case Sample Mean Concentration.")
+                         tags$li("Where \\(x_s\\) is the Case Sample Mean Concentration.")
                        )
                    )
                  ),
