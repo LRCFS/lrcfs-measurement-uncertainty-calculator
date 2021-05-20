@@ -462,7 +462,6 @@ output$display_calibrationCurve_finalAnswer_top = renderText({
 calibrationCurve_finalAnswer_bottom_renderer = function(removeColours = FALSE)
 {
   answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
-  if(is.na(answer)) return(NA)
   
   uncertaintyOfCalibration = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
