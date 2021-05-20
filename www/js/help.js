@@ -72,7 +72,7 @@ function(startingStep) {
 			intro: '<h4>' + APP_NAME + ' Help</h4>\
 					<p>Welcome to the ' + APP_NAME_SHORT + ' help. These help windows are specific to each section so make sure to explore the help on each page as you use the application.</p>\
 					<p>To use the help, move between each section by using the <strong>Previous</strong> and <strong>Next</strong> buttons at the bottom of each help window. You can exit the help at any time by clicking the <strong>Close</strong> button or just outside a help window.</p>\
-					<p>To get started please view the quick overview video below, click <strong>Next</strong> to continue through the help, or <strong>Close</strong> to exit.</p>' + embedVideoLink('q6ZrRuG3ilA')
+					<p>To get started please view the quick overview video below, click <strong>Next</strong> to continue through the help, or <strong>Close</strong> to exit.</p>' + embedVideoLink('4ci9wPVqoPI')
 		},
 		{
 			element: '#shiny-tab-start > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)',
@@ -96,47 +96,47 @@ function(startingStep) {
 });
 
 Shiny.addCustomMessageHandler('runjs_help_homogeneity', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Homogeneity</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Homogeneity</h4>' + embedVideoLink('mn_UdAn2X64')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_homogeneityTest', function(startingStep) {
-	var steps = [{intro: '<h4>Homogeneity Test</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Homogeneity Test</h4>' + embedVideoLink('mn_UdAn2X64')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_calibrationCurve', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Calibration Curve</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Calibration Curve</h4>' + embedVideoLink('TNnEWopwgn8')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_methodPrecision', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Method Precision</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Method Precision</h4>' + embedVideoLink('J1CfOUewHb0')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_calibrationStandard', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Calibration Standard</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Calibration Standard</h4>' + embedVideoLink('1-IjcXtu4ao')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_samplePreparation', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Sample Preparation</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Sample Preparation</h4>' + embedVideoLink('CBUMT3TuzQA')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_combinedUncertainty', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Combined Uncertainty</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Combined Uncertainty</h4>' + embedVideoLink('Dvb6fkhHhJk')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_coverageFactor', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Coverage Factor</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Coverage Factor</h4>' + embedVideoLink('Dvb6fkhHhJk')}];
 	showHelp(steps, startingStep);
 });
 
 Shiny.addCustomMessageHandler('runjs_help_expandedUncertainty', function(startingStep) {
-	var steps = [{intro: '<h4>Uncertainty of Expanded Uncertainty</h4>' + embedVideoLink('q6ZrRuG3ilA')}];
+	var steps = [{intro: '<h4>Uncertainty of Expanded Uncertainty</h4>' + embedVideoLink('Dvb6fkhHhJk')}];
 	showHelp(steps, startingStep);
 });
 
