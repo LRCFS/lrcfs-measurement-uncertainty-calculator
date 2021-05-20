@@ -32,8 +32,12 @@ tabDashboard = tabItem(tabName = "dashboard",
                        fluidRow(
                          valueBox("Uncertainty of Homogeneity", uiOutput("display_homogeneity_finalAnswer_dashboard"), width = 6, color = "navy", icon = icon("mortar-pestle")),
                          valueBox("Homogeneity Test Result", uiOutput("display_homogeneityTest_answerDashboard"), width = 6, color = "navy", icon = icon("chart-area")),
+                       ),
+                       fluidRow( 
                          valueBox("Uncertainty of Calibration Curve", uiOutput("display_calibrationCurve_finalAnswer_dashboard"), width = 6, color = "blue", icon = icon("chart-line")),
                          valueBox("Uncertainty of Method Precision", uiOutput("display_methodPrecision_finalAnswer_dashboard"), width = 6, color = "red", icon = icon("bullseye")),
+                       ),
+                       fluidRow( 
                          valueBox("Uncertainty of Calibration Standard", uiOutput("display_standardSolution_finalAnswer_dashboard"), width = 6, color = "green", icon = icon("flask")),
                          valueBox("Uncertainty of Sample Preparation", uiOutput("display_samplePreparation_finalAnswer_dashboard"), width = 6, color = "maroon", icon = icon("vial"))
                        ),
