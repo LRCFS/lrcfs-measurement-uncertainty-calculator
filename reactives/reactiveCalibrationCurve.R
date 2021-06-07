@@ -58,6 +58,10 @@ getDataCalibrationCurve = reactive({
   {
     return(doGetDataCalibrationCurve(input$inputCalibrationCurveFileUpload$datapath))
   }
+  else if(myReactives$uploadedCalibrationCurveQuadratic == TRUE)
+  {
+    return(doGetDataCalibrationCurve(input$inputCalibrationCurveQuadraticFileUpload$datapath))
+  }
   else
   {
     return(NULL)

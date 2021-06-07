@@ -68,6 +68,7 @@ body{
 
 
 a[data-value="calibrationCurve"],
+a[data-value="calibrationCurveQuadratic"],
 a[data-value="methodPrecision"],
 a[data-value="standardSolution"],
 a[data-value="samplePreparation"],

@@ -33,7 +33,7 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(ggplot2)
 library(reshape2)
-library(scales) 
+library(scales)
 library(dplyr)
 library(plotly)
 library(DT)
@@ -68,6 +68,7 @@ source("views/viewRightSidebar.R")
 source("views/viewHomogeneity.R")
 source("views/viewHomogeneityTest.R")
 source("views/viewCalibrationCurve.R")
+source("views/viewCalibrationCurveQuadratic.R")
 source("views/viewMethodPrecision.R")
 source("views/viewStandardSolution.R")
 source("views/viewSamplePreparation.R")
@@ -82,6 +83,7 @@ source("controllers/controllerSamplePreparation.R", local = TRUE)
 source("controllers/controllerHomogeneity.R", local = TRUE)
 source("controllers/controllerHomogeneityTest.R", local = TRUE)
 source("controllers/controllerCalibrationCurve.R", local = TRUE)
+source("controllers/controllerCalibrationCurveQuadratic.R", local = TRUE)
 source("controllers/controllerMethodPrecision.R", local = TRUE)
 source("controllers/controllerStandardSolution.R", local = TRUE)
 source("controllers/controllerExpandedUncertainty.R", local = TRUE)
@@ -99,7 +101,8 @@ ui = dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",AP
                                      menuItem("Homogeneity Uncertainty", tabName = "homogeneity", icon = icon("mortar-pestle")),
                                      menuItem("Homogeneity Test", tabName = "homogeneityTest", icon = icon("chart-area"))
                             ),
-                            menuItem("Calibration Curve", tabName = "calibrationCurve", icon = icon("chart-line")),
+                            menuItem("Calibration Curve (Linear)", tabName = "calibrationCurve", icon = icon("chart-line")),
+                            menuItem("Calibration Curve (Quadratic)", tabName = "calibrationCurveQuadratic", icon = icon("chart-line")),
                             menuItem("Method Precision", tabName = "methodPrecision", icon = icon("bullseye")),
                             menuItem("Calibration Standard", tabName = "standardSolution", icon = icon("flask")),
                             menuItem("Sample Preparation", tabName = "samplePreparation", icon = icon("vial")),
@@ -124,6 +127,7 @@ ui = dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",AP
                             tabHomogeneity,
                             tabHomogeneityTest,
                             tabCalibrationCurve,
+                            tabCalibrationCurveQuadratic,
                             tabMethodPrecision,
                             tabStandardSolution,
                             tabSamplePreparation,
@@ -158,6 +162,9 @@ server = function(input, output, session) {
   
   source("models/modelCalibrationCurve.R", local = TRUE)
   source("reactives/reactiveCalibrationCurve.R", local = TRUE)
+  
+  source("models/modelCalibrationCurveQuadratic.R", local = TRUE)
+  source("reactives/reactiveCalibrationCurveQuadratic.R", local = TRUE)
   
   source("models/modelMethodPrecision.R", local = TRUE)
   

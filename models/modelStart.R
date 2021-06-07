@@ -97,6 +97,7 @@ output$display_start_chooseConfidenceInterval = renderUI({
 
 output$display_start_calibrationCurveFileUpload <- renderUI({
   input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
+  input$inputCalibrationCurveQuadraticFileUpload #attach to file upload box for quadratic data so that it is cleared
 
   fileInput = fileInput("inputCalibrationCurveFileUpload", "Calibration Curve (CSV)",
                         multiple = FALSE,
@@ -107,8 +108,24 @@ output$display_start_calibrationCurveFileUpload <- renderUI({
 
 output$display_start_externalStandardErrorFileUpload <- renderUI({
   input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
+  input$inputCalibrationCurveQuadraticFileUpload #attach to file upload box for quadratic data so that it is cleared
   
   fileInput = fileInput("inputExternalStandardErrorFileUpload", "Pooled Standard Error (CSV)",
+                        multiple = FALSE,
+                        accept = c(".csv"))
+  
+  return(fileInput)
+})
+
+output$display_start_calibrationCurveQuadraticFileUpload <- renderUI({
+  input$reset_inputCalibrationCurveQuadraticFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  input$inputCalibrationCurveFileUpload #attach to linear calibration curve inputs so that it's cleared when this is populated
+  input$inputExternalStandardErrorFileUpload #attach to linear calibration curve inputs so that it's cleared when this is populated
+  
+  input$inputWeightLeastSquared #This line is here to attach the event to clear when the option is changed
+  
+  fileInput = fileInput("inputCalibrationCurveQuadraticFileUpload", "Calibration Curve (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
   
@@ -179,6 +196,7 @@ output$display_start_customWlsFileUploadExampleDownloadLink <- renderUI({
 
 output$display_start_customWlsFileUpload <- renderUI({
   input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  input$inputCalibrationCurveQuadraticFileUpload #attach to file upload box for quadratic data so that it is cleared
   
   fileInput = ""
   if(checkUsingCustomWls())
@@ -223,6 +241,7 @@ output$display_start_customWlsPooledFileUploadExampleDownloadLink <- renderUI({
 
 output$display_start_customWlsPooledFileUpload <- renderUI({
   input$reset_inputCustomWlsFileUpload #This line is here to attach the event to update when the button is clicked
+  input$inputCalibrationCurveQuadraticFileUpload #attach to file upload box for quadratic data so that it is cleared
   
   fileInput = ""
   if(checkUsingCustomWls())

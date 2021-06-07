@@ -25,6 +25,7 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedExternalStandardError=FALSE,
                              uploadedCustomWls=FALSE,
                              uploadedCustomWlsPooled=FALSE,
+                             uploadedCalibrationCurveQuadratic=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
@@ -38,14 +39,21 @@ myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
                              uploadedExternalStandardError=NULL,
                              uploadedCustomWls=NULL,
                              uploadedCustomWlsPooled=NULL,
+                             uploadedCalibrationCurveQuadratic=FALSE,
                              uploadedMethodPrecision=NULL,
                              uploadedStandardSolutionStructure=NULL,
                              uploadedStandardSolutionEquipment=NULL,
                              uploadedSamplePreparation=NULL,
                              uploadedHomogeneity=NULL)
 
-#Calibration Curve File upload and reset
+##########################################################################
+#Linear Calibration Curve File upload and reset
+##########################################################################
 observeEvent(input$inputCalibrationCurveFileUpload, {
+  #Clear Quadratic curve data
+  myReactives$uploadedCalibrationCurveQuadratic = FALSE
+  myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  
   #Get the file path from the input
   filePath = input$inputCalibrationCurveFileUpload$datapath
   #Validate the file specified
@@ -58,6 +66,10 @@ observeEvent(input$inputCalibrationCurveFileUpload, {
   checkIfShowResults()
 })
 observeEvent(input$inputExternalStandardErrorFileUpload, {
+  #Clear Quadratic curve data
+  myReactives$uploadedCalibrationCurveQuadratic = FALSE
+  myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  
   filePath = input$inputExternalStandardErrorFileUpload$datapath
   myReactiveErrors$uploadedExternalStandardError = calibrationCurvePooledDataReadCSV(filePath, TRUE)
   myReactives$uploadedExternalStandardError = is.null(myReactiveErrors$uploadedExternalStandardError)
@@ -93,6 +105,44 @@ observeEvent(input$inputCustomWlsPooledFileUpload, {
   myReactives$uploadedCustomWlsPooled = is.null(myReactiveErrors$uploadedCustomWlsPooled)
   checkIfShowResults()
 })
+##########################################################################
+#Quadratic Calibartion Curve File upload and reset
+##########################################################################
+observeEvent(input$inputCalibrationCurveQuadraticFileUpload, {
+  #Clear linear calibration curve data
+  myReactives$uploadedCalibrationCurve = FALSE
+  myReactiveErrors$uploadedCalibrationCurve = NULL
+  myReactives$uploadedExternalStandardError = FALSE
+  myReactiveErrors$uploadedExternalStandardError = NULL
+  
+  #and clear custom weights data
+  myReactives$uploadedCustomWls = FALSE
+  myReactiveErrors$uploadedCustomWls = NULL
+  myReactives$uploadedCustomWlsPooled = FALSE
+  myReactiveErrors$uploadedCustomWlsPooled = NULL
+  
+  #Reset any selected WLS value
+  updateSelectInput(session, "inputWeightLeastSquared", selected = 1)
+  
+  #Get the file path from the input
+  filePath = input$inputCalibrationCurveQuadraticFileUpload$datapath
+  #Validate the file specified
+  myReactiveErrors$uploadedCalibrationCurveQuadratic = calibrationCurveReadCSV(filePath, TRUE)
+  
+  #We can set the value of our validation element by doing an is.null check on our error.
+  #If it's null, then we have no error (set to TRUE because we're happy with the file)
+  #If it's not null then there is an error (set to FALSE because we don't want to do anything with it)
+  myReactives$uploadedCalibrationCurveQuadratic = is.null(myReactiveErrors$uploadedCalibrationCurveQuadratic)
+  
+  checkIfShowResults()
+})
+
+observeEvent(input$reset_inputCalibrationCurveQuadraticFileUpload, {
+  myReactives$uploadedCalibrationCurveQuadratic = FALSE
+  myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  checkIfShowResults()
+})
+##########################################################################
 
 #Method Precision File upload and reset
 observeEvent(input$inputMethodPrecisionFileUpload, {
@@ -157,6 +207,13 @@ observeEvent(input$reset_inputHomogeneityFileUpload, {
 
 #Additional homepage inputs
 observeEvent(input$inputWeightLeastSquared, {
+  #If we change the WLS option then lets clear the quadratic data uploaded
+  if(input$inputWeightLeastSquared != 1)
+  {
+    myReactives$uploadedCalibrationCurveQuadratic = FALSE
+    myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  }
+  
   checkIfShowResults()
 })
 
@@ -192,6 +249,7 @@ checkIfShowResults = function(){
   showHideError("display_start_error_externalStandardErrorFileUpload", myReactiveErrors$uploadedExternalStandardError)
   showHideError("display_start_error_customWlsFileUpload", myReactiveErrors$uploadedCustomWls)
   showHideError("display_start_error_customWlsPooledFileUpload", myReactiveErrors$uploadedCustomWlsPooled)
+  showHideError("display_start_error_calibrationCurveQuadraticFileUpload", myReactiveErrors$uploadedCalibrationCurveQuadratic)
   showHideError("display_start_error_methodPrecisionFileUpload", myReactiveErrors$uploadedMethodPrecision)
   showHideError("display_start_error_standardSolutionStructureFileUpload", myReactiveErrors$uploadedStandardSolutionStructure)
   showHideError("display_start_error_standardSolutionEquipmentFileUpload", myReactiveErrors$uploadedStandardSolutionEquipment)
@@ -219,6 +277,8 @@ checkIfShowResults = function(){
   {
     showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", myReactives$uploadedCalibrationCurve)
   }
+  showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurveQuadratic]", myReactives$uploadedCalibrationCurveQuadratic)
+  
   showHideMenuItem(".sidebar-menu li a[data-value=methodPrecision]", myReactives$uploadedMethodPrecision)
   showHideMenuItem(".sidebar-menu li a[data-value=standardSolution]", myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment)
   showHideMenuItem(".sidebar-menu li a[data-value=samplePreparation]", myReactives$uploadedSamplePreparation)
@@ -228,6 +288,7 @@ checkIfShowResults = function(){
   #Determine if we should show the results tabs
   #check if we've uploaded any one type of data
   if(myReactives$uploadedCalibrationCurve ||
+     myReactives$uploadedCalibrationCurveQuadratic ||
      myReactives$uploadedMethodPrecision ||
      (myReactives$uploadedStandardSolutionStructure & myReactives$uploadedStandardSolutionEquipment) ||
      myReactives$uploadedSamplePreparation ||
@@ -304,7 +365,7 @@ checkIfShowResults = function(){
       inputConfidenceInterval = FALSE
     }
     
-    
+    #Check if we're using a custom weight that it has been specified for the case sample
     if(checkCustomWls == TRUE &
        checkCaseSampleWeight == TRUE &
        (inputConfidenceInterval == TRUE || usingManualCoverageFactor() == TRUE) &
@@ -326,7 +387,7 @@ checkIfShowResults = function(){
 
 showHideError = function(elementId, errorMessage = NULL)
 {
-  if(is.null(errorMessage))
+  if(is.null(errorMessage) || errorMessage == FALSE)
   {
     #If the error message is null then hide the error message element
     shinyjs::removeClass(selector = paste0("#",elementId), class="visible")
