@@ -21,13 +21,6 @@
 #
 ###########################################################################
 
-doGetCalibrationCurveQuadratic_quadraticRegression = function(data)
-{
-  if(is.null(data)) return(NA)
-  
-  return(1)
-}
-
 doGetCalibrationCurveQuadratic_regression = function(data)
 {
   if(is.null(data))return(NA)
@@ -116,4 +109,95 @@ doGetCalibrationCurveQuadratic_yResidual = function(data)
   
   yResidual = (na.omit(y) - doGetCalibrationCurveQuadratic_yHat(data))^2
   return (yResidual)
+}
+
+doGetCalibrationCurveQuadratic_sumOfX = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  x = data$calibrationDataConcentration
+  
+  return(sum(x))
+}
+
+doGetCalibrationCurveQuadratic_meanOfX = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  x = data$calibrationDataConcentration
+  
+  return(mean(x))
+}
+
+doGetCalibrationCurveQuadratic_sumOfY = function(data)
+{
+  y = data$calibrationDataPeakArea
+  
+  if(is.null(data))return(NA)
+  
+  return(sum(y))
+}
+
+doGetCalibrationCurveQuadratic_meanOfY = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  y = data$calibrationDataPeakArea
+  
+  return(mean(y))
+}
+
+doGetCalibrationCurveQuadratic_sumOfResiduals = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  return(sum(doGetCalibrationCurveQuadratic_yResidual(data)))
+}
+
+doGetCalibrationCurveQuadratic_standardErrorOfRegression = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  regression = doGetCalibrationCurveQuadratic_regression(data)
+  standardErrorOfRegression = summary.lm(regression)$sigma
+  return(standardErrorOfRegression)
+}
+
+doGetCalibrationCurveQuadratic_designMatrix = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  x = data$calibrationDataConcentration
+  xS = doGetCalibrationCurveQuadratic_xSquared(data)
+  id = rep(1,length(x))
+  
+  designMatrix = cbind(id,x,xS)
+  return(designMatrix)
+}
+
+doGetCalibrationCurveQuadratic_designMatrixTransposed = function(data)
+{
+  if(is.null(data))return(NA)
+  return(t(doGetCalibrationCurveQuadratic_designMatrix(data)))
+}
+
+doGetCalibrationCurveQuadratic_designMatrixMultiply = function(data)
+{
+  if(is.null(data))return(NA)
+  answer = doGetCalibrationCurveQuadratic_designMatrixTransposed(data) %*% doGetCalibrationCurveQuadratic_designMatrix(data)
+  return(answer)
+}
+
+doGetCalibrationCurveQuadratic_designMatrixMultiplyInverse = function(data)
+{
+  if(is.null(data))return(NA)
+  answer = solve(doGetCalibrationCurveQuadratic_designMatrixMultiply(data))
+  return(answer)
+}
+
+doGetCalibrationCurveQuadratic_covarianceMatrix = function(data)
+{
+  if(is.null(data))return(NA)
+  answer = doGetCalibrationCurveQuadratic_standardErrorOfRegression(data)^2 * doGetCalibrationCurveQuadratic_designMatrixMultiplyInverse(data)
+  return(answer)
 }

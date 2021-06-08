@@ -53,24 +53,43 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                          box(title = "Step by Step Calculations", width=12,
                                              DT::dataTableOutput('display_calibrationcurveQuadratic_rearrangedData'),
                                              fluidRow(
-                                               uiOutput("display_calibrationcurveQuadratic_quadraticRegression"),
-                                               uiOutput("display_calibrationcurveQuadratic_meanOfX"),
-                                               uiOutput("display_calibrationcurveQuadratic_meanOfY")
+                                               box(title="Quadratic Regression", width = 4,
+                                                   uiOutput("display_calibrationcurveQuadratic_quadraticRegression")
+                                               ),
+                                               box(title="Standard Error of Regression \\((S)\\)", width = 4,
+                                                   uiOutput("display_calibrationCurveQuadratic_standardErrorOfRegression")
+                                               )
                                              ),
                                              fluidRow(
-                                               uiOutput("display_calibrationCurveQuadratic_errorSumSqY")),
-                                             uiOutput("display_calibrationCurveQuadratic_standardErrorOfRegression")
-                                         )
-                                       ),
-                                       fluidRow(
-                                         box(title="Uncertainty of Calibration \\((u)\\)", width = 12,
-                                             uiOutput("display_calibrationCurveQuadratic_uncertaintyOfCalibration")
-                                         )
-                                       ),
-                                       fluidRow(
-                                         box(title="Relative Standard Uncertainty \\((u_r)\\)", width = 12, background = "blue", solidHeader = TRUE,
-                                             uiOutput("display_calibrationCurveQuadratic_finalAnswer_bottom")
+                                               box(title="Design Matrix Transposed", width = 12,
+                                                   uiOutput("display_calibrationCurveQuadratic_designMatrixTransposed")
+                                               )
+                                             ),
+                                             fluidRow(
+                                               box(title="Design Matrix", width = 2,
+                                                   uiOutput("display_calibrationCurveQuadratic_designMatrix")
+                                               ),
+                                               box(title="Multiply", width = 5,
+                                                   uiOutput("display_calibrationCurveQuadratic_designMatrixMultiply")
+                                               ),
+                                               box(title="Inverse", width = 5,
+                                                   uiOutput("display_calibrationCurveQuadratic_designMatrixMultiplyInverse")
+                                               ),
+                                               box(title="Covariance Matrix", width = 5,
+                                                   uiOutput("display_calibrationCurveQuadratic_covarianceMatrix")
+                                               )
+                                               
+                                             ),
+                                             fluidRow(
+                                               box(title="Uncertainty of Calibration \\((u)\\)", width = 12,
+                                                   uiOutput("display_calibrationCurveQuadratic_uncertaintyOfCalibration")
+                                               )
+                                             ),
+                                             fluidRow(
+                                               box(title="Relative Standard Uncertainty \\((u_r)\\)", width = 12, background = "blue", solidHeader = TRUE,
+                                                   uiOutput("display_calibrationCurveQuadratic_finalAnswer_bottom")
+                                               )
+                                             )
                                          )
                                        )
-                                       
 )

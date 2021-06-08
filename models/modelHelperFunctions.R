@@ -166,5 +166,22 @@ colourNumberBackground = function(value,colourBackgroundHex,colourForegroundHex,
   {
     return(paste0(value))
   }
-  
+}
+
+#Creates a latex matrix based on a dataframe
+createLatexMatrix = function(data)
+{
+  output = "\\begin{Bmatrix} "
+  for(r in 1:nrow(data))
+  {
+    for(c in 1:ncol(data))
+    {
+      end = "&amp;"
+      if(c == ncol(data)) end = "\\\\"
+      
+      output = paste(output,data[r,c],end)
+    }
+  }
+  output = paste0(output," \\end{Bmatrix}")
+  return(output)
 }

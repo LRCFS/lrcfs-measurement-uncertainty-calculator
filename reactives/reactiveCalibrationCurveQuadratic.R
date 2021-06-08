@@ -21,8 +21,10 @@
 #
 ###########################################################################
 
-getCalibrationCurveQuadratic_quadraticRegression = reactive({
-  return(doGetCalibrationCurveQuadratic_quadraticRegression(NULL))
+getCalibrationCurveQuadratic_regression = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_regression(data))
 })
 
 getCalibrationCurveQuadratic_intercept = reactive({
@@ -80,7 +82,98 @@ getDataCalibrationCurveQuadratic_rearranged = reactive({
 
   ##Get data in dataframe
   rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,xSquared,yHat,yResiduals)
-  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$","$$x^2$$","$$\\hat{y} = b_0 + b_1x + b_2x^2$$","$$y-\\hat{y}^2$$")
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$","$$x^2$$","$$\\hat{y} = b_0 + b_1x + b_2x^2$$","$$(y-\\hat{y})^2$$")
   
   return(rearrangedCalibrationDataFrame)
 })
+
+getCalibrationCurveQuadratic_sumOfX = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_sumOfX(data))
+})
+
+getCalibrationCurveQuadratic_meanOfX = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_meanOfX(data))
+})
+
+getCalibrationCurveQuadratic_sumOfY = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_sumOfY(data))
+})
+
+getCalibrationCurveQuadratic_meanOfY = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_meanOfY(data))
+})
+
+getCalibrationCurveQuadratic_sumOfResiduals = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_sumOfResiduals(data))
+})
+
+getCalibrationCurveQuadratic_standardErrorOfRegression = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_standardErrorOfRegression(data))
+})
+
+getCalibrationCurveQuadratic_renderLatexDesignMatrix = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrix(data)
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( \\underline{X} = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
+})
+
+getCalibrationCurveQuadratic_renderLatexDesignMatrixTransposed = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrixTransposed(data)
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( \\underline{X}^T = ", latexMatrix, "\\)")
+  return(HTML(output))
+})
+
+getCalibrationCurveQuadratic_renderDesignMatrixMultiply = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+
+  matrix = doGetCalibrationCurveQuadratic_designMatrixMultiply(data)
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( (\\underline{X}^T \\underline{X}) = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
+})
+
+getCalibrationCurveQuadratic_renderDesignMatrixMultiplyInverse = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrixMultiplyInverse(data)
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( (\\underline{X}^T \\underline{X})^{-1} = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
+})
+
+getCalibrationCurveQuadratic_renderCovarianceMatrix = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  
+  matrix = doGetCalibrationCurveQuadratic_covarianceMatrix(data)
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( S_{y/x}^2 (\\underline{X}^T \\underline{X})^{-1} = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
+})
+
