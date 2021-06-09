@@ -33,7 +33,7 @@ output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
   if(checkNeedPeakAreaRatio())
   {
     numericInput("inputCaseSampleMeanPeakAreaRatio",
-                 withMathJax(HTML("Mean Peak Area Ratio\\((y_s)\\) <small>(This feild is required because you have selected a WLS for a Calibration Curve)</small>")),
+                 withMathJax(HTML("Mean Peak Area Ratio\\((y_s)\\) <small>(This feild is required because you have either selected a WLS for a Linear Calibration Curve or are using a Quadratic Calibration Curve)</small>")),
                  value = NULL)
   }
 })

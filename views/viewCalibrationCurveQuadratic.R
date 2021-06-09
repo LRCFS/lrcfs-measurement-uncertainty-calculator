@@ -48,6 +48,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                        fluidRow(
                                          infoBox(HTML("Case Sample<br />Replicates \\((r_s)\\)"),HTML(paste(uiOutput("display_calibrationCurveQuadratic_replicates"))), width=4, icon=icon("vials"), color="aqua"),
                                          infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_calibrationCurveQuadratic_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia"),
+                                         infoBox(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)"),HTML(paste(uiOutput("display_calibrationCurveQuadratic_meanPeakAreaRatio"))), width=4, icon=icon("chart-bar"), color="orange")
                                        ),
                                        fluidRow(
                                          box(title = "Step by Step Calculations", width=12,
@@ -56,7 +57,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                                box(title="Quadratic Regression", width = 4,
                                                    uiOutput("display_calibrationcurveQuadratic_quadraticRegression")
                                                ),
-                                               box(title="Standard Error of Regression \\((S)\\)", width = 4,
+                                               box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 4,
                                                    uiOutput("display_calibrationCurveQuadratic_standardErrorOfRegression")
                                                )
                                              ),
@@ -77,6 +78,9 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                                ),
                                                box(title="Covariance Matrix", width = 5,
                                                    uiOutput("display_calibrationCurveQuadratic_covarianceMatrix")
+                                               ),
+                                               box(title="Discriminant ", width = 3,
+                                                   uiOutput("display_calibrationCurveQuadratic_discriminant")
                                                )
                                                
                                              ),

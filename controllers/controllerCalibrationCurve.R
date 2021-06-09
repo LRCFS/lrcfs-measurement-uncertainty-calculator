@@ -65,9 +65,9 @@ doCheckUsingWls = function(wlsSelectedOption)
   }
   return(TRUE)
 }
-doCheckNeedPeakAreaRatio = function(wlsSelectedOption)
+doCheckNeedPeakAreaRatio = function(wlsSelectedOption, usingCalibartionCurveQuadratic)
 {
-  if(wlsSelectedOption == 4 || wlsSelectedOption == 5)
+  if(wlsSelectedOption == 4 || wlsSelectedOption == 5 || usingCalibartionCurveQuadratic)
   {
     return(TRUE)
   }

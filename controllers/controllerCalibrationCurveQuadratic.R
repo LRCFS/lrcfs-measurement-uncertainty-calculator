@@ -21,6 +21,11 @@
 #
 ###########################################################################
 
+doCheckUsingCalibartionCurveQuadratic = function(quadraticFileUploaded)
+{
+  return(quadraticFileUploaded)
+}
+
 doGetCalibrationCurveQuadratic_regression = function(data)
 {
   if(is.null(data))return(NA)
@@ -86,8 +91,22 @@ doGetCalibrationCurveQuadratic_rSquaredAdjusted = function(data)
 doGetCalibrationCurveQuadratic_xSquared = function(data)
 {
   if(is.null(data))return(NA)
-
+  
   return(data$calibrationDataConcentration^2)
+}
+
+doGetCalibrationCurveQuadratic_sumOfXSquared = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  return(sum(doGetCalibrationCurveQuadratic_xSquared(data)))
+}
+
+doGetCalibrationCurveQuadratic_meanOfXSquared = function(data)
+{
+  if(is.null(data))return(NA)
+  
+  return(mean(doGetCalibrationCurveQuadratic_xSquared(data)))
 }
 
 doGetCalibrationCurveQuadratic_yHat = function(data)
@@ -199,5 +218,20 @@ doGetCalibrationCurveQuadratic_covarianceMatrix = function(data)
 {
   if(is.null(data))return(NA)
   answer = doGetCalibrationCurveQuadratic_standardErrorOfRegression(data)^2 * doGetCalibrationCurveQuadratic_designMatrixMultiplyInverse(data)
+  return(answer)
+}
+
+doGetCalibrationCurveQuadratic_discriminant = function(data, meanPeakAreaRatio)
+{
+  if(is.null(data))return(NA)
+  
+  interceptB0 = doGetCalibrationCurveQuadratic_intercept(data)
+  slopeB1 = doGetCalibrationCurveQuadratic_slopeB1(data)
+  slopeB2 = doGetCalibrationCurveQuadratic_slopeB2(data)
+  meanX = doGetCalibrationCurveQuadratic_meanOfX(data)
+  meanXs = doGetCalibrationCurveQuadratic_meanOfXSquared(data)
+  meanY = doGetCalibrationCurveQuadratic_meanOfY(data)
+  
+  answer = slopeB1^2 - ((4 * slopeB2) * (meanY - meanPeakAreaRatio - (slopeB1 * meanX) - (slopeB2 * meanXs)))
   return(answer)
 }

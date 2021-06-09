@@ -34,6 +34,11 @@ output$display_calibrationCurveQuadratic_meanConcentration = renderUI({
   return(string)
 })
 
+output$display_calibrationCurveQuadratic_meanPeakAreaRatio = renderUI({
+  string = paste(input$inputCaseSampleMeanPeakAreaRatio)
+  return(string)
+})
+
 output$display_calibrationcurveQuadratic_rawData = DT::renderDataTable(
   getDataCalibrationCurve(),
   rownames = FALSE,
@@ -62,9 +67,10 @@ output$display_calibrationcurveQuadratic_rearrangedData = DT::renderDataTable(
     tableHeader(colnames(getDataCalibrationCurveQuadratic_rearranged())),
     tfoot(
       tr(
-        th(),th(paste("\\(\\sum{x} = ",getCalibrationCurveQuadratic_sumOfX(),"\\)")),
-        th(paste("\\(\\sum{y} = ",getCalibrationCurveQuadratic_sumOfY(),"\\)")),
         th(),
+        th(paste("\\(\\sum{x} = ",getCalibrationCurveQuadratic_sumOfX(),"\\)")),
+        th(paste("\\(\\sum{y} = ",getCalibrationCurveQuadratic_sumOfY(),"\\)")),
+        th(paste("\\(\\sum{x^2} = ",getCalibrationCurveQuadratic_sumOfXSquared(),"\\)")),
         th(),
         th(paste("\\(\\sum{(y-\\hat{y})^2} = ",getCalibrationCurveQuadratic_sumOfResiduals(),"\\)"))
       ),
@@ -72,7 +78,7 @@ output$display_calibrationcurveQuadratic_rearrangedData = DT::renderDataTable(
         th(class="noBorderAbove"),
         th(class="noBorderAbove", paste("\\(\\overline{x} = \\frac{\\sum{x}}{",getCalibrationCurve_n(),"} = ",getCalibrationCurveQuadratic_meanOfX()," \\)")),
         th(class="noBorderAbove",paste("\\(\\overline{y} = \\frac{\\sum{y}}{",getCalibrationCurve_n(),"} = ",getCalibrationCurveQuadratic_meanOfY()," \\)")),
-        th(class="noBorderAbove"),
+        th(class="noBorderAbove",paste("\\(\\overline{x^2} = \\frac{\\sum{x^2}}{",getCalibrationCurve_n(),"} = ",getCalibrationCurveQuadratic_meanOfXSquared()," \\)")),
         th(class="noBorderAbove"),
         th(class="noBorderAbove")
       )
@@ -106,8 +112,8 @@ output$display_calibrationCurveQuadratic_standardErrorOfRegression  = renderUI({
   n = getCalibrationCurve_n()
   answer = getCalibrationCurveQuadratic_standardErrorOfRegression()
   
-  formulas = c(paste("S &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n (y_i-\\hat{y}_i)^2}{n-3}}","[[break]]"))
-  formulas = c(formulas, paste("S &= \\sqrt{\\frac{",sumOfResiduals,"}{",n,"-3}}"))
+  formulas = c(paste("S_{y/x} &= \\sqrt{\\frac{\\sum\\limits_{i=1}^n (y_i-\\hat{y}_i)^2}{n-3}}","[[break]]"))
+  formulas = c(formulas, paste("S_{y/x} &= \\sqrt{\\frac{",sumOfResiduals,"}{",n,"-3}}"))
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
   return(withMathJax(HTML(output)))
@@ -132,4 +138,21 @@ output$display_calibrationCurveQuadratic_designMatrixMultiplyInverse = renderUI(
 
 output$display_calibrationCurveQuadratic_covarianceMatrix = renderUI({
   return(withMathJax(getCalibrationCurveQuadratic_renderCovarianceMatrix()))
+})
+
+output$display_calibrationCurveQuadratic_discriminant = renderUI({
+  interceptB0 = getCalibrationCurveQuadratic_intercept()
+  slopeB1 = getCalibrationCurveQuadratic_slopeB1()
+  slopeB2 = getCalibrationCurveQuadratic_slopeB2()
+  yS = input$inputCaseSampleMeanPeakAreaRatio
+  meanX = getCalibrationCurveQuadratic_meanOfX()
+  meanXs = getCalibrationCurveQuadratic_meanOfXSquared()
+  meanY = getCalibrationCurveQuadratic_meanOfY()
+  answer = getCalibrationCurveQuadratic_discriminant()
+  
+  formulas = c(paste("D &= b_1^2 - 4b_2(\\overline{y} - y_s - b_1\\overline{x}-b_2\\overline{x^2})"))
+  formulas = c(formulas, paste("D &= ",slopeB1,"^2 - 4 \\times",slopeB2,"(",meanY," - ",yS," - ",slopeB1,"\\times",meanX,"-",slopeB2,"\\times",meanXs,")"))
+  formulas = c(formulas, paste("&=",answer))
+  output = mathJaxAligned(formulas, 5, 20)
+  return(withMathJax(HTML(output)))
 })

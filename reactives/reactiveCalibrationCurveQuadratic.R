@@ -21,6 +21,10 @@
 #
 ###########################################################################
 
+checkUsingCalibartionCurveQuadratic = reactive({
+  return(doCheckUsingCalibartionCurveQuadratic(myReactives$uploadedCalibrationCurveQuadratic))
+})
+
 getCalibrationCurveQuadratic_regression = reactive({
   data = getDataCalibrationCurveReformatted()
   if(is.null(data))return(NULL)
@@ -55,6 +59,18 @@ getCalibrationCurveQuadratic_xSquared = reactive({
   data = getDataCalibrationCurveReformatted()
   if(is.null(data))return(NULL)
   return(doGetCalibrationCurveQuadratic_xSquared(data))
+})
+
+getCalibrationCurveQuadratic_sumOfXSquared = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_sumOfXSquared(data))
+})
+
+getCalibrationCurveQuadratic_meanOfXSquared = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  return(doGetCalibrationCurveQuadratic_meanOfXSquared(data))
 })
 
 getCalibrationCurveQuadratic_yHat = reactive({
@@ -175,5 +191,13 @@ getCalibrationCurveQuadratic_renderCovarianceMatrix = reactive({
   output = paste("\\( S_{y/x}^2 (\\underline{X}^T \\underline{X})^{-1} = ", latexMatrix, "\\)")
   
   return(HTML(output))
+})
+
+getCalibrationCurveQuadratic_discriminant = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NULL)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  return(doGetCalibrationCurveQuadratic_discriminant(data, meanPeakAreaRatio))
 })
 

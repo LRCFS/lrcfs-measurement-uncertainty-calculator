@@ -32,7 +32,8 @@ checkUsingWls = reactive({
 
 checkNeedPeakAreaRatio = reactive({
   wlsSelectedOption = input$inputWeightLeastSquared
-  result = doCheckNeedPeakAreaRatio(wlsSelectedOption)
+  usingCalibartionCurveQuadratic = checkUsingCalibartionCurveQuadratic()
+  result = doCheckNeedPeakAreaRatio(wlsSelectedOption, usingCalibartionCurveQuadratic)
   return(result)
 })
 
@@ -47,8 +48,6 @@ checkUsingCustomWls = reactive({
   result = doCheckUsingCustomWls(wlsSelectedOption)
   return(result)
 })
-
-
 
 ##############################################
 # Get data
