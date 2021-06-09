@@ -54,11 +54,17 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                          box(title = "Step by Step Calculations", width=12,
                                              DT::dataTableOutput('display_calibrationcurveQuadratic_rearrangedData'),
                                              fluidRow(
-                                               box(title="Quadratic Regression", width = 4,
+                                               box(title="Quadratic Regression", width = 3,
                                                    uiOutput("display_calibrationcurveQuadratic_quadraticRegression")
                                                ),
-                                               box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 4,
+                                               box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 3,
                                                    uiOutput("display_calibrationCurveQuadratic_standardErrorOfRegression")
+                                               ),
+                                               box(title="Variance of \\(y_s\\)", width = 3,
+                                                   uiOutput("display_calibrationCurveQuadratic_variancePeakAreaRatio")
+                                               ),
+                                               box(title="Variance of \\(\\overline{y}\\)", width = 3,
+                                                   uiOutput("display_calibrationCurveQuadratic_varianceMeanOfY")
                                                )
                                              ),
                                              fluidRow(
@@ -70,17 +76,31 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                                box(title="Design Matrix", width = 2,
                                                    uiOutput("display_calibrationCurveQuadratic_designMatrix")
                                                ),
-                                               box(title="Multiply", width = 5,
+                                               box(title="Multiply", width = 4,
                                                    uiOutput("display_calibrationCurveQuadratic_designMatrixMultiply")
                                                ),
-                                               box(title="Inverse", width = 5,
+                                               box(title="Inverse", width = 6,
                                                    uiOutput("display_calibrationCurveQuadratic_designMatrixMultiplyInverse")
                                                ),
-                                               box(title="Covariance Matrix", width = 5,
+                                               box(title="Covariance Matrix", width = 4,
                                                    uiOutput("display_calibrationCurveQuadratic_covarianceMatrix")
                                                ),
-                                               box(title="Discriminant ", width = 3,
+                                               box(title="Discriminant ", width = 6,
                                                    uiOutput("display_calibrationCurveQuadratic_discriminant")
+                                               ),
+                                               box(title="Partial Derivatives", width = 10,
+                                                   box(width = 3,
+                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeMeanOfY")
+                                                   ),
+                                                   box(width = 3,
+                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio")
+                                                   ),
+                                                   box(width = 6,
+                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope1")
+                                                   ),
+                                                   box(width = 12,
+                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope2")
+                                                   ),
                                                )
                                                
                                              ),

@@ -25,69 +25,120 @@ checkUsingCalibartionCurveQuadratic = reactive({
   return(doCheckUsingCalibartionCurveQuadratic(myReactives$uploadedCalibrationCurveQuadratic))
 })
 
+getCalibrationCurveQuadratic_n = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_n(data)
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour7)
+  
+  return(value)
+})
+
 getCalibrationCurveQuadratic_regression = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   return(doGetCalibrationCurveQuadratic_regression(data))
 })
 
-getCalibrationCurveQuadratic_intercept = reactive({
+getCalibrationCurveQuadratic_intercept_value = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   return(doGetCalibrationCurveQuadratic_intercept(data))
 })
 
-getCalibrationCurveQuadratic_slopeB1 = reactive({
+getCalibrationCurveQuadratic_intercept = reactive({
+  value = getCalibrationCurveQuadratic_intercept_value()
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour4)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_slopeB1_value = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   return(doGetCalibrationCurveQuadratic_slopeB1(data))
 })
 
-getCalibrationCurveQuadratic_slopeB2 = reactive({
+getCalibrationCurveQuadratic_slopeB1 = reactive({
+  value = getCalibrationCurveQuadratic_slopeB1_value()
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour5)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_slopeB2_value = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   return(doGetCalibrationCurveQuadratic_slopeB2(data))
+})
+
+getCalibrationCurveQuadratic_slopeB2 = reactive({
+  value = getCalibrationCurveQuadratic_slopeB2_value()
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour6)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_rSquaredAdjusted = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_rSquaredAdjusted(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_rSquaredAdjusted(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_xSquared = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_xSquared(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_xSquared(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_sumOfXSquared = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_sumOfXSquared(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_sumOfXSquared(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_meanOfXSquared = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_meanOfXSquared(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_meanOfXSquared(data)
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour3)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_yHat = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_yHat(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_yHat(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_yResidual = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_yResidual(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_yResidual(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getDataCalibrationCurveQuadratic_rearranged = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
@@ -105,45 +156,88 @@ getDataCalibrationCurveQuadratic_rearranged = reactive({
 
 getCalibrationCurveQuadratic_sumOfX = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_sumOfX(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_sumOfX(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_meanOfX = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_meanOfX(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_meanOfX(data)
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour1)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_sumOfY = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_sumOfY(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_sumOfY(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_meanOfY = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_meanOfY(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_meanOfY(data)
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour2)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_sumOfResiduals = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_sumOfResiduals(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_sumOfResiduals(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_standardErrorOfRegression = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
-  return(doGetCalibrationCurveQuadratic_standardErrorOfRegression(data))
+  if(is.null(data))return(NA)
+
+  value = doGetCalibrationCurveQuadratic_standardErrorOfRegression(data)
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour5)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_variancePeakAreaRatio = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  caseSampleReplicates = input$inputCaseSampleReplicates
+  
+  value = doGetCalibrationCurveQuadratic_variancePeakAreaRatio(data, caseSampleReplicates)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_varianceMeanOfY = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_varianceMeanOfY(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
 getCalibrationCurveQuadratic_renderLatexDesignMatrix = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   
   matrix = doGetCalibrationCurveQuadratic_designMatrix(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
   latexMatrix = createLatexMatrix(matrix)
   output = paste("\\( \\underline{X} = ", latexMatrix, "\\)")
   
@@ -152,9 +246,11 @@ getCalibrationCurveQuadratic_renderLatexDesignMatrix = reactive({
 
 getCalibrationCurveQuadratic_renderLatexDesignMatrixTransposed = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   
   matrix = doGetCalibrationCurveQuadratic_designMatrixTransposed(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
   latexMatrix = createLatexMatrix(matrix)
   output = paste("\\( \\underline{X}^T = ", latexMatrix, "\\)")
   return(HTML(output))
@@ -162,9 +258,11 @@ getCalibrationCurveQuadratic_renderLatexDesignMatrixTransposed = reactive({
 
 getCalibrationCurveQuadratic_renderDesignMatrixMultiply = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
 
   matrix = doGetCalibrationCurveQuadratic_designMatrixMultiply(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
   latexMatrix = createLatexMatrix(matrix)
   output = paste("\\( (\\underline{X}^T \\underline{X}) = ", latexMatrix, "\\)")
   
@@ -173,31 +271,145 @@ getCalibrationCurveQuadratic_renderDesignMatrixMultiply = reactive({
 
 getCalibrationCurveQuadratic_renderDesignMatrixMultiplyInverse = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   
   matrix = doGetCalibrationCurveQuadratic_designMatrixMultiplyInverse(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
   latexMatrix = createLatexMatrix(matrix)
   output = paste("\\( (\\underline{X}^T \\underline{X})^{-1} = ", latexMatrix, "\\)")
   
   return(HTML(output))
 })
 
-getCalibrationCurveQuadratic_renderCovarianceMatrix = reactive({
+getCalibrationCurveQuadratic_covarianceMatrix = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   
   matrix = doGetCalibrationCurveQuadratic_covarianceMatrix(data)
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
   latexMatrix = createLatexMatrix(matrix)
-  output = paste("\\( S_{y/x}^2 (\\underline{X}^T \\underline{X})^{-1} = ", latexMatrix, "\\)")
   
-  return(HTML(output))
+  return(latexMatrix)
 })
 
 getCalibrationCurveQuadratic_discriminant = reactive({
   data = getDataCalibrationCurveReformatted()
-  if(is.null(data))return(NULL)
+  if(is.null(data))return(NA)
   
   meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
-  return(doGetCalibrationCurveQuadratic_discriminant(data, meanPeakAreaRatio))
+
+  value = doGetCalibrationCurveQuadratic_discriminant(data, meanPeakAreaRatio)
+  value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour8)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_partialDerivativeSlope1 = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  
+  value = doGetCalibrationCurveQuadratic_partialDerivativeSlope1(data,meanPeakAreaRatio)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_partialDerivativeSlope2 = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  
+  value = doGetCalibrationCurveQuadratic_partialDerivativeSlope2(data,meanPeakAreaRatio)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_partialDerivativeMeanOfY = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  
+  value = doGetCalibrationCurveQuadratic_partialDerivativeMeanOfY(data,meanPeakAreaRatio)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+
+  value = doGetCalibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio(data,meanPeakAreaRatio)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_varianceOfSlope1 = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_varianceOfSlope1(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_varianceOfSlope2 = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_varianceOfSlope2(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_covarianceOfSlope1and2 = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_covarianceOfSlope1and2(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_uncertaintyOfCalibrationSquared = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  caseSampleReplicates = input$inputCaseSampleReplicates
+  
+  value = doGetCalibrationCurveQuadratic_uncertaintyOfCalibrationSquared(data,meanPeakAreaRatio,caseSampleReplicates)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_uncertaintyOfCalibration = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  meanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  caseSampleReplicates = input$inputCaseSampleReplicates
+  
+  value = doGetCalibrationCurveQuadratic_uncertaintyOfCalibration(data,meanPeakAreaRatio,caseSampleReplicates)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_relativeStandardUncertaintyOfCalibration = reactive({
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data))return(NA)
+  
+  caseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  caseSampleReplicates = input$inputCaseSampleReplicates
+  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  
+  value = doGetCalibrationCurveQuadratic_relativeStandardUncertaintyOfCalibration(data,caseSampleMeanPeakAreaRatio,caseSampleReplicates,caseSampleMeanConcentration)
+  value = formatNumberForDisplay(value, input)
+  return(value)
 })
 
