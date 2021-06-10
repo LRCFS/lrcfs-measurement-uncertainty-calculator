@@ -214,7 +214,7 @@ standardSolution_solutionRelativeStandardUncertainty_renderer = function(removeC
   }
   
   output = mathJaxAligned(formulas, 5, 30, removeColours)
-  return(withMathJax(output))
+  return(withMathJax(HTML(output)))
 }
 
 output$display_standardSolution_solutionRelativeStandardUncertainty = renderUI({
@@ -265,7 +265,7 @@ standardSolution_finalAnswer_renderer = function(removeColours = FALSE)
   formulas = c(formulas, paste0("&=",formatNumberForDisplay(result,input)))
   
   output = mathJaxAligned(formulas, 5, 20, removeColours)
-  return(withMathJax(output))
+  return(withMathJax(HTML(output)))
 }
 
 output$display_standardSolution_finalAnswer_bottom = renderUI({

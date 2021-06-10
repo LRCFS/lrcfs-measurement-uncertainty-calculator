@@ -56,7 +56,8 @@ samplePreparation_standardUncertainty_renderer = function(removeColours = FALSE)
     
     formulas = c(formulas, paste0("u\\text{(",equipment,")}_{\\text{(",equipmentCapacity,",",equipmentCapacityTolerance,")}} &= \\frac{",equipmentCapacityTolerance,"}{",equipmentCoverage,"} = ", colourNumber(answerValue, input$useColours, input$colour1)))
   }
-  output = withMathJax(mathJaxAligned(formulas, 10, 20, removeColours))
+  output = mathJaxAligned(formulas, 10, 20, removeColours)
+  return(withMathJax(HTML(output)))
 }
 
 output$display_samplePreparation_standardUncertainty = renderUI({
@@ -85,7 +86,7 @@ samplePreparation_relativeStandardUncertainty_renderer = function(removeColours 
   }
   output = mathJaxAligned(formulas, 10, 20, removeColours)
   
-  return(withMathJax(output))
+  return(withMathJax(HTML(output)))
 }
 
 output$display_samplePreparation_relativeStandardUncertainty = renderUI({
@@ -130,7 +131,7 @@ samplePreparation_finalAnswer_bottom_renderer = function(removeColours = FALSE)
   
   output = mathJaxAligned(formulas, 5, 20, removeColours)
   
-  return(withMathJax(output))
+  return(withMathJax(HTML(output)))
 }
 
 output$display_samplePreparation_finalAnswer_bottom = renderUI({

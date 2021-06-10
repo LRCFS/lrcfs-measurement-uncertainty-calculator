@@ -176,7 +176,7 @@ createLatexMatrix = function(data)
   {
     for(c in 1:ncol(data))
     {
-      end = "&amp;"
+      end = "&"
       if(c == ncol(data)) end = "\\\\"
       
       output = paste(output,data[r,c],end)
