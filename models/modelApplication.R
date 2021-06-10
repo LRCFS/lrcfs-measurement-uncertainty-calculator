@@ -472,6 +472,7 @@ downloadReportHandler = downloadHandler(
                      APP_LINK = APP_LINK,
                      
                      #Data
+                     calibrationCurveIsQuadratic = checkUsingCalibartionCurveQuadratic(),
                      calibrationCurveData = getDataCalibrationCurve(),
                      calibrationCurveDataReformatted = getDataCalibrationCurveReformatted(),
                      externalStandardErrorData = getDataExternalStandardError(),
@@ -524,6 +525,11 @@ downloadReportHandler = downloadHandler(
                      calibrationCurve_linearRegression_renderer = calibrationCurve_linearRegression_renderer(removeColours = TRUE),
                      calibrationCurve_uncertaintyOfCalibration_renderer = calibrationCurve_uncertaintyOfCalibration_renderer(removeColours = TRUE),
                      calibrationCurve_finalAnswer_bottom_renderer = calibrationCurve_finalAnswer_bottom_renderer(removeColours = TRUE),
+                     
+                     display_calibrationcurveQuadratic_quadraticRegression_renderer = display_calibrationcurveQuadratic_quadraticRegression_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_covarianceMatrix_renderer = display_calibrationCurveQuadratic_covarianceMatrix_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer = display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_finalAnswer_bottom_renderer = display_calibrationCurveQuadratic_finalAnswer_bottom_renderer(removeColours = TRUE),
                      
                      homogeneityTest_fValue_renderer = homogeneityTest_fValue_renderer(removeColours = TRUE),
                      homogeneity_fCritical_renderer = homogeneity_fCritical_renderer(removeColours = TRUE),

@@ -46,6 +46,7 @@ output$display_calibrationcurveQuadratic_rawData = DT::renderDataTable(
 )
 
 output$display_calibrationcurveQuadratic_rawDataGraph = renderPlotly({
+  
   data = getDataCalibrationCurveReformatted()
   x = data$calibrationDataConcentration
   y = data$calibrationDataPeakArea
@@ -93,7 +94,10 @@ output$display_calibrationcurveQuadratic_rearrangedData = DT::renderDataTable(
   options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:5)))
 )
 
-output$display_calibrationcurveQuadratic_quadraticRegression = renderUI({
+#_renderer functions typically are used by both the web application and the report.Rmd files
+display_calibrationcurveQuadratic_quadraticRegression_renderer = function(removeColours = FALSE){
+  
+  if(is.null(getDataCalibrationCurve())) return(NA)
   
   interceptB0 = getCalibrationCurveQuadratic_intercept()
   slopeB1 = getCalibrationCurveQuadratic_slopeB1()
@@ -106,9 +110,13 @@ output$display_calibrationcurveQuadratic_quadraticRegression = renderUI({
   formulas = c(formulas, paste0("\\text{Slope}(b_2) &= ", slopeB2))
   formulas = c(formulas, paste0("R^2_{\\text{adj}} &=",rSquaredAdjusted))
   formulas = c(formulas, paste0("n &= ",n))
-  output = mathJaxAligned(formulas, 10, 50)
+  output = mathJaxAligned(formulas, 10, 50, removeColours)
   
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationcurveQuadratic_quadraticRegression = renderUI({
+  return(display_calibrationcurveQuadratic_quadraticRegression_renderer())
 })
 
 output$display_calibrationCurveQuadratic_standardErrorOfRegression = renderUI({
@@ -166,9 +174,10 @@ output$display_calibrationCurveQuadratic_designMatrixMultiplyInverse = renderUI(
   return(withMathJax(getCalibrationCurveQuadratic_renderDesignMatrixMultiplyInverse()))
 })
 
-output$display_calibrationCurveQuadratic_covarianceMatrix = renderUI({
+#Renderer function that can be used by both the web/shiny application and the report.Rmd renderer
+display_calibrationCurveQuadratic_covarianceMatrix_renderer = function(removeColours = FALSE)
+{
   covarianceMatrix = getCalibrationCurveQuadratic_covarianceMatrix()
-  
   
   matrixMultipler = "\\sigma^2(\\underline{X}^T\\underline{X})^{-1} &= 
   \\begin{Bmatrix}
@@ -176,15 +185,20 @@ output$display_calibrationCurveQuadratic_covarianceMatrix = renderUI({
   Cov(b_0,b_1) & Var(b_1) & Cov(b_1,b_2) \\\\
   Cov(b_0,b_2) & Cov(b_1,b_2) & Var(b_2) \\\\
   \\end{Bmatrix}[[break]]"
-
+  
   formulas = c(matrixMultipler)
   formulas = c(formulas, paste("S_{y/x}^2 (\\underline{X}^T \\underline{X})^{-1} &= ", covarianceMatrix))
-  output = mathJaxAligned(formulas, 5, 30)
+  output = mathJaxAligned(formulas, 5, 30, removeColours)
   
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationCurveQuadratic_covarianceMatrix = renderUI({
+  return(display_calibrationCurveQuadratic_covarianceMatrix_renderer())
 })
 
 output$display_calibrationCurveQuadratic_discriminant = renderUI({
+  
   interceptB0 = getCalibrationCurveQuadratic_intercept()
   slopeB1 = getCalibrationCurveQuadratic_slopeB1()
   slopeB2 = getCalibrationCurveQuadratic_slopeB2()
@@ -202,6 +216,7 @@ output$display_calibrationCurveQuadratic_discriminant = renderUI({
 })
 
 output$display_calibrationCurveQuadratic_partialDerivativeSlope1 = renderUI({
+  
   discriminant = getCalibrationCurveQuadratic_discriminant()
   slopeB1 = getCalibrationCurveQuadratic_slopeB1()
   slopeB2 = getCalibrationCurveQuadratic_slopeB2()
@@ -261,8 +276,9 @@ output$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakArea
   
 })
 
-output$display_calibrationCurveQuadratic_uncertaintyOfCalibration = renderUI({
-  
+#Renderer function that can be used by both the web/shiny application and the report.Rmd renderer
+display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer = function(removeColours = FALSE)
+{
   partialDerivativeSlope1 = getCalibrationCurveQuadratic_partialDerivativeSlope1()
   partialDerivativeSlope2 = getCalibrationCurveQuadratic_partialDerivativeSlope2()
   partialDerivativeMeanOfY = getCalibrationCurveQuadratic_partialDerivativeMeanOfY()
@@ -273,7 +289,7 @@ output$display_calibrationCurveQuadratic_uncertaintyOfCalibration = renderUI({
   varianceMeanOfY = getCalibrationCurveQuadratic_varianceMeanOfY()
   variancePeakAreaRatio = getCalibrationCurveQuadratic_variancePeakAreaRatio()
   covarianceOfSlope1and2 = getCalibrationCurveQuadratic_covarianceOfSlope1and2()
-
+  
   uncertaintyOfCalibrationSquared = getCalibrationCurveQuadratic_uncertaintyOfCalibrationSquared()
   uncertaintyOfCalibration = getCalibrationCurveQuadratic_uncertaintyOfCalibration()
   
@@ -288,29 +304,41 @@ output$display_calibrationCurveQuadratic_uncertaintyOfCalibration = renderUI({
   formulas = c(formulas, paste("&=
                                  \\left(",partialDerivativeSlope1,"\\right)^2 \\times ",varianceOfSlope1," +
                                  \\left(",partialDerivativeSlope2,"\\right)^2 \\times ",varianceOfSlope2," +
-                                 \\left(",partialDerivativeMeanOfY,"\\right)^2 \\times ",varianceMeanOfY," +
-                                 \\left(",partialDerivativeCaseSampleMeanPeakAreaRatio,"\\right)^2 \\times ",variancePeakAreaRatio," +
+                                 \\left(",partialDerivativeMeanOfY,"\\right)^2 \\times ",varianceMeanOfY," + \\\\ &
+                                 \\hspace{1.5em}\\left(",partialDerivativeCaseSampleMeanPeakAreaRatio,"\\right)^2 \\times ",variancePeakAreaRatio," +
                                  2\\left(",partialDerivativeSlope1,"\\right) \\left(",partialDerivativeSlope2,"\\right) \\times ",covarianceOfSlope1and2
-                               ))
+  ))
   formulas = c(formulas, paste("&=",uncertaintyOfCalibrationSquared,"[[break]]"))
   formulas = c(formulas, paste("u\\text{(CalCurve)} &= \\sqrt{",uncertaintyOfCalibrationSquared,"}"))
   formulas = c(formulas, paste("&= ",uncertaintyOfCalibration))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 10, 20, removeColours)
   return(withMathJax(HTML(output)))
-  
-  return("answer")
+}
+
+output$display_calibrationCurveQuadratic_uncertaintyOfCalibration = renderUI({
+  return(display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer())
 })
 
-output$display_calibrationCurveQuadratic_finalAnswer_bottom = renderUI({
+output$display_calibrationCurveQuadratic_finalAnswer_top = renderText({
+  answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  return(paste("\\(u_r\\text{(CalCurve)}=\\)",answer))
+})
+
+#Renderer function that can be used by both the web/shiny application and the report.Rmd renderer
+display_calibrationCurveQuadratic_finalAnswer_bottom_renderer = function(removeColours = FALSE){
   
   uncertaintyOfCalibration = getCalibrationCurveQuadratic_uncertaintyOfCalibration()
-  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  caseSampleMeanConcentration = ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours)
   relativeStandardUncertaintyOfCalibration = getCalibrationCurveQuadratic_relativeStandardUncertaintyOfCalibration()
   
   formulas = c(paste("u_r\\text{(CalCurve)} &= \\frac{u\\text{(CalCurve)}}{x_s}"))
   formulas = c(formulas, paste("&= \\frac{",uncertaintyOfCalibration,"}{",caseSampleMeanConcentration,"}"))
   formulas = c(formulas, paste("&= ",relativeStandardUncertaintyOfCalibration))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
-  
+}
+
+output$display_calibrationCurveQuadratic_finalAnswer_bottom = renderUI({
+  return(display_calibrationCurveQuadratic_finalAnswer_bottom_renderer())
 })
+

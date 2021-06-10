@@ -9,6 +9,7 @@ params:
   APP_NAME_SHORT: NA
   APP_VER: NA
   APP_LINK: NA
+  calibrationCurveIsQuadratic: NA
   calibrationCurveData: NA
   calibrationCurveDataReformatted: NA
   externalStandardErrorData: NA
@@ -48,6 +49,11 @@ params:
   calibrationCurve_linearRegression_renderer: NA
   calibrationCurve_uncertaintyOfCalibration_renderer: NA
   calibrationCurve_finalAnswer_bottom_renderer: NA
+  
+  display_calibrationcurveQuadratic_quadraticRegression_renderer: NA
+  display_calibrationCurveQuadratic_covarianceMatrix_renderer: NA
+  display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer: NA
+  display_calibrationCurveQuadratic_finalAnswer_bottom_renderer: NA
   
   homogeneity_standardUncertainty_left_renderer: NA
   homogeneity_standardUncertainty_right_renderer: NA
@@ -131,7 +137,10 @@ renderData = function(data)
 ``` 
 \newpage
 
-```{r part_calibrationCurve, child='calibrationCurve.Rmd', eval=TRUE}
+```{r part_calibrationCurve, child='calibrationCurve.Rmd', eval=!params$calibrationCurveIsQuadratic}
+```
+
+```{r part_calibrationCurveQuadratic, child='calibrationCurveQuadratic.Rmd', eval=params$calibrationCurveIsQuadratic}
 ```
 \newpage
 

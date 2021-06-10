@@ -1,0 +1,36 @@
+## Calibration Curve Uncertainty
+
+### Overview
+
+### Method
+
+### Data
+#### Calibration Curve
+`r renderData(params$calibrationCurveData)`
+
+### Calculations
+```{r echo=FALSE,calibrationCurveDataReformatted, echo=FALSE, fig.cap="Concentration vs Peak Area Ratio", out.width = '80%', fig.align = 'center'}
+
+data = params$calibrationCurveDataReformatted
+
+if(!is.null(data))
+{
+  ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
+    geom_point() + 
+    labs(x = "Concentration", y = "Peak Area Ratio") +
+    geom_smooth(method='lm', formula=y~x+I(x^2))
+}
+
+```
+
+***
+
+`r if(!is.na(params$display_calibrationcurveQuadratic_quadraticRegression_renderer)) paste(params$display_calibrationcurveQuadratic_quadraticRegression_renderer, "***")`
+
+`r if(!is.na(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer)) paste(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer, "***")`
+
+`r if(!is.na(params$display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer)) paste(params$display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer, "***")`
+
+`r params$display_calibrationCurveQuadratic_finalAnswer_bottom_renderer`
+
+***
