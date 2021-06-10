@@ -247,6 +247,7 @@ calibrationCurve_uncertaintyOfCalibration_renderer = function(removeColours = FA
   sumWeightedSqDeviationX = colourNumber(sumWeightedSqDeviationX, input$useColours, input$colour2)
   
   answer = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
+  if(is.null(answer))return(NA)
   
   sw="S_{w}"
   if(!is.null(exStdErrData))
@@ -450,7 +451,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   formulas = c(formulas, paste0("&=",colourNumber(answer, input$useColours, input$colour4)))
   
   output = mathJaxAligned(formulas, 5, 20)
- 
+
   box(title=paste("Pooled Standard Error of Regression \\((S_{w_{p}})\\)"), width = 7,withMathJax(HTML(output)))
 })
   
@@ -462,6 +463,7 @@ output$display_calibrationCurve_finalAnswer_top = renderText({
 calibrationCurve_finalAnswer_bottom_renderer = function(removeColours = FALSE)
 {
   answer = formatNumberForDisplay(getResultCalibrationCurve(), input)
+  if(is.na(answer))return(NA)
   
   uncertaintyOfCalibration = formatNumberForDisplay(getCalibrationCurve_uncertaintyOfCalibration(), input)
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
