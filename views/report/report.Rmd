@@ -109,6 +109,21 @@ title: "`r params$APP_NAME` Report"
 -->
 
 ```{css, echo=FALSE}
+
+@media print {
+  .main-container{
+    max-width: none;
+  }
+  .container-fluid
+  {
+    padding: 0;
+  }
+  
+  .smallForPrint{
+    font-size: 10pt !important;
+  }
+}
+
 .icon-large{
   display: none;
 }
@@ -166,6 +181,5 @@ renderData = function(data)
 
 ```{r part_expandedUncertainty, child='expandedUncertainty.Rmd', eval=TRUE}
 ```
-\newpage
 
 # END OF REPORT
