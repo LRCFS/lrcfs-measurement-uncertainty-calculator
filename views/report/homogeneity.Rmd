@@ -1,0 +1,115 @@
+## Homogeneity
+
+Homogeneity/heterogeneity as defend in <a href='https://eurachem.org/images/stories/Guides/pdf/UfS_2019_EN_P2.pdf' target='_blank' title='Measurement uncertainty arising from sampling: A guide to methods and approaches'>EURACHEM/CITAC guide (2019)</a> and <a href='http://publications.iupac.org/pac/1990/pdf/6206x1193.pdf' title='INTERNATIONAL UNION OF PURE AND APPLIED CHEMISTRY' target='_blank'>IUPAC (1990)</a> is:
+
+"The degree to which a property or constituent is uniformly distributed throughout a quantity of material.
+Note:
+
+- A material may be homogeneous with respect to one analyte or property but heterogeneous with respect to another.
+
+- The degree of heterogeneity (the opposite of homogeneity) is the determining factor of sampling error."
+
+## Homogeneity Test
+
+### Overview
+
+A one-way analysis of variance (ANOVA) is used to test the null hypotheses \((H_0)\) of equality of means among sample groups against the alternative hypothesis \((H_1)\) that at least two of the group means differ, on the assumption that samples are normally distributed, have equal variance and are independent. For \(k\) independent groups with means \(m_1 \ldots m_k\), the hypothesis of interest is given by:
+
+\(H_0\): \(m_1 = m_2 = m_3= \ldots = m_k\)
+
+\(H_1\): \(m_l \neq m_j\) for some \(l,j\)
+
+The test statistic under \\(H_0\\) follows an F-distribution \\((F_{\\large s})\\) given by the ratio of mean sum of squares between \((MSS_B)\) and mean sum of squares within \((MSS_W)\), as shown in the Method section.
+
+The \(H_0\) is rejected if the F statistic \((F_{\large s})\) is greater than the F critical (\(F_c\)) value for a given alpha level and conclude that at least two group means differ. For more information see <a href='https://www.researchgate.net/publication/226708564_Uncertainty_calculations_in_the_certification_of_reference_materials_1_Principles_of_analysis_of_variance' target='_blank'>Veen et al: Principles of analysis of variance (2000)</a> and <a href='https://www.researchgate.net/publication/226313972_Uncertainty_calculations_in_the_certification_of_reference_materials_2_Homogeneity_study' target='_blank'>Veen et al: Homogeneity study (2001)</a>.
+
+
+### Method
+
+A one-way analysis of variance (ANOVA) test is carried out where the Mean Sum of Squares Between (\(MSS_B\)) is defined as:
+
+$MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 },$ the Mean Sum of Squares Within (\(MSS_W\)) is defined as: $MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }$
+
+and the F statistic (or F value)  is given by: $F_{\large s} = \frac{MSS_B}{MSS_W}$
+
+Finally, \(H_0\) is rejected if \(F_{\large s} > F_c\)
+
+- \(H_0\) is the null hypotheses of equal group means.
+
+- \(k\) is the number of groups.
+
+- \(n_j\) is the number of measurements/replicates in the group \(j\) where \(j=1\ldots k\).
+
+- \(N\) total number of measurements, i.e. \(N = \sum\limits_{j=1}^k n_j\)
+
+- \(F_{\large s}\) is the F statistic calculated from the supplied data.
+
+- \(F_c\) is the critical value from <a href='https://www.statisticshowto.com/tables/f-table/' target='_blank'>F-Distribution Table</a> at a given alpha level, i.e. \(F_{{\LARGE\nu}_B,{\LARGE\nu}_W,\alpha}\)),
+
+- \({\LARGE\nu}_B\) is the degrees of freedom for the between-group, calculated as \(k-1\).
+
+- \({\LARGE\nu}_W\) is the degrees of freedom for the within-group, calculated as \(N-k\).
+
+- \(X_{ij}\) is the \(i^{th}\) measurement of the \(j^{th}\) group.
+
+- \(\overline{X}_j\) is the mean of measurement in group \(j\).
+
+- \(\overline{X}_T\) is the grand mean of all measurements.
+
+### Data
+`r renderData(params$homogeneityData)`
+
+### Calculations
+`r if(!is.na(params$homogeneityTest_fValue_renderer)) paste(params$homogeneityTest_fValue_renderer, "***")`
+
+`r if(!is.na(params$homogeneity_fCritical_renderer)) paste(params$homogeneity_fCritical_renderer, "***")`
+
+`r params$renderHomogeneityTestAnswer`
+
+&nbsp;
+
+***
+
+\newpage
+
+## Homogeneity Uncertainty
+
+### Overview
+The <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank' title='Uncertainty calculations in the certification of reference materials. 2. Homogeneity study'>uncertainty of homogeneity (2001)</a> quantifies the uncertainty associated with the between-group homogeneity where differences among sample groups are of interest.  Detailed step-by-step calculations are displayed here with the main formulas used to compute the uncertainty of homogeneity shown in the Method section.
+To find out whether your samples are homogenous or heterogenous, the Homogeneity Test section displays a detailed calculation for testing whether there is a statistically significant difference between group means of samples using a one-way analysis of variance (ANOVA) on the assumption that samples are normally distributed, have equal variance and are independent.
+
+### Method
+The Relative Standard Uncertainty of homogeneity is given by the following calculation:
+\(u_r(\text{Homogeneity}) = \frac{ \text{Standard Uncertainty} }{ \text{Grand Mean} } = \frac{ u(\text{Homogeneity}) }{ \overline{X}_T } \)
+
+where \(u(\text{Homogeneity}) = \text{max}\{u_a,u_b\},\)
+
+\(u_a(\text{Homogeneity}) = \sqrt{\frac{ MSS_B - MSS_W }{ n_0 }}\) and \(u_b(\text{Homogeneity}) = \sqrt{ \frac{ MSS_W }{ n_0 } } \times \sqrt{ \frac{ 2 }{ k(n_0-1) } }\)
+
+A one-way analysis of variance (ANOVA) test is carried out to calculate the Mean Sum of Squares Between groups (\(MSS_B\)) and the Mean Sum of Squares Within groups (\(MSS_W\)) given by:
+\(MSS_B = \frac{ \sum\limits_{j=1}^k n_j(\overline{X}_{j}-\overline{X}_T)^2 } { k-1 } \) and \(MSS_W = \frac{ \sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} (X_{ij}-\overline{X}_j)^2 } { N-k }\)
+
+- \(k\) is the number of groups.
+- \(n_j\) is the number of measurements/replicates in the group \(j\) where \(j=1\ldots k\).
+- \(n_0 = \frac{1}{k-1} \left[\sum\limits_{j=1}^k n_j - \frac{ \sum\limits_{j=1}^k n_j^2 } { \sum\limits_{j=1}^k n_j }\right] = \frac{1}{k-1} \left[ N - \frac{A}{N} \right] \) <br />Where all \(n_j\)'s are the same (i.e. \(n_1=n_2=\ldots=n_k=n\)) then this simplifies to \(n_0 = n\).
+- \(N\) is the total number of measurements, i.e. \(N = \sum\limits_{j=1}^k n_j\).
+- \(A\) is the sum of squared number of measurements/replicates in the group, i.e. \(A = \sum\limits_{j=1}^k n^2_j\)
+- \(X_{ij}\) is the \(i^{th}\) measurement of the \(j^{th}\) group.
+- \(\overline{X}_j\) is the mean of measurement in group \(j\).
+- \(\overline{X}_T\) is the grand mean, calculated as the sum of all measurements \(\left(\sum\limits_{j=1}^k\sum\limits_{i=1}^{n_j} X_{ij}\right)\) divided by the number of measurements \((N)\).
+
+### Data
+`r renderData(params$homogeneityData)`
+
+### Calculations
+
+`r if(!is.na(params$homogeneity_standardUncertainty_left_renderer)) paste(params$homogeneity_standardUncertainty_left_renderer, "***")`
+
+`r if(!is.na(params$homogeneity_standardUncertainty_right_renderer)) paste(params$homogeneity_standardUncertainty_right_renderer, "***")`
+
+`r if(!is.na(params$homogeneity_standardUncertainty_max_renderer)) paste(params$homogeneity_standardUncertainty_max_renderer, "***")`
+
+`r params$homogeneity_relativeStandardUncertainty_renderer`
+
+
+***

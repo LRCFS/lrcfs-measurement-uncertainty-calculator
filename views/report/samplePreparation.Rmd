@@ -1,0 +1,29 @@
+## Sample Preparation Uncertainty
+
+### Overview
+
+Uncertainty of sample preparation combines uncertainty sources from the use of different equipment in preparing the sample, such as weighing balance, pipette and volumetric flask.
+
+### Method
+
+The Relative Standard Uncertainty (RSU) of each equipment is computed using:
+
+$u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Capacity}}$
+
+The RSU of sample preparation is given by:
+
+$u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Cap,Tol)}}^2 \times N(\text{Equipment})_{\text{(Cap,Tol)}}}]}$
+
+- \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in taking the preparation of a given sample.
+
+### Data
+`r renderData(params$samplePreparationData)`
+
+### Calculations
+`r if(!is.na(params$samplePreparation_standardUncertainty_renderer)) paste(params$samplePreparation_standardUncertainty_renderer, "***")`
+
+`r if(!is.na(params$samplePreparation_relativeStandardUncertainty_renderer)) paste(params$samplePreparation_relativeStandardUncertainty_renderer, "***")`
+
+`r params$samplePreparation_finalAnswer_bottom_renderer`
+
+***

@@ -457,8 +457,10 @@ downloadReportHandler = downloadHandler(
     # Copy the report file to a temporary directory before processing it, in
     # case we don't have write permissions to the current working dir (which
     # can happen when deployed).
-    tempReport <- file.path(tempdir(), "temp_report.Rmd")
-    file.copy("views/report.Rmd", tempReport, overwrite = TRUE)
+    tempReportFile = file.path(tempdir(), "mucalc/report/report.Rmd")
+    tempReportDir = file.path(tempdir(), "mucalc/")
+    dir.create(tempReportDir)
+    file.copy("views/report/", tempReportDir, overwrite = TRUE, recursive = TRUE, )
     
     # Set up parameters to pass to Rmd document
     paramList = list(TIME = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
@@ -548,7 +550,7 @@ downloadReportHandler = downloadHandler(
     # Knit the document, passing in the `params` list, and eval it in a
     # child of the global environment (this isolates the code in the document
     # from the code in this app).
-    rmarkdown::render(tempReport, output_file = file,
+    rmarkdown::render(tempReportFile, output_file = file,
                       params = paramList,
                       envir = new.env(parent = globalenv())
     )

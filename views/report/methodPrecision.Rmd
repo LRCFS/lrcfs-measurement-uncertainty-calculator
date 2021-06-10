@@ -1,0 +1,46 @@
+## Method Precision Uncertainty
+
+### Overview
+
+The main methodology used is the pooled standard deviation approach.
+
+Where a precision experiment is carried out for different nominal values of concentration (e.g. low, medium and high), the uncertainty of method precision is calculated for each nominal value separately and the uncertainty used for the combined uncertainty is the value for which the specified case sample concentration is closest to the nominal value.
+
+To derive the relative standard uncertainty, the standard uncertainty is divided by the number of case sample replicate as recommended by <a href='https://www.sciencedirect.com/science/article/abs/pii/S0021967317304909' target='_blank' title='Evaluation of the measurement uncertainty: Some common mistakes with a focus on the uncertainty from linear calibration'>Kadis (2017)</a>.)
+
+### Method
+
+The Relative Standard Uncertainty of method precision is given by:
+$u_r(\text{MethodPrec})_{\text{(NV)}} = \frac{S_{p\text{(NV)}}}{\overline{x}_{\text{(NV)}}\sqrt{r_s}} = \frac{u(\text{MethodPrec})_{\text{(NV)}}}{\overline{x}_{\text{(NV)}}},$
+
+where
+
+$u(\text{MethodPrec})_{\text{(NV)}} = \frac{S_{p\text{(NV)}}}{\sqrt{r_s}},$
+
+and
+
+$S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\sum {\large\nu}_{\text{(NV)}}}}.$
+
+- \(S\) is the standard deviation for each run.
+
+- \({\large\nu}\) is the individual degrees of freedom.
+
+- \(S_p\) is the pooled standard deviation.
+
+- \(NV\) is the nominal value of concentration.
+
+- \(\overline{x}_{\text{(NV)}}\) is the mean concentration for the nominal value \(\text{NV}\).
+
+### Data
+`r renderData(params$methodPrecisionData)`
+
+### Calculations
+`r if(!is.na(params$outputPooledStandardDeviation_renderer)) paste(params$outputPooledStandardDeviation_renderer, "***")`
+
+`r if(!is.na(params$outputStandardUncertainty_renderer)) paste(params$outputStandardUncertainty_renderer, "***")`
+
+`r if(!is.na(params$outputRealtiveStandardUncertainties_renderer)) paste(params$outputRealtiveStandardUncertainties_renderer, "***")`
+
+`r params$methodPrecision_finalAnswer_bottom_renderer`
+
+***

@@ -1,0 +1,30 @@
+## Expanded Uncertainty
+
+### Overview
+
+The expanded uncertainty  is the final step of measurement uncertainty computation. This is done in order to derive a confidence interval believed to contain the true unknown value.
+
+It is computed by multiplying the Combined Uncertainty \((\text{CombUncertainty})\) with the coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CL\%}})\).
+
+### Method
+
+The expanded uncertainty \(\text{(ExpUncertainty)}\) is given by:
+
+$\text{ExpUncertainty} = k_{{\large\nu}_{\text{eff}}, {\small CL\%}} \times \text{CombUncertainty}$
+
+with percentage expanded uncertainty given by:
+
+$\text{%ExpUncertainty} = \frac{\text{ExpUncertainty}}{x_s} \times 100$
+
+where:
+
+- \(k_{{\large\nu}_{\text{eff}}, {\small CL\%}}\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage.
+
+- \({\small\text{CombUncertainty}}\) is the combined uncertainty.
+
+- \(x_s\) case sample mean concentration.
+
+### Calculations
+`r params$expandedUncertainty_finalAnswer_renderer`
+
+***

@@ -1,0 +1,44 @@
+## Calibration Standard Uncertainty
+
+### Overview
+
+The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve.
+
+If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with the calibration standard is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.
+
+### Method
+
+The Relative Standard Uncertainty (RSU) of each equipment is computed using:
+
+$u_r(\text{Equipment}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Volume}}$
+
+The RSU of reference compound is calculated using:
+
+$u_r(\text{Reference Compound}) = \frac{\frac{\text{Tolerance}}{\text{Coverage Factor}}}{\text{Purity}}$
+
+The RSU of each solution is computed using:
+
+$u_r\text{(WorkingSolution)} = \sqrt{u_r\text{(Parent Solution)}^2 + \sum{[u_r\text{(Equipment)}^2_{\text{(Vol,Tol)}} \times N\text{(Equipment)}_{\text{(Vol,Tol)}}]}}$
+
+The RSU of standard (spiking) solution is obtained by pooling the RSU's of the calibration curve spiking range.
+
+$u_r(\text{CalStandard}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)}^2}}$
+
+- \(\text{Parent Solution}\) is the solution from which a given solution is made.
+
+- \(N\text{(Equipment)}\) is the number of times a piece of equipment is used in the preparation of a given solution.
+
+### Data
+#### Calibration Standard Structure
+`r renderData(params$standardSolutionData)`
+
+#### Calibration Standard Equipment
+`r renderData(params$standardSolutionEquipmentData)`
+
+### Calculations
+`r if(!is.na(params$standardSolution_solutionRelativeStandardUncertainty_renderer)) paste(params$standardSolution_solutionRelativeStandardUncertainty_renderer, "***")`
+
+`r params$standardSolution_finalAnswer_renderer`
+
+***
+\newpage 

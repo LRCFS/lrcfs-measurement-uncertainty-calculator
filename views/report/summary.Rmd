@@ -1,0 +1,60 @@
+## Summary
+The following is a summary of the supplied data and results calculated.
+
+### Homogeniety Test
+Where data has been provided for a Homogeneity test the following results were recorded:
+
+|Property                   |Value                                |
+|---------------------------|-------------------------------------|
+|Alpha Value                |`r params$homogeneityTestAlphaValue` |
+|Degrees of Freedom Within  |`r params$homogeneityTestDofW`       |
+|Degrees of Freedom Between |`r params$homogeneityTestDofB`       |
+|F Statistic                |`r params$homogeneityTestFStat`      |
+|F Critical                 |`r params$homogeneityTestFCrit`      |
+
+#### **Result: `r params$homogeneityTestResult`**
+***
+\newpage
+
+### Measurement Uncertainty
+
+#### Inputs
+The results of this report are made using the follow supplied information.
+
+| Input                             | Value Specified                            |
+|-----------------------------------|--------------------------------------------|
+|Weighted Least Square Regression   |$`r params$inputWeightLeastSquared`$        |
+|Case Sample Replicates             |`r params$inputCaseSampleReplicates`        |
+|Case Sample Mean Concentration     |`r params$inputCaseSampleMeanConcentration` |
+|Case Sample Mean Peak Area Ratio   |`r params$inputCaseSampleMeanPeakAreaRatio` |
+|Case Sample Weight                 |`r params$inputCaseSampleWeight`            |
+|Confidence Level                   |`r params$inputConfidenceInterval`          |
+|Manually Specified Coverage Factor |`r params$inputManualCoverageFactor`        |
+|Homogeneity Test Alpha value       |`r params$homogeneityTestAlphaValue`        |
+
+***
+
+#### Individual Uncertainty Components
+
+The calculated results for each individual component are shown below.
+
+| Uncertainty Component | Relative Standard Uncertainty |
+|-----------------------|-------------------------------|
+|Homogeneity            |`r params$uncHomogeneity`      |
+|Calibration Curve      |`r params$uncCalibrationCurve` |
+|Method Precision       |`r params$uncMethodPrecision`  |
+|Calibration Standard   |`r params$uncStandardSolution` |
+|Sample Preparation     |`r params$uncSamplePreparation`|
+
+#### Overall Uncertainty
+| Attribute             | Value                                        |
+|-----------------------|----------------------------------------------|
+|Combined Uncertainty   |`r params$combinedUncertaintyResult`          |
+|Coverage Factor        |`r params$coverageFactorResult`               |
+|Expanded Uncertainty   |`r params$expandedUncertaintyResult`          |
+|% Expanded Uncertainty |`r params$expandedUncertaintyResultPercentage`|
+
+With the information supplied above the following result has been concentration result has been calculated.
+
+#### **Result: Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`**
+***

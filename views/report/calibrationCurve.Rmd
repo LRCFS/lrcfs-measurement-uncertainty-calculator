@@ -1,0 +1,86 @@
+## Calibration Curve Uncertainty
+
+### Overview
+This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required.
+The Method section shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
+
+### Method
+#### Weighted
+Where a weight \(W \neq 1\) is specified the uncertainty of calibration curve is given by:
+
+$u\text{(CalCurve)} = \frac{S_{w}}{b_1} \sqrt{\frac{1}{w_{s}(r_s)} + \frac{1}{n} + \frac{(x_s - \overline{x}_w)^2}{S_{{xx}_w}} }$
+
+where \(S_w\) is the standard error of regression given by:
+
+$S_w = \sqrt{\frac{\sum\limits_{i=1}^n w_i(y_i-\hat{y}_i)^2}{n-2}}$.
+
+The Relative Standard Uncertainty is then calculated as:
+
+$u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mean Concentration}} = \frac{u\text{(CalCurve)}}{x_s}$
+
+ - \(x_i\) concentration at level \(i\).
+ - \(x_s\) is the mean concentration of the Case Sample.
+ - \(r_s\) is the number of replicates made on test sample to determine \(x_s\).
+ - \(y_i\) observed peak area ratio for a given concentration \(x_i\).
+ - \(\hat{y}_i\) predicted value of \(y\) for a given value \(x_i\).
+ - \(b_1\) is the Slope of the of the weighted regression line.
+ - \(y_s\) is the mean of Peak Area Ratio of the Case Sample.
+ - \(n\) is the number of measurements used to generate the Calibration Curve.
+ - \(\overline{x}_w\) is the mean values of the different calibration standards.
+ - \(W\) is the specified Weight.
+ - \(w\) is the standardised weight given by \(W(\frac{n}{\sum{W}})\)
+ - \(w_s\) is the Weight of Case Sample.
+ - \(S_{{xx}_w}\) is the sum of squares deviation of \(x\) given by \(\sum\limits_{i=1}^n w_i(x_i - \overline{x})^2\).
+
+#### Non Weighted
+When a weight of \(W = 1\) is specified the formula above simplifies to the following:
+
+$u\text{(CalCurve)} = \frac{S_{y/x}}{b_1} \sqrt{\frac{1}{r_s} + \frac{1}{n} + \frac{(x_s - \overline{x})^2}{S_{xx}}}$
+
+where \(S_{y/x}\) is the standard error of regression given by:
+
+$S_{y/x} = \sqrt{\frac{\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2}{n-2}}$.
+
+The Relative Standard Uncertainty is then calculated as:
+
+$u_r\text{(CalCurve)} = \frac{\text{Standard Uncertatiny}}{\text{Case Sample Mean Concentration}} = \frac{u\text{(CalCurve)}}{x_s}$
+
+ - \(b_1\) is the Slope of the of regression line.
+ - \(\overline{x}\) is the mean values of the different calibration standards.
+ - \(S_{xx}\) is the sum of squares deviation of \(x\) given by \(\sum\limits_{i=1}^n (x_i - \overline{x})^2\).
+
+### Data
+#### Calibration Curve
+`r renderData(params$calibrationCurveData)`
+
+#### External Standard Error
+`r renderData(params$externalStandardErrorData)`
+
+#### Specified Custom Weights
+`r renderData(params$customWls)`
+
+#### Specified Custom Weights for Pooled External Standard Error
+`r renderData(params$customWlsPooled)`
+
+### Calculations
+```{r echo=FALSE,calibrationCurveDataReformatted, echo=FALSE, fig.cap="Concentration vs Peak Area Ratio", out.width = '80%', fig.align = 'center'}
+
+data = params$calibrationCurveDataReformatted
+
+if(!is.null(data))
+{
+  ggplot(data, aes(x = calibrationDataConcentration, y = calibrationDataPeakArea)) +
+    geom_point() + 
+    labs(x = "Concentration", y = "Peak Area Ratio") +
+    geom_smooth(method='lm', formula= y~x)
+}
+
+```
+
+***
+
+`r if(!is.na(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
+
+`r params$calibrationCurve_finalAnswer_bottom_renderer`
+
+***

@@ -1,0 +1,26 @@
+## Coverage Factor
+
+### Overview
+
+Coverage factor \((k)\) is a number usually greater than one from which an expanded uncertainty is obtained when \(k\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components.
+
+An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank' title='Annex G: Degrees of freedom and levels of confidence'>Welch-Satterthwaite equation (JCGM 100:2008)</a> with details given in the Method section. The derived effective degrees of freedom along with the specified \({\small CI\%}\) is used to read a value (termed coverage factor) from the T-Distribution Table.)
+
+### Method
+
+The effective degrees of freedom \(({\LARGE\nu}_{\text{eff}})\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:
+
+${\LARGE\nu}_{\text{eff}} =\frac{(\frac{\text{CombUncertainty}}{x_s})^4}{\sum{\frac{u_r\text{(Individual Uncertainty Component)}^4}{{\LARGE\nu}_{\text{(Individual Uncertainty Component)}}}}}$
+
+The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read from the T-Distribution Table using the calculated \({\Large\nu}_{\text{eff}}\) and specified \({\small CI\%}\).
+
+- \(x_s\) is the Case Sample Mean Concentration.
+
+- \(\nu\) is the Degrees of Freedom for each uncertainty component.
+
+- \({\small\text{CombUncertainty}}\) is the Combined Uncertainty of the individual uncertainty components.
+
+### Calculations
+`r params$coverageFactor_effectiveDegreesOfFreedom_renderer`
+
+***

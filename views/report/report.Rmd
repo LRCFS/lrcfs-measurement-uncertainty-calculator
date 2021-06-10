@@ -1,0 +1,162 @@
+---
+output: html_document
+
+params:
+  TIME: NA
+  APP_DEV: NA
+  APP_DEV_SHORT: NA
+  APP_NAME: NA
+  APP_NAME_SHORT: NA
+  APP_VER: NA
+  APP_LINK: NA
+  calibrationCurveData: NA
+  calibrationCurveDataReformatted: NA
+  externalStandardErrorData: NA
+  methodPrecisionData: NA
+  standardSolutionData: NA
+  standardSolutionEquipmentData: NA
+  samplePreparationData: NA
+  homogeneityData: NA
+  
+  combinedUncertainty_uncertaintyBudget_graphData: NA
+  
+  inputWeightLeastSquared: NA
+  customWls: NA
+  customWlsPooled: NA
+  inputCaseSampleReplicates: NA
+  inputCaseSampleMeanConcentration: NA
+  inputCaseSampleMeanPeakAreaRatio: NA
+  inputCaseSampleWeight: NA
+  inputConfidenceInterval: NA
+  inputManualCoverageFactor: NA
+  uncCalibrationCurve: NA
+  uncMethodPrecision: NA
+  uncStandardSolution: NA
+  uncSamplePreparation: NA
+  uncHomogeneity: NA
+  homogeneityTestResult: NA
+  homogeneityTestAlphaValue: NA
+  homogeneityTestDofW: NA
+  homogeneityTestDofB: NA
+  homogeneityTestFStat: NA,
+  homogeneityTestFCrit: NA
+  combinedUncertaintyResult: NA
+  coverageFactorResult: NA
+  expandedUncertaintyResult: NA
+  expandedUncertaintyResultPercentage: NA
+  
+  calibrationCurve_linearRegression_renderer: NA
+  calibrationCurve_uncertaintyOfCalibration_renderer: NA
+  calibrationCurve_finalAnswer_bottom_renderer: NA
+  
+  homogeneity_standardUncertainty_left_renderer: NA
+  homogeneity_standardUncertainty_right_renderer: NA
+  homogeneity_standardUncertainty_max_renderer: NA
+  homogeneity_relativeStandardUncertainty_renderer: NA
+  
+  homogeneityTest_fValue_renderer: NA
+  homogeneity_fCritical_renderer: NA
+  renderHomogeneityTestAnswer: NA
+  
+  outputPooledStandardDeviation_renderer: NA
+  outputStandardUncertainty_renderer: NA
+  outputRealtiveStandardUncertainties_renderer: NA
+  methodPrecision_finalAnswer_bottom_renderer: NA
+  
+  standardSolution_solutionRelativeStandardUncertainty_renderer: NA
+  standardSolution_finalAnswer_renderer: NA
+  
+  samplePreparation_standardUncertainty_renderer: NA
+  samplePreparation_relativeStandardUncertainty_renderer: NA
+  samplePreparation_finalAnswer_bottom_renderer: NA
+  
+  combinedUncertainty_finalAnswer_renderer: NA
+  coverageFactor_effectiveDegreesOfFreedom_renderer: NA
+  expandedUncertainty_finalAnswer_renderer: NA
+  
+title: "`r params$APP_NAME` Report"
+---
+
+<!--
+###########################################################################
+#
+# Measurement Uncertainty Calculator - Copyright (C) 2019
+# Leverhulme Research Centre for Forensic Science
+# Roy Mudie, Joyce Klu, Niamh Nic Daeid
+# Website: https://github.com/LRCFS/lrcfs-measurement-uncertainty-calculator/
+# Contact: lrc@dundee.ac.uk
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+###########################################################################
+-->
+
+```{css, echo=FALSE}
+.icon-large{
+  display: none;
+}
+```
+
+```{r loadPackages, include=FALSE}
+library("ggplot2")
+
+renderData = function(data)
+{
+  if(!is.null(data)) knitr::kable(data, format="markdown") else paste("No data provided.")
+}
+```
+
+```{r part_coverPage, child='coverPage.Rmd', eval=TRUE}
+``` 
+\newpage
+
+```{r part_summary, child='summary.Rmd', eval=TRUE}
+``` 
+\newpage
+
+# Methodology
+
+```{r part_homogeneity, child='homogeneity.Rmd', eval=TRUE}
+``` 
+\newpage
+
+```{r part_calibrationCurve, child='calibrationCurve.Rmd', eval=TRUE}
+```
+\newpage
+
+```{r part_methodPrecision, child='methodPrecision.Rmd', eval=TRUE}
+```
+\newpage
+
+```{r part_calibrationStandard, child='calibrationStandard.Rmd', eval=TRUE}
+```
+\newpage
+
+```{r part_samplePreparation, child='samplePreparation.Rmd', eval=TRUE}
+```
+\newpage
+
+```{r part_combinedUncertainty, child='combinedUncertainty.Rmd', eval=TRUE}
+```
+\newpage
+
+```{r part_coverageFactor, child='coverageFactor.Rmd', eval=TRUE}
+```
+\newpage
+
+```{r part_expandedUncertainty, child='expandedUncertainty.Rmd', eval=TRUE}
+```
+\newpage
+
+# END OF REPORT

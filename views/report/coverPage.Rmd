@@ -1,0 +1,25 @@
+## `r params$APP_DEV`
+
+#### Report Generated: `r params$TIME`
+
+#### Software Version: `r params$APP_NAME` (v`r params$APP_VER`)
+
+This report was automatically generated on `r params$TIME` using the using the `r params$APP_DEV_SHORT` `r params$APP_NAME` (v`r params$APP_VER`) available at `r params$APP_LINK`.
+
+***
+
+## Authorisation 
+
+### Report Author
+| Name | Signature | Job Title / Position | Date |
+|------|-----------|----------------------|------|
+|&nbsp;|           |                      |      |
+|&nbsp;|           |                      |      |
+|&nbsp;|           |                      |      |
+
+### Approval 
+| Name | Signature | Job Title / Position | Date |
+|------|-----------|----------------------|------|
+|&nbsp;|           |                      |      |
+|&nbsp;|           |                      |      |
+|&nbsp;|           |                      |      |
