@@ -94,7 +94,7 @@ formatNumberForDisplay = function(number, input = NULL)
     return(as.character(number))
   
   #If it's NULL, NA or not numeric then just return it
-  if(is.null(number) | any(is.na(number)) | !is.numeric(number))
+  if(is.null(number) || any(is.na(number)) || !is.numeric(number) || length(number) == 0)
   {
      return(number)
   }
