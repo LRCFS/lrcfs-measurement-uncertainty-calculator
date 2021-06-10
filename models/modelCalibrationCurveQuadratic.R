@@ -127,7 +127,7 @@ output$display_calibrationCurveQuadratic_standardErrorOfRegression = renderUI({
 output$display_calibrationCurveQuadratic_variancePeakAreaRatio = renderUI({
   
   standardErrorOfRegression = getCalibrationCurveQuadratic_standardErrorOfRegression()
-  r_s = input$inputCaseSampleReplicates
+  r_s = ColourCaseSampleReplicates(input$inputCaseSampleReplicates,input$useColours)
   answer = getCalibrationCurveQuadratic_variancePeakAreaRatio()
   
   formulas = c("Var(y_s) &= \\frac{S_{y/x}^2}{r_s}")

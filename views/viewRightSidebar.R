@@ -61,7 +61,10 @@ mouCalcRightSidebar = rightSidebar(
         colourInput("colour7", "Colour 7", value = colour7),
         colourInput("colour8", "Colour 8", value = colour8),
         colourInput("colour9", "Colour 9", value = colour9),
-        colourInput("colour10", "Colour 10", value = colour10)
+        colourInput("colour10", "Colour 10", value = colour10),
+        colourInput("colour11", "Colour 11", value = colour11),
+        colourInput("colour12", "Colour 12", value = colour12),
+        # colourInput("colour13", "Colour 13", value = colour13)
     )
   )
 )

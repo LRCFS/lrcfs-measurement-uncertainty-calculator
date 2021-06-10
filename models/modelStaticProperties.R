@@ -57,6 +57,13 @@ colour8 = "#A0A200"
 colour9 = "#00A3BB"
 colour10 = "#003F95"
 
+colour11 = "#005315" #Dark Green
+colour12 = "#8A0900" #Dark Red
+# colour13 = "#FD0000"
+# colour14 = "#6828A2"
+# colour15 = "#8C4600"
+# colour16 = "#D73FA9"
+
 caseSampleReplicatesColour =        "#00C0EF" #shiny "aqua"
 caseSampleMeanConcentrationColour = "#F012BE" #shiny "fuchsia"
 caseSampleMeanParColour =           "#FF851B" #shiny "orange"

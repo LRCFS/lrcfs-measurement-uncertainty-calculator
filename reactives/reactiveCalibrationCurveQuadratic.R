@@ -51,7 +51,6 @@ getCalibrationCurveQuadratic_intercept_value = reactive({
 getCalibrationCurveQuadratic_intercept = reactive({
   value = getCalibrationCurveQuadratic_intercept_value()
   value = formatNumberForDisplay(value, input)
-  value = colourNumber(value, input$useColours, input$colour4)
   return(value)
 })
 
@@ -219,6 +218,7 @@ getCalibrationCurveQuadratic_variancePeakAreaRatio = reactive({
   
   value = doGetCalibrationCurveQuadratic_variancePeakAreaRatio(data, caseSampleReplicates)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour8)
   return(value)
 })
 
@@ -228,6 +228,7 @@ getCalibrationCurveQuadratic_varianceMeanOfY = reactive({
   
   value = doGetCalibrationCurveQuadratic_varianceMeanOfY(data)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour10)
   return(value)
 })
 
@@ -288,6 +289,11 @@ getCalibrationCurveQuadratic_covarianceMatrix = reactive({
   
   matrix = doGetCalibrationCurveQuadratic_covarianceMatrix(data)
   matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
+  
+  matrix[2,2] = colourNumber(matrix[2,2], input$useColours, input$colour12)
+  matrix[3,3] = colourNumber(matrix[3,3], input$useColours, input$colour12)
+  matrix[2,3] = colourNumber(matrix[2,3], input$useColours, input$colour12)
+  
   latexMatrix = createLatexMatrix(matrix)
   
   return(latexMatrix)
@@ -301,7 +307,7 @@ getCalibrationCurveQuadratic_discriminant = reactive({
 
   value = doGetCalibrationCurveQuadratic_discriminant(data, meanPeakAreaRatio)
   value = formatNumberForDisplay(value, input)
-  value = colourNumber(value, input$useColours, input$colour8)
+  value = colourNumber(value, input$useColours, input$colour9)
   return(value)
 })
 
@@ -313,6 +319,7 @@ getCalibrationCurveQuadratic_partialDerivativeSlope1 = reactive({
   
   value = doGetCalibrationCurveQuadratic_partialDerivativeSlope1(data,meanPeakAreaRatio)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour4)
   return(value)
 })
 
@@ -335,6 +342,7 @@ getCalibrationCurveQuadratic_partialDerivativeMeanOfY = reactive({
   
   value = doGetCalibrationCurveQuadratic_partialDerivativeMeanOfY(data,meanPeakAreaRatio)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour11)
   return(value)
 })
 
@@ -355,6 +363,7 @@ getCalibrationCurveQuadratic_varianceOfSlope1 = reactive({
   
   value = doGetCalibrationCurveQuadratic_varianceOfSlope1(data)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour12)
   return(value)
 })
 
@@ -364,6 +373,7 @@ getCalibrationCurveQuadratic_varianceOfSlope2 = reactive({
   
   value = doGetCalibrationCurveQuadratic_varianceOfSlope2(data)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour12)
   return(value)
 })
 
@@ -373,6 +383,7 @@ getCalibrationCurveQuadratic_covarianceOfSlope1and2 = reactive({
   
   value = doGetCalibrationCurveQuadratic_covarianceOfSlope1and2(data)
   value = formatNumberForDisplay(value, input)
+  value = colourNumber(value, input$useColours, input$colour12)
   return(value)
 })
 

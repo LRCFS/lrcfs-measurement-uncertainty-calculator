@@ -210,9 +210,19 @@ doGetCalibrationCurve_weightedCaseSample = function(caseSampleMeanConcentration,
   return(standarisedWeightedCaseSample)
 }
   
-doGetCalibrationCurve_degreesOfFreedom = function(values){
+doGetCalibrationCurve_degreesOfFreedom = function(values,isQuadraticFit){
   if(is.null(values)) return(NULL)
-  degressOfFreedom = doGetCalibrationCurve_n(values)-2
+  
+  degressOfFreedom = NA
+  if(isQuadraticFit)
+  {
+    degressOfFreedom = doGetCalibrationCurve_n(values)-3 #Predict b_0, b_1, b_2 (three degrees of freedom)
+  }
+  else
+  {
+    degressOfFreedom = doGetCalibrationCurve_n(values)-2 #Predict b_0 and b_1 (two degrees of freedom)
+  }
+  
   return(degressOfFreedom)
 }
 
@@ -366,8 +376,21 @@ doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsSelectedOptio
   return(answer)
 }
 
-doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration){
-  uncertaintyOfCalibration = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
-  answer = uncertaintyOfCalibration / caseSampleMeanConcentration
-  return(answer)
+#Relatice standard uncertainty of calibration curve needs to check wether you're doing a linear or quadratic fit, as this is value then used for all further calculations
+doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration,dataForQuadraticFit){
+  
+  if(is.null(dataForQuadraticFit))
+  {
+    #If we're doing a linear fit...
+    uncertaintyOfCalibration = doGetCalibrationCurve_uncertaintyOfCalibration(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData, caseSampleReplicates, caseSampleMeanConcentration)
+    answer = uncertaintyOfCalibration / caseSampleMeanConcentration
+    return(answer)
+  }
+  else
+  {
+    #If we're doing a quadratic fit...
+    uncertaintyOfCalibration = doGetCalibrationCurveQuadratic_uncertaintyOfCalibration(dataForQuadraticFit,specifiedPeakAreaRatio,caseSampleReplicates)
+    answer = uncertaintyOfCalibration/caseSampleMeanConcentration
+    return(answer)
+  }
 }

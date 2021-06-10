@@ -259,7 +259,15 @@ getResultCalibrationCurve = reactive({
   caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
   caseSampleWeight = input$inputCaseSampleCustomWeight
   
-  answer = doGetCalibrationCurve_relativeStandardUncertainty(x,y,wlsSelectedValue,customWls,customPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration)
+  #If we're doing a quadratic fit then we're doing to pass in the data for it
+  #Else, we pass in null and the doGetCalibrationCurve_relativeStandardUncertainty function will just do a linear fit
+  dataForQuadraticFit = NULL
+  if(checkUsingCalibartionCurveQuadratic())
+  {
+    dataForQuadraticFit = data
+  }
+  
+  answer = doGetCalibrationCurve_relativeStandardUncertainty(x,y,wlsSelectedValue,customWls,customPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration, dataForQuadraticFit)
   return(answer)
 })
 
@@ -268,7 +276,7 @@ getCalibrationCurve_degreesOfFreedom = reactive({
   if(is.null(data)) return(NA)
   x = data$calibrationDataConcentration
   
-  answer = doGetCalibrationCurve_degreesOfFreedom(x)
+  answer = doGetCalibrationCurve_degreesOfFreedom(x, checkUsingCalibartionCurveQuadratic())
   return(answer)
 })
 

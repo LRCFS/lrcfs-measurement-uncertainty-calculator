@@ -101,9 +101,21 @@ output$display_coverageFactor_dofCalibrationCurve = renderUI({
   if(!is.null(data))
   {
     n = getCalibrationCurve_n()
-    formulas = c("{\\LARGE\\nu}_{\\text{CalCurve}} &= n -2")
-    formulas = c(formulas,paste0("&=",n,"-2"))
-    formulas = c(formulas,paste0("&= ",colourNumber(n-2, input$useColours, CalibrationCurveColor)))
+    answer = getCalibrationCurve_degreesOfFreedom()
+    
+    nParamaters = NA
+    if(checkUsingCalibartionCurveQuadratic())
+    {
+      nParamaters = 3
+    }
+    else
+    {
+      nParamaters = 2
+    }
+    
+    formulas = c(paste("{\\LARGE\\nu}_{\\text{CalCurve}} &= n-",nParamaters))
+    formulas = c(formulas,paste0("&=",n,"-",nParamaters))
+    formulas = c(formulas,paste0("&= ",colourNumber(answer, input$useColours, CalibrationCurveColor)))
   }
   else
   {
