@@ -457,10 +457,12 @@ downloadReportHandler = downloadHandler(
     # Copy the report file to a temporary directory before processing it, in
     # case we don't have write permissions to the current working dir (which
     # can happen when deployed).
+    
     tempReportFile = file.path(tempdir(), "mucalc/report/report.Rmd")
     tempReportDir = file.path(tempdir(), "mucalc/")
-    dir.create(tempReportDir)
-    file.copy("views/report/", tempReportDir, overwrite = TRUE, recursive = TRUE, )
+    if(!dir.exists(tempReportDir)) dir.create(tempReportDir) #if the temp directory does not exist then create it
+    
+    file.copy("views/report/", tempReportDir, overwrite = TRUE, recursive = TRUE)
     
     # Set up parameters to pass to Rmd document
     paramList = list(TIME = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
