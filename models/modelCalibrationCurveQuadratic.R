@@ -227,8 +227,8 @@ output$display_calibrationCurveQuadratic_partialDerivativeSlope2 = renderUI({
   y_s = ColourCaseSampleMeanPeakAreaRatio(input$inputCaseSampleMeanPeakAreaRatio,input$useColours)
   answer = getCalibrationCurveQuadratic_partialDerivativeSlope2()
   
-  formulas = c("\\frac{\\partial \\hat{x_0}}{\\partial b_2} &= \\frac{b_1-D^{1/2}}{2b_2} + \\frac{\\frac{1}{2}D^{-1/2}(4y_s - 4\\overline{y} + 4b_1\\overline{x}+8b_2\\overline{x^2})}{2b_2}")
-  formulas = c(formulas, paste("&= \\frac{",b_1,"-",discriminant,"^{1/2}}{2\\times",b_2,"} + \\frac{\\frac{1}{2}",discriminant,"^{-1/2}(4\\times",y_s," - 4\\times",meanY," + 4\\times",b_1,"\\times",meanX,"+8\\times",b_2,"\\times",meanXs,")}{2\\times",b_2,"}"))
+  formulas = c("\\frac{\\partial \\hat{x_0}}{\\partial b_2} &= \\frac{b_1-D^{1/2}}{2b_2^2} + \\frac{\\frac{1}{2}D^{-1/2}(4y_s - 4\\overline{y} + 4b_1\\overline{x}+8b_2\\overline{x^2})}{2b_2}")
+  formulas = c(formulas, paste("&= \\frac{",b_1,"-",discriminant,"^{1/2}}{2\\times",b_2,"^2} + \\frac{\\frac{1}{2}",discriminant,"^{-1/2}(4\\times",y_s," - 4\\times",meanY," + 4\\times",b_1,"\\times",meanX,"+8\\times",b_2,"\\times",meanXs,")}{2\\times",b_2,"}"))
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
   return(withMathJax(HTML(output)))

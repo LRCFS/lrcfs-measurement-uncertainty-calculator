@@ -274,7 +274,7 @@ doGetCalibrationCurveQuadratic_partialDerivativeSlope1 = function(data,meanPeakA
   slopeB2 = doGetCalibrationCurveQuadratic_slopeB2(data)
   meanX = doGetCalibrationCurveQuadratic_meanOfX(data)
   
-  topFrac = -1 + (0.5*discriminant)^(-0.5) * ((2*slopeB1) + (4*slopeB2*meanX))
+  topFrac = -1 + 0.5*discriminant^(-0.5) * ((2*slopeB1) + (4*slopeB2*meanX))
   bottomFrac = 2 * slopeB2
   answer = topFrac / bottomFrac
   return(answer)
@@ -292,10 +292,10 @@ doGetCalibrationCurveQuadratic_partialDerivativeSlope2 = function(data,meanPeakA
   meanXs = doGetCalibrationCurveQuadratic_meanOfXSquared(data)
   
   topFrac1 = slopeB1 - discriminant^(0.5)
-  bottomFrac1 = 2 * slopeB2
+  bottomFrac1 = 2 * slopeB2^2
   frac1 = topFrac1 / bottomFrac1
   
-  topFrac2 = ((0.5*discriminant)^(-0.5)) * ((4*meanPeakAreaRatio) - (4*meanY) + (4*slopeB1*meanX) + (8*slopeB2*meanXs))
+  topFrac2 = (0.5*discriminant^(-0.5)) * ((4*meanPeakAreaRatio) - (4*meanY) + (4*slopeB1*meanX) + (8*slopeB2*meanXs))
   bottomFrac2 = 2 * slopeB2
   frac2 = topFrac2 / bottomFrac2
   
