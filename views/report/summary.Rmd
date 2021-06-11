@@ -14,7 +14,6 @@ Where data has been provided for a Homogeneity test the following results were r
 
 #### **Result: `r params$homogeneityTestResult`**
 ***
-\newpage
 
 ### Measurement Uncertainty
 

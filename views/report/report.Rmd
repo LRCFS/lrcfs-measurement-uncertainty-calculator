@@ -150,34 +150,27 @@ renderData = function(data)
 
 ```{r part_homogeneity, child='homogeneity.Rmd', eval=TRUE}
 ``` 
-\newpage
 
 ```{r part_calibrationCurve, child='calibrationCurve.Rmd', eval=!params$calibrationCurveIsQuadratic}
 ```
 
 ```{r part_calibrationCurveQuadratic, child='calibrationCurveQuadratic.Rmd', eval=params$calibrationCurveIsQuadratic}
 ```
-\newpage
 
 ```{r part_methodPrecision, child='methodPrecision.Rmd', eval=TRUE}
 ```
-\newpage
 
 ```{r part_calibrationStandard, child='calibrationStandard.Rmd', eval=TRUE}
 ```
-\newpage
 
 ```{r part_samplePreparation, child='samplePreparation.Rmd', eval=TRUE}
 ```
-\newpage
 
 ```{r part_combinedUncertainty, child='combinedUncertainty.Rmd', eval=TRUE}
 ```
-\newpage
 
 ```{r part_coverageFactor, child='coverageFactor.Rmd', eval=TRUE}
 ```
-\newpage
 
 ```{r part_expandedUncertainty, child='expandedUncertainty.Rmd', eval=TRUE}
 ```

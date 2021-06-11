@@ -70,8 +70,6 @@ Finally, \(H_0\) is rejected if \(F_{\large s} > F_c\)
 
 ***
 
-\newpage
-
 ## Homogeneity Uncertainty
 
 ### Overview
