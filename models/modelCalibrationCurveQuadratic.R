@@ -223,7 +223,7 @@ output$display_calibrationCurveQuadratic_partialDerivativeSlope1 = renderUI({
   meanX = getCalibrationCurveQuadratic_meanOfX()
   answer = getCalibrationCurveQuadratic_partialDerivativeSlope1()
   
-  formulas = c("\\frac{\\partial \\hat{x_0}}{\\partial b_1} &= \\frac{-1 + \\frac{1}{2} D^{-1/2}(2b_1+4b_2\\overline{x})}{2b_2}")
+  formulas = c("\\frac{\\partial \\hat{x_s}}{\\partial b_1} &= \\frac{-1 + \\frac{1}{2} D^{-1/2}(2b_1+4b_2\\overline{x})}{2b_2}")
   formulas = c(formulas, paste("&= \\frac{-1 + \\frac{1}{2} ",discriminant,"^{-1/2}(2 \\times",slopeB1,"+4\\times",slopeB2,"\\times",meanX,")}{2\\times",slopeB2,"}"))
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
@@ -242,7 +242,7 @@ output$display_calibrationCurveQuadratic_partialDerivativeSlope2 = renderUI({
   y_s = ColourCaseSampleMeanPeakAreaRatio(input$inputCaseSampleMeanPeakAreaRatio,input$useColours)
   answer = getCalibrationCurveQuadratic_partialDerivativeSlope2()
   
-  formulas = c("\\frac{\\partial \\hat{x_0}}{\\partial b_2} &= \\frac{b_1-D^{1/2}}{2b_2^2} + \\frac{\\frac{1}{2}D^{-1/2}(4y_s - 4\\overline{y} + 4b_1\\overline{x}+8b_2\\overline{x^2})}{2b_2}")
+  formulas = c("\\frac{\\partial \\hat{x_s}}{\\partial b_2} &= \\frac{b_1-D^{1/2}}{2b_2^2} + \\frac{\\frac{1}{2}D^{-1/2}(4y_s - 4\\overline{y} + 4b_1\\overline{x}+8b_2\\overline{x^2})}{2b_2}")
   formulas = c(formulas, paste("&= \\frac{",b_1,"-",discriminant,"^{1/2}}{2\\times",b_2,"^2} + \\frac{\\frac{1}{2}",discriminant,"^{-1/2}(4\\times",y_s," - 4\\times",meanY," + 4\\times",b_1,"\\times",meanX,"+8\\times",b_2,"\\times",meanXs,")}{2\\times",b_2,"}"))
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
@@ -255,7 +255,7 @@ output$display_calibrationCurveQuadratic_partialDerivativeMeanOfY = renderUI({
   discriminant = getCalibrationCurveQuadratic_discriminant()
   answer = getCalibrationCurveQuadratic_partialDerivativeMeanOfY()
   
-  formulas = c("\\frac{\\partial \\hat{x_0}}{\\partial \\overline{y}} &= -D^{-1/2}")
+  formulas = c("\\frac{\\partial \\hat{x_s}}{\\partial \\overline{y}} &= -D^{-1/2}")
   formulas = c(formulas, paste("&= -",discriminant,"^{-1/2}"))
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
@@ -268,7 +268,7 @@ output$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakArea
   discriminant = getCalibrationCurveQuadratic_discriminant()
   answer = getCalibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio()
   
-  formulas = c(paste("\\frac{\\partial \\hat{x_0}}{\\partial y_s} &= D^{-1/2}"))
+  formulas = c(paste("\\frac{\\partial \\hat{x_s}}{\\partial y_s} &= D^{-1/2}"))
   formulas = c(formulas, paste("&= ",discriminant,"^{-1/2}"))
   formulas = c(formulas, paste("&=",answer))
   output = mathJaxAligned(formulas, 5, 20)
@@ -295,11 +295,11 @@ display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer = function(r
   
   formulas = c("
                u\\text{(CalCurve)}^2 &=
-               \\left(\\frac{\\partial \\hat{x_0}}{\\partial b_1}\\right)^2 Var(b_1) +
-               \\left(\\frac{\\partial \\hat{x_0}}{\\partial b_2}\\right)^2 Var(b_2) +
-               \\left(\\frac{\\partial \\hat{x_0}}{\\partial \\overline{y}}\\right)^2 Var(\\overline{y}) +
-               \\left(\\frac{\\partial \\hat{x_0}}{\\partial y_s}\\right)^2 Var(y_s) +
-               2\\left(\\frac{\\partial \\hat{x_0}}{\\partial b_1}\\right) \\left(\\frac{\\partial \\hat{x_0}}{\\partial b_2}\\right) Cov(b_1,b_2)
+               \\left(\\frac{\\partial \\hat{x_s}}{\\partial b_1}\\right)^2 Var(b_1) +
+               \\left(\\frac{\\partial \\hat{x_s}}{\\partial b_2}\\right)^2 Var(b_2) +
+               \\left(\\frac{\\partial \\hat{x_s}}{\\partial \\overline{y}}\\right)^2 Var(\\overline{y}) +
+               \\left(\\frac{\\partial \\hat{x_s}}{\\partial y_s}\\right)^2 Var(y_s) +
+               2\\left(\\frac{\\partial \\hat{x_s}}{\\partial b_1}\\right) \\left(\\frac{\\partial \\hat{x_s}}{\\partial b_2}\\right) Cov(b_1,b_2)
                ")
   formulas = c(formulas, paste("&=
                                  \\left(",partialDerivativeSlope1,"\\right)^2 \\times ",varianceOfSlope1," +

@@ -23,13 +23,15 @@
 
 tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                  fluidRow(
-                   valueBox("Uncertainty of Calibration Curve", h2(textOutput("display_calibrationCurve_finalAnswer_top")), width = 12, color = "blue", icon = icon("chart-line")),
+                   valueBox("Uncertainty of Calibration Curve (Linear Fit)", h2(textOutput("display_calibrationCurve_finalAnswer_top")), width = 12, color = "blue", icon = icon("chart-line")),
                    actionButton("helpCalibrationCurve", "Help", icon=icon("question"), class="pageHelpTop")
                  ),
                  fluidRow(
                    box(title = "Overview", width=6,
-                       p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required."),
-                       p("The Method tab shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \\(W=1\\) is specified.")
+                       p("All computations and details of formulas used for computing the uncertainty of the calibration curve are displayed here. A linear fit has been applied on the uploaded data. Optionally, on the start page, you can specify weights if a weighted least squares (WLS) regression is required."),
+                       p("The Method tabs show the main formulas used to compute the linear uncertainty of the calibration curve for both weighted and non-weighted least squares regression."),
+                       p("When using a linear fit, calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \\(W=1\\) is specified."),
+                       p("Where a Quadratic fit is required, please return to the start page and upload your data in the \"Quadratic Fit\" tab.")
                    ),
                    tabBox(title = "Method", width=6,
                           tabPanel("Weighted",
