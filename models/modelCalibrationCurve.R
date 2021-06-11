@@ -66,7 +66,7 @@ output$uploadedCalibrationDataStats = renderUI({
   numberOfConcentrations = getCalibrationCurve_numberOfConcentrations()
   numberOfPeakAreaRatios = getCalibrationCurve_numberOfPeakAreaRatios()
   
-  return(HTML(sprintf("Uploaded Calibration Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d",numberOfRuns, numberOfReplicates, numberOfConcentrations, numberOfPeakAreaRatios)))
+  return(HTML(sprintf("Uploaded Calibration Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Number of Data Points \\((n)\\): %d",numberOfRuns, numberOfReplicates, numberOfConcentrations, numberOfPeakAreaRatios)))
 })
 
 calibrationCurve_linearRegression_renderer = function(removeColours = FALSE){
@@ -279,8 +279,16 @@ output$peakAreaRatios = renderPlotly({
 
   linearRegression = getCalibrationCurve_linearRegression()
   
+  # caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  # caseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+  # 
+  # #CaseSampleMeanConcentration Line
+  # caseSampleMeanConcentration_lineX = c(1,1)
+  # caseSampleMeanConcentration_lineY = c(2,2)
+
   plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
     add_lines(x = x, y = fitted(linearRegression), name="Calibration Curve") %>%
+    #add_trace(x = c(2,2), y = c(0,2), name="Case Sample Mean Concentration", mode = "lines", line=list(color=caseSampleMeanConcentrationColour)) %>%
     layout(xaxis = list(title="Concentration"), yaxis = list(title="Peak Area Ratio")) %>%
     add_annotations(x= 0.5,y= 0.8,xref="paper",yref="paper",text=paste0("y = ",intercept,"+",slope,"x"),showarrow = F)    
 })
@@ -300,7 +308,7 @@ output$display_calibrationCurve_externalStandardErrorUploadedData = renderUI({
   lengths = apply(exStdErrorRunData, 2, doGetCalibrationCurve_n) #then count all the runs lengths
   numberOfPeakAreaRatios = sum(lengths) #and add them together
                    
-  boxTitle = HTML(sprintf("Calibration Curve Data for Pooled Standard Error<br />Runs: %d | Reps: %d | Concentration Levels: %d | Peak Area Ratios: %d",numberOfRuns,numberOfReplicates,concentrationLevels,numberOfPeakAreaRatios))
+  boxTitle = HTML(sprintf("Calibration Curve Data for Pooled Standard Error<br />Runs: %d | Reps: %d | Concentration Levels: %d | Number of Data Points \\((n)\\): %d",numberOfRuns,numberOfReplicates,concentrationLevels,numberOfPeakAreaRatios))
   
   tabBox(width=12, side="right",
          title = boxTitle,
@@ -478,7 +486,7 @@ calibrationCurve_finalAnswer_bottom_renderer = function(removeColours = FALSE)
 }
 
 output$display_calibrationCurve_finalAnswer_bottom = renderUI({
-  return(calibrationCurve_finalAnswer_bottom_renderer())
+  return(paste(calibrationCurve_finalAnswer_bottom_renderer()))
 })
 
 output$display_calibrationCurve_finalAnswer_dashboard = renderUI({
