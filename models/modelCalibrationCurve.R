@@ -279,16 +279,40 @@ output$peakAreaRatios = renderPlotly({
 
   linearRegression = getCalibrationCurve_linearRegression()
   
-  # caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
-  # caseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
-  # 
-  # #CaseSampleMeanConcentration Line
-  # caseSampleMeanConcentration_lineX = c(1,1)
-  # caseSampleMeanConcentration_lineY = c(2,2)
+  caseSampleMeanConcentration = input$inputCaseSampleMeanConcentration
+  caseSampleMeanPeakAreaRatio = input$inputCaseSampleMeanPeakAreaRatio
+
+  #CaseSampleMeanPeakAreaRatio Line
+  if(!is.na(caseSampleMeanPeakAreaRatio) && !is.null(caseSampleMeanPeakAreaRatio) && !is.na(caseSampleMeanConcentration) && !is.null(caseSampleMeanConcentration))
+  {
+    #only render the mean peak area ratio line if both MeanConcentration and MeanPeakAreaRatio are set
+    caseSampleMeanPeakAreaRatio_lineX = c(0,caseSampleMeanConcentration)
+    caseSampleMeanPeakAreaRatio_lineY = c(caseSampleMeanPeakAreaRatio,caseSampleMeanPeakAreaRatio)
+  }
+  else
+  {
+    caseSampleMeanPeakAreaRatio_lineX = NA
+    caseSampleMeanPeakAreaRatio_lineY = NA
+  }
+  
+  #CaseSampleMeanConcentration Line
+  if(!is.na(caseSampleMeanPeakAreaRatio) && !is.null(caseSampleMeanPeakAreaRatio))
+  {
+    #If the MeanPeakAreaRatio is set the render to that point
+    caseSampleMeanConcentration_lineX = c(caseSampleMeanConcentration,caseSampleMeanConcentration)
+    caseSampleMeanConcentration_lineY = c(0,caseSampleMeanPeakAreaRatio)
+  }
+  else{
+    #Otherwise just render to a sensible height
+    caseSampleMeanConcentration_lineX = c(caseSampleMeanConcentration,caseSampleMeanConcentration)
+    caseSampleMeanConcentration_lineY = c(0,max(y))
+  }
+  
 
   plot_ly(x = x, y = y, name='Peak Area Ratios', type = 'scatter', mode='markers') %>%
-    add_lines(x = x, y = fitted(linearRegression), name="Calibration Curve") %>%
-    #add_trace(x = c(2,2), y = c(0,2), name="Case Sample Mean Concentration", mode = "lines", line=list(color=caseSampleMeanConcentrationColour)) %>%
+    add_lines(x = x, y = fitted(linearRegression), name="Calibration Curve", line=list(color="#00B080")) %>%
+    add_trace(x = caseSampleMeanConcentration_lineX, y = caseSampleMeanConcentration_lineY, name="Case Sample Mean Concentration", mode = "lines", line=list(color=caseSampleMeanConcentrationColour)) %>%
+    add_trace(x = caseSampleMeanPeakAreaRatio_lineX, y = caseSampleMeanPeakAreaRatio_lineY, name="Case Sample Mean Peak Area Ratio", mode = "lines", line=list(color=caseSampleMeanParColour)) %>%
     layout(xaxis = list(title="Concentration"), yaxis = list(title="Peak Area Ratio")) %>%
     add_annotations(x= 0.5,y= 0.8,xref="paper",yref="paper",text=paste0("y = ",intercept,"+",slope,"x"),showarrow = F)    
 })
