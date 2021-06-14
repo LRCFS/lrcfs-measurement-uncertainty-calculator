@@ -32,7 +32,7 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                     p("The solution structure is displayed using a network or tree diagram with the root assumed to be the reference compound and the final nodes are assumed to be the spiking range for calibrators used in generating the calibration curve."),
                                     p("If more than one spiking range exists (which may be due to splitting the range of the calibration curve), the uncertainty associated with the calibration standard is computed by pooling the relative standard uncertainties associated with preparing solutions and spiking the calibration curve.")
                                 ),
-                                box(title = "Method", width=7,
+                                box(title = "Method", width=7, class="calcOverflow",
                                     "The Relative Standard Uncertainty (RSU) of each equipment is computed using:",
                                     "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Volume}}$$",
                                     "The RSU of reference compound is calculated using:",
@@ -62,23 +62,23 @@ tabStandardSolution = tabItem(tabName = "standardSolution",
                                 )
                               ),
                               fluidRow(
-                                box(width=6, side="right",
+                                box(width=6, side="right", class="calcOverflow",
                                     title = "Standard Uncertainty \\((u)\\)",
                                     uiOutput("display_standardSolution_equipmentStandardUncertainty")
                                 ),
-                                box(width=6, side="right",
+                                box(width=6, side="right", class="calcOverflow",
                                     title = "Relative Standard Uncertainty \\((u_r)\\)",
                                     uiOutput("display_standardSolution_equipmentRelativeStandardUncertainty")
                                 )
                               ),
                               fluidRow(
-                                box(width=12, side="right",
+                                box(width=12, side="right", class="calcOverflow",
                                     title = "Relative Standard Uncertainty of Solutions",
                                     uiOutput("display_standardSolution_solutionRelativeStandardUncertainty")
                                 )
                               ),
                               fluidRow(
-                                box(title="Overall Relative Standard Uncertainty of Calibration Standard", width = 12, background = "green", solidHeader = TRUE,
+                                box(title="Overall Relative Standard Uncertainty of Calibration Standard", width = 12,class="calcOverflow", background = "green", solidHeader = TRUE,
                                     uiOutput("display_standardSolution_finalAnswer_bottom")
                                 )
                               )

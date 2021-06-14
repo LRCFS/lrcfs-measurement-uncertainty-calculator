@@ -34,7 +34,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        p("Where a Quadratic fit is required, please return to the start page and upload your data in the \"Quadratic Fit\" tab.")
                    ),
                    tabBox(title = "Method", width=6,
-                          tabPanel("Weighted",
+                          tabPanel("Weighted", class="calcOverflow",
                                    "Where a weight \\(W \\neq 1\\) is specified the uncertainty of calibration curve is given by:",
                                    "$$u\\text{(CalCurve)} = \\frac{S_{w}}{b_1} \\sqrt{\\frac{1}{w_{s}(r_s)} + \\frac{1}{n} + \\frac{(x_s - \\overline{x}_w)^2}{S_{{xx}_w}} }$$",
                                    "where \\(S_w\\) is the standard error of regression given by:",
@@ -57,7 +57,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                                      tags$li("\\(S_{{xx}_w}\\) is the sum of squares deviation of \\(x\\) given by \\(\\sum\\limits_{i=1}^n w_i(x_i - \\overline{x})^2\\).")
                                    )
                           ),
-                          tabPanel("Non-Weighted",
+                          tabPanel("Non-Weighted", class="calcOverflow",
                                    "When a weight of \\(W = 1\\) is specified the uncertainty is simplified to the following:",
                                    "$$u\\text{(CalCurve)} = \\frac{S_{y/x}}{b_1} \\sqrt{\\frac{1}{r_s} + \\frac{1}{n} + \\frac{(x_s - \\overline{x})^2}{S_{xx}}}$$",
                                    "where \\(S_{y/x}\\) is the standard error of regression given by",
@@ -99,13 +99,13 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                    box(title = "Step by Step Calculations", width=12,
                      DT::dataTableOutput('rearrangedCalibrationData'),
                      fluidRow(
-                       box(title = "Linear Regression", width = 4, uiOutput("display_calibrationCurve_linearRegression")),
+                       box(title = "Linear Regression", width = 4, class="calcOverflow", uiOutput("display_calibrationCurve_linearRegression")),
                        uiOutput("display_calibrationCurve_weightedMeanOfX"),
                        uiOutput("display_calibrationCurve_sumOfSquaredDeviationOfX")
                        #uiOutput("display_calibrationCurve_sumOfWeightedXSquared")
                      ),
                      fluidRow(
-                       box(title = "Error Sum of Squares of \\(y\\)", width = 4, uiOutput("display_calibrationCurve_errorSumSqY")),
+                       box(title = "Error Sum of Squares of \\(y\\)", class="calcOverflow", width = 4, uiOutput("display_calibrationCurve_errorSumSqY")),
                        uiOutput("display_calibrationCurve_standardErrorOfRegression"),
                        uiOutput("display_calibrationCurve_weightedCaseSample")
                      ),
@@ -120,7 +120,7 @@ tabCalibrationCurve = tabItem(tabName = "calibrationCurve",
                        uiOutput("display_calibrationCurve_externalStandardErrorOfRunsPooled")
                      ),
                      fluidRow(
-                       box(title="Uncertainty of Calibration \\((u)\\)", width = 12,
+                       box(title="Uncertainty of Calibration \\((u)\\)", width = 12, class="calcOverflow",
                            uiOutput("display_calibrationCurve_uncertaintyOfCalibration")
                        )
                      ),

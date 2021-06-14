@@ -30,7 +30,7 @@ tabSamplePreparation = tabItem(tabName = "samplePreparation",
                    box(title = "Overview", width=5,
                        p("Uncertainty of sample preparation combines uncertainty sources from the use of different equipment in preparing the sample, such as weighing balance, pipette and volumetric flask.")
                    ),
-                   box(title = "Method", width=7,
+                   box(title = "Method", width=7, class="calcOverflow",
                        "The Relative Standard Uncertainty (RSU) of each equipment is computed using:",
                        "$$u_r(\\text{Equipment}) = \\frac{\\frac{\\text{Tolerance}}{\\text{Coverage Factor}}}{\\text{Capacity}}$$",
                        "The RSU of sample preparation is given by:",
@@ -49,11 +49,11 @@ tabSamplePreparation = tabItem(tabName = "samplePreparation",
                    )
                  ),
                  fluidRow(
-                   box(width=6, side="right",
+                   box(width=6, side="right", class="calcOverflow",
                        title = "Standard Uncertainty",
                        uiOutput("display_samplePreparation_standardUncertainty")
                    ),
-                   box(width=6, side="right",
+                   box(width=6, side="right", class="calcOverflow",
                        title = "Relative Standard Uncertainty",
                        uiOutput("display_samplePreparation_relativeStandardUncertainty")
                    )

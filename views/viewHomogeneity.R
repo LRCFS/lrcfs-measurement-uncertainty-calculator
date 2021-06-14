@@ -38,7 +38,7 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                        p(HTML("The <a href='https://link.springer.com/article/10.1007/s007690000238' target='_blank' title='Uncertainty calculations in the certification of reference materials. 2. Homogeneity study'>uncertainty of homogeneity (2001)</a> quantifies the uncertainty associated with the between-group homogeneity where differences among sample groups are of interest.  Detailed step-by-step calculations are displayed here with the main formulas used to compute the uncertainty of homogeneity shown in the Method tab.")),
                        p(HTML("To find out whether your samples are homogenous or heterogenous, the Homogeneity Test tab displays a detailed calculation for testing whether there is a statistically significant difference between group means of samples using a one-way analysis of variance (ANOVA) on the assumption that samples are normally distributed, have equal variance and are independent. For more information see <a href='https://www.researchgate.net/publication/226708564_Uncertainty_calculations_in_the_certification_of_reference_materials_1_Principles_of_analysis_of_variance' target='_blank' title='Uncertainty calculations in the certification of reference materials. 1. Principles of analysis of variance'>Veen et al: Principles of analysis of variance (2000)</a> and <a href='https://www.researchgate.net/publication/226313972_Uncertainty_calculations_in_the_certification_of_reference_materials_2_Homogeneity_study' target='_blank' title='Uncertainty calculations in the certification of reference materials. 2. Homogeneity study'>Veen et al: Homogeneity study (2001)</a>.")),
                    ),
-                   box(title = "Method", width=7,
+                   box(title = "Method", width=7, class="calcOverflow",
                        p("The Relative Standard Uncertainty of homogeneity is given by the following calculation:"),
                        p("$$u_r(\\text{Homogeneity}) = \\frac{ \\text{Standard Uncertainty} }{ \\text{Grand Mean} } = \\frac{ u(\\text{Homogeneity}) }{ \\overline{X}_T } $$"),
                        p("where \\(\\displaystyle u(\\text{Homogeneity}) = \\text{max}\\{u_a,u_b\\}\\),"),
@@ -77,15 +77,15 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                    )
                  ),
                  fluidRow(
-                   box(width=4, side="right",
+                   box(width=4, side="right", class="calcOverflow",
                        title = "Parameters",
                        uiOutput("display_homogeneity_parameters")
                    ),
-                   box(width=4, side="right",
+                   box(width=4, side="right", class="calcOverflow",
                        title = "Grand Mean",
                        uiOutput("display_homogeneity_grandMean")
                    ),
-                   box(width=4, side="right",
+                   box(width=4, side="right", class="calcOverflow",
                        title = "Mean Sum of Squares Between (\\(MSS_B\\))",
                        uiOutput("display_homogeneity_meanSumOfSquaresBetween")
                    )
@@ -98,11 +98,11 @@ tabHomogeneity = tabItem(tabName = "homogeneity",
                    )
                  ),
                  fluidRow(
-                   box(width=4, side="right",
+                   box(width=4, side="right", class="calcOverflow",
                        title = "Mean Sum of Squares Within (\\(MSS_W\\))",
                        uiOutput("display_homogeneity_meanSumOfSquaresWithin")
                    ),
-                   box(width=8, side="right",
+                   box(width=8, side="right", class="calcOverflow",
                        title = "Standard Uncertainty (\\(u\\))",
                        uiOutput("display_homogeneity_standardUncertainty")
                    )

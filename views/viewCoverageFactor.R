@@ -31,7 +31,7 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                        p("Coverage factor \\((k)\\) is a number usually greater than one from which an expanded uncertainty is obtained when \\(k\\) is multiplied by a combined standard uncertainty. To determine a suitable coverage factor, a specified level of confidence is required along with knowledge about the degrees of freedom of all uncertainty components."),
                        p(HTML("An effective degrees of freedom is computed using the <a href='https://www.iso.org/sites/JCGM/GUM/JCGM100/C045315e-html/C045315e_FILES/MAIN_C045315e/AG_e.html' target='_blank' title='Annex G: Degrees of freedom and levels of confidence'>Welch-Satterthwaite equation (JCGM 100:2008)</a> with details given in the Method tab. The derived effective degrees of freedom along with the specified \\({\\small CI\\%}\\) is used to read a value (termed coverage factor) from the T-Distribution Table."))
                    ),
-                   box(title = "Method", width=6,
+                   box(title = "Method", width=6, class="calcOverflow",
                        HTML("<p>The effective degrees of freedom \\(({\\LARGE\\nu}_{\\text{eff}})\\) using Welch-Satterthwaite approximation for <em>relative</em> standard uncertainty is given by:</p>"),
                        p("$${\\LARGE\\nu}_{\\text{eff}} =\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}}$$"),
                        p("The coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CI\\%}})\\) is read from the T-Distribution Table using the calculated \\({\\Large\\nu}_{\\text{eff}}\\) and specified \\({\\small CI\\%}\\)."),
@@ -58,35 +58,35 @@ tabCoverageFactor = tabItem(tabName = "coverageFactor",
                    infoBox("Confidence Level\\(({\\small CL\\%})\\)",HTML(paste(uiOutput("display_coverageFactor_confidenceInterval"))), width=3, icon=icon("percentage"), color="yellow")
                  ),
                  fluidRow(
-                   box(width=3, side="right",
+                   box(width=3, side="right", class="calcOverflow",
                        title = "Degrees of Freedom of Homogeneity",
                        uiOutput("display_coverageFactor_dofHomogeneity")
                    ),
-                   box(width=3, side="right",
+                   box(width=3, side="right", class="calcOverflow",
                        title = "Degrees of Freedom of Calibration Curve",
                        uiOutput("display_coverageFactor_dofCalibrationCurve")
                    ),
-                   box(width=3, side="right",
+                   box(width=3, side="right", class="calcOverflow",
                        title = "Degrees of Freedom of Method Precision",
                        uiOutput("display_coverageFactor_dofMethodPrecision")
                    ),
-                   box(width=3, side="right",
+                   box(width=3, side="right", class="calcOverflow",
                        title = "Degrees of Freedom of Calibration Standard",
                        uiOutput("display_coverageFactor_dofStandardSolution")
                    ),
-                   box(width=3, side="right",
+                   box(width=3, side="right", class="calcOverflow",
                        title = "Degrees of Freedom of Sample Preparation",
                        uiOutput("display_coverageFactor_dofSamplePreparation")
                    ),
                  ),
                  fluidRow(
-                   box(width=12, side="right",
+                   box(width=12, side="right", class="calcOverflow",
                        title = "Effective Degrees of Freedom",
                        uiOutput("display_coverageFactor_effectiveDegreesOfFreedom")
                    )
                  ),
                  fluidRow(
-                   box(width=12, side="right",
+                   box(width=12, side="right", class="calcOverflow",
                        title = "T-Distribution Table",
                        DT::dataTableOutput('display_coverageFactor_table')
                    )

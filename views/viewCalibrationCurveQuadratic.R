@@ -33,7 +33,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                              p("When using a quadratic fit currently it is not possible to specify weights for the regression model."),
                                              p("Where a linear fit is required, please return to the start page and upload your data in the \"Linear Fit\" tab.")
                                          ),
-                                         box(title = "Method", width=6,
+                                         box(title = "Method", width=6, class="calcOverflow",
                                              p(HTML("Using the approach described in <a href='https://doi.org/10.1039/B615398D' title='The uncertainty of a result from a linear calibration' target='_blank'>D. Brynn Hibbert: The uncertainty of a result from a linear calibration (2006)</a> the uncertainty of the quadratic curve is given by:")),
                                              p("\\(\\displaystyle u\\text{(CalCurve)}^2 =
                                                  \\left(\\frac{\\partial \\hat{x_s}}{\\partial b_1}\\right)^2 Var(b_1) +

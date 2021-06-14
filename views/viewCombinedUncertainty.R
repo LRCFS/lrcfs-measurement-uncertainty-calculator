@@ -32,7 +32,7 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                        p("If data is uploaded for all the uncertainty components; Homogeneity, Calibration Curve, Method Precision, Calibration Standard and Sample Preparation, relative standard uncertainty is computed for each uncertainty component and are combined to obtain the Combined Uncertainty of the analytical process."),
                        p("If data is omitted for some uncertainty components, NA's will be displayed for those components and the Combined Uncertainty will only take into account components for which data is provided.")
                    ),
-                   box(title = "Method", width=6,
+                   box(title = "Method", width=6, class="calcOverflow",
                        "The combined uncertainty is given by:",
                        "$$\\text{CombUncertainty} = x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}}$$",
                        tags$ul(
@@ -49,7 +49,7 @@ tabCombinedUncertainty = tabItem(tabName = "combinedUncertainty",
                    infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_combinedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
                  ),
                  fluidRow(
-                   box(width=12, side="right",
+                   box(width=12, side="right", class="calcOverflow",
                        title = "Combined Uncertainty", background = "purple", solidHeader = TRUE,
                        uiOutput("display_combinedUncertainty_finalAnswer_bottom")
                    )

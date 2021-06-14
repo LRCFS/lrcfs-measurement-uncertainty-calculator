@@ -100,7 +100,7 @@ output$display_calibrationCurve_weightedMeanOfX = renderUI({
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour1)))
   output = mathJaxAligned(formulas, 5)
 
-  box(title = "Mean of Weighted \\(x\\)", width = 4, withMathJax(HTML(output)))
+  box(title = "Mean of Weighted \\(x\\)", width = 4, class="calcOverflow", withMathJax(HTML(output)))
 })
 
 output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
@@ -111,7 +111,7 @@ output$display_calibrationCurve_sumOfSquaredDeviationOfX = renderUI({
   output = mathJaxAligned(formulas, 5)
   
   box(title = "Sum of Squared Deviation of \\(x\\)",
-      width = 4,
+      width = 4, class="calcOverflow",
       withMathJax(HTML(output))
       )
 })
@@ -156,7 +156,7 @@ output$display_calibrationCurve_standardErrorOfRegression = renderUI({
   formulas = c(formulas, paste("&=",colourNumber(answer, input$useColours, input$colour4)))
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(width = 4,
+  box(width = 4, class="calcOverflow",
       title=paste("Standard Error of Regression \\((S_{w})\\)"),
       output
   )
@@ -203,7 +203,7 @@ output$display_calibrationCurve_weightedCaseSample = renderUI({
 
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(width=4,
+  box(width=4, class="calcOverflow",
       title = "Standardised Weight of Case Sample",
       output
   )
@@ -406,7 +406,7 @@ output$display_calibrationCurve_externalStandardErrorOfRuns = renderUI({
   
   output = mathJaxAligned(formulas, 5, 20)
   
-  box(title=paste("Standard Error of Regression \\((S_{{w}_{(j)}})\\)"), width = 5, withMathJax(HTML(output)))
+  box(title=paste("Standard Error of Regression \\((S_{{w}_{(j)}})\\)"), width = 5, class="calcOverflow", withMathJax(HTML(output)))
 })
 
 output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
@@ -484,7 +484,7 @@ output$display_calibrationCurve_externalStandardErrorOfRunsPooled = renderUI({
   
   output = mathJaxAligned(formulas, 5, 20)
 
-  box(title=paste("Pooled Standard Error of Regression \\((S_{w_{p}})\\)"), width = 7,withMathJax(HTML(output)))
+  box(title=paste("Pooled Standard Error of Regression \\((S_{w_{p}})\\)"), width = 7, class="calcOverflow", withMathJax(HTML(output)))
 })
   
 output$display_calibrationCurve_finalAnswer_top = renderText({
@@ -506,11 +506,11 @@ calibrationCurve_finalAnswer_bottom_renderer = function(removeColours = FALSE)
   
   output = mathJaxAligned(formulas, 5, 20, removeColours)
   
-  return(withMathJax(HTML(output)))
+  return(withMathJax(output))
 }
 
 output$display_calibrationCurve_finalAnswer_bottom = renderUI({
-  return(paste(calibrationCurve_finalAnswer_bottom_renderer()))
+  return(HTML(paste(calibrationCurve_finalAnswer_bottom_renderer())))
 })
 
 output$display_calibrationCurve_finalAnswer_dashboard = renderUI({

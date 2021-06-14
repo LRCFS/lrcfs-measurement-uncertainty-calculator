@@ -31,7 +31,7 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                        p("The expanded uncertainty  is the final step of measurement uncertainty computation. This is done in order to derive a confidence interval believed to contain the true unknown value."),
                        p("It is computed by multiplying the Combined Uncertainty \\((\\text{CombUncertainty})\\) with the coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}})\\).")
                    ),
-                   box(title = "Method", width=6,
+                   box(title = "Method", width=6, class="calcOverflow",
                        p("The expanded uncertainty \\(\\text{(ExpUncertainty)}\\) is given by:"),
                        p("$$\\text{ExpUncertainty} = k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}} \\times \\text{CombUncertainty}$$"),
                        p("with percentage expanded uncertainty given by:"),
@@ -50,11 +50,11 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                    infoBox(HTML("Case Sample<br />Mean Concentration\\((x_s)\\)"),HTML(paste(uiOutput("display_expandedUncertainty_meanConcentration"))), width=4, icon=icon("map-marker"), color="fuchsia")
                  ),
                  fluidRow(
-                   box(width=6, side="right",
+                   box(width=6, side="right", class="calcOverflow",
                        title = "Expanded Uncertainty", background = "orange", solidHeader = TRUE,
                        uiOutput("display_expandedUncertainty_finalAnswer_bottom")
                    ),
-                   box(width=6, side="right",
+                   box(width=6, side="right", class="calcOverflow",
                        title = "Percentage Expanded Uncertainty", background = "orange", solidHeader = TRUE,
                        uiOutput("display_expandedUncertainty_finalAnswerPercentage_bottom")
                    )

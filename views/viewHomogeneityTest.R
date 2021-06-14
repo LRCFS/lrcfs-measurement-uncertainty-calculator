@@ -47,7 +47,7 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                              uiOutput("display_homogeneityTest_answerMiddle")
                            ),
                            column(width=6,
-                             box(title = "Method", width=12,
+                             box(title = "Method", width=12, class="calcOverflow",
                                  p(HTML("A <a href='https://en.wikipedia.org/wiki/Analysis_of_variance' target='_blank'>one-way analysis of variance (ANOVA)</a> test is carried out where the Mean Sum of Squares Between (\\(MSS_B\\)) is defined as:")),
                                  p("$$MSS_B = \\frac{ \\sum\\limits_{j=1}^k n_j(\\overline{X}_{j}-\\overline{X}_T)^2 } { k-1 },$$"),
                                  p("the Mean Sum of Squares Within (\\(MSS_W\\)) is defined as:"),
@@ -72,19 +72,19 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                            )
                          ),
                          fluidRow(
-                           box(width=3, side="right",
+                           box(width=3, side="right", class="calcOverflow",
                                title = "Parameters",
                                uiOutput("display_homogeneityTest_parameters")
                            ),
-                           box(width=3, side="right",
+                           box(width=3, side="right", class="calcOverflow",
                                title = "Degrees of Freedom",
                                uiOutput("display_homogeneityTest_dof")
                            ),
-                           box(width=3, side="right",
+                           box(width=3, side="right", class="calcOverflow",
                                title = "F Statistic (\\(F_{\\large s}\\))",
                                uiOutput("display_homogeneityTest_fValue")
                            ),
-                           box(width=3, side="right",
+                           box(width=3, side="right", class="calcOverflow",
                                title = "F Critical (\\(F_c\\))",
                                p(HTML("Using the degrees of freedom and alpha value the F critical value is read from a <a href='https://www.statisticshowto.com/tables/f-table/' target='_blank'>F-Distribution Table</a>.")),
                                uiOutput("display_homogeneity_fCritical")
