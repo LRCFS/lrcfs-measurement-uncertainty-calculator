@@ -88,69 +88,74 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                          infoBox(HTML("Case Sample<br />Mean Peak Area Ratio\\((y_s)\\)"),HTML(paste(uiOutput("display_calibrationCurveQuadratic_meanPeakAreaRatio"))), width=4, icon=icon("chart-bar"), color="orange")
                                        ),
                                        fluidRow(
-                                         box(title = "Step by Step Calculations", width=12,
-                                             DT::dataTableOutput('display_calibrationcurveQuadratic_rearrangedData'),
-                                             fluidRow(
-                                               box(title="Quadratic Regression", width = 3,
-                                                   uiOutput("display_calibrationcurveQuadratic_quadraticRegression")
-                                               ),
-                                               box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 3,
-                                                   uiOutput("display_calibrationCurveQuadratic_standardErrorOfRegression")
-                                               ),
-                                               box(title="Variance of \\(y_s\\)", width = 3,
-                                                   uiOutput("display_calibrationCurveQuadratic_variancePeakAreaRatio")
-                                               ),
-                                               box(title="Variance of \\(\\overline{y}\\)", width = 3,
-                                                   uiOutput("display_calibrationCurveQuadratic_varianceMeanOfY")
-                                               )
+                                         box(title="Calculations", width = 12, class="calcOverflow",
+                                             DT::dataTableOutput('display_calibrationcurveQuadratic_rearrangedData')
+                                         ),
+                                         box(title="Quadratic Regression", width = 3, class="calcOverflow",
+                                             uiOutput("display_calibrationcurveQuadratic_quadraticRegression")
+                                         ),
+                                         box(title="Standard Error of Regression \\((S_{y/x})\\)", width = 3, class="calcOverflow",
+                                             uiOutput("display_calibrationCurveQuadratic_standardErrorOfRegression")
+                                         ),
+                                         box(title="Variance of \\(y_s\\)", width = 3, class="calcOverflow",
+                                             uiOutput("display_calibrationCurveQuadratic_variancePeakAreaRatio")
+                                         ),
+                                         box(title="Variance of \\(\\overline{y}\\)", width = 3, class="calcOverflow",
+                                             uiOutput("display_calibrationCurveQuadratic_varianceMeanOfY")
+                                         )
+                                       ),
+                                       fluidRow(
+                                         box(title="Deriving Covariance Matrix", width = 12,
+                                           p("To derivie the covariance matrix \\(S_{y/x}^2(\\underline{X}^T\\underline{X})^{-1}\\) "),
+                                           box(title="Design Matrix", width = 3, class="calcOverflow",
+                                               uiOutput("display_calibrationCurveQuadratic_designMatrix")
+                                           ),
+                                           box(title="Design Matrix Transposed", width = 9, class="calcOverflow",
+                                               uiOutput("display_calibrationCurveQuadratic_designMatrixTransposed")
+                                           ),
+                                           box(title="Multiply", width = 9, class="calcOverflow",
+                                               uiOutput("display_calibrationCurveQuadratic_designMatrixMultiply")
+                                           ),
+                                           box(title="Inverse", width = 9, class="calcOverflow",
+                                               uiOutput("display_calibrationCurveQuadratic_designMatrixMultiplyInverse")
+                                           ),
+                                           box(title="Covariance Matrix", width = 9, class="calcOverflow",
+                                               uiOutput("display_calibrationCurveQuadratic_covarianceMatrix")
+                                           )
+                                         )
+                                       ),
+                                       fluidRow(
+                                         box(title="Deriving Partial Derivatives", width = 12,
+                                             p("The partial derivatives is obtained by differentiating the equation below with respect to \\(b_1, b_2, \\overline{y}, y_0\\)"),
+                                             p("\\(\\displaystyle\\hat{x_s} = \\frac{-b_1\\sqrt{b_1^2-4b_2(\\overline{y}-y_s-b_1\\overline{x}-b_2\\overline{x^2})}}{2b_2}\\)"),
+                                             p(HTML("&nbsp;")),
+                                             box(width = 12, class="calcOverflow",
+                                               p("For simplicity let discriminant \\((D)\\) be equal to:"),
+                                               uiOutput("display_calibrationCurveQuadratic_discriminant")
                                              ),
-                                             fluidRow(
-                                               box(title="Design Matrix Transposed", width = 12,
-                                                   uiOutput("display_calibrationCurveQuadratic_designMatrixTransposed")
-                                               )
+                                             box(width = 3, class="calcOverflow",
+                                                 uiOutput("display_calibrationCurveQuadratic_partialDerivativeMeanOfY")
                                              ),
-                                             fluidRow(
-                                               box(title="Design Matrix", width = 2,
-                                                   uiOutput("display_calibrationCurveQuadratic_designMatrix")
-                                               ),
-                                               box(title="Multiply", width = 4,
-                                                   uiOutput("display_calibrationCurveQuadratic_designMatrixMultiply")
-                                               ),
-                                               box(title="Inverse", width = 6,
-                                                   uiOutput("display_calibrationCurveQuadratic_designMatrixMultiplyInverse")
-                                               ),
-                                               box(title="Covariance Matrix", width = 4,
-                                                   uiOutput("display_calibrationCurveQuadratic_covarianceMatrix")
-                                               ),
-                                               box(title="Partial Derivatives", width = 10,
-                                                   p("The partial derivatives is obtained by differentiating the equation below with respect to \\(b_1, b_2, \\overline{y}, y_0\\)"),
-                                                   p("\\(\\displaystyle\\hat{x_s} = \\frac{-b_1\\sqrt{b_1^2-4b_2(\\overline{y}-y_s-b_1\\overline{x}-b_2\\overline{x^2})}}{2b_2}\\)"),
-                                                   uiOutput("display_calibrationCurveQuadratic_discriminant"),
-                                                   box(width = 3,
-                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeMeanOfY")
-                                                   ),
-                                                   box(width = 3,
-                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio")
-                                                   ),
-                                                   box(width = 6,
-                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope1")
-                                                   ),
-                                                   box(width = 12,
-                                                       uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope2")
-                                                   ),
-                                               )
-                                               
+                                             box(width = 3, class="calcOverflow",
+                                                 uiOutput("display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio")
                                              ),
-                                             fluidRow(
-                                               box(title="Uncertainty of Calibration \\((u)\\)", width = 12,
-                                                   uiOutput("display_calibrationCurveQuadratic_uncertaintyOfCalibration")
-                                               )
+                                             box(width = 6, class="calcOverflow",
+                                                 uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope1")
                                              ),
-                                             fluidRow(
-                                               box(title="Relative Standard Uncertainty \\((u_r)\\)", width = 12, background = "blue", solidHeader = TRUE,
-                                                   uiOutput("display_calibrationCurveQuadratic_finalAnswer_bottom")
-                                               )
-                                             )
+                                             box(width = 12, class="calcOverflow",
+                                                 uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope2")
+                                             ),
+                                         )
+                                       ),
+                                       fluidRow(
+                                         box(title="Uncertainty of Calibration \\((u)\\)", width = 12, class="calcOverflow",
+                                             uiOutput("display_calibrationCurveQuadratic_uncertaintyOfCalibration")
+                                         )
+                                       ),
+                                       fluidRow(
+                                         box(title="Relative Standard Uncertainty \\((u_r)\\)", width = 12, background = "blue", solidHeader = TRUE,
+                                             uiOutput("display_calibrationCurveQuadratic_finalAnswer_bottom")
                                          )
                                        )
+
 )

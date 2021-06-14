@@ -39,6 +39,15 @@ output$display_calibrationCurveQuadratic_meanPeakAreaRatio = renderUI({
   return(string)
 })
 
+output$display_calibrationcurveQuadratic_rawDataStats = renderUI({
+  numberOfRuns = getCalibrationCurve_numberOfRuns()
+  numberOfReplicates = getCalibrationCurve_numberOfReplicates()
+  numberOfConcentrations = getCalibrationCurve_numberOfConcentrations()
+  numberOfPeakAreaRatios = getCalibrationCurve_numberOfPeakAreaRatios()
+  
+  return(HTML(sprintf("Uploaded Calibration Data<br />Runs: %d | Reps: %d | Concentration Levels: %d | Number of Data Points \\((n)\\): %d",numberOfRuns, numberOfReplicates, numberOfConcentrations, numberOfPeakAreaRatios)))
+})
+
 output$display_calibrationcurveQuadratic_rawData = DT::renderDataTable(
   getDataCalibrationCurve(),
   rownames = FALSE,
@@ -159,25 +168,70 @@ output$display_calibrationCurveQuadratic_varianceMeanOfY = renderUI({
 })
 
 output$display_calibrationCurveQuadratic_designMatrix = renderUI({
-  return(withMathJax(getCalibrationCurveQuadratic_renderLatexDesignMatrix()))
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrix(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
+  latexMatrix = createLatexMatrix(matrix, c("1","x","x^2"))
+  output = paste("\\( \\underline{X} = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
 })
 
 output$display_calibrationCurveQuadratic_designMatrixTransposed = renderUI({
-  return(withMathJax(getCalibrationCurveQuadratic_renderLatexDesignMatrixTransposed()))
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrixTransposed(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( \\underline{X}^T = ", latexMatrix, "\\)")
+  return(HTML(output))
 })
 
 output$display_calibrationCurveQuadratic_designMatrixMultiply = renderUI({
-  return(withMathJax(getCalibrationCurveQuadratic_renderDesignMatrixMultiply()))
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrixMultiply(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( (\\underline{X}^T \\underline{X}) = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
 })
 
 output$display_calibrationCurveQuadratic_designMatrixMultiplyInverse = renderUI({
-  return(withMathJax(getCalibrationCurveQuadratic_renderDesignMatrixMultiplyInverse()))
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  matrix = doGetCalibrationCurveQuadratic_designMatrixMultiplyInverse(data)
+  
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
+  latexMatrix = createLatexMatrix(matrix)
+  output = paste("\\( (\\underline{X}^T \\underline{X})^{-1} = ", latexMatrix, "\\)")
+  
+  return(HTML(output))
 })
 
 #Renderer function that can be used by both the web/shiny application and the report.Rmd renderer
 display_calibrationCurveQuadratic_covarianceMatrix_renderer = function(removeColours = FALSE)
 {
-  covarianceMatrix = getCalibrationCurveQuadratic_covarianceMatrix()
+  data = getDataCalibrationCurveReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  matrix = doGetCalibrationCurveQuadratic_covarianceMatrix(data)
+  matrix = sapply(data.frame(matrix), function(x) formatNumberForDisplay(x, input)) #convert numbers to dataframe to keep structure while doing sapply and formatting numbers
+  
+  matrix[2,2] = colourNumber(matrix[2,2], input$useColours, input$colour12)
+  matrix[3,3] = colourNumber(matrix[3,3], input$useColours, input$colour12)
+  matrix[2,3] = colourNumber(matrix[2,3], input$useColours, input$colour12)
+  
+  covarianceMatrix = createLatexMatrix(matrix)
   
   matrixMultipler = "\\sigma^2(\\underline{X}^T\\underline{X})^{-1} &= 
   \\begin{Bmatrix}
