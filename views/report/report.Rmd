@@ -50,6 +50,11 @@ params:
   calibrationCurve_uncertaintyOfCalibration_renderer: NA
   calibrationCurve_finalAnswer_bottom_renderer: NA
   
+  display_calibrationCurveQuadratic_discriminant_renderer: NA
+  display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer: NA
+  display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer: NA
+  display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer: NA
+  display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer: NA
   display_calibrationcurveQuadratic_quadraticRegression_renderer: NA
   display_calibrationCurveQuadratic_covarianceMatrix_renderer: NA
   display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer: NA
@@ -148,22 +153,56 @@ renderData = function(data)
 
 # Methodology
 
-```{r part_homogeneity, child='homogeneity.Rmd', eval=TRUE}
+```{r part_homogeneity, child='homogeneity.Rmd', eval=!is.na(params$uncHomogeneity)}
 ``` 
+```{r part_homogeneity_noData, echo=FALSE, results='asis', eval=is.na(params$uncHomogeneity)}
+cat("
+## Homogeneity
 
-```{r part_calibrationCurve, child='calibrationCurve.Rmd', eval=!params$calibrationCurveIsQuadratic}
+No result recorded. Using NA.
+")
 ```
 
-```{r part_calibrationCurveQuadratic, child='calibrationCurveQuadratic.Rmd', eval=params$calibrationCurveIsQuadratic}
+```{r part_calibrationCurve, child='calibrationCurve.Rmd', eval=!params$calibrationCurveIsQuadratic && !is.na(params$uncCalibrationCurve)}
+```
+```{r part_calibrationCurveQuadratic, child='calibrationCurveQuadratic.Rmd', eval=params$calibrationCurveIsQuadratic && !is.na(params$uncCalibrationCurve)}
+```
+```{r part_calibrationCurve_noData, echo=FALSE, results='asis', eval=is.na(params$uncCalibrationCurve)}
+cat("
+## Calibration Curve
+
+No result recorded. Using NA.
+")
 ```
 
-```{r part_methodPrecision, child='methodPrecision.Rmd', eval=TRUE}
+```{r part_methodPrecision, child='methodPrecision.Rmd', eval=!is.na(params$uncMethodPrecision)}
+```
+```{r part_methodPrecision_noData, echo=FALSE, results='asis', eval=is.na(params$uncMethodPrecision)}
+cat("
+## Method Precision
+
+No result recorded. Using NA.
+")
 ```
 
-```{r part_calibrationStandard, child='calibrationStandard.Rmd', eval=TRUE}
+```{r part_calibrationStandard, child='calibrationStandard.Rmd', eval=!is.na(params$uncStandardSolution)}
+```
+```{r part_calibrationStandard_noData, echo=FALSE, results='asis', eval=is.na(params$uncStandardSolution)}
+cat("
+## Calibration Standard
+
+No result recorded. Using NA.
+")
 ```
 
-```{r part_samplePreparation, child='samplePreparation.Rmd', eval=TRUE}
+```{r part_samplePreparation, child='samplePreparation.Rmd', eval=!is.na(params$uncSamplePreparation)}
+```
+```{r part_samplePreparation_noData, echo=FALSE, results='asis', eval=is.na(params$uncSamplePreparation)}
+cat("
+## Sample Preparation
+
+No result recorded. Using NA.
+")
 ```
 
 ```{r part_combinedUncertainty, child='combinedUncertainty.Rmd', eval=TRUE}

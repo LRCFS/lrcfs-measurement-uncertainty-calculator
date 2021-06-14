@@ -1,8 +1,8 @@
 ## Calibration Curve Uncertainty
 
 ### Overview
-This version of the software assumes a linear calibration curve with the option to specify weights if weighted least squares (WLS) regression is required.
-The Method section shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this application use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
+A linear fit has been applied on the uploaded data with the option to specify weights if weighted least squares (WLS) regression is required.
+The Method section shows the main formulas used to compute the uncertainty of the calibration curve for both weighted and non-weighted least squares regression. All calculations preformed in this section use the WLS formula which is equivalent to a simple linear regression (non-weighted) formula if the weight \(W=1\) is specified.
 
 ### Method
 #### Weighted

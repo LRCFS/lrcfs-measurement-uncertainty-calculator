@@ -251,8 +251,9 @@ output$display_calibrationCurveQuadratic_covarianceMatrix = renderUI({
   return(display_calibrationCurveQuadratic_covarianceMatrix_renderer())
 })
 
-output$display_calibrationCurveQuadratic_discriminant = renderUI({
-  
+#This method is used for both the shiny application and the PDF report
+display_calibrationCurveQuadratic_discriminant_renderer = function(removeColours = FALSE)
+{
   interceptB0 = getCalibrationCurveQuadratic_intercept()
   slopeB1 = getCalibrationCurveQuadratic_slopeB1()
   slopeB2 = getCalibrationCurveQuadratic_slopeB2()
@@ -265,12 +266,17 @@ output$display_calibrationCurveQuadratic_discriminant = renderUI({
   formulas = c("D &= b_1^2 - 4b_2(\\overline{y} - y_s - b_1\\overline{x}-b_2\\overline{x^2})")
   formulas = c(formulas, paste("D &= ",slopeB1,"^2 - 4 \\times",slopeB2,"(",meanY," - ",yS," - ",slopeB1,"\\times",meanX,"-",slopeB2,"\\times",meanXs,")"))
   formulas = c(formulas, paste("&=",discriminant))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationCurveQuadratic_discriminant = renderUI({
+  return(display_calibrationCurveQuadratic_discriminant_renderer())
 })
 
-output$display_calibrationCurveQuadratic_partialDerivativeSlope1 = renderUI({
-  
+#This method is used for both the shiny application and the PDF report
+display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer = function(removeColours = FALSE)
+{
   discriminant = getCalibrationCurveQuadratic_discriminant()
   slopeB1 = getCalibrationCurveQuadratic_slopeB1()
   slopeB2 = getCalibrationCurveQuadratic_slopeB2()
@@ -280,13 +286,17 @@ output$display_calibrationCurveQuadratic_partialDerivativeSlope1 = renderUI({
   formulas = c("\\frac{\\partial \\hat{x_s}}{\\partial b_1} &= \\frac{-1 + \\frac{1}{2} D^{-1/2}(2b_1+4b_2\\overline{x})}{2b_2}")
   formulas = c(formulas, paste("&= \\frac{-1 + \\frac{1}{2} ",discriminant,"^{-1/2}(2 \\times",slopeB1,"+4\\times",slopeB2,"\\times",meanX,")}{2\\times",slopeB2,"}"))
   formulas = c(formulas, paste("&=",answer))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
+}
+
+output$display_calibrationCurveQuadratic_partialDerivativeSlope1 = renderUI({
+  return(display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer())
 })
 
-
-output$display_calibrationCurveQuadratic_partialDerivativeSlope2 = renderUI({
-  
+#This method is used for both the shiny application and the PDF report
+display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer = function(removeColours = FALSE)
+{
   discriminant = getCalibrationCurveQuadratic_discriminant()
   b_1 = getCalibrationCurveQuadratic_slopeB1()
   b_2 = getCalibrationCurveQuadratic_slopeB2()
@@ -299,35 +309,45 @@ output$display_calibrationCurveQuadratic_partialDerivativeSlope2 = renderUI({
   formulas = c("\\frac{\\partial \\hat{x_s}}{\\partial b_2} &= \\frac{b_1-D^{1/2}}{2b_2^2} + \\frac{\\frac{1}{2}D^{-1/2}(4y_s - 4\\overline{y} + 4b_1\\overline{x}+8b_2\\overline{x^2})}{2b_2}")
   formulas = c(formulas, paste("&= \\frac{",b_1,"-",discriminant,"^{1/2}}{2\\times",b_2,"^2} + \\frac{\\frac{1}{2}",discriminant,"^{-1/2}(4\\times",y_s," - 4\\times",meanY," + 4\\times",b_1,"\\times",meanX,"+8\\times",b_2,"\\times",meanXs,")}{2\\times",b_2,"}"))
   formulas = c(formulas, paste("&=",answer))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
-  
+}
+
+output$display_calibrationCurveQuadratic_partialDerivativeSlope2 = renderUI({
+  return(display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer())
 })
 
-output$display_calibrationCurveQuadratic_partialDerivativeMeanOfY = renderUI({
-  
+#This method is used for both the shiny application and the PDF report
+display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer = function(removeColours = FALSE)
+{
   discriminant = getCalibrationCurveQuadratic_discriminant()
   answer = getCalibrationCurveQuadratic_partialDerivativeMeanOfY()
   
   formulas = c("\\frac{\\partial \\hat{x_s}}{\\partial \\overline{y}} &= -D^{-1/2}")
   formulas = c(formulas, paste("&= -",discriminant,"^{-1/2}"))
   formulas = c(formulas, paste("&=",answer))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
-  
+}
+output$display_calibrationCurveQuadratic_partialDerivativeMeanOfY = renderUI({
+  return(display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer())
 })
 
-output$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio = renderUI({
-  
+#This method is used for both the shiny application and the PDF report
+display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer = function(removeColours = FALSE)
+{
   discriminant = getCalibrationCurveQuadratic_discriminant()
   answer = getCalibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio()
   
   formulas = c(paste("\\frac{\\partial \\hat{x_s}}{\\partial y_s} &= D^{-1/2}"))
   formulas = c(formulas, paste("&= ",discriminant,"^{-1/2}"))
   formulas = c(formulas, paste("&=",answer))
-  output = mathJaxAligned(formulas, 5, 20)
+  output = mathJaxAligned(formulas, 5, 20, removeColours)
   return(withMathJax(HTML(output)))
-  
+}
+
+output$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio = renderUI({
+  return(display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer())
 })
 
 #Renderer function that can be used by both the web/shiny application and the report.Rmd renderer

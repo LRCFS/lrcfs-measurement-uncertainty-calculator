@@ -528,6 +528,13 @@ downloadReportHandler = downloadHandler(
                      calibrationCurve_uncertaintyOfCalibration_renderer = calibrationCurve_uncertaintyOfCalibration_renderer(removeColours = TRUE),
                      calibrationCurve_finalAnswer_bottom_renderer = calibrationCurve_finalAnswer_bottom_renderer(removeColours = TRUE),
                      
+                     display_calibrationCurveQuadratic_discriminant_renderer = display_calibrationCurveQuadratic_discriminant_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer = display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer = display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer = display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer(removeColours = TRUE),
+                     display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer = display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer(removeColours = TRUE),
+                     
+                     
                      display_calibrationcurveQuadratic_quadraticRegression_renderer = display_calibrationcurveQuadratic_quadraticRegression_renderer(removeColours = TRUE),
                      display_calibrationCurveQuadratic_covarianceMatrix_renderer = display_calibrationCurveQuadratic_covarianceMatrix_renderer(removeColours = TRUE),
                      display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer = display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer(removeColours = TRUE),
