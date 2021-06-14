@@ -113,9 +113,25 @@ combinedUncertainty_finalAnswer_renderer = function(removeColours = FALSE)
   ss = formatNumberForDisplay(standardSolutionResult(),input)
   sv = formatNumberForDisplay(getResultSamplePreparation(),input)
   
+  if(is.na(ho)){hoText = ""}else{hoText = "+u_r( \\text{Homogeneity})^2"}
+  if(is.na(cc)){ccText = ""}else{ccText = "+u_r( \\text{CalCurve})^2"}
+  if(is.na(mp)){mpText = ""}else{mpText = "+u_r( \\text{MethodPrec})^2"}
+  if(is.na(ss)){ssText = ""}else{ssText = "+u_r( \\text{CalStandard})^2"}
+  if(is.na(sv)){svText = ""}else{svText = "+u_r( \\text{SamplePreparation})^2"}
+  componentTexts = paste0(hoText,ccText,mpText,ssText,svText) #Combine all the text values
+  componentTexts = sub('.', '', componentTexts)#Remove the first character (which is going to be a plus symbol +)
+  
+  if(is.na(ho)){hoValue = ""}else{hoValue = paste0("+",colourNumberBackground(ho, HomogeneityColor, "#FFF",input$useColours),"^2")}
+  if(is.na(cc)){ccValue = ""}else{ccValue = paste0("+",colourNumberBackground(cc, CalibrationCurveColor, "#FFF",input$useColours),"^2")}
+  if(is.na(mp)){mpValue = ""}else{mpValue = paste0("+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF",input$useColours),"^2")}
+  if(is.na(ss)){ssValue = ""}else{ssValue = paste0("+",colourNumberBackground(ss, StandardSolutionColor, "#FFF",input$useColours),"^2")}
+  if(is.na(sv)){svValue = ""}else{svValue = paste0("+",colourNumberBackground(sv, SamplePreparationColor, "#FFF",input$useColours),"^2")}
+  componentValues = paste0(hoValue,ccValue,mpValue,ssValue,svValue) #Combine all the values
+  componentValues = sub('.', '', componentValues)#Remove the first character (which is going to be a plus symbol +)
+  
   formula = c("\\text{CombUncertainty} &= x_s \\sqrt{\\sum{u_r\\text{(Individual Uncertainty Component)}^2}} [[break]]")
-  formula = c(formula, "\\text{CombUncertainty} &= x_s \\sqrt{u_r(\\text{Homogeneity})^2 + u_r(\\text{CalCurve})^2 + u_r(\\text{MethodPrec})^2 + u_r(\\text{CalStandard})^2 + u_r(\\text{SamplePreparation})^2}")
-  formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours),"\\sqrt{",colourNumberBackground(ho, HomogeneityColor, "#FFF",input$useColours),"^2+",colourNumberBackground(cc, CalibrationCurveColor, "#FFF",input$useColours),"^2+",colourNumberBackground(mp, MethodPrecisionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(ss, StandardSolutionColor, "#FFF",input$useColours),"^2+",colourNumberBackground(sv, SamplePreparationColor, "#FFF",input$useColours),"^2}"))
+  formula = c(formula, paste("\\text{CombUncertainty} &= x_s \\sqrt{",componentTexts,"}"))
+  formula = c(formula, paste("&= ",ColourCaseSampleMeanConcentration(input$inputCaseSampleMeanConcentration,input$useColours),"\\sqrt{",componentValues,"}"))
   formula = c(formula, paste("&= ",formatNumberForDisplay(combinedUncertaintyResult(),input)))
   output = mathJaxAligned(formula, 5, 20, removeColours)
   

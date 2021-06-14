@@ -173,9 +173,25 @@ coverageFactor_effectiveDegreesOfFreedom_renderer = function(removeColours = FAL
   dofCalibrationCurve = getCalibrationCurve_degreesOfFreedom()
   dofMethodPrecision = methodPrecisionDof()
   
+  if(is.na(uncHomogeneity)){hoText = ""}else{hoText = "+ \\frac{u_r( \\text{Homogeneity})^4}{{ \\LARGE\\nu}_{ \\text{Homogeneity}}}"}
+  if(is.na(uncCalibrationCurve)){ccText = ""}else{ccText = "+ \\frac{u_r( \\text{CalCurve})^4}{{ \\LARGE\\nu}_{ \\text{CalCurve}}}"}
+  if(is.na(uncMethodPrecision)){mpText = ""}else{mpText = "+ \\frac{u_r( \\text{MethodPrec})^4}{{ \\LARGE\\nu}_{ \\text{MethodPrec}}}"}
+  if(is.na(uncStandardSolution)){ssText = ""}else{ssText = "+ \\frac{u_r( \\text{CalStandard})^4}{{ \\LARGE\\nu}_{ \\text{CalStandard}}}"}
+  if(is.na(uncSamplePreparation)){svText = ""}else{svText = "+ \\frac{u_r( \\text{SamplePreparation})^4}{{ \\LARGE\\nu}_{ \\text{SamplePreparation}}}"}
+  componentTexts = paste0(hoText,ccText,mpText,ssText,svText) #Combine all the text values
+  componentTexts = sub('.', '', componentTexts)#Remove the first character (which is going to be a plus symbol +)
+  
+  if(is.na(uncHomogeneity)){hoValue = ""}else{hoValue = paste("+ \\frac{",colourNumberBackground(uncHomogeneity, HomogeneityColor, "#FFF",input$useColours),"^4}{",colourNumber(dofHomogeneity, input$useColours, HomogeneityColor),"}")}
+  if(is.na(uncCalibrationCurve)){ccValue = ""}else{ccValue = paste("+ \\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF",input$useColours),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, CalibrationCurveColor),"}")}
+  if(is.na(uncMethodPrecision)){mpValue = ""}else{mpValue = paste("+ \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF",input$useColours),"^4}{",colourNumber(dofMethodPrecision, input$useColours, MethodPrecisionColor),"}")}
+  if(is.na(uncStandardSolution)){ssValue = ""}else{ssValue = paste("+ \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF",input$useColours),"^4}{",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor),"}")}
+  if(is.na(uncSamplePreparation)){svValue = ""}else{svValue = paste("+ \\frac{",colourNumberBackground(uncSamplePreparation, SamplePreparationColor, "#FFF",input$useColours),"^4}{",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, SamplePreparationColor),"}")}
+  componentValues = paste0(hoValue,ccValue,mpValue,ssValue,svValue) #Combine all the text values
+  componentValues = sub('.', '', componentValues)#Remove the first character (which is going to be a plus symbol +)
+  
   formulas = c("{\\LARGE\\nu}_{\\text{eff}} &=\\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\sum{\\frac{u_r\\text{(Individual Uncertainty Component)}^4}{{\\LARGE\\nu}_{\\text{(Individual Uncertainty Component)}}}}} [[break]]")       
-  formulas = c(formulas, "{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{\\frac{u_r(\\text{Homogeneity})^4}{{\\LARGE\\nu}_{\\text{Homogeneity}}} + \\frac{u_r(\\text{CalCurve})^4}{{\\LARGE\\nu}_{\\text{CalCurve}}} + \\frac{u_r(\\text{MethodPrec})^4}{{\\LARGE\\nu}_{\\text{MethodPrec}}} + \\frac{u_r(\\text{CalStandard})^4}{{\\LARGE\\nu}_{\\text{CalStandard}}} + \\frac{u_r(\\text{SamplePreparation})^4}{{\\LARGE\\nu}_{\\text{SamplePreparation}}}}")
-  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF",input$useColours),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration,input$useColours),"})^4}{\\frac{",colourNumberBackground(uncHomogeneity, HomogeneityColor, "#FFF",input$useColours),"^4}{",colourNumber(dofHomogeneity, input$useColours, HomogeneityColor),"} + \\frac{",colourNumberBackground(uncCalibrationCurve, CalibrationCurveColor, "#FFF",input$useColours),"^4}{",colourNumber(dofCalibrationCurve, input$useColours, CalibrationCurveColor),"} + \\frac{",colourNumberBackground(uncMethodPrecision, MethodPrecisionColor, "#FFF",input$useColours),"^4}{",colourNumber(dofMethodPrecision, input$useColours, MethodPrecisionColor),"} + \\frac{",colourNumberBackground(uncStandardSolution, StandardSolutionColor, "#FFF",input$useColours),"^4}{",colourNumber(standardSolutionDof(), input$useColours, StandardSolutionColor),"} + \\frac{",colourNumberBackground(uncSamplePreparation, SamplePreparationColor, "#FFF",input$useColours),"^4}{",colourNumber(getSamplePreparation_degreesOfFreedom(), input$useColours, SamplePreparationColor),"}}"))
+  formulas = c(formulas, paste("{\\LARGE\\nu}_{\\text{eff}} &= \\frac{(\\frac{\\text{CombUncertainty}}{x_s})^4}{",componentTexts,"}"))
+  formulas = c(formulas, paste0("&= \\frac{(\\frac{",colourNumberBackground(combinedUncertainty,CombinedUncertaintyColor,"#FFF",input$useColours),"}{",ColourCaseSampleMeanConcentration(caseSampleMeanConcentration,input$useColours),"})^4}{",componentValues,"}"))
   
   result = paste("&=", formatNumberForDisplay(effectiveDofResult(),input))
   formulas = c(formulas, result)
