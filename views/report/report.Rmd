@@ -21,6 +21,8 @@ params:
   
   combinedUncertainty_uncertaintyBudget_graphData: NA
   
+  usingManualCoverageFactor: NA
+  
   inputWeightLeastSquared: NA
   customWls: NA
   customWlsPooled: NA
@@ -83,6 +85,7 @@ params:
   
   combinedUncertainty_finalAnswer_renderer: NA
   coverageFactor_effectiveDegreesOfFreedom_renderer: NA
+  coverageFactor_finalAnswer_bottom_renderer: NA
   expandedUncertainty_finalAnswer_renderer: NA
   
 title: "`r params$APP_NAME` Report"
@@ -173,7 +176,7 @@ renderData = function(data)
 ```{r part_combinedUncertainty, child='combinedUncertainty.Rmd', eval=TRUE}
 ```
 
-```{r part_coverageFactor, child='coverageFactor.Rmd', eval=TRUE}
+```{r part_coverageFactor, child='coverageFactor.Rmd', eval=!params$usingManualCoverageFactor}
 ```
 
 ```{r part_expandedUncertainty, child='expandedUncertainty.Rmd', eval=TRUE}

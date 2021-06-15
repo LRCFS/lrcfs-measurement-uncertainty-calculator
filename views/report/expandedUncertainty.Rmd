@@ -10,9 +10,11 @@ It is computed by multiplying the Combined Uncertainty \((\text{CombUncertainty}
 
 The expanded uncertainty \(\text{(ExpUncertainty)}\) is given by:
 
-$\text{ExpUncertainty} = k_{{\large\nu}_{\text{eff}}, {\small CL\%}} \times \text{CombUncertainty}$
+$\text{ExpUncertainty} = \text{CoverageFactor} \times \text{CombUncertainty}$
 
-with percentage expanded uncertainty given by:
+Where the \(\text{CoverageFactor}\) is \(k\) when a value has been manually specified or \(k_{{\large\nu}_{\text{eff}}, {\small CL\%}}\) when a Confidence Level \(CL\%\) has been specified.
+
+The percentage expanded uncertainty can then be given by:
 
 $\text{%ExpUncertainty} = \frac{\text{ExpUncertainty}}{x_s} \times 100$
 

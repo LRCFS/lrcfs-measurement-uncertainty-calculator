@@ -486,6 +486,8 @@ downloadReportHandler = downloadHandler(
                      
                      combinedUncertainty_uncertaintyBudget_graphData = combinedUncertainty_uncertaintyBudget_graphData(),
                      
+                     usingManualCoverageFactor = usingManualCoverageFactor(),
+                     
                      #Inputs
                      inputWeightLeastSquared = doGetCalibrationCurve_wlsLatex(input$inputWeightLeastSquared),
                      customWls = getDataCustomWls(),
@@ -533,8 +535,6 @@ downloadReportHandler = downloadHandler(
                      display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer = display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer(removeColours = TRUE),
                      display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer = display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer(removeColours = TRUE),
                      display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer = display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer(removeColours = TRUE),
-                     
-                     
                      display_calibrationcurveQuadratic_quadraticRegression_renderer = display_calibrationcurveQuadratic_quadraticRegression_renderer(removeColours = TRUE),
                      display_calibrationCurveQuadratic_covarianceMatrix_renderer = display_calibrationCurveQuadratic_covarianceMatrix_renderer(removeColours = TRUE),
                      display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer = display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer(removeColours = TRUE),
@@ -558,6 +558,7 @@ downloadReportHandler = downloadHandler(
                      
                      combinedUncertainty_finalAnswer_renderer = combinedUncertainty_finalAnswer_renderer(removeColours = TRUE),
                      coverageFactor_effectiveDegreesOfFreedom_renderer = coverageFactor_effectiveDegreesOfFreedom_renderer(removeColours = TRUE),
+                     coverageFactor_finalAnswer_bottom_renderer = coverageFactor_finalAnswer_bottom_renderer(),
                      expandedUncertainty_finalAnswer_renderer = expandedUncertainty_finalAnswer_renderer(removeColours = TRUE)
                      
     )

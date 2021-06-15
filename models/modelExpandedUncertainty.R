@@ -36,18 +36,7 @@ expandedUncertaintyResultPercentage = reactive({
 ###################################################################################
 
 output$display_expandedUncertainty_coverageFactorText = renderUI({
-  confidenceInterval = input$inputConfidenceInterval
-  output = NULL
-  if(usingManualCoverageFactor())
-  {
-    output = paste0("\\(k\\)")
-  }
-  else
-  {
-    output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}\\)")
-  }
-  
-  return(withMathJax(HTML(output)))
+  return(withMathJax(HTML(paste0("\\( \\text{CoverageFactor} (",coverageFactorSymbolDisplay(),")\\)"))))
 })
 
 output$display_expandedUncertainty_meanConcentration <- renderUI({
@@ -65,7 +54,7 @@ expandedUncertainty_finalAnswer_renderer = function(removeColours = FALSE)
   effectiveDof = effectiveDofResult()
   finalCoverageFactor = coverageFactorResult()
   
-  formulas = c(paste0("\\text{ExpUncertainty} &= k_{\\text{",formatNumberForDisplay(effectiveDof,input),",",confidenceInterval,"}} \\times \\text{CombUncertainty}"))
+  formulas = c(paste0("\\text{ExpUncertainty} &=",coverageFactorSymbolDisplay()," \\times \\text{CombUncertainty}"))
   formulas = c(formulas, paste("&=",colourNumberBackground(formatNumberForDisplay(finalCoverageFactor,input),CoverageFactorColor,"#FFF",input$useColours)," \\times ", colourNumberBackground(formatNumberForDisplay(combinedUncertaintyResult(),input),CombinedUncertaintyColor,"#FFF",input$useColours)))
   formulas = c(formulas, paste("&=",formatNumberForDisplay(expandedUncertaintyResult(),input)))
   output = mathJaxAligned(formulas, 5,20, removeColours)

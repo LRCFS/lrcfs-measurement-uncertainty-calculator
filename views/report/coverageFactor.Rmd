@@ -24,3 +24,7 @@ The coverage factor \((k_{{\large\nu}_{\text{eff}}, {\small CI\%}})\) is read fr
 `r params$coverageFactor_effectiveDegreesOfFreedom_renderer`
 
 ***
+
+`r params$coverageFactor_finalAnswer_bottom_renderer`
+
+***

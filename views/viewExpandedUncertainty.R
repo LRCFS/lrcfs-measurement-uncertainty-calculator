@@ -29,16 +29,17 @@ tabExpandedUncertainty = tabItem(tabName = "expandedUncertainty",
                  fluidRow(
                    box(title = "Overview", width=6,
                        p("The expanded uncertainty  is the final step of measurement uncertainty computation. This is done in order to derive a confidence interval believed to contain the true unknown value."),
-                       p("It is computed by multiplying the Combined Uncertainty \\((\\text{CombUncertainty})\\) with the coverage factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}})\\).")
+                       p("It is computed by multiplying the Combined Uncertainty \\((\\text{CombUncertainty})\\) with the Coverage Factor \\((k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}})\\).")
                    ),
                    box(title = "Method", width=6, class="calcOverflow",
                        p("The expanded uncertainty \\(\\text{(ExpUncertainty)}\\) is given by:"),
-                       p("$$\\text{ExpUncertainty} = k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}} \\times \\text{CombUncertainty}$$"),
-                       p("with percentage expanded uncertainty given by:"),
+                       p("$$\\text{ExpUncertainty} = \\text{CoverageFactor} \\times \\text{CombUncertainty}$$"),
+                       p("Where the \\(\\text{CoverageFactor}\\) is \\(k\\) when a value has been manually specified or \\(k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}}\\) when a Confidence Level \\(CL\\%\\) has been specified."),
+                       p("The percentage expanded uncertainty can then be given by:"),
                        p("$$\\text{%ExpUncertainty} = \\frac{\\text{ExpUncertainty}}{x_s} \\times 100$$"),
                        p("where:"),
                        tags$ul(
-                         tags$li("\\(k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}}\\) is the coverage factor based on effective degrees of freedom and specified confidence interval percentage."),
+                         tags$li("\\(k_{{\\large\\nu}_{\\text{eff}}, {\\small CL\\%}}\\) is the coverage factor based on effective degrees of freedom and specified confidence level percentage."),
                          tags$li("\\({\\small\\text{CombUncertainty}}\\) is the combined uncertainty."),
                          tags$li("\\(x_s\\) case sample mean concentration.")
                        )

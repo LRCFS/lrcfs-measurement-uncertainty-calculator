@@ -46,6 +46,20 @@ usingManualCoverageFactor = reactive({
   return(doUsingManualCoverageFactor(input$inputManualCoverageFactor))
 })
 
+coverageFactorSymbolDisplay = reactive({
+  confidenceInterval = input$inputConfidenceInterval
+  effectiveDof = effectiveDofResult()
+  
+  if(usingManualCoverageFactor())
+  {
+    return(paste("k"))
+  }
+  else
+  {
+    paste("k_{\\text{",formatNumberForDisplay(effectiveDof,input),",",confidenceInterval,"}}")
+  }
+})
+
 coverageFactorResult = reactive({
   manualCoverageFactor = input$inputManualCoverageFactor
   confidenceInterval = input$inputConfidenceInterval
@@ -233,28 +247,20 @@ output$display_coverageFactor_finalAnswer_top = renderUI({
   return(withMathJax(HTML(output)))
 })
 
-output$display_coverageFactor_finalAnswer_bottom = renderUI({
+coverageFactor_finalAnswer_bottom_renderer = function()
+{
   confidenceInterval = input$inputConfidenceInterval
   formulas = c(paste0("k_{{\\large\\nu_{\\text{eff}}},{\\small CL\\%}} = k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult()))
   output = mathJaxAligned(formulas)
-  
-  return(withMathJax(HTML(output)))
+  return(output)
+}
+
+output$display_coverageFactor_finalAnswer_bottom = renderUI({
+  return(withMathJax(HTML(coverageFactor_finalAnswer_bottom_renderer())))
 })
 
 output$display_coverageFactor_finalAnswer_dashboard = renderUI({
-  confidenceInterval = input$inputConfidenceInterval
-  
-  output = NULL
-  if(usingManualCoverageFactor())
-  {
-    output = paste0("\\(k=",coverageFactorResult(),"\\)")
-  }
-  else
-  {
-    output = paste0("\\(k_{\\text{",formatNumberForDisplay(effectiveDofResult(),input),",",confidenceInterval,"}}=",coverageFactorResult(),"\\)")
-  }
-  
-  return(withMathJax(HTML(output)))
+  return(withMathJax(HTML(paste0("\\(",coverageFactorSymbolDisplay()," = ",coverageFactorResult(),"\\)"))))
 })
 
 output$display_coverageFactor_finalAnswer_expandedUncertainty = renderUI({
