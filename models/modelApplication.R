@@ -234,10 +234,18 @@ observeEvent(input$inputCaseSampleCustomWeight, {
 })
 
 observeEvent(input$inputConfidenceInterval, {
+  if(!is.na(input$inputConfidenceInterval) && !is.null(input$inputConfidenceInterval) && input$inputConfidenceInterval != "")
+  {
+    updateTextInput(session, "inputManualCoverageFactor", value="")
+  }
   checkIfShowResults()
 })
 
 observeEvent(input$inputManualCoverageFactor, {
+  if(!is.na(input$inputManualCoverageFactor) && !is.null(input$inputManualCoverageFactor) && input$inputManualCoverageFactor != "")
+  {
+    updateSelectInput(session, "inputConfidenceInterval", selected = character(0))
+  }
   checkIfShowResults()
 })
 

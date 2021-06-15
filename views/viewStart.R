@@ -221,7 +221,7 @@ tabStart = tabItem(tabName = "start",
                                 ),
                                 column(width=6,
                                        numericInput("inputManualCoverageFactor",
-                                                    "Coverage Factor \\((k)\\)",
+                                                    "Manual Specified Coverage Factor \\((k)\\)",
                                                     value = NULL),
                                 )
                             )
