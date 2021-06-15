@@ -17,11 +17,11 @@ A quadratic fit has been applied on the uploaded data. For a general function \\
 
 Using the approach described by <a href='https://doi.org/10.1039/B615398D' title='The uncertainty of a result from a linear calibration' target='_blank'>D. Brynn Hibbert: The uncertainty of a result from a linear calibration (2006)</a>, a quadratic  model of the form \\(y=b_0 + b_1x + b_2x^2\\) can be rewritten as \\(y - \\overline{y} = b_1(x-\\overline{x}) + b_2(x^2 - \\overline{x^2})\\) to make the curve start from the origin. Doing this removes the covariance dependence of \\(b_0\\) with \\(b_1\\) and \\(b_2\\).
 
-Given an instrument response of case sample peak area ratio, \\(y_s\\) the level of concentration \\(x_s\\) is estimated by solving for \\(x\\) as:
+Given an instrument response of case sample peak area ratio \\(y_s\\), the level of concentration \\(x_s\\) is estimated by solving for \\(x\\) as:
 
 \\( \\displaystyle \\hat{x_s} = \\frac{ -b_1 \\sqrt{ b_1^2-4b_2( \\overline{y}-y_s-b_1 \\overline{x}-b_2 \\overline{x^2}) } } {2b_2} \\)
 
-The standard uncertainty \\(u\\text{(CalCurve)}\\) is then obtained by apply Taylor's theorem to the variance of \\(x_s\\).
+The standard uncertainty \\(u\\text{(CalCurve)}\\) is then obtained by apply Taylor's theorem to the variance of \\(\\hat{x}_s\\).
 
 ### Method
 
@@ -95,6 +95,8 @@ Let discriminant (D) be equal to:
 
 `r if(!is.na(params$display_calibrationCurveQuadratic_discriminant_renderer)) paste(params$display_calibrationCurveQuadratic_discriminant_renderer, "***")`
 
+The partial derivatives are derived as:
+
 `r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer, "***")`
 
 `r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer, "***")`
@@ -104,6 +106,8 @@ Let discriminant (D) be equal to:
 `r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer, "***")`
 
 `r if(!is.na(params$display_calibrationcurveQuadratic_quadraticRegression_renderer)) paste(params$display_calibrationcurveQuadratic_quadraticRegression_renderer, "***")`
+
+The covariance matrix is given by:
 
 `r if(!is.na(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer)) paste(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer, "***")`
 
