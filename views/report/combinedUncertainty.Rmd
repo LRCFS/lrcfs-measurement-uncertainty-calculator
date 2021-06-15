@@ -20,9 +20,12 @@ $\text{CombUncertainty} = x_s \sqrt{\sum{u_r\text{(Individual Uncertainty Compon
 
 data = params$combinedUncertainty_uncertaintyBudget_graphData
 
-ggplot(data, aes(x = percentage, y = reorder(uncertaintyComponent, percentage))) +
-  geom_col(width = 0.7) + 
-  labs(x = "Percentage", y = "Uncertainty Component")
+if(!is.na(data))
+{
+  ggplot(data, aes(x = percentage, y = reorder(uncertaintyComponent, percentage))) +
+    geom_col(width = 0.7) + 
+    labs(x = "Percentage", y = "Uncertainty Component")
+}
 
 ```
 
