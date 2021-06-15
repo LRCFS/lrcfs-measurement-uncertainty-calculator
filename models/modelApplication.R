@@ -279,7 +279,6 @@ checkIfShowResults = function(){
     {
       showHideMenuItem(".sidebar-menu li a[data-value=calibrationCurve]", FALSE)
     }
-
   }
   else
   {
@@ -381,7 +380,10 @@ checkIfShowResults = function(){
        inputCaseSampleMeanConcentration > 0 &
        inputCaseSampleMeanPeakAreaRatio > 0)
     {
-      showResultTabs()
+      #Only show results tab the result isn't NA
+      if(!is.na(expandedUncertaintyResult())){
+        showResultTabs()
+      }
     }
     else{
       hideResultTabs()
