@@ -378,12 +378,10 @@ checkIfShowResults = function(){
        (inputConfidenceInterval == TRUE || usingManualCoverageFactor() == TRUE) &
        inputCaseSampleReplicates > 0 &
        inputCaseSampleMeanConcentration > 0 &
-       inputCaseSampleMeanPeakAreaRatio > 0)
+       inputCaseSampleMeanPeakAreaRatio > 0 &
+       !is.na(expandedUncertaintyResult()))  #Only show results tab if at least one result isn't NA/NaN
     {
-      #Only show results tab the result isn't NA
-      if(!is.na(expandedUncertaintyResult())){
-        showResultTabs()
-      }
+      showResultTabs()
     }
     else{
       hideResultTabs()
