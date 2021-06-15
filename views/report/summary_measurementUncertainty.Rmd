@@ -1,0 +1,81 @@
+### Measurement Uncertainty
+
+#### Inputs
+The results of this report are made using the follow supplied information.
+
+| Input                             | Value Specified                            |
+|-----------------------------------|--------------------------------------------|
+```{r part_input_values, echo=FALSE, results="asis"}
+cat(paste0("|Weighted Least Square Regression|$",params$inputWeightLeastSquared,"$|\n"))
+cat("|Case Sample Replicates|",params$inputCaseSampleReplicates,"|\n")
+cat("|Case Sample Mean Concentration|",params$inputCaseSampleMeanConcentration,"|\n")
+
+if(length(params$inputCaseSampleMeanPeakAreaRatio) != 0 && params$inputCaseSampleMeanPeakAreaRatio != "" && !is.na(params$inputCaseSampleMeanPeakAreaRatio) && !is.null(params$inputCaseSampleMeanPeakAreaRatio))
+{
+  cat("|Case Sample Mean Peak Area Ratio|",params$inputCaseSampleMeanPeakAreaRatio,"|\n")
+}
+
+if(length(params$inputCaseSampleWeight) != 0 && params$inputCaseSampleWeight != "" && !is.na(params$inputCaseSampleWeight) && !is.null(params$inputCaseSampleWeight))
+{
+  cat("|Case Sample Weight|",params$inputCaseSampleWeight,"|\n")
+}
+
+if(length(params$inputConfidenceInterval) != 0 && params$inputConfidenceInterval != "" && !is.na(params$inputConfidenceInterval) && !is.null(params$inputConfidenceInterval))
+{
+  cat("|Confidence Level|",params$inputConfidenceInterval,"|\n")
+}
+
+if(length(params$inputManualCoverageFactor) != 0 && params$inputManualCoverageFactor != "" && !is.na(params$inputManualCoverageFactor) && !is.null(params$inputManualCoverageFactor))
+{
+  cat("|Manually Specified Coverage Factor|",params$inputManualCoverageFactor,"|\n")
+}
+
+if(length(params$uncHomogeneity) != 0 && params$uncHomogeneity != "" && !is.na(params$uncHomogeneity) && !is.null(params$uncHomogeneity))
+{
+ cat("|Homogeneity Alpha value|",params$homogeneityTestAlphaValue,"|\n")
+}
+```
+
+***
+
+#### Individual Uncertainty Components
+
+The calculated results for each individual component are shown below.
+
+| Uncertainty Component | Relative Standard Uncertainty |
+|-----------------------|-------------------------------|
+```{r part_uncertaintyComponents_results, echo=FALSE, results="asis"}
+if(!is.na(params$uncHomogeneity))
+{
+  cat("|Homogeneity|",params$uncHomogeneity,"|\n")
+}
+if(!is.na(params$uncCalibrationCurve))
+{
+  cat("|Calibration Curve|",params$uncCalibrationCurve,"|\n")
+}
+if(!is.na(params$uncMethodPrecision))
+{
+  cat("|Method Precision|",params$uncMethodPrecision,"|\n")
+}
+if(!is.na(params$uncStandardSolution))
+{
+  cat("|Calibration Standard|",params$uncStandardSolution,"|\n")
+}
+if(!is.na(params$uncSamplePreparation))
+{
+  cat("|Sample Preparation|",params$uncSamplePreparation,"|\n")
+}
+``` 
+
+#### Overall Uncertainty
+| Attribute             | Value                                        |
+|-----------------------|----------------------------------------------|
+|Combined Uncertainty   |`r params$combinedUncertaintyResult`          |
+|Coverage Factor        |`r params$coverageFactorResult`               |
+|Expanded Uncertainty   |`r params$expandedUncertaintyResult`          |
+|% Expanded Uncertainty |`r params$expandedUncertaintyResultPercentage`|
+
+With the information supplied above the following result has been concentration result has been calculated.
+
+#### **Result: Concentration = `r params$inputCaseSampleMeanConcentration` $\pm$ `r params$expandedUncertaintyResult`**
+***

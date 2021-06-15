@@ -150,8 +150,14 @@ renderData = function(data)
 ``` 
 \newpage
 
-```{r part_summary, child='summary.Rmd', eval=TRUE}
+## Summary
+The following is a summary of the supplied data and results calculated.
+
+```{r part_summary, child='summary_homogeneityTest.Rmd', eval=!is.na(params$uncHomogeneity)}
 ``` 
+```{r part_summary, child='summary_measurementUncertainty.Rmd', eval=TRUE}
+```
+
 \newpage
 
 # Methodology

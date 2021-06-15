@@ -1,0 +1,13 @@
+### Homogeniety Test
+Where data has been provided for a Homogeneity test the following results were recorded:
+
+|Property                   |Value                                |
+|---------------------------|-------------------------------------|
+|Alpha Value                |`r params$homogeneityTestAlphaValue` |
+|Degrees of Freedom Within  |`r params$homogeneityTestDofW`       |
+|Degrees of Freedom Between |`r params$homogeneityTestDofB`       |
+|F Statistic                |`r params$homogeneityTestFStat`      |
+|F Critical                 |`r params$homogeneityTestFCrit`      |
+
+#### **Result: `r params$homogeneityTestResult`**
+***
