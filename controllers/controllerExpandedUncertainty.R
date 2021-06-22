@@ -22,6 +22,8 @@
 ###########################################################################
 
 doGetExpandedUncertaintyResult = function(coverageFactorResult,combinedUncertaintyResult){
+  if(is.null(coverageFactorResult) || is.na(coverageFactorResult) || is.null(combinedUncertaintyResult) || is.na(combinedUncertaintyResult)) return(NA)
+  
 	result = coverageFactorResult * combinedUncertaintyResult
 	return(result)
 }
