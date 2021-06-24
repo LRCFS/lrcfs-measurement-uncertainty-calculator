@@ -153,6 +153,51 @@ getDataCalibrationCurveQuadratic_rearranged = reactive({
   return(rearrangedCalibrationDataFrame)
 })
 
+getDataCalibrationCurveQuadraticPooledStandardError_rearranged = reactive({
+  data = getDataCalibrationCurveExternalStandardErrorReformatted()
+  if(is.null(data))return(NA)
+  
+  x = data$calibrationDataConcentration
+  y = data$calibrationDataPeakArea
+  
+  xSquared = getCalibrationCurveQuadratic_pooledStandardError_xSquared();
+  yHat = getCalibrationCurveQuadratic_pooledStandardError_yHat()
+  yResiduals = getCalibrationCurveQuadratic_pooledStandardError_yResidual()
+  
+  ##Get data in dataframe
+  rearrangedCalibrationDataFrame = data.frame(getDataCalibrationCurveReformatted()$runNames,x,y,xSquared,yHat,yResiduals)
+  colnames(rearrangedCalibrationDataFrame) = c("$$\\text{Run}$$","$$\\text{Concentration} (x)$$","$$\\text{Peak Area} (y)$$","$$x^2$$","$$\\hat{y} = b_0 + b_1x + b_2x^2$$","$$(y-\\hat{y})^2$$")
+  
+  return(rearrangedCalibrationDataFrame)
+})
+
+getCalibrationCurveQuadratic_pooledStandardError_xSquared = reactive({
+  data = getDataCalibrationCurveExternalStandardErrorReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_xSquared(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_pooledStandardError_yHat = reactive({
+  data = getDataCalibrationCurveExternalStandardErrorReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_yHat(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
+getCalibrationCurveQuadratic_pooledStandardError_yResidual = reactive({
+  data = getDataCalibrationCurveExternalStandardErrorReformatted()
+  if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)
+  
+  value = doGetCalibrationCurveQuadratic_yResidual(data)
+  value = formatNumberForDisplay(value, input)
+  return(value)
+})
+
 getCalibrationCurveQuadratic_sumOfX = reactive({
   data = getDataCalibrationCurveReformatted()
   if(is.null(data) || !checkUsingCalibartionCurveQuadratic())return(NA)

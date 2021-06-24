@@ -29,7 +29,7 @@
 
 output$display_start_caseSampleMeanPeakAreaRatio <- renderUI({
   input$inputWeightLeastSquared #This line is here to attach the event to update when the option is changed
-
+  
   if(checkNeedPeakAreaRatio())
   {
     numericInput("inputCaseSampleMeanPeakAreaRatio",
@@ -98,7 +98,7 @@ output$display_start_chooseConfidenceInterval = renderUI({
 output$display_start_calibrationCurveFileUpload <- renderUI({
   input$reset_inputCalibrationCurveFileUpload #This line is here to attach the event to update when the button is clicked
   input$inputCalibrationCurveQuadraticFileUpload #attach to file upload box for quadratic data so that it is cleared
-
+  
   fileInput = fileInput("inputCalibrationCurveFileUpload", "Calibration Curve (CSV)",
                         multiple = FALSE,
                         accept = c(".csv"))
@@ -130,6 +130,20 @@ output$display_start_calibrationCurveQuadraticFileUpload <- renderUI({
                         accept = c(".csv"))
   
   return(fileInput)
+})
+
+output$display_start_calibrationCurveQuadratic_pooledStandardError_FileUpload <- renderUI({
+  input$reset_inputCalibrationCurveQuadraticFileUpload #This line is here to attach the event to update when the button is clicked
+  
+  input$inputCalibrationCurveFileUpload #attach to linear calibration curve inputs so that it's cleared when this is populated
+  input$inputExternalStandardErrorFileUpload #attach to linear calibration curve inputs so that it's cleared when this is populated
+  
+  input$inputWeightLeastSquared #This line is here to attach the event to clear when the option is changed
+  
+  fileInput = fileInput("inputCalibrationCurveQuadraticPooledStandardErrorFileUpload", "Pooled Standard Error (CSV)",
+                        multiple = FALSE,
+                        accept = c(".csv"))
+  
 })
 
 output$display_start_methodPrecisionFileUpload <- renderUI({

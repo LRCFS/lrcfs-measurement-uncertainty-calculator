@@ -107,6 +107,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                          box(title="Calculations", width = 12, class="calcOverflow",
                                              DT::dataTableOutput('display_calibrationcurveQuadratic_rearrangedData')
                                          ),
+                                         uiOutput("display_calibrationcurveQuadratic_pooledStandardError_rearrangedData"),
                                          box(title="Quadratic Regression", width = 3, class="calcOverflow",
                                              uiOutput("display_calibrationcurveQuadratic_quadraticRegression")
                                          ),

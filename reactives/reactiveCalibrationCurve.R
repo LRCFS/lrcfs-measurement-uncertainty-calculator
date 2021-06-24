@@ -73,6 +73,10 @@ getDataExternalStandardError = reactive({
     data = calibrationCurvePooledDataReadCSV(input$inputExternalStandardErrorFileUpload$datapath)
     return(data)
   }
+  else if(myReactives$uploadedCalibrationCurveQuadraticPooledStandardError == TRUE)
+  {
+    return(calibrationCurvePooledDataReadCSV(input$inputCalibrationCurveQuadraticPooledStandardErrorFileUpload$datapath))
+  }
   else
   {
     return(NULL)

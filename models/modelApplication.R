@@ -26,6 +26,7 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
                              uploadedCustomWls=FALSE,
                              uploadedCustomWlsPooled=FALSE,
                              uploadedCalibrationCurveQuadratic=FALSE,
+                             uploadedCalibrationCurveQuadraticPooledStandardError=FALSE,
                              uploadedMethodPrecision=FALSE,
                              uploadedStandardSolutionStructure=FALSE,
                              uploadedStandardSolutionEquipment=FALSE,
@@ -36,15 +37,16 @@ myReactives = reactiveValues(uploadedCalibrationCurve=FALSE,
 
 
 myReactiveErrors = reactiveValues(uploadedCalibrationCurve=NULL,
-                             uploadedExternalStandardError=NULL,
-                             uploadedCustomWls=NULL,
-                             uploadedCustomWlsPooled=NULL,
-                             uploadedCalibrationCurveQuadratic=FALSE,
-                             uploadedMethodPrecision=NULL,
-                             uploadedStandardSolutionStructure=NULL,
-                             uploadedStandardSolutionEquipment=NULL,
-                             uploadedSamplePreparation=NULL,
-                             uploadedHomogeneity=NULL)
+                                  uploadedExternalStandardError=NULL,
+                                  uploadedCustomWls=NULL,
+                                  uploadedCustomWlsPooled=NULL,
+                                  uploadedCalibrationCurveQuadratic=FALSE,
+                                  uploadedCalibrationCurveQuadraticPooledStandardError=FALSE,
+                                  uploadedMethodPrecision=NULL,
+                                  uploadedStandardSolutionStructure=NULL,
+                                  uploadedStandardSolutionEquipment=NULL,
+                                  uploadedSamplePreparation=NULL,
+                                  uploadedHomogeneity=NULL)
 
 ##########################################################################
 #Linear Calibration Curve File upload and reset
@@ -53,6 +55,8 @@ observeEvent(input$inputCalibrationCurveFileUpload, {
   #Clear Quadratic curve data
   myReactives$uploadedCalibrationCurveQuadratic = FALSE
   myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  myReactives$uploadedCalibrationCurveQuadraticPooledStandardError = FALSE
+  myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError = NULL
   
   #Get the file path from the input
   filePath = input$inputCalibrationCurveFileUpload$datapath
@@ -69,6 +73,8 @@ observeEvent(input$inputExternalStandardErrorFileUpload, {
   #Clear Quadratic curve data
   myReactives$uploadedCalibrationCurveQuadratic = FALSE
   myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  myReactives$uploadedCalibrationCurveQuadraticPooledStandardError = FALSE
+  myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError = NULL
   
   filePath = input$inputExternalStandardErrorFileUpload$datapath
   myReactiveErrors$uploadedExternalStandardError = calibrationCurvePooledDataReadCSV(filePath, TRUE)
@@ -96,7 +102,7 @@ observeEvent(input$reset_inputCustomWlsFileUpload, {
   
   myReactives$uploadedCustomWlsPooled = FALSE
   myReactiveErrors$uploadedCustomWlsPooled = NULL
-
+  
   checkIfShowResults()
 })
 observeEvent(input$inputCustomWlsPooledFileUpload, {
@@ -136,10 +142,23 @@ observeEvent(input$inputCalibrationCurveQuadraticFileUpload, {
   
   checkIfShowResults()
 })
-
+observeEvent(input$inputCalibrationCurveQuadraticPooledStandardErrorFileUpload, {
+  #Clear linear calibration curve data
+  myReactives$uploadedCalibrationCurve = FALSE
+  myReactiveErrors$uploadedCalibrationCurve = NULL
+  myReactives$uploadedExternalStandardError = FALSE
+  myReactiveErrors$uploadedExternalStandardError = NULL
+  
+  filePath = input$inputCalibrationCurveQuadraticPooledStandardErrorFileUpload$datapath
+  myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError = calibrationCurvePooledDataReadCSV(filePath, TRUE)
+  myReactives$uploadedCalibrationCurveQuadraticPooledStandardError = is.null(myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError)
+  checkIfShowResults()
+})
 observeEvent(input$reset_inputCalibrationCurveQuadraticFileUpload, {
   myReactives$uploadedCalibrationCurveQuadratic = FALSE
   myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+  myReactives$uploadedCalibrationCurveQuadraticPooledStandardError = FALSE
+  myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError = NULL
   checkIfShowResults()
 })
 ##########################################################################
@@ -212,6 +231,9 @@ observeEvent(input$inputWeightLeastSquared, {
   {
     myReactives$uploadedCalibrationCurveQuadratic = FALSE
     myReactiveErrors$uploadedCalibrationCurveQuadratic = NULL
+    
+    myReactives$uploadedCalibrationCurveQuadraticPooledStandardError = FALSE
+    myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError = NULL
   }
   
   checkIfShowResults()
@@ -251,13 +273,14 @@ observeEvent(input$inputManualCoverageFactor, {
 
 
 checkIfShowResults = function(){
-
+  
   #Show/hide errors
   showHideError("display_start_error_calibrationCurveFileUpload", myReactiveErrors$uploadedCalibrationCurve)
   showHideError("display_start_error_externalStandardErrorFileUpload", myReactiveErrors$uploadedExternalStandardError)
   showHideError("display_start_error_customWlsFileUpload", myReactiveErrors$uploadedCustomWls)
   showHideError("display_start_error_customWlsPooledFileUpload", myReactiveErrors$uploadedCustomWlsPooled)
   showHideError("display_start_error_calibrationCurveQuadraticFileUpload", myReactiveErrors$uploadedCalibrationCurveQuadratic)
+  showHideError("display_start_error_calibrationCurveQuadratic_pooledStandardError_FileUpload", myReactiveErrors$uploadedCalibrationCurveQuadraticPooledStandardError)
   showHideError("display_start_error_methodPrecisionFileUpload", myReactiveErrors$uploadedMethodPrecision)
   showHideError("display_start_error_standardSolutionStructureFileUpload", myReactiveErrors$uploadedStandardSolutionStructure)
   showHideError("display_start_error_standardSolutionEquipmentFileUpload", myReactiveErrors$uploadedStandardSolutionEquipment)
@@ -371,7 +394,7 @@ checkIfShowResults = function(){
     else{
       inputConfidenceInterval = FALSE
     }
-    
+
     #Check if we're using a custom weight that it has been specified for the case sample
     if(checkCustomWls == TRUE &
        checkCaseSampleWeight == TRUE &

@@ -103,6 +103,25 @@ output$display_calibrationcurveQuadratic_rearrangedData = DT::renderDataTable(
   options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:5)))
 )
 
+output$display_calibrationcurveQuadratic_pooledStandardError_rearrangedData = renderUI({
+  pooledStandardError = getDataExternalStandardError()
+  if(is.null(pooledStandardError))
+    return(NULL)
+  
+  data = getDataCalibrationCurveQuadraticPooledStandardError_rearranged()
+  
+  tabBox(width=12, side="right",
+         title = "Step by Step Calculations for Pooled Standard Error",
+         tabPanel("Calculations",
+                  DT::renderDataTable(
+                    sapply(data, function(x) formatNumberForDisplay(x, input)),
+                    rownames = FALSE,
+                    options = list(scrollX = TRUE, dom = 'tip', columnDefs = list(list(className = 'dt-right', targets = 0:ncol(data)-1)))
+                  )
+         )
+  )
+})
+
 #_renderer functions typically are used by both the web application and the report.Rmd files
 display_calibrationcurveQuadratic_quadraticRegression_renderer = function(removeColours = FALSE){
   
