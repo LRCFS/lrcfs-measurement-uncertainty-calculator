@@ -33,6 +33,8 @@ RStudio has built in support for Shiny and because we've just installed it (if y
 
 Now that we've installed all the required dependencies, select the `app.R` in RStudio, you will see an option to "Run App" at the top right of the app.R source code. 
 
+You may need to install Rtools to run all dependencies.
+
 # Measurement Uncertainty Calculator - Copyright (C) 2019
 ## Leverhulme Research Centre for Forensic Science
 ## Roy Mudie, Joyce Klu, Niamh Nic Daeid
