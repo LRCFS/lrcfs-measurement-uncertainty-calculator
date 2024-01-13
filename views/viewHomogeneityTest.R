@@ -40,7 +40,7 @@ tabHomogeneityTest = tabItem(tabName = "homogeneityTest",
                                               value = 0.05,
                                               min = 0.001,
                                               max = 0.999,
-                                              step = 0.001),
+                                              step = 0.001)
                              ),
                              infoBox(HTML("Alpha Value \\((\\alpha)\\)"),HTML(paste(uiOutput("display_homogeneityTest_alphaValue"))), width=6, icon=icon("font"), color="red"),
                              infoBox(HTML("Homogeneity Test<br />Confidence Level \\((CL_H\\%)\\)"),HTML(paste(uiOutput("display_homogeneityTest_confidenceLevel"))), width=6, icon=icon("percentage"), color="yellow"),

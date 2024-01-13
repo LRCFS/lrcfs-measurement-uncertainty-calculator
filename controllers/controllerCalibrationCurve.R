@@ -52,7 +52,7 @@ doGetDataCalibrationCurveReformatted = function(data)
   colnames(allData) = c("runNames","calibrationDataConcentration","calibrationDataPeakArea")
   
   #Remove any data with NA entries
-  allDataNaRemoved = allData[!is.na(allData$calibrationDataPeakArea),]
+  allDataNaRemoved = allData[!anyNA(allData$calibrationDataPeakArea),]
   
   return(allDataNaRemoved)
 }
@@ -115,7 +115,7 @@ doGetCalibrationCurve_linearRegression = function(x,y,wlsValues)
 
 doGetCalibrationCurve_rSquared = function(linearRegression)
 {
-  if(is.null(linearRegression) || is.na(linearRegression)) return(NA)
+  if(anyNA(linearRegression) || anyNA(linearRegression)) return(NA)
   
   rSquare = summary.lm(linearRegression)$r.squared
 }
@@ -124,7 +124,7 @@ doGetCalibrationCurve_n = function(values)
 {
   if(is.null(values)) return(NULL)
 
-  n = length(values[!is.na(values)])
+  n = length(values[!anyNA(values)])
   return(n)
 }
 

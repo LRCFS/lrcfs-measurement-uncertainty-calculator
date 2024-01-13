@@ -63,7 +63,7 @@ output$display_homogeneityTest_dof = renderUI({
 
 homogeneityTest_fValue_renderer = function(removeColours = FALSE)
 {
-  if(is.na(getHomogeneityFValue_value())) return(NA)
+  if(anyNA(getHomogeneityFValue_value())) return(NA)
   
   mssb = getHomogeneityMeanSumOfSquaresBetween()
   mssw = getHomogeneityMeanSumOfSquaresWithin()

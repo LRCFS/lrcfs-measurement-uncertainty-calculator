@@ -85,7 +85,7 @@ doGetCalibrationCurveQuadratic_rSquaredAdjusted = function(data)
   
   regerssion = doGetCalibrationCurveQuadratic_regression(data)
   
-  if(is.null(regerssion) || is.na(regerssion))
+  if(is.null(regerssion) || anyNA(regerssion))
   {
     return(NA)
   }

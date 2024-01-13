@@ -21,9 +21,8 @@
 #
 ###########################################################################
 
-mouCalcRightSidebar = rightSidebar(
-  background = "dark",
-  rightSidebarTabContent(
+mouCalcRightSidebar = dashboardControlbar(
+  controlbarItem(
     id = 1,
     active = TRUE,
     title = "Display Settings",

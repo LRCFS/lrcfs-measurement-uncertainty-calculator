@@ -88,12 +88,10 @@ source("controllers/controllerMethodPrecision.R", local = TRUE)
 source("controllers/controllerStandardSolution.R", local = TRUE)
 source("controllers/controllerExpandedUncertainty.R", local = TRUE)
 
-ui = dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
-                        dashboardHeaderPlus(title = tagList(img(class = "logo-lg", src = "images/logo-large.png"), 
-                                                            img(class = "logo-mini", src= "images/logo-small.png")),
-                                            enable_rightsidebar = TRUE,
-                                            rightSidebarIcon = "gears"
-                        ),
+ui = dashboardPage(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",APP_VER),
+                        dashboardHeader(title = tagList(img(class = "logo-lg", src = "images/logo-large.png"), 
+                                                        img(class = "logo-mini", src= "images/logo-small.png")),
+                                        controlbarIcon = icon("gears")),
                         dashboardSidebar(
                           sidebarMenu(
                             menuItem("Start", tabName = "start", icon = icon("play")),
@@ -137,13 +135,13 @@ ui = dashboardPagePlus(title=paste0(APP_DEV_SHORT," - ",APP_NAME_SHORT," - v",AP
                             tabDashboard
                           ) 
                         ),
-                        rightsidebar = mouCalcRightSidebar,
+                        controlbar = mouCalcRightSidebar,
                         footer = dashboardFooter(
-                          left_text = HTML(paste0("<div class='footerItem'><a href='",APP_LINK,"'>",APP_NAME,"</a> (v",APP_VER,") &copy;",format(Sys.time(), "%Y"),"</div>
+                          left = HTML(paste0("<div class='footerItem'><a href='",APP_LINK,"'>",APP_NAME,"</a> (v",APP_VER,") &copy;",format(Sys.time(), "%Y"),"</div>
                                            <div class='footerItem'>",APP_DOI_HTML,"</div>
                                            <div class='footerItem'><a href='https://www.dundee.ac.uk/leverhulme/'>Developed by LRCFS</a></div>
                                            <div class='footerItem'><a href='https://www.leverhulme.ac.uk/'>Funded by The Leverhulme Trust</a></div>")),
-                          right_text = HTML("<div class='footerLogo'><a href='https://www.dundee.ac.uk/leverhulme/'><img src='images/lrcfs-logo-colour.png'  alt='Visit LRCFS website' /></a></div>
+                          right = HTML("<div class='footerLogo'><a href='https://www.dundee.ac.uk/leverhulme/'><img src='images/lrcfs-logo-colour.png'  alt='Visit LRCFS website' /></a></div>
                                             <div class='footerLogo'><a href='https://www.leverhulme.ac.uk'><img src='images/lt-logo-colour.png' alt='Visit The Leverhulme Trust website' /></a></div>")
                        )
 )

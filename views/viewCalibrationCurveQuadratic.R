@@ -47,7 +47,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                              p(HTML("Using the approach described by <a href='https://doi.org/10.1039/B615398D' title='The uncertainty of a result from a linear calibration' target='_blank'>D. Brynn Hibbert: The uncertainty of a result from a linear calibration (2006)</a>, a quadratic  model of the form \\(y=b_0 + b_1x + b_2x^2\\) can be rewritten as \\(y - \\overline{y} = b_1(x-\\overline{x}) + b_2(x^2 - \\overline{x^2})\\) to make the curve start from the origin. Doing this removes the covariance dependence of \\(b_0\\) with \\(b_1\\) and \\(b_2\\).")),
                                              p("Given an instrument response of case sample peak area ratio \\(y_s\\), the level of concentration \\(x_s\\) is estimated by solving for \\(x\\) as:"),
                                              p("\\( \\displaystyle \\hat{x_s} = \\frac{ -b_1 \\sqrt{ b_1^2-4b_2( \\overline{y}-y_s-b_1 \\overline{x}-b_2 \\overline{x^2}) } } {2b_2} \\)"),
-                                             p("The standard uncertainty \\(u\\text{(CalCurve)}\\) is then obtained by apply Taylor's theorem to the variance of \\(\\hat{x}_s\\)."),
+                                             p("The standard uncertainty \\(u\\text{(CalCurve)}\\) is then obtained by apply Taylor's theorem to the variance of \\(\\hat{x}_s\\).")
                                          ),
                                          box(title = "Method", width=6, class="calcOverflow",
                                              p(HTML("Using the approach described in <a href='https://doi.org/10.1039/B615398D' title='The uncertainty of a result from a linear calibration' target='_blank'>D. Brynn Hibbert: The uncertainty of a result from a linear calibration (2006)</a> the uncertainty of the quadratic curve is given by:")),
@@ -83,7 +83,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                                tags$li("\\(n\\) is the number of measurements used to generate the Calibration Curve."),
                                                tags$li("\\(\\overline{x}\\) is the mean values of the different calibration standards."),
                                                tags$li("\\(Var(\\overline{y})\\) is the variance of the mean of \\(y\\), given as: \\(\\frac{S_{y/x}^2}{n}\\)."),
-                                               tags$li("\\(Var(y_s)\\) is the variance of the mean of Case Sample Peak Area Ratios \\((y_s)\\), given as:  \\(\\frac{S_{y/x}^2}{r_s}\\)"),
+                                               tags$li("\\(Var(y_s)\\) is the variance of the mean of Case Sample Peak Area Ratios \\((y_s)\\), given as:  \\(\\frac{S_{y/x}^2}{r_s}\\)")
                                              )
                                          )
                                        ),
@@ -140,7 +140,7 @@ tabCalibrationCurveQuadratic = tabItem(tabName = "calibrationCurveQuadratic",
                                              ),
                                              box(width = 12, class="calcOverflow",
                                                  uiOutput("display_calibrationCurveQuadratic_partialDerivativeSlope2")
-                                             ),
+                                             )
                                          )
                                        ),
                                        fluidRow(

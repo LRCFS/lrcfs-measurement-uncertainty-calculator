@@ -44,7 +44,11 @@ body{
 
 .main-sidebar,
 .control-sidebar {
-  padding-top: 70px;
+  padding: 80px 10px 10px 10px;
+}
+
+.sidebar-menu>li>a{
+  padding: 12px 5px 12px 5px !important;
 }
 
 .icon-large {

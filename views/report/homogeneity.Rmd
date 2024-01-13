@@ -60,9 +60,9 @@ Finally, \(H_0\) is rejected if \(F_{\large s} > F_c\)
 `r renderData(params$homogeneityData)`
 
 ### Calculations
-`r if(!is.na(params$homogeneityTest_fValue_renderer)) paste(params$homogeneityTest_fValue_renderer, "***")`
+`r if(!anyNA(params$homogeneityTest_fValue_renderer)) paste(params$homogeneityTest_fValue_renderer, "***")`
 
-`r if(!is.na(params$homogeneity_fCritical_renderer)) paste(params$homogeneity_fCritical_renderer, "***")`
+`r if(!anyNA(params$homogeneity_fCritical_renderer)) paste(params$homogeneity_fCritical_renderer, "***")`
 
 `r params$renderHomogeneityTestAnswer`
 
@@ -101,11 +101,11 @@ A one-way analysis of variance (ANOVA) test is carried out to calculate the Mean
 
 ### Calculations
 
-`r if(!is.na(params$homogeneity_standardUncertainty_left_renderer)) paste(params$homogeneity_standardUncertainty_left_renderer, "***")`
+`r if(!anyNA(params$homogeneity_standardUncertainty_left_renderer)) paste(params$homogeneity_standardUncertainty_left_renderer, "***")`
 
-`r if(!is.na(params$homogeneity_standardUncertainty_right_renderer)) paste(params$homogeneity_standardUncertainty_right_renderer, "***")`
+`r if(!anyNA(params$homogeneity_standardUncertainty_right_renderer)) paste(params$homogeneity_standardUncertainty_right_renderer, "***")`
 
-`r if(!is.na(params$homogeneity_standardUncertainty_max_renderer)) paste(params$homogeneity_standardUncertainty_max_renderer, "***")`
+`r if(!anyNA(params$homogeneity_standardUncertainty_max_renderer)) paste(params$homogeneity_standardUncertainty_max_renderer, "***")`
 
 `r params$homogeneity_relativeStandardUncertainty_renderer`
 

@@ -93,25 +93,25 @@ if(!is.null(data))
 ***
 Let discriminant (D) be equal to:
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_discriminant_renderer)) paste(params$display_calibrationCurveQuadratic_discriminant_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_discriminant_renderer)) paste(params$display_calibrationCurveQuadratic_discriminant_renderer, "***")`
 
 The partial derivatives are derived as:
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeSlope1_renderer, "***")`
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeSlope2_renderer, "***")`
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeMeanOfY_renderer, "***")`
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer)) paste(params$display_calibrationCurveQuadratic_partialDerivativeCaseSampleMeanPeakAreaRatio_renderer, "***")`
 
-`r if(!is.na(params$display_calibrationcurveQuadratic_quadraticRegression_renderer)) paste(params$display_calibrationcurveQuadratic_quadraticRegression_renderer, "***")`
+`r if(!anyNA(params$display_calibrationcurveQuadratic_quadraticRegression_renderer)) paste(params$display_calibrationcurveQuadratic_quadraticRegression_renderer, "***")`
 
 The covariance matrix is given by:
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer)) paste(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer)) paste(params$display_calibrationCurveQuadratic_covarianceMatrix_renderer, "***")`
 
-`r if(!is.na(params$display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer)) paste(params$display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer, "***")`
+`r if(!anyNA(params$display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer)) paste(params$display_calibrationCurveQuadratic_uncertaintyOfCalibration_renderer, "***")`
 
 `r params$display_calibrationCurveQuadratic_finalAnswer_bottom_renderer`
 

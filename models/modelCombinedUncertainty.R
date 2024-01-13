@@ -55,7 +55,7 @@ combinedUncertainty_uncertaintyBudget_graphData = function(){
 
 output$display_combinedUncertainty_uncertaintyBudget = renderPlotly({
   dataGraphReady = combinedUncertainty_uncertaintyBudget_graphData()
-  if(is.na(dataGraphReady))return(NULL)
+  if(anyNA(dataGraphReady))return(NULL)
   
   #Doing this for the colours is messy as we've just got all this data previously, hacky fix.
   data = data.frame("Homogeneity" = getHomogeneity_relativeStandardUncertainty_value(),  "CalibrationCurve" = getResultCalibrationCurve(), "MethodPrecision" = methodPrecisionResult(), "CalibrationStandard" = standardSolutionResult(), "SamplePreparation" = getResultSamplePreparation())
