@@ -376,7 +376,7 @@ doGetCalibrationCurve_pooledStdErrorOfRegression = function(x,y,wlsSelectedOptio
   return(answer)
 }
 
-#Relatice standard uncertainty of calibration curve needs to check wether you're doing a linear or quadratic fit, as this is value then used for all further calculations
+#Relative standard uncertainty of calibration curve needs to check whether you're doing a linear or quadratic fit, as this is value then used for all further calculations
 doGetCalibrationCurve_relativeStandardUncertainty = function(x,y,wlsSelectedOption,customWls,customWlsPooled,caseSampleWeight,specifiedPeakAreaRatio,extStdErrorData,caseSampleReplicates,caseSampleMeanConcentration,dataForQuadraticFit){
   
   if(is.null(dataForQuadraticFit))
