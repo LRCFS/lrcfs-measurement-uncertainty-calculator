@@ -47,7 +47,7 @@ mathJaxAligned = function(formulas, lineSpacing = 20, breakingSpace = 50, remove
     output = removeMathJaxColours(output)
   }
   
-  return(output)
+  return(shrinkMathJax(output))
 }
 
 #Takes output but removes all colouring without having to change input variables at runtime
@@ -61,6 +61,12 @@ removeMathJaxColours = function(text)
   text = str_replace_all(text, "\\\\bbox\\[.*?]\\{(.*?)\\}", "\\1")
   
   return(text)
+}
+
+#Shrink the MathJax output to avoid putting line breaks in important places when used into reports
+shrinkMathJax = function(mathJaxString)
+{
+  return(gsub("\\[\\s+([0-9]+)\\s+pt\\]", "[\\1pt]", mathJaxString))
 }
 
 

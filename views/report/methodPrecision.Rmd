@@ -35,11 +35,11 @@ $S_{p(\text{NV})} = \sqrt{\frac{\sum{(S^2 \times {\large\nu})_{\text{(NV)}}}}{\s
 `r renderData(params$methodPrecisionData)`
 
 ### Calculations
-`r if(!is.na(params$outputPooledStandardDeviation_renderer)) paste(params$outputPooledStandardDeviation_renderer, "***")`
+`r if(!anyNA(params$outputPooledStandardDeviation_renderer)) paste(params$outputPooledStandardDeviation_renderer, "***")`
 
-`r if(!is.na(params$outputStandardUncertainty_renderer)) paste(params$outputStandardUncertainty_renderer, "***")`
+`r if(!anyNA(params$outputStandardUncertainty_renderer)) paste(params$outputStandardUncertainty_renderer, "***")`
 
-`r if(!is.na(params$outputRealtiveStandardUncertainties_renderer)) paste(params$outputRealtiveStandardUncertainties_renderer, "***")`
+`r if(!anyNA(params$outputRealtiveStandardUncertainties_renderer)) paste(params$outputRealtiveStandardUncertainties_renderer, "***")`
 
 `r params$methodPrecision_finalAnswer_bottom_renderer`
 

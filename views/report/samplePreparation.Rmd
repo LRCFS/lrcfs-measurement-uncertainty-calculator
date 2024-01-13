@@ -20,9 +20,9 @@ $u_r\text{(SamplePreparation)} = \sqrt{\sum{[u_r(\text{Equipment})_{\text{(Cap,T
 `r renderData(params$samplePreparationData)`
 
 ### Calculations
-`r if(!is.na(params$samplePreparation_standardUncertainty_renderer)) paste(params$samplePreparation_standardUncertainty_renderer, "***")`
+`r if(!anyNA(params$samplePreparation_standardUncertainty_renderer)) paste(params$samplePreparation_standardUncertainty_renderer, "***")`
 
-`r if(!is.na(params$samplePreparation_relativeStandardUncertainty_renderer)) paste(params$samplePreparation_relativeStandardUncertainty_renderer, "***")`
+`r if(!anyNA(params$samplePreparation_relativeStandardUncertainty_renderer)) paste(params$samplePreparation_relativeStandardUncertainty_renderer, "***")`
 
 `r params$samplePreparation_finalAnswer_bottom_renderer`
 

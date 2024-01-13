@@ -38,7 +38,7 @@ $u_r(\text{CalStandard}) = \sqrt{\sum{u_r\text{(Calibration Curve Spiking Range)
 
 ### Calculations
 ::: {.smallForPrint}
-`r if(!is.na(params$standardSolution_solutionRelativeStandardUncertainty_renderer)) paste(params$standardSolution_solutionRelativeStandardUncertainty_renderer, "***")`
+`r if(!anyNA(params$standardSolution_solutionRelativeStandardUncertainty_renderer)) paste(params$standardSolution_solutionRelativeStandardUncertainty_renderer, "***")`
 :::
 
 `r params$standardSolution_finalAnswer_renderer`

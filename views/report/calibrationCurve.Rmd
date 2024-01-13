@@ -79,9 +79,9 @@ if(!is.null(data))
 
 ***
 
-`r if(!is.na(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
+`r if(!anyNA(params$calibrationCurve_linearRegression_renderer)) paste(params$calibrationCurve_linearRegression_renderer, "***")`
 
-`r if(!is.na(params$calibrationCurve_uncertaintyOfCalibration_renderer)) paste(params$calibrationCurve_uncertaintyOfCalibration_renderer, "***")`
+`r if(!anyNA(params$calibrationCurve_uncertaintyOfCalibration_renderer)) paste(params$calibrationCurve_uncertaintyOfCalibration_renderer, "***")`
 
 `r params$calibrationCurve_finalAnswer_bottom_renderer`
 
