@@ -61,12 +61,12 @@ test_that('doCheckUsingWls', {
 })
 
 test_that('doCheckNeedPeakAreaRatio', {
-  expect_equal(doCheckNeedPeakAreaRatio(1), FALSE)
-  expect_equal(doCheckNeedPeakAreaRatio(2), FALSE)
-  expect_equal(doCheckNeedPeakAreaRatio(3), FALSE)
-  expect_equal(doCheckNeedPeakAreaRatio(4), TRUE)
-  expect_equal(doCheckNeedPeakAreaRatio(5), TRUE)
-  expect_equal(doCheckNeedPeakAreaRatio(999), FALSE)
+  expect_equal(doCheckNeedPeakAreaRatio(1, FALSE), FALSE)
+  expect_equal(doCheckNeedPeakAreaRatio(2, FALSE), FALSE)
+  expect_equal(doCheckNeedPeakAreaRatio(3, FALSE), FALSE)
+  expect_equal(doCheckNeedPeakAreaRatio(4, FALSE), TRUE)
+  expect_equal(doCheckNeedPeakAreaRatio(5, FALSE), TRUE)
+  expect_equal(doCheckNeedPeakAreaRatio(999, FALSE), FALSE)
 })
 
 test_that('doCheckMeanPeakAreaRatioSpecified', {
@@ -151,7 +151,7 @@ test_that('doGetCalibrationCurve_weightedCaseSample', {
 })
 
 test_that('doGetCalibrationCurve_degreesOfFreedom', {
-  expect_equal(doGetCalibrationCurve_degreesOfFreedom(ccY), 28)
+  expect_equal(doGetCalibrationCurve_degreesOfFreedom(ccY, FALSE), 28)
 })
 
 test_that('doGetCalibrationCurve_weightedLeastSquared', {
@@ -194,41 +194,11 @@ test_that('doGetCalibrationCurve_pooledStdErrorOfRegression', {
   expect_equal(doGetCalibrationCurve_pooledStdErrorOfRegression(ccX,ccY,wlsSelectedOption,ccWlsStdValues,exampleDataCcW,exampleDataSe), 0.0814643186315265)
 })
 
-
 test_that('doGetCalibrationCurve_relativeStandardUncertainty', {
   wlsSelectedOption = 1
-  expect_equal(doGetCalibrationCurve_relativeStandardUncertainty(ccX,ccY,1,NA,NA,NA,NA,exampleDataSe,2,3), 0.0417301746552471)
+  expect_equal(doGetCalibrationCurve_relativeStandardUncertainty(ccX,ccY,1,NA,NA,NA,NA,exampleDataSe,2,3, NULL), 0.0417301746552471)
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 
-# 
 # test_that('getSqDevation', {
 #   expect_equal(getSqDevation(c(1,2,3,4,5)),      c(4,1,0,1,4))
 #   expect_equal(getSqDevation(c(0,0,0,0,0)),      c(0,0,0,0,0))
